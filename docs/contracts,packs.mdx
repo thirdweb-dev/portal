@@ -1,0 +1,171 @@
+---
+title: Packs
+author: "Jake Loo"
+authorAvatar: "/assets/portal/authors/jake-loo.jpeg"
+authorTwitter: "https://twitter.com/jake_loo"
+summary: ""
+date: "2021-09-16"
+updated: "2021-11-05"
+---
+
+## Getting Started
+
+The pack interface allows anyone to fetch the public metadata about any of the on-chain packs, and it allows users to check their pack ownership, transfer packs to others, and most importantly to open packs.
+
+To initialize the SDKs pack interface, you can pass in the relevant smart contract address by following the code below.
+
+```js
+// Get pack contract address from admin dashboard
+const address = "0x...";
+
+const sdk = new ThirdwebSDK(...)
+
+// Initialize pack SDK by passing in contract address
+const pack = await sdk.getPackModule(address);
+```
+
+## Interfaces
+
+```ts
+interface NFTMetadata {
+  id: string;
+  uri: string;
+  name?: string; // optional
+  description?: string; // optional
+  image?: string; // optional
+  properties?: Record<string, JSONValue>; // optional
+}
+
+interface PackMetadata {
+  id: string;
+  creator: string;
+  currentSupply: BigNumber;
+  openStart: Date | null;
+  openEnd: Date | null;
+  metadata: NFTMetadata;
+}
+
+interface PackNFTMetadata {
+  supply: BigNumber;
+  metadata: NFTMetadata;
+}
+```
+
+## Functions
+
+### open
+
+`open(packId: string): Promise<PackNFTMetadata>`
+
+Open a pack to get one of the bundle NFTs within it and get the metadata of the returned NFT.
+
+```js
+// the packId of the pack you want to open
+const packId = "42";
+
+// returns the metadata of the nft received from pack
+const metadata = await pack.open(packId);
+
+// all nft metadata is now available
+const { name, description, image, supply } = metadata;
+```
+
+### get
+
+`get(packId: string): Promise<PackMetadata>`
+
+Gets the metadata of a specific on-chain pack including its name, description, and image.
+
+```js
+// the packId of the pack you want to open
+const packId = "42";
+
+// returns the metadata of the nft received from pack
+const metadata = await pack.get(packId);
+
+// metadata is now directly available
+const { name, description, image } = metadata;
+```
+
+### getAll
+
+`getAll(): Promise<PackMetadata[]>`
+
+Get the metadata of all on-chain Packs.
+
+```js
+// returns list of nft metadata of all on-chain nfts
+const packs = await pack.getAll();
+
+packs.map((metadata) => {
+  // pack metadata is directly available off each item
+  const { name, description, image } = metadata;
+});
+```
+
+### getNFTs
+
+`getNFTs(packId: string): Promise<PackNFTMetadata[]>`
+
+Gets the NFT metadata of the NFTs contained within a specific pack along with the NFT supplies.
+
+```js
+// the packId of the pack you want to open
+const packId = "42";
+
+// gets metadata of nfts bundled within pack
+const nfts = await pack.getNFTs(packId);
+
+nfts.map((metadata) => {
+  // nft metadata is directly available off each item
+  const { name, description, image } = metadata;
+});
+```
+
+### balance
+
+`balance(tokenId: string): Promise<BigNumber>`
+
+Get the pack balance of the user currently connected to the SDK for a specific pack.
+
+```js
+// the tokenId of the pack that you want to fetch
+const tokenId = "42";
+
+// get the pack balance of the account currently connected
+const balance = await pack.balance(tokenId);
+```
+
+### balanceOf
+
+`balanceOf(address: string, tokenId: string): Promise<BigNumber>`
+
+Get the pack balance of a user specified by their public address for a specific pack.
+
+```js
+// the tokenId of the pack that you want to fetch
+const tokenId = "42";
+
+// the address of the user you want to fetch the balance of
+const address = "0x...";
+
+// get the pack balance of the specified account
+const balance = await pack.balanceOf(address, tokenId);
+```
+
+### transfer
+
+`transfer(to: string, tokenId: string, quantity: BigNumber): Promise<void>`
+
+Transfer a specific pack from the user connected to the SDK to another user by specifying their address.
+
+```js
+// the packId of the nft that you want to send
+const tokenId = "42";
+
+// the address of the user you want to transfer the nft to
+const to = "0x...";
+
+// wait for transfer transaction to complete
+await pack.transfer(to, tokenId);
+```

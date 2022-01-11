@@ -1,0 +1,134 @@
+---
+title: How to create an NFT-gated website
+author: "Jake Loo"
+authorAvatar: "/assets/portal/authors/jake-loo.jpeg"
+authorTwitter: "https://twitter.com/jake_loo"
+draft: false
+tags: [bundle, mint, access]
+summary: "NFTs can be used as a membership, in this guide we'll show you how to setup a website that restricts content based on owning one."
+image: "/assets/portal/guides/nft-gated-website/thumbnail.png"
+date: "2021-09-16"
+updated: "2021-11-04"
+---
+
+## Setup NFT
+
+1. Go to [https://thirdweb.com/dashboard](https://thirdweb.com/dashboard), connect your wallet and select the network you want to deploy to.
+2. Create new project (if you don't have one).
+3. Add a module: _Bundle (ERC 1155)_.
+4. Add a name and description for your collection. (This will be displayed when users view the collection page on Opensea).
+5. Click Deploy → confirm both steps in your wallet.
+6. Click **Mint** on the top right corner to start minting your Membership NFT.
+7. Add a name and description for your individual NFT. (This will be displayed when users view the individual NFT page on OpenSea).
+8. You can mint multiple NFT's which represent different tiers of membership.
+9. Your NFTs have now been minted, and after a few minutes will appear on Opensea under your collection.
+
+![thirdweb collection dashboard with 3 tiers of membership NFTs. (blue, red, green).example on OpenSea: https://opensea.io/collection/membership-1155](/assets/portal/guides/nft-gated-website/gated-nft.png)
+thirdweb collection dashboard with 3 tiers of membership NFTs. (blue, red, green).example on OpenSea: [https://opensea.io/collection/membership-1155](https://opensea.io/collection/membership-1155)
+
+**[0x4465...65EB]** is your NFT contract address.
+
+## Let's write some code
+
+We're going to setup a **private** section of our website for our **NFT holders**. In this guide, we'll be using **React** and the Javascript SDK.
+
+### 1. Install the SDK in your web project
+
+```bash
+npm install @3rdweb/sdk ethers
+```
+
+### 2. Install React web3 libraries for Metamask Wallet Connect
+
+```bash
+// A few different options, pick one that works for you!
+// In this guide, we'll be using @web3-react/core.
+// Alternative options: @usedapp/core (<https://usedapp.io>), bnc-onboard (<https://docs.blocknative.com/onboard>), and more.
+
+// source: <https://github.com/NoahZinsmeister/web3-react>
+npm install @web3-react/core @web3-react/injected-connector
+```
+
+### 3. Set up @web3-react in your project.
+
+In the **entry point** of your React page. In Next.js, it would be `pages/_app.js`. In React, it would be in your `app.js`.
+
+```jsx
+import { Web3ReactProvider } from "@web3-react/core";
+
+function getLibrary(provider) {
+  return new Web3Provider(provider, "any");
+}
+
+export default function ({ Component, pageProps }) {
+  return (
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <Component {...pageProps} />
+    </Web3ReactProvider>
+  );
+}
+```
+
+### 4. Gate access
+
+In your React component, you can gate access based off the balance of the NFT in the connected wallet.
+
+```jsx
+import { ThirdwebSDK } from "@3rdweb/sdk";
+import { ethers } from "ethers";
+import { useWeb3React } from "@web3-react/core";
+
+// Get the Membership NFT info from your dashboard. (thirdweb.com/dashboard)
+const MEMBERSHIP_NFT_CONTRACT_ADDRESS =
+  "0x4465aE876e5263cB4Eaf42948723E28bB30C65E8";
+const MEMBERSHIP_NFT_TOKEN_ID = "0";
+
+const useWalletMembershipAccess = () => {
+  // react states for chechking if user can access or not
+  const [access, setAccess] = useState(false);
+  const { account, library } = useWeb3React();
+
+  async function checkWalletMembership() {
+    // Get the connected wallet Signer
+    const signer = library.getSigner(account);
+
+    /* 
+    Our SDK takes in a valid Signer or Provider. 
+    A signer can perform READ and WRITE calls on the blockchain.
+    A provider can only perform READ calls on the blockchain.	  
+    read more: <https://docs.ethers.io/v5/api/signer>
+    */
+    const module = new ThirdwebSDK(signer).getCollectionModule(
+      MEMBERSHIP_NFT_CONTRACT_ADDRESS,
+    );
+    const balance = await module.balance(MEMBERSHIP_NFT_TOKEN_ID);
+    return balance.toNumber() >= 1;
+  }
+
+  // check wallet when account is connected
+  if (library && account) {
+    checkWalletMembership().then(setAccess);
+  } else if (access) {
+    // reset the state if wallet is disconnected
+    setAccess(false);
+  }
+
+  return access;
+};
+```
+
+### 5. Render your content conditionally
+
+Use the `useWalletMembershipAccess` to render your content conditionally in your React components! An example:
+
+```jsx
+const MyComponent = () => {
+  const hasMembershipAccess = useWalletMembershipAccess();
+  return hasMembershipAccess ? <Text>Render Member Only Content</Text> : null;
+};
+```
+
+You can check the code on GitHub here: https://github.com/nftlabs/nextjs-membership-lounge.
+Repl.it demo: https://replit.com/@jakeloo/nextjs-membership-lounge
+
+![Member only lounge](/assets/portal/guides/nft-gated-website/member-only-lounge.png)

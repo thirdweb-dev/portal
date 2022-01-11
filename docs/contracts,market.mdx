@@ -1,0 +1,156 @@
+---
+title: Marketplace
+author: "Jake Loo"
+authorAvatar: "/assets/portal/authors/jake-loo.jpeg"
+authorTwitter: "https://twitter.com/jake_loo"
+summary: ""
+date: "2021-09-16"
+updated: "2021-11-05"
+---
+
+## Getting Started
+
+The market interface allows anyone to fetch the public metadata about any of the on-chain pack or nft listings, and allows everyone to buy tokens from other users and sell tokens to other users.
+
+To initialize the SDKs market interface, you can pass in the relevant smart contract address by following the code below.
+
+```js
+// Get market contract address from admin dashboard
+const address = "0x...";
+
+const sdk = new ThirdwebSDK(...)
+
+// Initialize market SDK by passing in contract address
+const market = await sdk.getMarketModule(address);
+```
+
+## Interfaces
+
+```ts
+interface NFTMetadata {
+  id: string;
+  uri: string;
+  name?: string; // optional
+  description?: string; // optional
+  image?: string; // optional
+  properties?: Record<string, JSONValue>; // optional
+}
+
+interface CurrencyValue {
+  name: string;
+  symbol: string;
+  decimals: number;
+  value: string;
+  displayValue: string;
+}
+
+interface ListingMetadata {
+  id: string;
+  seller: string;
+  tokenContract: string;
+  tokenId: string;
+  tokenMetadata?: NFTMetadata; // optional
+  quantity: BigNumber;
+  currencyContract: string;
+  currencyMetadata: CurrencyValue | null;
+  price: BigNumber;
+  saleStart: Date | null;
+  saleEnd: Date | null;
+}
+
+// for getAll()
+interface ListingFilter {
+  seller?: string;
+  tokenContract?: string;
+  tokenId?: string;
+}
+```
+
+## Functions
+
+### get
+
+`get(listingId: string): Promise<ListingMetadata>`
+
+Gets the data of a specific on-chain listing including the quantity and token available and the price of the listing.
+
+```js
+// the listingId of the listing you want to fetch data for
+const listingId = "42";
+
+// get listing data of specified listing
+const data = await market.get(listingId);
+```
+
+### getAll
+
+`getAll(filter?: ListingFilter): Promise<ListingMetadata[]>`
+
+Gets the data on all on-chain listings with optional filtering.
+
+```js
+// get all listing with no filtering
+const data = await market.getAll();
+
+// get all listing filtered by seller
+const sellerListings = await market.getAll({ seller: "0x0ee0" });
+```
+
+### list
+
+`list( assetContract: string, tokenId: string, currencyContract: string, price: BigNumberish, quantity: BigNumberish, secondsUntilStart: number = 0, secondsUntilEnd: number = 0 ): Promise<ListingMetadata>`
+
+List a specific pack or NFT on the marketplace specifying the token, currency, price, quantity, and available sale date.
+
+```js
+const data = await market.list(
+  "0x...", // pack or reward contract from admin dashboard
+  "42", // tokenId of token you want to list
+  "0x...", // currency contract from admin dashboard
+  25, // quantity of owned tokens you want to list
+  0, // 0 seconds until start = listing immediately available
+  0, // 0 means that the listing will never get taken off the marketplace
+);
+```
+
+### unlistAll
+
+`unlistAll(listingId: string): Promise<void>`
+
+Unlist all listings tokens of a specific listing.
+
+```js
+// the listingId of the token you want to unlist
+const listingId = "42";
+
+// unlist every token of listing without specifying quantity
+await market.unlistAll(listingId);
+```
+
+### unlist
+
+`unlist(listingId: string, quantity: BigNumberish): Promise<void>`
+
+Unlist a specified quantity of a specific listing.
+
+```js
+// the listingId of the token you want to unlist
+const listingId = "42";
+
+// unlist specified quantity of the listing
+await market.unlist(listingId, 20);
+```
+
+### buy
+
+`buy(listingId: string, quantity: BigNumberish): Promise<void>`
+
+Buy a specified quantity of tokens from a specific listing.
+
+```js
+// the listingId of the token you want to buy
+const listingId = "42";
+
+// buy specified quantity of the listing
+await market.buy(listingId, 20);
+```

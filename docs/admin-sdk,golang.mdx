@@ -1,0 +1,43 @@
+---
+title: Golang
+author: "Jake Loo"
+authorAvatar: "/assets/portal/authors/jake-loo.jpeg"
+authorTwitter: "https://twitter.com/jake_loo"
+summary: ""
+date: "2021-11-18"
+updated: ""
+---
+
+The Golang SDK provides you with all the methods you need to interact with the protocols.
+
+## Getting Started
+
+```bash
+go get github.com/nftlabs/nftlabs-sdk-go
+```
+
+## Instantiating the SDK
+
+The Go SDK can be used with or without a private key.
+If you provide a private key, it'll be used to sign all transactions that mutate on-chain state.
+In the below example, we're providing the private key through the `PKEY` environment variable.
+
+```python
+client, err := ethclient.Dial("https://rpc-mumbai.maticvigil.com")
+if err != nil {
+	log.Fatal(err)
+}
+
+var nftlabsSdk nftlabs.ISdk
+if sdk, err := nftlabs.NewSdk(client, &nftlabs.SdkOptions{
+	PrivateKey: os.Getenv("PKEY"),
+}); err != nil {
+	panic(err)
+} else {
+	nftlabsSdk = sdk
+}
+```
+
+## API Reference
+
+[thirdweb package](https://pkg.go.dev/github.com/nftlabs/nftlabs-sdk-go/pkg/nftlabs)

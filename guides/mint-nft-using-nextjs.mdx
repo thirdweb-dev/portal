@@ -1,0 +1,143 @@
+---
+title: Mint an NFT using Next.js
+author: "Jake Loo"
+authorAvatar: "/assets/portal/authors/jake-loo.jpeg"
+authorTwitter: "https://twitter.com/jake_loo"
+draft: false
+tags: [nft-collection, mint, sdk, admin sdk]
+summary: "An example that uses Next.js along with thirdweb to fetch a list of NFTs and mint new ones"
+image: "/assets/portal/guides/mint-nft-using-nextjs/thumbnail.png"
+date: "2021-09-16"
+updated: "2021-11-16"
+---
+
+## Get started by creating NFT contract
+
+1. Go to [https://thirdweb.com/dashboard](https://thirdweb.com/dashboard), connect your wallet and select the network you want to deploy to: Mainnet, Polygon, Fantom, Avalanche, Testnet.
+2. Create new Project (if you don't have one)
+3. Add a NFT Collection module. `NFT Collection (ERC 721)`.
+4. Enter a name and description for your **NFT Collection** - this will be displayed when users view the collection page on OpenSea.
+5. Click Deploy → confirm both steps in your wallet.
+6. Click to copy the **Contract Address** at the top left of the page.
+
+## Time to make the magic happen
+
+### 1. Get started by installing our SDK
+
+```bash
+npm install @3rdweb/sdk ethers
+```
+
+### 2. Install your choice of web3 react library
+
+```bash
+npm install @usedapp/core
+```
+
+### 3. (Client side) React components to render list of NFTs using Client SDK and a Mint button.
+
+```jsx
+import { useEffect, useState } from "react";
+import { ThirdwebSDK } from "@3rdweb/sdk";
+import { useEthers } from "@usedapp/core";
+
+// A React component to render all nfts from the nft collection.
+const RenderAllNFTComponent = () => {
+  // React state for a list of nfts in the nft collection
+  const [nfts, setNFTs] = useState([]);
+
+  // get the web3 library from your installed web3 react library from step (2)
+  const { library } = useEthers();
+
+  useEffect(() => {
+    // initialize the SDK and get the NFT Collection module
+    // get the contract address (0x...) from your dashboard!
+    const nft = new ThirdwebSDK(library.getSigner()).getNFTModule(
+      "0x2a7e8270e8E75d97A34443054a1B7B5A6EDe4a34",
+    );
+
+    // get all the NFTs including the owner from the nft collection.
+    // Note: you can use async/await too!
+    nft.getAllWithOwner().then((allNFTs) => setNFTs(allNFTs));
+  }, [library]);
+
+  // render the list of nfts
+  return nfts.map((nft) => <p>Token Id: {nft.id}</p>);
+};
+
+// A React component of mint button that makes a backend server request.
+const MintButton = () => {
+  // get the connected wallet address from your installed web3 react library from step (2)
+  const { account } = useEthers();
+
+  const onMintHandler = async () => {
+    // make a backend server api request to mint an NFT
+    await fetch("/api/mint_sword", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ account }),
+    });
+  };
+
+  // render the button to mint a sword NFT
+  return <button onClick={onMintHandler}>Mint Sword NFT</button>;
+};
+```
+
+### 4. (Server side) A HTTP Server to mint NFT using Admin SDK.
+
+```jsx:pages/api/mint.ts
+import { ThirdwebSDK } from "@3rdweb/sdk";
+import { ethers } from "ethers";
+import { NextApiRequest, NextApiResponse } from "next";
+
+// This depend on your HTTP Server setup. In this example, we're using next.js
+// api handlers.
+export default function mint(req: NextApiRequest, res: NextApiResponse): Promise<any> {
+  // the RPC URL to the blockchain that the NFT contract is deployed on.
+  // "rinkeby" = rinkeby testnet,
+  // "https://rpc-mumbai.maticvigil.com" = mumbai testnet.
+  const rpcUrl = "rinkeby";
+
+  // setup a wallet using private key for the SDK.
+  // the wallet must have MINTER role to mint the NFT.
+  // you can assign MINTER role to the wallet through the NFT collection dashboard.
+  const wallet = new ethers.Wallet(
+    "...<PRIVATE KEY, NEVER SHARE IT PUBLICLY!!!>...",
+    ethers.getDefaultProvider(rpcUrl)
+  )
+
+  // initialize the SDK and get the NFT Collection module
+  // get the contract address (0x...) from your dashboard!
+  const nft = new ThirdwebSDK(wallet).getNFTModule(
+    "0x2a7e8270e8E75d97A34443054a1B7B5A6EDe4a34"
+  );
+
+  // returning the HTTP response. This depends on the HTTP server framework.
+  return new Promise<void>((resolve) => {
+    // get the wallet address that's sent in from the request body.
+    const { account } = req.body;
+
+    // mint "My Sword" NFT to the wallet address that was requested.
+    // note: async / await works too.
+    nft
+      .mintTo(account, {
+        name: "My Sword",
+        description: "My Sword NFT description",
+        image: "ipfs://QmcmfEV7X5LPfrAjUubw3wGV4toY9Mkb74XVhQJeKakp4Z"
+      })
+      .then((metadata) => {
+        // Returning the NFT metadata to the client requested.
+        // This depends on the HTTP server framework
+        res.status(200).json(metadata);
+        resolve();
+      });
+  });
+};
+```
+
+## Voila! NFT minted in your NFT collection using the SDK.
+
+[**Check the code on GitHub**](https://github.com/nftlabs/nftlabs-sdk-example).

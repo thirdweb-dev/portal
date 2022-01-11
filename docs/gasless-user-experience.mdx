@@ -1,0 +1,26 @@
+---
+title: Gas-less User Experience
+author: "Jake Loo"
+authorAvatar: "/assets/portal/authors/jake-loo.jpeg"
+authorTwitter: "https://twitter.com/jake_loo"
+summary: "How the Protocol lets you give your users a 'gasless' experience of blockchains."
+date: "2021-09-16"
+updated: "2021-10-30"
+---
+
+You need to pay gas fees every time you want to update the state of a smart contract. This creates certain hurdles for your application's users.
+
+- 💸 Users need to pay fees to perform any meaningful action.
+- Users need to hold a significant amount of the exact currency that your application's blockchain accepts as gas fees.
+
+The protocol's smart contracts solve this issue by supporting '[meta-transactions](https://docs.openzeppelin.com/learn/sending-gasless-transactions#what-is-a-meta-tx)'. This lets users can express what action they wish to perform, and your application can perform that action on users' behalf; as a result, the application pays the gas fees for performing that action.
+
+![](/assets/portal/docs/gassless-txs.png)
+
+Instead of performing a transaction, your application presents the user the transaction data which the user can sign using their wallet to express intent to perform that transaction. The signed transaction data received by the application complies with EIP-712 - the standard for user signed transaction data to use for meta-transactions.
+
+With user signed transaction data at hand, your application can broadcast that transaction to the blockchain on which your application is running. Smart contracts will process this user signed transaction data as if the user had performed the transaction themselves.
+
+With gasless transactions, your app's users don't need to pay fees to perform meaningful actions, and as a result, they don't need to hold any cryptocurrency in their wallet to start using your app.
+
+To learn about how to setup your application for '**gasless**' transactions, join us in the [thirdweb discord](https://discord.com/invite/thirdweb)!

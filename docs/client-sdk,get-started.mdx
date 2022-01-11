@@ -1,0 +1,39 @@
+---
+title: Get started
+author: "Jake Loo"
+authorAvatar: "/assets/portal/authors/jake-loo.jpeg"
+authorTwitter: "https://twitter.com/jake_loo"
+summary: "This page showcases client side (javascript) usage of the SDK"
+date: "2021-09-16"
+updated: "2021-11-05"
+---
+
+## Getting Started
+
+```bash
+npm install @3rdweb/sdk ethers
+```
+
+## Basic Usage
+
+Once you have the SDK you can use it in your project by following the structure of the code below:
+
+```js
+const { ThirdwebSDK } = require("@3rdweb/sdk");
+const { ethers } = require("ethers");
+// The wallet that will be making the sdk contract calls, read more below
+//const rpcUrl = 'https://rpc-mumbai.maticvigil.com';
+const rpcUrl = "https://polygon-rpc.com";
+// Read Only Provider
+const providerOrSigner = ethers.Wallet.createRandom().connect(rpcUrl);
+// Initialize SDK instance
+const sdk = new ThirdwebSDK(providerOrSigner);
+```
+
+The `providerOrSigner` variable gives you the freedom to configure authentication and wallets in whatever structure you would like. We suggest using [`ethersjs`](https://docs.ethers.io/v5/) to setup the provider.
+
+After this setup, you should have a working SDK instance to interact with contracts. Proceed to the following sections to learn more about different Modules.
+
+### To setup the SDK with SMS/Email/Social Login:
+
+[Wallet for SMS/Email Login](/portal/guides/wallet-for-sms-email-login)

@@ -1,0 +1,35 @@
+---
+title: Python
+author: "Jake Loo"
+authorAvatar: "/assets/portal/authors/jake-loo.jpeg"
+authorTwitter: "https://twitter.com/jake_loo"
+summary: ""
+date: "2021-11-18"
+updated: ""
+---
+
+The Python SDK is a package you can use to call the protocol methods from a Python application.
+
+## Getting Started
+
+```bash
+pip install nftlabs-sdk
+```
+
+## Instantiating the SDK
+
+The Python SDK can be used with or without a private key.
+If you provide a private key, it'll be used to sign all transactions that mutate on-chain state.
+In the below example, we're providing the private key through the PKEY environment variable.
+
+```python
+import os
+from nftlabs import NftlabsSdk, SdkOptions
+# do not share PKEY
+options = SdkOptions(private_key=os.getenv("PKEY"))
+sdk = NftlabsSdk(options, "https://rpc-mumbai.maticvigil.com")
+```
+
+## API Reference
+
+[modules](https://python-docs.thirdweb.com/)

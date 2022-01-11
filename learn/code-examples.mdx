@@ -1,0 +1,595 @@
+---
+title: Code Examples
+author: "Nacho Iacovino"
+authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
+authorTwitter: "https://twitter.com/nachoiacovino"
+summary: "Easy copy and paste snippets to use our TypeScript SDK"
+date: "2021-12-01"
+updated: "2021-12-03"
+---
+
+First, we'll set up our local environment, which we'll be the same for all snippets in the page, and then feel free to go and pick up the one you need.
+
+## Set up local environment
+
+The starting code for this examples can be found on this [GitHub repository](https://github.com/nftlabs/examples/tree/main/typescript/typescript-sdk), so feel free to clone this instead of doing it yourself.
+
+Let's first create a folder and a TypeScript file, you can create these manually or do it from the terminal.
+
+```bash
+mkdir typescript-sdk
+cd typescript-sdk
+touch sdk.ts
+```
+
+### Install required dependencies
+
+Next we'll initialize the project and install the required dependencies:
+
+- **@3rdweb/sdk** - thirdweb TypeScript SDK.
+- **ethers** - will give us very useful utils.
+- **dotenv** - to hide our private key.
+- **typescript** - since this is a TypeScript project
+- **@types/node** - typing for node as a dev dependency.
+- **tslib** - utility package
+
+```bash
+npm init -y
+npm install @3rdweb/sdk ethers dotenv
+npm install --save-dev typescript @types/node ts-node tslib
+```
+
+### Import the SDK
+
+```ts
+// Importing libraries
+import { ThirdwebSDK } from "@3rdweb/sdk";
+import { ethers } from "ethers";
+
+//Importing private key
+require('dotenv').config();
+```
+
+We also need to create a .env file with our `PRIVATE_KEY`, you can check how to get your **MetaMask** private key, on [this guide](/portal/guides/create-a-metamask-wallet#export-your-private-key).
+
+Don't commit this `PRIVATE_KEY` to GitHub or anywhere else, don't use it on Repl.it, you will lose your funds, we recommend to use a Dev wallet instead of your real wallet.
+<br />
+
+```python:.env
+PRIVATE_KEY=<your-private-key-here>
+```
+
+You should create a `.gitignore` file and add this line before commiting to GitHub.
+
+```python:.gitignore
+node_modules
+.env
+```
+
+### Instantiate the SDK
+
+On `ethers.getDefaultProvider`, you need to add whatever RPC you're using, in this example, we're using **Polygon Mumbai Testnet**.
+
+```ts
+//Instantiate 3rdweb SDK
+const sdk = new ThirdwebSDK(
+  new ethers.Wallet(
+    // Your wallet private key
+    process.env.PRIVATE_KEY as string,
+    // RPC URL, we'll use Polygon Mumbai
+    ethers.getDefaultProvider("https://rpc-mumbai.maticvigil.com")
+  )
+);
+```
+
+Replace `<MODULE_ADDRESS>` with the module address found in the dashboard.
+
+## Token
+
+### Mint tokens
+
+```ts
+const token = sdk.getTokenModule("<MODULE_ADDRESS>");
+const amount = ethers.utils.parseUnits("1000", 18);
+
+const mintTokens = async () => {
+  try {
+    await token.mint(amount);
+    console.log("Minted 1000 coins");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+mintTokens();
+```
+
+### Mint tokens for another wallet
+
+Tokens will be minted and send to the `<TARGET_ADDRESS`.
+
+```ts
+const token = sdk.getTokenModule("<MODULE_ADDRESS>");
+const amount = ethers.utils.parseUnits("1000", 18);
+
+const mintTokensTo = async () => {
+  try {
+    await token.mintTo("<TARGET_ADDRESS>", amount);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+mintTokensTo();
+```
+
+### Batch mint tokens for other wallets
+
+```ts
+const token = sdk.getTokenModule("<MODULE_ADDRESS>");
+const amount = ethers.utils.parseUnits("1000", 18);
+
+const mintBatchTokensTo = async () => {
+  try {
+    await token.mintBatchTo([
+      {
+        address: "<TARGET_ADDRESS_1>",
+        amount
+      },
+      {
+        address: "<TARGET_ADDRESS_2>",
+        amount
+      }
+    ]);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+mintBatchTokensTo();
+```
+
+## NFT Collection
+
+### Mint an NFT
+
+```ts
+const nftCollection = sdk.getNFTModule("<MODULE_ADDRESS>");
+
+const mintNft = async () => {
+  try {
+    await nftCollection.mint({
+      name: "thirdweb",
+      description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+      image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
+      properties: {},
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+mintNft();
+```
+
+### Mint an NFT for another wallet
+
+Replace `<TARGET_ADDRESS>` with the target address.
+
+```ts
+const nftCollection = sdk.getNFTModule("<MODULE_ADDRESS>");
+
+const mintNftTo = async (address: string) => {
+  try {
+    await nftCollection.mintTo(address, {
+      name: "thirdweb",
+      description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+      image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
+      properties: {},
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+mintNftTo("<TARGET_ADDRESS>");
+```
+
+### Batch mint NFTs
+
+If you want to mint a group of NFTs, it is significantly cheaper to pay gas in a single batch mint transaction than to call `mint` for every token you want to mint, because you'll pay gas for every single call to `mint`.
+
+The `mintBatch` method is a gas efficient way to mint any number of NFTs, and guarantees an all-or-nothing execution; as in if one token fails to mint, the whole batch will fail which helps you know that you won't double-mint an NFT.
+
+```ts
+const nftCollection = sdk.getNFTModule("<MODULE_ADDRESS>");
+
+const mintBatchNft = async () => {
+  try {
+    await nftCollection.mintBatch([
+      {
+        name: "thirdweb #1",
+        description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+        image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
+        properties: {},
+      },
+      {
+        name: "thirdweb #2",
+        description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+        image: "ipfs/<YOUR_IPFS_FOLDER_CID>/2.png",
+        properties: {},
+      },
+    ]);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+mintBatchNft();
+```
+
+### Batch mint NFTs for another wallet
+
+Combination of the previous example, replace `<TARGET_ADDRESS>` for the target address and replace object for an array of objects.
+
+```ts
+const nftCollection = sdk.getNFTModule("<MODULE_ADDRESS>");
+
+const mintBatchNftTo = async (address: string) => {
+  try {
+    await nftCollection.mintBatchTo(address, [
+      {
+        name: "thirdweb #3",
+        description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+        image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
+        properties: {},
+      },
+      {
+        name: "thirdweb #4",
+        description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+        image: "ipfs/<YOUR_IPFS_FOLDER_CID>/2.png",
+        properties: {},
+      },
+    ]);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+mintBatchNftTo("<TARGET_ADDRESS>");
+```
+
+## Drop
+
+### Lazy mint an NFT
+
+```ts
+const drop = sdk.getDropModule("<MODULE_ADDRESS>");
+
+const lazyMintNft = async () => {
+  try {
+    await drop.lazyMint({
+      name: "thirdweb",
+      description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+      image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
+      properties: {},
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+lazyMintNft();
+```
+
+### Batch lazy mint an NFT
+
+When creating a lazy minted batch, we recommend that you upload all token image assets to IPFS ahead of time *in an IPFS folder*.
+
+That means you're required to bring along the CID of the IPFS folder, such that each image for a token can be mapped deterministically by its token ID.
+
+You also have the option of uploading the image as you mint the batch, which will upload each of the images outside of a folder, but will take a bit longer to complete because each of the images will be uploaded to IPFS and the speed is subject to your internet speed.
+
+To take advantage of this "just in time upload" you simply set the `image` property of each token to the loaded image file, which will signal to the SDK that the image should be uploaded.
+
+```ts
+const drop = sdk.getDropModule("<MODULE_ADDRESS>");
+
+const lazyMintBatchNft = async () => {
+  try {
+    await drop.lazyMintBatch([
+      {
+        name: "Token 1",
+        description: "Token 1 maps to 1.png",
+        image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
+        properties: {},
+      },
+      {
+        name: "Token 2",
+        description: "Token 2 maps to 2.png",
+        image: "ipfs/<YOUR_IPFS_FOLDER_CID>/2.png",
+        properties: {},
+      },
+    ]);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+lazyMintBatchNft();
+```
+
+## Bundle Drop
+
+### Deploy a Bundle Drop
+
+- Import `readFileSync` at the top of your file if you want to add an image for your bundle.
+- Import `ethers` if you want to make your bundle drop free.
+
+```ts
+import { readFileSync } from "fs";
+import { ethers } from "ethers";
+```
+
+```ts
+const app = sdk.getAppModule("<APP_MODULE_ADDRESS>");
+
+const deployBundleDrop = async () => {
+  try {
+    const bundleDrop = await app.deployBundleDropModule({
+      // The collection's name, ex. CryptoPunks
+      name: "NarutoDAO Membership",
+      // A description for the collection.
+      description: "A DAO for fans of Naruto.",
+      // The image that will be held on our NFT! The fun part :).
+      image: readFileSync("scripts/assets/naruto.png"),
+      // We need to pass in the address of the person who will be receiving the proceeds from sales of nfts in the module.
+      // We're planning on not charging people for the drop, so we'll pass in the 0x0 address
+      // you can set this to your own wallet address if you want to charge for the drop.
+      primarySaleRecipientAddress: ethers.constants.AddressZero,
+    });
+
+    console.log(
+      "✅ Successfully deployed bundleDrop module, address:",
+      bundleDrop.address,
+    );
+  } catch (error) {
+    console.log("failed to deploy bundleDrop module", error);
+  }
+};
+
+deployBundleDrop();
+```
+
+### Configure the bundle drop
+
+Remember to import `readFileSync` at the top of your file:
+
+```ts
+import { readFileSync } from "fs";
+```
+
+```ts
+const bundleDrop = sdk.getBundleDropModule("<DROP_MODULE_ADDRESS>");
+
+const configBundleDrop = async () => {
+  try {
+    await bundleDrop.createBatch([
+      {
+        name: "Leaf Village Headband",
+        description: "This NFT will give you access to NarutoDAO!",
+        image: readFileSync("scripts/assets/headband.png"),
+      },
+    ]);
+    console.log("✅ Successfully created a new NFT in the drop!");
+  } catch (error) {
+    console.error("failed to create the new NFT", error);
+  }
+};
+
+configBundleDrop();
+```
+
+### Setting Claim Conditions
+
+```ts
+    const bundleDrop = sdk.getBundleDrop("<MODULE_ADDRESS>");
+
+    const setClaimCondition = async () => {
+      const allowList = [
+        "<ALLOWED_ADDRESS_1>",
+        "<ALLOWED_ADDRESS_2>",
+        "<ALLOWED_ADDRESS_3>",
+        "<ALLOWED_ADDRESS_4>",
+      ];
+      const factory = bundleDrop.getClaimConditionFactory();
+      const claimPhase = factory.newClaimPhase({
+        startTime: new Date(),
+        maxQuantity: 10,
+        maxQuantityPerTransaction: 1,
+      });
+      claimPhase.setPrice(
+        // price cannot be set above, use this way instead
+        1,
+        "<TOKEN_ADDRESS>",
+      ); // optional, can be left blank for native currency
+      claimPhase.setWaitTimeBetweenClaims(24 * 60 * 60);
+      claimPhase.setSnapshot(allowList);
+      await bundleDrop.setClaimCondition("0", factory); // 0 refers to token id
+    };
+```
+
+## Pack
+
+### Deploying a pack module
+
+```ts
+const app = sdk.getAppModule("<APP_MODULE_ADDRESS>");
+
+const deployPackModule = async () => {
+  try {
+    await app.deployPackModule({
+      name: "Pack Module",
+      sellerFeeBasisPoints: 1000,
+      feeRecipient: "<RECIPIENT_ADDRESS>",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+deployPackModule();
+```  
+
+### Creating a pack
+
+```ts
+const pack = sdk.getPackModule("<PACK_MODULE_ADDRESS>");
+
+const createPack = async () => {
+  try {
+    await pack.create({
+      assetContract: "<BUNDLE_MODULE_ADDRESS>",
+      // Specify the tokens and their respective quantities you want in the pack. 
+      assets: [
+        {
+          tokenId: 0,
+          amount: 50,
+        },
+        {
+          tokenId: 1,
+          amount: 100,
+        },
+      ],
+      rewardsPerOpen: 5, // optional, can be left blank
+      metadata: {
+        name: "Pack",
+      },
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+createPack();
+```
+  
+### Opening a pack
+
+```ts 
+const pack = sdk.getPackModule("<MODULE_ADDRESS>");
+
+const openPack = async () => {
+  try {
+    await pack.open("<PACK_TOKEN_ID>");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+openPack();
+```
+
+## Splits
+
+### Deploying a splits module
+
+```ts
+const app = sdk.getAppModule("<APP_MODULE_ADDRESS>");
+
+const deploySplitModule = async () => {
+  const splitsModule = await app.deploySplitsModule({
+    name: "Splits",
+    description: "Splits Module",
+  
+    // Array of recipients and the shares we want to split with
+    // the total number of shares = 5
+    // therefore `<RECIPIENT_ADDRESS_1>` will recieve 20% of the royalties
+    // and `<RECIPIENT_ADDRESS_2>` will recieve 80% of the royalties
+    recipientSplits: [
+      {
+        address: "<RECIPIENT_ADDRESS_1>",
+        shares: 1,
+      },
+      {
+        address: "<RECIPIENT_ADDRESS_2>",
+        shares: 4,
+      },
+    ],
+  });
+  
+  // In order to use a splits module, you must set it as the 
+  // recipient when deploying a module
+  await app.deployNftModule({
+    name: "My NFT",
+    symbol: "NFT",
+    sellerFeeBasisPoints: 0,
+    // use the address of the splits module as the recipient.
+    feeRecipient: splitsModule.address,
+  });
+}
+
+deploySplitModule()
+// `feeRecipient` will be the address of the Splits module
+```
+
+## Snapshots
+
+Sanpshots can be used to create an allowlist for a particular drop. There are two
+types of drops:
+
+- Bundle Drop
+- NFT Drop
+
+### Bundle Drop Snapshot Condition
+
+Bundle drops are a special type of drop that allows you to create a collection (ERC-1155)
+of NFTs. That means that each token you mint gets its own ID, and in turn its
+own set of claim conditions.
+
+In this case, you'll notice on the last line that we pass the argument `"0"`, which
+applies the claim conditions for that specific token ID.
+
+```js
+const factory = bundleDropModule.getClaimConditionFactory();
+const phase = factory.newClaimPhase({
+  startTime: new Date(),
+});
+await phase.setSnapshot(["<ALLOWED_ADDRESS_1>", "<ALLOWED_ADDRESS_2>", ...]);
+await bundleDropModule.setClaimCondition("0", factory);
+```
+
+### NFT Drop Snapshot Condition
+
+NFT Drops differ from Bundle Drops in that each token is a ERC-721 token.
+So that means that when setting our claim conditions, we do it only once for the
+entire drop.
+
+```js
+const factory = dropModule.getClaimConditionsFactory();
+const phase = factory.newClaimPhase({
+  startTime: new Date(),
+});
+await phase.setSnapshot(["<ALLOWED_ADDRESS_1>", "<ALLOWED_ADDRESS_2>", ...]);
+await dropModule.setClaimCondition("0", factory);
+```
+
+## Others
+
+### Changing the royalty recipient address of an existing module
+
+Replace `<APP_MODULE_ADDRESS>` with the address of the app under the **NFT Collection** module was created.
+
+Replace `<NEW_ROYALTY_ADDRESS>` with the new recipient address, it could be a newly created **Splits** module.
+
+```ts
+const changeRecipient = async () => {
+  // Updating the fee recipient requires the use of the app module
+  // that the target module is deployed in
+  const appModule = sdk.getAppModule("<APP_MODULE_ADDRESS>");
+  await appModule.setModuleRoyaltyTreasury("<MODULE_ADDRESS>", "<NEW_ROYALTY_ADDRESS>");
+}
+
+changeRecipient()
+```
