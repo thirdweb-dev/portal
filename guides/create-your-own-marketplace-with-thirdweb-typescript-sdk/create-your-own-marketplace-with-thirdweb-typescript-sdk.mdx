@@ -8,7 +8,7 @@ authorTwitter2: "https://twitter.com/razacodes"
 draft: false
 tags: [marketplace, typescript]
 summary: "Create your own marketplace to sell your own NFTs with TypeScript"
-image: "/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/thumbnail.png"
+image: "./thumbnail.png"
 date: "2021-11-25"
 updated: ""
 ---
@@ -27,9 +27,9 @@ The first thing we need to do is head over to the [dashboard](/dashboard) and cr
 
 Once you've created the module, it's time to list our first NFT, but we don't need the dashboard for that! I mean we could, but why use GUI if we can use TypeScript!?
 
-![](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/17-marketplace.png)
+![](./17-marketplace.png)
 
-![](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/18-roles.png)
+![](./18-roles.png)
 
 ## The code
 
@@ -37,7 +37,7 @@ Once you've created the module, it's time to list our first NFT, but we don't ne
 
 Go ahead and create a new TypeScript file. Let's call it `index.ts` and open it in your favorite code editor. We'll use Visual Studio code.
 
-![](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/19-jsfile.png)
+![](./19-jsfile.png)
 
 Next up use we'll install the ThirdWeb SDK using npm!
 
@@ -97,7 +97,7 @@ const sdk = new ThirdwebSDK(
 
 Now we need to define which module we want to use. This is the module we just created inside our **project** Minting NFTs with TypeScript. We called the module '**Marketplace written in TypeScript**'. This module has an address. We need to pass the address here. You can find the address here, under '**Marketplace written in TypeScript**':
 
-![](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/20-module.png)
+![](./20-module.png)
 
 In our `index.ts` file we include the following code. First we define a variable `marketModuleAddress` and store our module address in here.
 

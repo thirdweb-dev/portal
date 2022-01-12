@@ -6,7 +6,7 @@ authorTwitter: "https://twitter.com/razacodes"
 draft: false
 tags: [nft-collection, python, django]
 summary: "Integrate thirdweb's SDK in a Django app"
-image: "/assets/portal/guides/mint-nft-in-django/thumbnail.png"
+image: "./thumbnail.png"
 date: "2021-12-12"
 updated: ""
 ---
@@ -22,7 +22,7 @@ The first thing we need to do is head over to the [dashboard](/dashboard) and cr
 
 Once your module has been created, it's time to mint our first NFT, but we don't need the dashboard for that! I mean we could, but why use GUI if we can use Python!?
 
-![Finished setting up the module](/assets/portal/guides/mint-nft-in-django/module_done.png)
+![Finished setting up the module](./module_done.png)
 
 ## The code
 
@@ -60,7 +60,7 @@ pip install thirdweb-sdk
 
 The Django structure looks like this. All I did was create the basic Django project with a Django app inside. This project is called `nft_creator` and the app is called `minter`. Navigate to your Django App and create a python file for the thirdweb SDK. I called mine `nft_network.py`.
 
-![Django folder structure](/assets/portal/guides/mint-nft-in-django/django.png)
+![Django folder structure](./django.png)
 
 ### 2. Import the SDK
 
@@ -120,7 +120,7 @@ In our `nft_network.py` we include the following code. First we define a variabl
 
 Then we create an object that uses the Nft Collection module inside the sdk with our address.
 
-![The NFT collection module](/assets/portal/guides/mint-nft-in-django/module_done.png)
+![The NFT collection module](./module_done.png)
 
 ```python:nft_network.py
 #pick your module and enter the smart contract address

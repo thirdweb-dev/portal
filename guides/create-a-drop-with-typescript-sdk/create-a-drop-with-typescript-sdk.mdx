@@ -8,7 +8,7 @@ authorTwitter2: "https://twitter.com/razacodes"
 draft: false
 tags: [drop, claim, typescript]
 summary: "Create our own drop where we can create NFTs in TypeScript."
-image: "/assets/portal/guides/create-a-drop-with-typescript-sdk/thumbnail.png"
+image: "./thumbnail.png"
 date: "2021-12-06"
 updated: ""
 featured: false
@@ -26,23 +26,23 @@ The first thing we need to do is head over to the [dashboard](/dashboard) and cr
 
 Once your **Drop** module has been created, we can go ahead and set the **Claim conditions**. These conditions are some of the rules we'll apply when someone wants to claim an NFT, such as price, max amount of tokens to be claimed, etc. Click on **Setup your claim condition**.
 
-![Claim conditions](/assets/portal/guides/create-a-drop-with-typescript-sdk/claim_conditions.png)
+![Claim conditions](./claim_conditions.png)
 
 In this example we will first pick our currency. To choose the native currency of a chain, leave the default setting, i.e. the 0x000...000.  We set the max price per nft as **0.01** ETH and the max supply 5. Click on **add** to finalise. Your wallet will pop-up to authorise a transaction.
 
-![Fill in claim conditions](/assets/portal/guides/create-a-drop-with-typescript-sdk/claim_conditions2.png)
+![Fill in claim conditions](./claim_conditions2.png)
 
 Go ahead to settings to check your claim conditions. You can see them here. Please note, that if you change your claim conditions, you will have to pay gas fees. 
 
-![Fill in module settings](/assets/portal/guides/create-a-drop-with-typescript-sdk/setup.png)
+![Fill in module settings](./setup.png)
 
 Over here you can also see the max supply you can set for your **Drop**. Please note the difference. You can create more drops than claims. In this case you would not want every piece of NFT to be claimed (yet). In this guide we will set the max to 5. Changing the amount of total supply in your settings, requires you to pay gas fees.
 
-![](/assets/portal/guides/create-a-drop-with-typescript-sdk/setup2.png)
+![](./setup2.png)
 
 Now it's time to list our first NFT, but we don't need the dashboard for that! I mean we could, but why use GUI if we can use TypeScript!?
 
-![Start minting an nft](/assets/portal/guides/create-a-drop-with-typescript-sdk/start_drop.png)
+![Start minting an nft](./start_drop.png)
 
 
 ## The code
@@ -51,7 +51,7 @@ Now it's time to list our first NFT, but we don't need the dashboard for that! I
 
 Go ahead and create a new TypeScript file. Let's call it `index.ts` and open it in your favorite code editor. We'll use VS code.
 
-![](/assets/portal/guides/create-a-drop-with-typescript-sdk/terminal.png)
+![](./terminal.png)
 
 Next up use we'll install the ThirdWeb SDK using npm!
 
@@ -111,7 +111,7 @@ const sdk = new ThirdwebSDK(
 
 Now we need to define which module we want to use. This is the module we just created inside our project. We called the module **Drop written in TypeScript**. This module has an address. We need to pass the address here. You can find the address here, under **Drop  written in TypeScript**:
 
-![start_drop.png](/assets/portal/guides/create-a-drop-with-typescript-sdk/start_drop.png)
+![start_drop.png](./start_drop.png)
 
 In our index.ts file we include the following code. First we define a variable `market_smart_contract_address` and store our module address in here.
 

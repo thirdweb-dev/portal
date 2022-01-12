@@ -6,7 +6,7 @@ authorTwitter: "https://twitter.com/nachoiacovino"
 draft: false
 tags: [drop, embed, no-code, bulk-upload]
 summary: "Learn how to release a big NFT drop with no-code."
-image: "/assets/portal/guides/release-an-nft-drop-with-no-code/thumbnail.png"
+image: "./thumbnail.png"
 date: "2021-12-21"
 updated: ""
 featuredOrder: 1
@@ -40,13 +40,13 @@ Drop uses ERC-721, which means every NFT will be unique.
 
 This is my **Drop** Module after I fill in the information:
 
-![Drop module creation](/assets/portal/guides/release-an-nft-drop-with-no-code/drop-module-creation.png)
+![Drop module creation](./drop-module-creation.png)
 
 The drop I'm going to be deploying is a Pokémon-themed one, so we're going to be uploading all the Pokémon from Gen 1 as NFTs, isn't that exciting?!
 
 So, what does every input do? Let's use [Bored Ape Yacht Club](https://opensea.io/collection/boredapeyachtclub), a popular collection, as an example:
 
-![BAYC as an example](/assets/portal/guides/release-an-nft-drop-with-no-code/bayc-example.png)
+![BAYC as an example](./bayc-example.png)
 
 - **Image**: Image of your collection (as a whole).
 - **Name**: Sets the name of your collection.
@@ -59,7 +59,7 @@ So, what does every input do? Let's use [Bored Ape Yacht Club](https://opensea.i
 
 Next thing we'll do, is configure the drop, these are my settings for this drop:
 
-![Drop settings](/assets/portal/guides/release-an-nft-drop-with-no-code/drop-module-settings.png)
+![Drop settings](./drop-module-settings.png)
 
 So let's explain what each of these do!
 
@@ -73,7 +73,7 @@ So let's explain what each of these do!
 
 The next screen will allow us to set permissions. Here you can give admin capabilities to other wallets, if you want to do so. I’m going to leave it exactly as is for the moment: 
 
-![All the permisions you can set](/assets/portal/guides/release-an-nft-drop-with-no-code/permissions.png)
+![All the permisions you can set](./permissions.png)
 
 ### Bulk upload
 
@@ -83,7 +83,7 @@ I've prepared a folder with all the Gen 1 Pokémon and the metadata for you to t
 
 Click "**Bulk Create**" at the top of your Drop Module.
 
-![Bulk Create button](/assets/portal/guides/release-an-nft-drop-with-no-code/bulk-create-button.png)
+![Bulk Create button](./bulk-create-button.png)
 
 It asks us to upload a folder.
 
@@ -97,7 +97,7 @@ Our pokemon folder already complies with all these requirements, so we can go ah
 
 After uploading, we'll see this preview of all our NFTs with their description and properties:
 
-![Preview before uploading](/assets/portal/guides/release-an-nft-drop-with-no-code/preview.png)
+![Preview before uploading](./preview.png)
 
 As you can see, I added a "Generation" property, and I set it to "1". If in the future I want to add more Pokémon, I can do it and set the "Generation" property differently, you can use this to add unique traits and rarity to your NFT drops - each column in the .csv represents a unique property. 
 
@@ -105,7 +105,7 @@ Go ahead and click "**Bulk Create X drops**".
 
 This is what I see on the dashboard after they finish uploading:
 
-![Our dashboard with all the Pokémon](/assets/portal/guides/release-an-nft-drop-with-no-code/dashboard.png)
+![Our dashboard with all the Pokémon](./dashboard.png)
 
 Important! Every single image that you just added, was also automatically **uploaded and pinned** to IPFS, which means your images now live in the blockchain, forever.
 
@@ -117,13 +117,13 @@ So... now we have created our drop, wasn't that easy? The next step will enable 
 
 Click on the embed tab on the drop module.
 
-![Embed tab](/assets/portal/guides/release-an-nft-drop-with-no-code/embed-tab.png)
+![Embed tab](./embed-tab.png)
 
 thirdweb offers an easy copy and paste embed that you can add on any website that accepts HTML. People will be able to connect their wallet and mint their own NFTs.
 
 This is the configuration that thirdweb offers:
 
-![Embed configuration](/assets/portal/guides/release-an-nft-drop-with-no-code/embed-config.png)
+![Embed configuration](./embed-config.png)
 
 - **IPFS Gateway**: This is where the embed is hosted. For your own production deployments, we recommend getting your own.
 - **RPC Url**: The RPC Url that is used, you can use Alchemy or Infura here, recommended for production deployments.
@@ -133,9 +133,9 @@ Next, at the bottom of the page, you’ll be able to see a preview of how it wil
 
 <ImageSideToSide>
 
-![Our own embed!](/assets/portal/guides/release-an-nft-drop-with-no-code/pokemon-embed.png)
+![Our own embed!](./pokemon-embed.png)
 
-![After claiming one NFT](/assets/portal/guides/release-an-nft-drop-with-no-code/pokemon-inventory.png)
+![After claiming one NFT](./pokemon-inventory.png)
 
 </ImageSideToSide>
 
@@ -149,17 +149,17 @@ I'm using this free template called [Random Product](https://340cb974f62203cb.de
 
 Click the "**+**" button, and click "**Embed**".
 
-![Click Embed on the + dropdown.](/assets/portal/guides/release-an-nft-drop-with-no-code/click-embed.png)
+![Click Embed on the + dropdown.](./click-embed.png)
 
 A drawer will open, you need to paste the embed code provided by thirdweb here:
 
-![Add embed code](/assets/portal/guides/release-an-nft-drop-with-no-code/add-embed-code.png)
+![Add embed code](./add-embed-code.png)
 
 Save the page on the top right and publish it.
 
 This is how mine looks:
 
-![My carrd site](/assets/portal/guides/release-an-nft-drop-with-no-code/pokemon-carrd-site.png)
+![My carrd site](./pokemon-carrd-site.png)
 
 ## That's it!
 

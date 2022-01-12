@@ -8,7 +8,7 @@ authorTwitter2: "https://twitter.com/razacodes"
 draft: false
 tags: [token, currency, typescript, sdk]
 summary: "Creating tokens that can be used as your own currency with the thirdweb TypeScript SDK"
-image: "/assets/portal/guides/create-your-currency-with-typescript-sdk/thumbnail.png"
+image: "./thumbnail.png"
 date: "2021-11-21"
 updated: ""
 ---
@@ -25,7 +25,7 @@ The first thing we need to do is head over to the [dashboard](/dashboard) and cr
 
 Once your **Token** module has been created, it's time to mint our own currency, but we don't need the dashboard for that! For use cases where the interaction has a high frequency and requires conditions, using the sdk is more efficient.
 
-![](/assets/portal/guides/create-your-currency-with-typescript-sdk/16_module_done.png)
+![](./16_module_done.png)
 
 ## The code
 
@@ -54,7 +54,7 @@ Let's take the code step by step. At the end we'll include a full code snippet.
 
 Create a file called `currency.ts`
 
-![](/assets/portal/guides/create-your-currency-with-typescript-sdk/18_ts_file.png)
+![](./18_ts_file.png)
 
 Import the following classes from the SDK.
 
@@ -95,7 +95,7 @@ In our `currency.ts` we include the following code.
 
 The token variable uses the token module inside the sdk with our address for the token smart contract.
 
-![](/assets/portal/guides/create-your-currency-with-typescript-sdk/16_module_done.png)
+![](./16_module_done.png)
 
 ```tsx:currency.ts
 // Instantiate Token module
@@ -130,7 +130,7 @@ npx ts-node index.ts
 
 Get the balance to check it out or head over to the dashboard.
 
-![](/assets/portal/guides/create-your-currency-with-typescript-sdk/17_balance.png)
+![](./17_balance.png)
 
 ## That's it!
 
