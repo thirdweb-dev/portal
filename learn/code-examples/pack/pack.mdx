@@ -1,0 +1,81 @@
+---
+title: Pack Code Examples
+author: "Nacho Iacovino"
+authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
+authorTwitter: "https://twitter.com/nachoiacovino"
+summary: "Easy copy and paste snippets to use thirdweb Pack module"
+date: "2021-12-01"
+updated: "2022-01-13"
+---
+
+## Pack
+
+### Deploying a pack module
+
+```ts
+const app = sdk.getAppModule("<APP_MODULE_ADDRESS>");
+
+const deployPackModule = async () => {
+  try {
+    await app.deployPackModule({
+      name: "Pack Module",
+      sellerFeeBasisPoints: 1000,
+      feeRecipient: "<RECIPIENT_ADDRESS>",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+deployPackModule();
+```  
+
+### Creating a pack
+
+```ts
+const pack = sdk.getPackModule("<PACK_MODULE_ADDRESS>");
+
+const createPack = async () => {
+  try {
+    await pack.create({
+      assetContract: "<BUNDLE_MODULE_ADDRESS>",
+      // Specify the tokens and their respective quantities you want in the pack. 
+      assets: [
+        {
+          tokenId: 0,
+          amount: 50,
+        },
+        {
+          tokenId: 1,
+          amount: 100,
+        },
+      ],
+      rewardsPerOpen: 5, // optional, can be left blank
+      metadata: {
+        name: "Pack",
+      },
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+createPack();
+```
+  
+### Opening a pack
+
+```ts 
+const pack = sdk.getPackModule("<MODULE_ADDRESS>");
+
+const openPack = async () => {
+  try {
+    await pack.open("<PACK_TOKEN_ID>");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+openPack();
+```
