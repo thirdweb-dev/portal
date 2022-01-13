@@ -1,0 +1,127 @@
+---
+title: Bundle Drop Code Examples
+author: "Nacho Iacovino"
+authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
+authorTwitter: "https://twitter.com/nachoiacovino"
+summary: "Easy copy and paste snippets to use thirdweb Bundle Drop module"
+date: "2021-12-01"
+updated: "2022-01-13"
+---
+
+## Bundle Drop
+
+### Deploy a Bundle Drop
+
+- Import `readFileSync` at the top of your file if you want to add an image for your bundle.
+- Import `ethers` if you want to make your bundle drop free.
+
+```ts
+import { readFileSync } from "fs";
+import { ethers } from "ethers";
+```
+
+```ts
+const app = sdk.getAppModule("<APP_MODULE_ADDRESS>");
+
+const deployBundleDrop = async () => {
+  try {
+    const bundleDrop = await app.deployBundleDropModule({
+      // The collection's name, ex. CryptoPunks
+      name: "NarutoDAO Membership",
+      // A description for the collection.
+      description: "A DAO for fans of Naruto.",
+      // The image that will be held on our NFT! The fun part :).
+      image: readFileSync("scripts/assets/naruto.png"),
+      // We need to pass in the address of the person who will be receiving the proceeds from sales of nfts in the module.
+      // We're planning on not charging people for the drop, so we'll pass in the 0x0 address
+      // you can set this to your own wallet address if you want to charge for the drop.
+      primarySaleRecipientAddress: ethers.constants.AddressZero,
+    });
+
+    console.log(
+      "✅ Successfully deployed bundleDrop module, address:",
+      bundleDrop.address,
+    );
+  } catch (error) {
+    console.log("failed to deploy bundleDrop module", error);
+  }
+};
+
+deployBundleDrop();
+```
+
+### Configure the bundle drop
+
+Remember to import `readFileSync` at the top of your file:
+
+```ts
+import { readFileSync } from "fs";
+```
+
+```ts
+const bundleDrop = sdk.getBundleDropModule("<DROP_MODULE_ADDRESS>");
+
+const configBundleDrop = async () => {
+  try {
+    await bundleDrop.createBatch([
+      {
+        name: "Leaf Village Headband",
+        description: "This NFT will give you access to NarutoDAO!",
+        image: readFileSync("scripts/assets/headband.png"),
+      },
+    ]);
+    console.log("✅ Successfully created a new NFT in the drop!");
+  } catch (error) {
+    console.error("failed to create the new NFT", error);
+  }
+};
+
+configBundleDrop();
+```
+
+### Setting Claim Conditions
+
+```ts
+    const bundleDrop = sdk.getBundleDrop("<MODULE_ADDRESS>");
+
+    const setClaimCondition = async () => {
+      const allowList = [
+        "<ALLOWED_ADDRESS_1>",
+        "<ALLOWED_ADDRESS_2>",
+        "<ALLOWED_ADDRESS_3>",
+        "<ALLOWED_ADDRESS_4>",
+      ];
+      const factory = bundleDrop.getClaimConditionFactory();
+      const claimPhase = factory.newClaimPhase({
+        startTime: new Date(),
+        maxQuantity: 10,
+        maxQuantityPerTransaction: 1,
+      });
+      claimPhase.setPrice(
+        // price cannot be set above, use this way instead
+        1,
+        "<TOKEN_ADDRESS>",
+      ); // optional, can be left blank for native currency
+      claimPhase.setWaitTimeBetweenClaims(24 * 60 * 60);
+      claimPhase.setSnapshot(allowList);
+      await bundleDrop.setClaimCondition("0", factory); // 0 refers to token id
+    };
+```
+
+### Snapshot Condition
+
+Bundle drops are a special type of drop that allows you to create a collection (ERC-1155)
+of NFTs. That means that each token you mint gets its own ID, and in turn its
+own set of claim conditions.
+
+In this case, you'll notice on the last line that we pass the argument `"0"`, which
+applies the claim conditions for that specific token ID.
+
+```js
+const factory = bundleDropModule.getClaimConditionFactory();
+const phase = factory.newClaimPhase({
+  startTime: new Date(),
+});
+await phase.setSnapshot(["<ALLOWED_ADDRESS_1>", "<ALLOWED_ADDRESS_2>", ...]);
+await bundleDropModule.setClaimCondition("0", factory);
+```

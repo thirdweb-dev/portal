@@ -1,0 +1,763 @@
+---
+title: NFT Drop Code Examples
+author: "Nacho Iacovino"
+authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
+authorTwitter: "https://twitter.com/nachoiacovino"
+summary: "Easy copy and paste snippets to use thirdweb NFT Drop module"
+date: "2021-12-01"
+updated: "2022-01-13"
+---
+
+### Lazy mint an NFT
+
+```ts
+const drop = sdk.getDropModule("<MODULE_ADDRESS>");
+
+const lazyMintNft = async () => {
+  try {
+    await drop.lazyMint({
+      name: "thirdweb",
+      description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+      image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
+      properties: {},
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+lazyMintNft();
+```
+
+### Batch lazy mint an NFT
+
+When creating a lazy minted batch, we recommend that you upload all token image assets to IPFS ahead of time *in an IPFS folder*.
+
+That means you're required to bring along the CID of the IPFS folder, such that each image for a token can be mapped deterministically by its token ID.
+
+You also have the option of uploading the image as you mint the batch, which will upload each of the images outside of a folder, but will take a bit longer to complete because each of the images will be uploaded to IPFS and the speed is subject to your internet speed.
+
+To take advantage of this "just in time upload" you simply set the `image` property of each token to the loaded image file, which will signal to the SDK that the image should be uploaded.
+
+```ts
+const drop = sdk.getDropModule("<MODULE_ADDRESS>");
+
+const lazyMintBatchNft = async () => {
+  try {
+    await drop.lazyMintBatch([
+      {
+        name: "Token 1",
+        description: "Token 1 maps to 1.png",
+        image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
+        properties: {},
+      },
+      {
+        name: "Token 2",
+        description: "Token 2 maps to 2.png",
+        image: "ipfs/<YOUR_IPFS_FOLDER_CID>/2.png",
+        properties: {},
+      },
+    ]);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+lazyMintBatchNft();
+```
+### Get the balance for the current account
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getBalance = async () => {
+  let bal = await drop.balance();
+
+  console.log(bal.toNumber());  // Since bal is a BigNumber object.
+};
+```
+
+### Get the balance for a different account specified
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getBalance = async () => {
+  let bal = await drop.balanceOf("<TARGET_ADDRESS>");
+
+  console.log(bal.toNumber());  // Since bal is a BigNumber object.
+};
+```
+
+### Burn a token with Token ID
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const burnToken = async() => {
+    // Token ID to be burned, which is created in the NFT drop module on the dashboard.
+    let tokenId = 0;
+
+    // Convert to big number.
+    let tokenIdBigNumber = new ethers.BigNumber.from(tokenId);
+
+    await drop.burn(tokenIdBigNumber)
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+}
+```
+
+### Check if a drop is claimable
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const canClaim = async () => {
+    let quantity = 1;
+    let addressToCheck = "<MODULE_ADDRESS>";
+
+    // Convert quantity to big number.
+    let quantityBigNumber = new ethers.BigNumber.from(quantity);
+
+    // Check if claimable.
+    const isClaimable = await drop.canClaim(quantityBigNumber, addressToCheck)
+
+    console.log(isClaimable);
+}
+```
+
+### Claim a token
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const claim = async () => {
+  let quantity = 1;
+
+  let quantityBigNumber = new ethers.BigNumber.from(quantity);
+
+  await drop
+    .claim(quantityBigNumber)
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Claim a token and send it to someone
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const claim = async () => {
+  let quantity = 1;
+  let receiverAddress = "<TARGET_ADDRESS>";
+
+  let quantityBigNumber = new ethers.BigNumber.from(quantity);
+
+  await drop
+    .claimTo(quantityBigNumber, receiverAddress)
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Get the info about a Token
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getTokenInfo = async () => {
+  let tokenId = "0";
+
+  await drop
+    .get(tokenId)
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Get the active claim condition for the token
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getActiveClaimCondition = async () => {
+  await drop
+    .getActiveClaimCondition()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Get the active mint condition for the token
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getActiveMintCondition = async () => {
+  await drop
+    .getActiveMintCondition()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Get all the token info.
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getAllTokenInfo = async () => {
+  await drop
+    .getAll()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Get all claim conditions of the token
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getAllClaimConditions = async () => {
+  await drop
+    .getAllClaimConditions()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Get all claimed tokens
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getAllClaimedTokens = async () => {
+  await drop
+    .getAllClaimed()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Get all unclaimed tokens
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getAllUnclaimed = async () => {
+  await drop
+    .getAllUnclaimed()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Create the claim conditions factory model
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const createClaimConditionsFactory = async () => {
+  const claimConditionsFactory = await drop.getClaimConditionsFactory();
+
+  console.log(claimConditionsFactory);
+};
+```
+
+### Get the claim ineligibility reasons for an user
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getClaimIneligibilityReasons = async () => {
+  let quantity = 1;
+  let addressToCheck = "<TARGET_ADDRESS>";
+
+  // Convert quantity to big number.
+  let quantityBigNumber = new ethers.BigNumber.from(quantity);
+
+  // Check if claimable.
+  const claimIneligibilityReasons = await drop.getClaimIneligibilityReasons(quantityBigNumber, addressToCheck);
+
+  console.log(claimIneligibilityReasons);
+};
+```
+
+### Get the default sale recipient
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getDefaultSaleRecipient = async () => {
+  await drop
+    .getDefaultSaleRecipient()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Get tokens owned by an user using address
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getOwnedByAddress = async () => {
+  let address = "<TARGET_ADDRESS>";
+
+  await drop.getOwned(address)
+  .then(data => console.log(data))
+  .catch(err => console.log(err));
+};
+```
+
+### Get the royalty basis points for the token.
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getRoyaltyBps = async () => {
+  await drop.getRoyaltyBps()
+  .then(data => console.log(data.toNumber()))
+  .catch(err => console.log(err));
+};
+```
+
+### Get the royalty recipient address for the token.
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getRoyaltyRecipientAddress = async () => {
+  await drop.getRoyaltyRecipientAddress()
+  .then(data => console.log(data))
+  .catch(err => console.log(err));
+};
+```
+
+### Is operation approved for the specific address
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const isContractApproved = async () => {
+  let address = "<TARGET_ADDRESS>";
+  // The ID for the deployed contract that will spend on your behalf.
+  let operatorContractId = "[OPERATOR_CONTRACT_ID]";
+
+  await drop
+    .isApproved(address, operatorContractId)
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Check if transfer is restricted
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const isTransferRestricted = async () => {
+  await drop.isTransferRestricted()
+  .then(data => console.log(data))
+  .catch(err => console.log(err));
+};
+```
+
+### Check if the contract is V1
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const isContractV1 = async () => {
+  await drop.isV1()
+  .then(data => console.log(data))
+  .catch(err => console.log(err));
+};
+```
+
+### Get the owner for a specific token by tokenId
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getTokenOwner = async () => {
+  let tokenId = "0";
+
+  await drop.ownerOf(tokenId)
+  .then(data => console.log(data))
+  .catch(err => console.log(err));
+};
+```
+
+### Set approval for a operator
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const setTokenApproval = async () => {
+  // The ID for the deployed contract that will spend on your behalf.
+  let operatorContractId = "[OPERATOR_CONTRACT_ID]";
+
+  await drop
+    .setApproval(operatorContractId, true)
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Set claim conditions for the token
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const setTokenClaimConditions = async () => {
+  const factory = await drop.getClaimConditionsFactory();
+
+  // Define claim phase.
+  const claimPhase = await factory.newClaimPhase({
+    startTime: new Date(),
+    maxQuantity: 10,
+    maxQuantityPerTransaction: 1,
+  });
+
+  // Set price.
+  claimPhase.setPrice(1);
+
+  // Set wait time between claims.
+  claimPhase.setWaitTimeBetweenClaims(24 * 60 * 60);
+
+  // Allow snapshot for the specified list.
+  const allowList = [
+    "[ALLOWED_ADDRESS_1]",
+    "[ALLOWED_ADDRESS_2]",
+    "[ALLOWED_ADDRESS_3]",
+    "[ALLOWED_ADDRESS_4]",
+  ];
+
+  claimPhase.setSnapshot(allowList);
+
+  // Set claim conditions.
+  await drop.setClaimConditions(factory);
+};
+```
+
+### Set Default sale recipient
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const setDefaultSaleRecipient = async () => {
+  let address = "<TARGET_ADDRESS>";
+
+  await drop
+    .setDefaultSaleRecipient(address)
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Set metadata for the module
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const setModuleMetadata = async () => {
+  await drop
+    .setModuleMetadata({
+      name: "NFT Drop mod",
+      description: "My cool drop module!",
+      image: "[IMAGE_BUFFER_OR_LINK]" // Replace this with image buffer, or IPFS link.
+    })
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Set restriction on transfer
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const setTransferRestriction = async () => {
+  await drop
+    .setRestrictedTransfer(true) // true or false
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Set royalty basis points
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const setRoyaltyBp = async () => {
+  let basisPoints = 10;
+
+  await drop
+    .setRoyaltyBps(basisPoints)
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
+};
+```
+
+### Get total claimed supply
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getTotalClaimedSupply = async () => {
+  await drop
+    .totalClaimedSupply()
+    .then((data) => console.log(data.toNumber()))
+    .catch((err) => console.log(err));
+};
+```
+
+### Get total supply
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getTotalSupply = async () => {
+  await drop
+    .totalSupply()
+    .then((data) => console.log(data.toNumber()))
+    .catch((err) => console.log(err));
+};
+```
+
+### Get total unclaimed supply
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const getTotalUnclaimedSupply = async () => {
+  await drop
+    .totalUnclaimedSupply()
+    .then((data) => console.log(data.toNumber()))
+    .catch((err) => console.log(err));
+};
+```
+
+### Transfer a specific token to an address
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const transferTokenToAddress = async () => {
+  let address = "<TARGET_ADDRESS>";
+  let tokenId = "0";
+
+  await drop
+    .transfer(address, tokenId)
+    .then((data) => console.log(data.toNumber()))
+    .catch((err) => console.log(err));
+};
+```
+
+### Transfer a token from a address to a different one
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const transferTokenFromAddress = async () => {
+  let fromAddress = "<TARGET_ADDRESS>";
+  let toAddress = "<TARGET_ADDRESS>";
+
+  let tokenId = "0";
+
+  await drop
+    .transferFrom(fromAddress, toAddress, tokenId)
+    .then((data) => console.log(data.toNumber()))
+    .catch((err) => console.log(err));
+};
+```
+
+### Update the token claim conditions
+
+```ts
+// The drop module address received after initializing the NFT drop module on the dashboard.
+const dropAddress = "<MODULE_ADDRESS>";
+
+// Initialize the NFT drop module with the contract address.
+const drop = sdk.getDropModule(dropAddress);
+
+const updateTokenClaimConditions = async () => {
+  const factory = drop.getClaimConditionsFactory();
+
+  // Define claim phase.
+  const claimPhase = await factory.newClaimPhase({
+    startTime: new Date(),
+    maxQuantity: 10,
+    maxQuantityPerTransaction: 1,
+  });
+
+  // Set price.
+  claimPhase.setPrice(1);
+
+  // Set wait time between claims.
+  claimPhase.setWaitTimeBetweenClaims(24 * 60 * 60);
+
+  // Allow snapshot for the specified list.
+  const allowList = [];
+
+  claimPhase.setSnapshot(allowList);
+
+  // Set claim conditions.
+  await drop.updateClaimConditions(factory);
+};
+```
+
+### Snapshot Condition
+
+NFT Drops differ from Bundle Drops in that each token is a ERC-721 token.
+So that means that when setting our claim conditions, we do it only once for the
+entire drop.
+
+```js
+const factory = dropModule.getClaimConditionsFactory();
+const phase = factory.newClaimPhase({
+  startTime: new Date(),
+});
+await phase.setSnapshot(["<ALLOWED_ADDRESS_1>", "<ALLOWED_ADDRESS_2>", ...]);
+await dropModule.setClaimCondition("0", factory);
+```

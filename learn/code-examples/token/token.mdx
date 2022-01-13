@@ -1,0 +1,72 @@
+---
+title: Token Code Examples
+author: "Nacho Iacovino"
+authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
+authorTwitter: "https://twitter.com/nachoiacovino"
+summary: "Easy copy and paste snippets to use thirdweb Token module"
+date: "2021-12-01"
+updated: "2022-01-13"
+---
+
+### Mint tokens
+
+```ts
+const token = sdk.getTokenModule("<MODULE_ADDRESS>");
+const amount = ethers.utils.parseUnits("1000", 18);
+
+const mintTokens = async () => {
+  try {
+    await token.mint(amount);
+    console.log("Minted 1000 coins");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+mintTokens();
+```
+
+### Mint tokens for another wallet
+
+Tokens will be minted and send to the `<TARGET_ADDRESS`.
+
+```ts
+const token = sdk.getTokenModule("<MODULE_ADDRESS>");
+const amount = ethers.utils.parseUnits("1000", 18);
+
+const mintTokensTo = async () => {
+  try {
+    await token.mintTo("<TARGET_ADDRESS>", amount);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+mintTokensTo();
+```
+
+### Batch mint tokens for other wallets
+
+```ts
+const token = sdk.getTokenModule("<MODULE_ADDRESS>");
+const amount = ethers.utils.parseUnits("1000", 18);
+
+const mintBatchTokensTo = async () => {
+  try {
+    await token.mintBatchTo([
+      {
+        address: "<TARGET_ADDRESS_1>",
+        amount
+      },
+      {
+        address: "<TARGET_ADDRESS_2>",
+        amount
+      }
+    ]);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+mintBatchTokensTo();
+```
