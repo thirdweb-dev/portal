@@ -15,12 +15,12 @@ const drop = sdk.getDropModule("<MODULE_ADDRESS>");
 
 const lazyMintNft = async () => {
   try {
-    await drop.lazyMint({
+    await drop.createBatch([{
       name: "thirdweb",
       description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
       image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
       properties: {},
-    });
+    }]);
   } catch (err) {
     console.log(err);
   }
@@ -44,7 +44,7 @@ const drop = sdk.getDropModule("<MODULE_ADDRESS>");
 
 const lazyMintBatchNft = async () => {
   try {
-    await drop.lazyMintBatch([
+    await drop.mintBatch([
       {
         name: "Token 1",
         description: "Token 1 maps to 1.png",
