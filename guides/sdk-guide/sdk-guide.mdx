@@ -1,0 +1,174 @@
+---
+title: "Some guidance on using or SDK: Frontend vs Backend"
+author: "Raza Zaidi"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+draft: false
+tags: [sdk, client, server]
+summary: "This guide shows how to use our SDK effectively and where your code should live - Front End vs Back End"
+image: "./thumbnail.png"
+date: "2022-01-11"
+updated: ""
+---
+
+## I want to use thirdweb in my app
+
+When you want these awesome features of thirdweb to **live** inside your current application or you just want to build an entire new app **with** our features, you use our sdk’s. Depending on what you want to do, you can use our sdk’s in different ways.
+
+Lets **oversimplify** this. You have a **frontend** and a **backend**. Where does your thirdweb sdk code live?
+
+## Frontend
+
+Here is a typical use case. You have an app (or are building one) and you want users to claim an nft. You have everything set up and just want that button. In this case you integrate our sdk in the frontend. The user triggers a transaction and the frontend(or client side) interacts with the blockchain.
+
+Example: I click on the `claim` button and the client side makes sure my wallet pops up and I authorise the transaction.
+
+The SDK is created (instantiated) and uses the `provider` for all the necessary data that the `sdk` object needs to execute the transaction from the connected wallet. See below for an explanation of what `provider` is and an example where the `sdk` is instantiated via a thirdweb component.
+
+### Code to instantiate the SDK at the Client Side (frontend)
+
+To use the SDK in your frontend, first make sure you make use of the thirdweb component to connect your wallet to your app. If you want to know more about our `Connect Wallet` component, click [here](/guides/add-connectwallet-to-your-website).
+
+```jsx
+import { ConnectWallet } from "@3rdweb/react";
+
+const Layout = () => {
+  return <ConnectWallet />;
+};
+export default Layout;
+```
+
+Once you have your `connect wallet` component, we can use it to pass the **provider** with the information to instantiate the `sdk`. Please note that the **provider** will be set to **null** if the wallet is not connected.
+
+`Provider` extracts the necessary data from the connected wallet to interact with the blockchain and authorises transactions. The `getSigner`method takes the information that is needed to sign transactions and stores it in the `Signer`.
+
+```jsx
+import { useWeb3 } from "@3rdweb/hooks";
+import { ThirdwebSDK } from "@3rdweb/sdk";
+import { Signer } from "ethers";
+import { useMemo } from "react";
+
+export default function MarketPlace() {
+  const { provider } = useWeb3();
+
+  const sdk = new ThirdwebSDK(provider?.getSigner() as Signer);
+  return sdk;
+
+	//using the sdk object and getMarketplaceModule
+	// to access the Marketplace as an exmape
+	const market = useMemo(
+    () =>
+      sdk.getMarketplaceModule("0xf4e8C436d87Bd4cB1416E474948105FdF80BB6A0"),
+    [sdk]
+  );
+
+	//using a method inside our sdk
+	const balance = market.getAllListings();
+
+	return(
+		<p>My Listing: {JSON.stringify(balance)}</p>
+	)
+}
+```
+
+Here is how the `useSdk()` function would be used as a component inside a **React** app.
+
+```jsx
+import React from "react";
+import "./App.css";
+import MarketPlace from "./components/MarketPlace";
+import { ThirdwebProvider } from "@3rdweb/react";
+
+//define the chains that your app can support.
+//every chain like polygon(137) or rinkeby(4) has an ID
+//If you want add other chains, search for their IDs and add them to the array below
+const supportedChainIds = [4, 137];
+
+//define which wallets will be supported by your app
+const connectors = {
+  injected: {},
+  magic: {},
+  walletconnect: {},
+  walletlink: {
+    appName: "thirdweb - demo",
+    url: "https://thirdweb.com",
+    darkMode: false,
+  },
+};
+
+//here we 'wrap' the components inside the thirdweb tags,
+//to ensure our component can make use of the selected chain(s) and wallet(s)
+export default function App() {
+  return (
+    <div className="App">
+      <ThirdwebProvider
+        connectors={connectors}
+        supportedChainIds={supportedChainIds}
+      >
+        <MarketPlace />
+      </ThirdwebProvider>
+    </div>
+  );
+}
+```
+
+[Here](/guides/claim-button-react) is a guide that shows you how to create a react component with our sdk and gives you a connect wallet button for your app.
+
+## Backend
+
+If you have read functionalities that you want to integrate in your app or less frequent writing needs, server side is your choice.
+
+Methods like `GetAllListing` that well....get all your listings are much more suited to live server side and computed over there.
+
+An example where you write are your rules on claiming an NFT. Perhaps you got some conditions an user needs to comply. This code is suited for your backend.
+
+If you want an example of a guide that shows you how to use the sdk on the backend, check out [this](/guides/create-a-drop-with-typescript-sdk) guide.
+
+### Reading: Code to just read some stuff
+
+If we just want to read out some data, we don’t need to pass our **private keys**. We can use the below setup to read out data on the blockchain, which can be useful if you want to get all the listings on your marketplace. Regardless of whether the user will be connected to your app, the listings and images will still show.
+
+This is how to instantiate the `sdk`, when all you want is to read data.
+
+```jsx
+const ethers = require("ethers");
+//your rpc URL here
+//RPC stands for Remote Procedure Call and is a simple form of API interaction
+//Every chain has a rpc url
+const rpcUrl = "http://...";
+
+const provider = ethers.getDefaultProvider(rpcUrl);
+
+const sdk = new ThirdwebSDK(provider);
+```
+
+### Writing:Code to instantiate the SDK at the server-side(back-end)
+
+To use the SDK at the server side, the object `sdk` is instantiated different. It makes use of the **private keys** of a wallet. You can import the private keys, using the **dotenv** library. In the same folder you would need a `.env` file to store the private keys.
+
+```jsx
+PRIVATE_KEY=<your-private-key-here>
+```
+
+Don't commit this `PRIVATE_KEY` to GitHub(in other words, include `.env` in gitignore) or anywhere else.
+
+Your `index.ts` looks like this, when you instantiate the `sdk` with **private keys**.
+
+```jsx
+// Importing libraries
+import { ThirdwebSDK } from "@3rdweb/sdk"
+import { ethers } from "ethers"
+
+// getting the private key
+require('dotenv').config()
+
+//Instantiate 3rdweb SDK
+const sdk = new ThirdwebSDK(
+    new ethers.Wallet(
+        // Your wallet private key
+        process.env.PRIVATE_KEY as string,
+        // This is the RPC URL for Rinkeby
+        ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
+    )
+);
+```
