@@ -51,7 +51,7 @@ The second file in this folder is the `useProtectedPage.ts` to navigate the requ
 
 ```tsx:useProtectedPage.tsx
 import { useWeb3 } from "@3rdweb/hooks";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export default function useProtectedPage() {
@@ -97,7 +97,7 @@ Each button will lead the user to a page to create the signature and the other t
 
 ```tsx:home.tsx
 import { Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import useProtectedPage from "../hooks/useProtectedPage";
 
 export default function Home() {
@@ -143,7 +143,7 @@ Don’t forget to connect the homepage to the `index.ts`
 ```tsx:index.tsx
 import { useWeb3 } from "@3rdweb/hooks";
 import { Heading } from "@chakra-ui/react";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export default function LandingPage() {
