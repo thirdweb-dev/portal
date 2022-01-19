@@ -19,7 +19,7 @@ import { ethers } from "ethers";
 ```
 
 ```ts
-const app = sdk.getAppModule("<APP_MODULE_ADDRESS>");
+const app = sdk.getAppModule("<DROP_MODULE_ADDRESS>");
 
 const deployBundleDrop = async () => {
   try {
@@ -38,7 +38,7 @@ const deployBundleDrop = async () => {
 
     console.log(
       "✅ Successfully deployed bundleDrop module, address:",
-      bundleDrop.address,
+      bundleDrop.address
     );
   } catch (error) {
     console.log("failed to deploy bundleDrop module", error);
@@ -80,30 +80,30 @@ configBundleDrop();
 ### Setting Claim Conditions
 
 ```ts
-    const bundleDrop = sdk.getBundleDrop("<MODULE_ADDRESS>");
+const bundleDrop = sdk.getBundleDrop("<MODULE_ADDRESS>");
 
-    const setClaimCondition = async () => {
-      const allowList = [
-        "<ALLOWED_ADDRESS_1>",
-        "<ALLOWED_ADDRESS_2>",
-        "<ALLOWED_ADDRESS_3>",
-        "<ALLOWED_ADDRESS_4>",
-      ];
-      const factory = bundleDrop.getClaimConditionFactory();
-      const claimPhase = factory.newClaimPhase({
-        startTime: new Date(),
-        maxQuantity: 10,
-        maxQuantityPerTransaction: 1,
-      });
-      claimPhase.setPrice(
-        // price cannot be set above, use this way instead
-        1,
-        "<TOKEN_ADDRESS>",
-      ); // optional, can be left blank for native currency
-      claimPhase.setWaitTimeBetweenClaims(24 * 60 * 60);
-      claimPhase.setSnapshot(allowList);
-      await bundleDrop.setClaimCondition("0", factory); // 0 refers to token id
-    };
+const setClaimCondition = async () => {
+  const allowList = [
+    "<ALLOWED_ADDRESS_1>",
+    "<ALLOWED_ADDRESS_2>",
+    "<ALLOWED_ADDRESS_3>",
+    "<ALLOWED_ADDRESS_4>",
+  ];
+  const factory = bundleDrop.getClaimConditionFactory();
+  const claimPhase = factory.newClaimPhase({
+    startTime: new Date(),
+    maxQuantity: 10,
+    maxQuantityPerTransaction: 1,
+  });
+  claimPhase.setPrice(
+    // price cannot be set above, use this way instead
+    1,
+    "<TOKEN_ADDRESS>"
+  ); // optional, can be left blank for native currency
+  claimPhase.setWaitTimeBetweenClaims(24 * 60 * 60);
+  claimPhase.setSnapshot(allowList);
+  await bundleDrop.setClaimCondition("0", factory); // 0 refers to token id
+};
 ```
 
 ### Snapshot Condition
@@ -127,16 +127,17 @@ await bundleDropModule.setClaimCondition("0", factory);
 ### Get
 
 ```js
-// Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+// Set variable for the bundle drop module contract address which can be found after creating a bundle drop
+// module in the dashboard.
+const bundleDropAddress = "<BUNDLE_DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const get = async () => {
-	// Get with tokenId
+  // Get with tokenId
   await bundleDrop
-    .get('0')
+    .get("0")
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
@@ -146,7 +147,7 @@ const get = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
@@ -163,7 +164,7 @@ const getAll = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
@@ -180,7 +181,7 @@ const getRoyaltyBps = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
@@ -197,7 +198,7 @@ const getRoyaltyContract = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
@@ -214,13 +215,13 @@ const getDefaultSaleRecipient = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const getAllClaimConditions = async () => {
-	// Get all claim conditions by tokenId
+  // Get all claim conditions by tokenId
   await bundleDrop
     .getAllClaimConditions(0)
     .then((data) => console.log(data))
@@ -232,13 +233,13 @@ const getAllClaimConditions = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const getActiveClaimConditions = async () => {
-	// Get active claim conditions by tokenId
+  // Get active claim conditions by tokenId
   await bundleDrop
     .getActiveClaimCondition(0)
     .then((data) => console.log(data))
@@ -250,13 +251,13 @@ const getActiveClaimConditions = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const claim = async () => {
-	// Claim an NFT for yourself with (tokenId, quantity)
+  // Claim an NFT for yourself with (tokenId, quantity)
   await bundleDrop
     .claim(0, 1)
     .then((data) => console.log(data))
@@ -268,49 +269,49 @@ const claim = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const balance = async () => {
-		// Get balance of claimed NFTs by tokenId
-    await bundleDrop
-      .balance(0)
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
-  };
+  // Get balance of claimed NFTs by tokenId
+  await bundleDrop
+    .balance(0)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
 ```
 
 ### Balance Of
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const balanceOf = async () => {
-		// Get the balance of an NFT in a wallet address - (wallet address, tokenId)
-    await bundleDrop
-      .balanceOf('<WALLET_ADDRESS>', 0)
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
-  };
+  // Get the balance of an NFT in a wallet address - (wallet address, tokenId)
+  await bundleDrop
+    .balanceOf("<WALLET_ADDRESS>", 0)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
 ```
 
 ### Burn
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const burn = async () => {
-	// burn from the claimed supply - (tokenId, amount) 
+  // burn from the claimed supply - (tokenId, amount)
   await bundleDrop
     .burn(0, 1)
     .then((data) => console.log(data))
@@ -322,15 +323,15 @@ const burn = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const canClaim = async () => {
-	// Check if can claim. (tokenId, amount, wallet address)
+  // Check if can claim. (tokenId, amount, wallet address)
   await bundleDrop
-    .canClaim(0, 1, '<WALLET_ADDRESS')
+    .canClaim(0, 1, "<WALLET_ADDRESS")
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
@@ -340,19 +341,15 @@ const canClaim = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const getClaimIneligibilityReasons = async () => {
-	// Get reasons for claim ineligibility - (tokenId, amount, wallet address)
+  // Get reasons for claim ineligibility - (tokenId, amount, wallet address)
   await bundleDrop
-    .getClaimIneligibilityReasons(
-      0,
-      1,
-      '<WALLET_ADDRESS>'
-    )
+    .getClaimIneligibilityReasons(0, 1, "<WALLET_ADDRESS>")
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
@@ -362,13 +359,13 @@ const getClaimIneligibilityReasons = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const getAllClaimerAddresses = async () => {
-	// Get all claimer addresses for specific tokenId
+  // Get all claimer addresses for specific tokenId
   await bundleDrop
     .getAllClaimerAddresses(0)
     .then((data) => console.log(data))
@@ -380,15 +377,15 @@ const getAllClaimerAddresses = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const getOwned = async () => {
-	// Get owned NFTs for a wallet address
+  // Get owned NFTs for a wallet address
   await bundleDrop
-    .getOwned('<WALLET_ADDRESS>')
+    .getOwned("<WALLET_ADDRESS>")
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
@@ -398,7 +395,7 @@ const getOwned = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
@@ -415,13 +412,13 @@ const isTransferRestricted = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const setRestrictedTransfer = async () => {
-	// Set transfer restriction with a boolean
+  // Set transfer restriction with a boolean
   await bundleDrop
     .setRestrictedTransfer(false)
     .then((data) => console.log(data))
@@ -433,13 +430,13 @@ const setRestrictedTransfer = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const totalSupply = async () => {
-	// Get total supply for an NFT by tokenId
+  // Get total supply for an NFT by tokenId
   await bundleDrop
     .totalSupply(0)
     .then((data) => console.log(data))
@@ -451,13 +448,13 @@ const totalSupply = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const getSaleRecipient = async () => {
-	// Get sale recipient for an NFT by tokenId
+  // Get sale recipient for an NFT by tokenId
   await bundleDrop
     .getSaleRecipient(0)
     .then((data) => console.log(data))
@@ -469,15 +466,15 @@ const getSaleRecipient = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const setSaleRecipient = async () => {
-	// Set sale recipient with tokenId and wallet address
+  // Set sale recipient with tokenId and wallet address
   await bundleDrop
-    .setSaleRecipient(0, '0xC751b2297887F6feb4aCafD6CAfc1220439422fe')
+    .setSaleRecipient(0, "0xC751b2297887F6feb4aCafD6CAfc1220439422fe")
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
@@ -487,14 +484,14 @@ const setSaleRecipient = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const setDefaultSaleRecipient = async () => {
   await bundleDrop
-    .setDefaultSaleRecipient('0xC751b2297887F6feb4aCafD6CAfc1220439422fe')
+    .setDefaultSaleRecipient("0xC751b2297887F6feb4aCafD6CAfc1220439422fe")
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
@@ -504,7 +501,7 @@ const setDefaultSaleRecipient = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
@@ -519,7 +516,7 @@ const getClaimConditionsFactory = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
@@ -534,13 +531,13 @@ const getClaimConditionFactory = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const updateClaimConditions = async () => {
-	// Create conditions of type PublicClaimCondition
+  // Create conditions of type PublicClaimCondition
   const conditions: PublicClaimCondition = {
     currentMintSupply: 12,
     maxMintSupply: 10,
@@ -548,15 +545,15 @@ const updateClaimConditions = async () => {
     quantityLimitPerTransaction: 2,
     waitTimeSecondsLimitPerTransaction: 1,
     pricePerToken: 5,
-    currency: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    currency: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
     merkleRoot:
-      '0x0000000000000000000000000000000000000000000000000000000000000000'
+      "0x0000000000000000000000000000000000000000000000000000000000000000",
   };
 
-	// Create a claim condition factory
+  // Create a claim condition factory
   const factory = bundleDrop.getClaimConditionFactory();
-	
-	// Update the tokenId with factory using the conditions
+
+  // Update the tokenId with factory using the conditions
   await bundleDrop
     .updateClaimConditions(0, factory.fromPublicClaimConditions([conditions]))
     .then((data) => console.log(data))
@@ -568,33 +565,33 @@ const updateClaimConditions = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const claimTo = async () => {
-		// Claim NFT and send to address - (tokenId, amount, wallet address)
-    await bundleDrop
-      .claimTo(0, 1, '<WALLET_ADDRESS')
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
-  };
+  // Claim NFT and send to address - (tokenId, amount, wallet address)
+  await bundleDrop
+    .claimTo(0, 1, "<WALLET_ADDRESS")
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
 ```
 
 ### Is Approved
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const isApproved = async () => {
-	// Check if the other contract (operator) has approval
+  // Check if the other contract (operator) has approval
   await bundleDrop
-    .isApproved('<APP_MODULE_ADDRESS', '<OPERATOR_CONTRACT_ADDRESS')
+    .isApproved("<APP_MODULE_ADDRESS", "<OPERATOR_CONTRACT_ADDRESS")
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
@@ -604,15 +601,15 @@ const isApproved = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const setApproval = async () => {
-	// Set approval for other contract (operator)
+  // Set approval for other contract (operator)
   await bundleDrop
-    .setApproval('<OPERATOR_CONTRACT_ADDRESS', false)
+    .setApproval("<OPERATOR_CONTRACT_ADDRESS", false)
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
@@ -622,13 +619,13 @@ const setApproval = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const setRoyaltyBps = async () => {
-	// Set royalty Bps to a new value
+  // Set royalty Bps to a new value
   await bundleDrop
     .setRoyaltyBps(3)
     .then((data) => console.log(data))
@@ -640,21 +637,20 @@ const setRoyaltyBps = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const createBatch = async () => {
-
-	// Create batch data 
+  // Create batch data
   const batchData = {
-    name: 'Leaf Village Headband',
-    description: 'This NFT will give you access to our DAO!',
-    image: readFileSync('assets/1.png')
+    name: "Leaf Village Headband",
+    description: "This NFT will give you access to our DAO!",
+    image: readFileSync("assets/1.png"),
   };
-	
-	// Call create batch method with batch data param
+
+  // Call create batch method with batch data param
   await bundleDrop
     .createBatch([batchData])
     .then((data) => console.log(data))
@@ -666,20 +662,20 @@ const createBatch = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const lazyMintBatch = async () => {
-	// Create batch data 
+  // Create batch data
   const batchData = {
-    name: 'Joburg',
-    description: 'This NFT is for devs in Johannesburg, South Africa!',
-    image: readFileSync('assets/2.png')
+    name: "Joburg",
+    description: "This NFT is for devs in Johannesburg, South Africa!",
+    image: readFileSync("assets/2.png"),
   };
-	
-	// Call lazy mint batch method with batch data param
+
+  // Call lazy mint batch method with batch data param
   await bundleDrop
     .lazyMintBatch([batchData])
     .then((data) => console.log(data))
@@ -691,14 +687,13 @@ const lazyMintBatch = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const setClaimCondition = async () => {
-	
-	// Cretae conditions
+  // Create the claim conditions
   const conditions: PublicClaimCondition = {
     currentMintSupply: 5,
     maxMintSupply: 8,
@@ -706,15 +701,16 @@ const setClaimCondition = async () => {
     quantityLimitPerTransaction: 1,
     waitTimeSecondsLimitPerTransaction: 1,
     pricePerToken: 1,
-    currency: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    // This is the address for the native currency.
+    currency: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
     merkleRoot:
-      '0x0000000000000000000000000000000000000000000000000000000000000000'
+      "0x0000000000000000000000000000000000000000000000000000000000000000",
   };
-	
-	// Get claim condition factory
+
+  // Get claim condition factory
   const factory = bundleDrop.getClaimConditionFactory();
-	
-	// Use setClaimCondition method for tokenId 2 to set its claim conditions factory built using the conditions we created above
+
+  // Use setClaimCondition method for tokenId 2 to set its claim conditions factory built using the conditions we created above
   await bundleDrop
     .setClaimCondition(2, factory.fromPublicClaimConditions([conditions]))
     .then((data) => console.log(data))
@@ -726,15 +722,15 @@ const setClaimCondition = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const setModuleMetadata = async () => {
   const metadata: BundleDropModuleMetadata = {
-    primarySaleRecipientAddress: '<WALLET_ADDRESS>',
-    name: 'Bundle Drop Module'
+    primarySaleRecipientAddress: "<WALLET_ADDRESS>",
+    name: "Bundle Drop Module",
   };
 
   await bundleDrop.setModuleMetadata(metadata);
@@ -745,15 +741,15 @@ const setModuleMetadata = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const transferTo = async () => {
-	// Transfer NFT to wallet address - (wallet address, tokenId, amount)
+  // Transfer NFT to wallet address - (wallet address, tokenId, amount)
   await bundleDrop
-    .transfer('<WALLET_ADDRESS>', 0, 1)
+    .transfer("<WALLET_ADDRESS>", 0, 1)
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
@@ -763,20 +759,15 @@ const transferTo = async () => {
 
 ```js
 // Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = '<APP_MODULE_ADDRESS>';
+const bundleDropAddress = "<DROP_MODULE_ADDRESS>";
 
 // Initialize the bundle drop module with the contract address
 const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const transferFrom = async () => {
-	// Transfer an NFT (from wallet, to wallet, tokenId, amount)
+  // Transfer an NFT (from wallet, to wallet, tokenId, amount)
   await bundleDrop
-    .transferFrom(
-      '<FROM_WALLET_ADDRESS',
-      '<TO_WALLET_ADDRESS',
-      0,
-      1
-    )
+    .transferFrom("<FROM_WALLET_ADDRESS>", "<TO_WALLET_ADDRESS>", 0, 1)
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
