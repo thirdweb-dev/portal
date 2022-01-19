@@ -29,7 +29,7 @@ The SDK is created (instantiated) and uses the `provider` for all the necessary 
 
 To use the SDK in your frontend, first make sure you make use of the thirdweb component to connect your wallet to your app. If you want to know more about our `Connect Wallet` component, click [here](/portal/guides/add-connectwallet-to-your-website).
 
-```jsx
+```tsx
 import { ConnectWallet } from "@3rdweb/react";
 
 const Layout = () => {
@@ -42,7 +42,7 @@ Once you have your `connect wallet` component, we can use it to pass the **provi
 
 `Provider` extracts the necessary data from the connected wallet to interact with the blockchain and authorises transactions. The `getSigner`method takes the information that is needed to sign transactions and stores it in the `Signer`.
 
-```jsx
+```tsx
 import { useWeb3 } from "@3rdweb/hooks";
 import { ThirdwebSDK } from "@3rdweb/sdk";
 import { Signer } from "ethers";
@@ -54,26 +54,24 @@ export default function MarketPlace() {
   const sdk = new ThirdwebSDK(provider?.getSigner() as Signer);
   return sdk;
 
-	//using the sdk object and getMarketplaceModule
-	// to access the Marketplace as an exmape
-	const market = useMemo(
+  //using the sdk object and getMarketplaceModule
+  // to access the Marketplace as an exmape
+  const market = useMemo(
     () =>
       sdk.getMarketplaceModule("0xf4e8C436d87Bd4cB1416E474948105FdF80BB6A0"),
     [sdk]
   );
 
-	//using a method inside our sdk
-	const balance = market.getAllListings();
+  //using a method inside our sdk
+  const balance = market.getAllListings();
 
-	return(
-		<p>My Listing: {JSON.stringify(balance)}</p>
-	)
+  return <p>My Listing: {JSON.stringify(balance)}</p>;
 }
 ```
 
 Here is how the `useSdk()` function would be used as a component inside a **React** app.
 
-```jsx
+```tsx
 import React from "react";
 import "./App.css";
 import MarketPlace from "./components/MarketPlace";
@@ -130,7 +128,7 @@ If we just want to read out some data, we don’t need to pass our **private key
 
 This is how to instantiate the `sdk`, when all you want is to read data.
 
-```jsx
+```tsx
 const ethers = require("ethers");
 //your rpc URL here
 //RPC stands for Remote Procedure Call and is a simple form of API interaction
@@ -146,7 +144,7 @@ const sdk = new ThirdwebSDK(provider);
 
 To use the SDK at the server side, the object `sdk` is instantiated different. It makes use of the **private keys** of a wallet. You can import the private keys, using the **dotenv** library. In the same folder you would need a `.env` file to store the private keys.
 
-```jsx
+```env
 PRIVATE_KEY=<your-private-key-here>
 ```
 
@@ -154,21 +152,22 @@ Don't commit this `PRIVATE_KEY` to GitHub(in other words, include `.env` in gi
 
 Your `index.ts` looks like this, when you instantiate the `sdk` with **private keys**.
 
-```jsx
+```tsx
 // Importing libraries
-import { ThirdwebSDK } from "@3rdweb/sdk"
-import { ethers } from "ethers"
+import { ThirdwebSDK } from "@3rdweb/sdk";
+import { ethers } from "ethers";
+import { dotenv } from "dotenv";
 
 // getting the private key
-require('dotenv').config()
+"dotenv".config();
 
 //Instantiate 3rdweb SDK
 const sdk = new ThirdwebSDK(
-    new ethers.Wallet(
-        // Your wallet private key
-        process.env.PRIVATE_KEY as string,
-        // This is the RPC URL for Rinkeby
-        ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
-    )
+  new ethers.Wallet(
+    // Your wallet private key
+    process.env.PRIVATE_KEY as string,
+    // This is the RPC URL for Rinkeby
+    ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
+  )
 );
 ```
