@@ -75,9 +75,9 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const getBalance = async () => {
-  let bal = await drop.balance();
+  const bal = await drop.balance();
 
-  console.log(bal.toNumber());  // Since bal is a BigNumber object.
+  console.log(bal.toString());  // Since bal is a BigNumber object.
 };
 ```
 
@@ -91,9 +91,9 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const getBalance = async () => {
-  let bal = await drop.balanceOf("<TARGET_ADDRESS>");
+  const bal = await drop.balanceOf("<TARGET_ADDRESS>");
 
-  console.log(bal.toNumber());  // Since bal is a BigNumber object.
+  console.log(bal.toString());  // Since bal is a BigNumber object.
 };
 ```
 
@@ -108,12 +108,9 @@ const drop = sdk.getDropModule(dropAddress);
 
 const burnToken = async() => {
     // Token ID to be burned, which is created in the NFT drop module on the dashboard.
-    let tokenId = 0;
+    const tokenId = 0;
 
-    // Convert to big number.
-    let tokenIdBigNumber = new ethers.BigNumber.from(tokenId);
-
-    await drop.burn(tokenIdBigNumber)
+    await drop.burn(tokenId)
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
 }
@@ -129,14 +126,11 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const canClaim = async () => {
-    let quantity = 1;
-    let addressToCheck = "<MODULE_ADDRESS>";
-
-    // Convert quantity to big number.
-    let quantityBigNumber = new ethers.BigNumber.from(quantity);
+    const quantity = 1;
+    const addressToCheck = "<MODULE_ADDRESS>";
 
     // Check if claimable.
-    const isClaimable = await drop.canClaim(quantityBigNumber, addressToCheck)
+    const isClaimable = await drop.canClaim(quantity, addressToCheck)
 
     console.log(isClaimable);
 }
@@ -152,12 +146,10 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const claim = async () => {
-  let quantity = 1;
-
-  let quantityBigNumber = new ethers.BigNumber.from(quantity);
+  const quantity = 1;
 
   await drop
-    .claim(quantityBigNumber)
+    .claim(quantity)
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
 };
@@ -173,13 +165,11 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const claim = async () => {
-  let quantity = 1;
-  let receiverAddress = "<TARGET_ADDRESS>";
-
-  let quantityBigNumber = new ethers.BigNumber.from(quantity);
+  const quantity = 1;
+  const receiverAddress = "<TARGET_ADDRESS>";
 
   await drop
-    .claimTo(quantityBigNumber, receiverAddress)
+    .claimTo(quantity, receiverAddress)
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
 };
@@ -195,7 +185,7 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const getTokenInfo = async () => {
-  let tokenId = "0";
+  const tokenId = "0";
 
   await drop
     .get(tokenId)
@@ -332,14 +322,11 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const getClaimIneligibilityReasons = async () => {
-  let quantity = 1;
-  let addressToCheck = "<TARGET_ADDRESS>";
-
-  // Convert quantity to big number.
-  let quantityBigNumber = new ethers.BigNumber.from(quantity);
+  const quantity = 1;
+  const addressToCheck = "<TARGET_ADDRESS>";
 
   // Check if claimable.
-  const claimIneligibilityReasons = await drop.getClaimIneligibilityReasons(quantityBigNumber, addressToCheck);
+  const claimIneligibilityReasons = await drop.getClaimIneligibilityReasons(quantity, addressToCheck);
 
   console.log(claimIneligibilityReasons);
 };
@@ -372,7 +359,7 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const getOwnedByAddress = async () => {
-  let address = "<TARGET_ADDRESS>";
+  const address = "<TARGET_ADDRESS>";
 
   await drop.getOwned(address)
   .then(data => console.log(data))
@@ -422,9 +409,9 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const isContractApproved = async () => {
-  let address = "<TARGET_ADDRESS>";
+  const address = "<TARGET_ADDRESS>";
   // The ID for the deployed contract that will spend on your behalf.
-  let operatorContractId = "[OPERATOR_CONTRACT_ID]";
+  const operatorContractId = "<OPERATOR_CONTRACT_ID>";
 
   await drop
     .isApproved(address, operatorContractId)
@@ -475,7 +462,7 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const getTokenOwner = async () => {
-  let tokenId = "0";
+  const tokenId = "0";
 
   await drop.ownerOf(tokenId)
   .then(data => console.log(data))
@@ -494,7 +481,7 @@ const drop = sdk.getDropModule(dropAddress);
 
 const setTokenApproval = async () => {
   // The ID for the deployed contract that will spend on your behalf.
-  let operatorContractId = "[OPERATOR_CONTRACT_ID]";
+  const operatorContractId = "<OPERATOR_CONTRACT_ID>";
 
   await drop
     .setApproval(operatorContractId, true)
@@ -553,7 +540,7 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const setDefaultSaleRecipient = async () => {
-  let address = "<TARGET_ADDRESS>";
+  const address = "<TARGET_ADDRESS>";
 
   await drop
     .setDefaultSaleRecipient(address)
@@ -610,7 +597,7 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const setRoyaltyBp = async () => {
-  let basisPoints = 10;
+  const basisPoints = 10;
 
   await drop
     .setRoyaltyBps(basisPoints)
@@ -680,8 +667,8 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const transferTokenToAddress = async () => {
-  let address = "<TARGET_ADDRESS>";
-  let tokenId = "0";
+  const address = "<TARGET_ADDRESS>";
+  const tokenId = "0";
 
   await drop
     .transfer(address, tokenId)
@@ -700,10 +687,10 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const transferTokenFromAddress = async () => {
-  let fromAddress = "<TARGET_ADDRESS>";
-  let toAddress = "<TARGET_ADDRESS>";
+  const fromAddress = "<TARGET_ADDRESS>";
+  const toAddress = "<TARGET_ADDRESS>";
 
-  let tokenId = "0";
+  const tokenId = "0";
 
   await drop
     .transferFrom(fromAddress, toAddress, tokenId)
