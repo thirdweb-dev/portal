@@ -56,13 +56,13 @@ mintNftTo("<TARGET_ADDRESS>");
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const balance = async () => {
-  await nft
+  await nftCollection
     .balance()
     .then((data) => console.log(data.toNumber()))
     .catch((err) => console.log(err));
@@ -73,15 +73,15 @@ const balance = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const balance = async () => {
 	let address = "<TARGET_ADDRESS>";
 
-  await nft
+  await nftCollection
     .balanceOf(address)
     .then((data) => console.log(data.toNumber()))
     .catch((err) => console.log(err));
@@ -92,15 +92,13 @@ const balance = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
-const burnToken = async () => {
-  let tokenId = ethers.BigNumber.from(0);
-
-  await nft
+const burnToken = async (tokenId) => {
+  await nftCollection
     .burn(tokenId)
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -111,13 +109,13 @@ const burnToken = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const generateNftSignature = async () => {
-  await nft
+  await nftCollection
     .generateSignature({
       // The address of the currency used in the event that there is a price set on the token.
       // If this is set to the 0x0 address, then its free to mint.
@@ -142,13 +140,13 @@ const generateNftSignature = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const generateNftSignatureBatch = async () => {
-  await nft
+  await nftCollection
     .generateSignatureBatch([
       {
         currencyAddress: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
@@ -182,15 +180,13 @@ const generateNftSignatureBatch = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
-const getNftById = async () => {
-  let tokenId = ethers.BigNumber.from(0);
-
-  await nft
+const getNftById = async (tokenId) => {
+  await nftCollection
     .get(tokenId)
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -201,13 +197,13 @@ const getNftById = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const getAllNfts = async () => {
-  await nft
+  await nftCollection
     .getAll()
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -218,13 +214,13 @@ const getAllNfts = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const getAllNftsWithOwner = async () => {
-  await nft
+  await nftCollection
     .getAllWithOwner()
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -235,15 +231,13 @@ const getAllNftsWithOwner = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
-const getAllNftsOwnedByAddress = async () => {
-  let address = "<TARGET_ADDRESS>";
-
-  await nft
+const getAllNftsOwnedByAddress = async (address) => {
+  await nftCollection
     .getOwned(address)
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -254,13 +248,13 @@ const getAllNftsOwnedByAddress = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const getRoyaltyBasisPoints = async () => {
-  await nft
+  await nftCollection
     .getRoyaltyBps()
     .then((data) => console.log(data.toNumber()))
     .catch((err) => console.log(err));
@@ -271,13 +265,13 @@ const getRoyaltyBasisPoints = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const getRoyaltyRecipientAddress = async () => {
-  await nft
+  await nftCollection
     .getRoyaltyRecipientAddress()
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -288,15 +282,13 @@ const getRoyaltyRecipientAddress = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
-const getWithOwner = async () => {
-  let tokenId = "0";
-
-  await nft
+const getWithOwner = async (tokenId) => {
+  await nftCollection
     .getWithOwner(tokenId)
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -307,16 +299,13 @@ const getWithOwner = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
-const isApproved = async () => {
-  let address = "<TARGET_ADDRESS>";
-  let contractId = "[CONTRACT_ID]"; // Smart contract to spend on your behalf.
-
-  await nft
+const isApproved = async (address, contractId) => {
+  await nftCollection
     .isApproved(address, contractId)
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -327,13 +316,13 @@ const isApproved = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const isNftTransferRestricted = async () => {
-  await nft
+  await nftCollection
     .isTransferRestricted()
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -344,13 +333,13 @@ const isNftTransferRestricted = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const isContractV1 = async () => {
-  await nft
+  await nftCollection
     .isV1()
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -361,13 +350,13 @@ const isContractV1 = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const mintNFT = async () => {
-  await nft
+  await nftCollection
     .mint({
       name: "thirdweb",
       description: "NFT Minted with thirdweb!",
@@ -383,13 +372,13 @@ const mintNFT = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const mintNFTBatch = async () => {
-  await nft
+  await nftCollection
     .mintBatch([
       {
         name: "thirdweb",
@@ -413,15 +402,15 @@ const mintNFTBatch = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const mintNFT = async () => {
   let address = "<TARGET_ADDRESS>";
 
-  await nft
+  await nftCollection
     .mintTo(address, {
       name: "thirdweb",
       description: "NFT Minted with thirdweb!",
@@ -437,15 +426,15 @@ const mintNFT = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const mintNFTBatch = async () => {
   let address = "<TARGET_ADDRESS>";
 
-  await nft
+  await nftCollection
     .mintBatchTo(address, [
       {
         name: "thirdweb",
@@ -469,13 +458,13 @@ const mintNFTBatch = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const mintNftWithSignature = async () => {
-  await nft
+  await nftCollection
     .mintWithSignature(
       // Payload obtained from the emitted JSON when signature is generated for a NFT.
       // Here's an example payload obtained.
@@ -515,15 +504,13 @@ const mintNftWithSignature = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
-const getNftOwner = async () => {
-  let tokenId = "0";
-
-  await nft
+const getNftOwner = async (tokenId) => {
+  await nftCollection
     .ownerOf(tokenId)
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -534,14 +521,14 @@ const getNftOwner = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nft = sdk.getNFTModule(nftCollectionAddress);
 
 const setTokenApproval = async () => {
   // The ID for the deployed contract that will spend on your behalf.
-  let operatorContractId = "[OPERATOR_CONTRACT_ID]";
+  const operatorContractId = "[OPERATOR_CONTRACT_ID]";
 
   await nft
     .setApproval(operatorContractId, true)
@@ -554,13 +541,13 @@ const setTokenApproval = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const setModuleMetadata = async () => {
-  await nft
+  await nftCollection
     .setModuleMetadata({
       name: "NFT module",
       description: "My cool NFT module!",
@@ -575,13 +562,13 @@ const setModuleMetadata = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const setTransferRestriction = async () => {
-  await nft
+  await nftCollection
     .setRestrictedTransfer(true) // true or false
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -592,13 +579,13 @@ const setTransferRestriction = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const setRoyaltyBasisPoints = async () => {
-  await nft
+  await nftCollection
     .setRoyaltyBps(1)
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -609,13 +596,13 @@ const setRoyaltyBasisPoints = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const getTotalSupply = async () => {
-  await nft
+  await nftCollection
     .totalSupply()
     .then((data) => console.log(data.toNumber()))
     .catch((err) => console.log(err));
@@ -626,16 +613,13 @@ const getTotalSupply = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
-const transferTokenToAddress = async () => {
-  let address = "<TARGET_ADDRESS>";
-  let tokenId = "0";
-
-  await nft
+const transferTokenToAddress = async (tokenId, address) => {
+  await nftCollection
     .transfer(address, tokenId)
     .then((data) => console.log(data.toNumber()))
     .catch((err) => console.log(err));
@@ -646,18 +630,13 @@ const transferTokenToAddress = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
-const transferTokenFromAddress = async () => {
-  let fromAddress = "<TARGET_ADDRESS>";
-  let toAddress = "<TARGET_ADDRESS>";
-
-  let tokenId = "0";
-
-  await nft
+const transferTokenFromAddress = async (fromAddress, toAddress, tokenId) => {
+  await nftCollection
     .transferFrom(fromAddress, toAddress, tokenId)
     .then((data) => console.log(data.toNumber()))
     .catch((err) => console.log(err));
@@ -668,13 +647,13 @@ const transferTokenFromAddress = async () => {
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
-const nftAddress = "<MODULE_ADDRESS>";
+const nftCollectionAddress = "<MODULE_ADDRESS>";
 
 // Initialize the NFT drop module with the contract address.
-const nft = sdk.getNFTModule(nftAddress);
+const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const verifyNftMintRequestWithSignature = async () => {
-  await nft
+  await nftCollection
     .verify(
       // Payload obtained from the emitted JSON when signature is generated for a NFT.
       // Here's an example payload obtained.

@@ -184,9 +184,7 @@ const dropAddress = "<MODULE_ADDRESS>";
 // Initialize the NFT drop module with the contract address.
 const drop = sdk.getDropModule(dropAddress);
 
-const getTokenInfo = async () => {
-  const tokenId = "0";
-
+const getTokenInfo = async (tokenId) => {
   await drop
     .get(tokenId)
     .then((data) => console.log(data))
@@ -358,9 +356,7 @@ const dropAddress = "<MODULE_ADDRESS>";
 // Initialize the NFT drop module with the contract address.
 const drop = sdk.getDropModule(dropAddress);
 
-const getOwnedByAddress = async () => {
-  const address = "<TARGET_ADDRESS>";
-
+const getOwnedByAddress = async (address) => {
   await drop.getOwned(address)
   .then(data => console.log(data))
   .catch(err => console.log(err));
@@ -461,9 +457,7 @@ const dropAddress = "<MODULE_ADDRESS>";
 // Initialize the NFT drop module with the contract address.
 const drop = sdk.getDropModule(dropAddress);
 
-const getTokenOwner = async () => {
-  const tokenId = "0";
-
+const getTokenOwner = async (tokenId) => {
   await drop.ownerOf(tokenId)
   .then(data => console.log(data))
   .catch(err => console.log(err));
@@ -686,12 +680,7 @@ const dropAddress = "<MODULE_ADDRESS>";
 // Initialize the NFT drop module with the contract address.
 const drop = sdk.getDropModule(dropAddress);
 
-const transferTokenFromAddress = async () => {
-  const fromAddress = "<TARGET_ADDRESS>";
-  const toAddress = "<TARGET_ADDRESS>";
-
-  const tokenId = "0";
-
+const transferTokenFromAddress = async (fromAddress, toAddress, tokenId) => {
   await drop
     .transferFrom(fromAddress, toAddress, tokenId)
     .then((data) => console.log(data.toNumber()))
