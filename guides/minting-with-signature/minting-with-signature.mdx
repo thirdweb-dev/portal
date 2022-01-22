@@ -13,7 +13,7 @@ updated: ""
 
 ## Intro
 
-Our latest feature allows you to create unique ID’s to hand out to anyone you want. Only users with that code will be able to mint or claim an unique NFT! thirdweb has created an easy component for you to integrate in your app! Let’s take a look. Also you can find a GitHub repo [here](https://github.com/nftlabs/signature-based-minting-sample-app), where we show how to use this code.
+Our latest feature allows you to create unique ID’s to hand out to anyone you want. Only users with that code will be able to mint or claim an unique NFT! thirdweb has created an easy component for you to integrate in your app! Let’s take a look. Also you can find a GitHub repo [here](https://github.com/nftlabs/examples/tree/main/typescript/signature-based-minting), where we show how to use this code.
 
 Sidenote: in this tutorial we will allow an user, who has a unique signature, to mint an NFT. So the actual minting happens once the user uses their unique signature.
 
@@ -61,7 +61,7 @@ export default function useProtectedPage() {
 
   useEffect(() => {
     if (!address) {
-      router.push("/");
+      router.replace("/");
     }
   }, [address]);
 }
@@ -101,8 +101,8 @@ import { useRouter } from "next/router";
 import useProtectedPage from "../hooks/useProtectedPage";
 
 export default function Home() {
-  //using our hook to navigate the request of the user
-  //when we click our buttons in the page we can lead the user to the right page
+  // using our hook to navigate the request of the user
+  // when we click our buttons in the page we can lead the user to the right page
   useProtectedPage();
 
   const router = useRouter();
@@ -153,7 +153,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     if (address) {
-      router.push("/home");
+      router.replace("/home");
     }
   }, [address]);
 
@@ -174,12 +174,19 @@ This page sets the metadata for the nft and creates a payload and signature.
 The code below also contains comments explaining the code.
 
 ```tsx:creator.tsx
-//we're importing 'NATIVE_TOKEN_ADDRESS' to make use of the native currency
+// we're importing 'NATIVE_TOKEN_ADDRESS' to make use of the native currency
 import { NATIVE_TOKEN_ADDRESS } from "@3rdweb/sdk";
-//importing features for alerts and styling
-import { Button, Flex, Heading, Textarea, useToast, Text,} from "@chakra-ui/react";
+// importing features for alerts and styling
+import {
+  Button,
+  Flex,
+  Heading,
+  Text,
+  Textarea,
+  useToast,
+} from "@chakra-ui/react";
 import { useCallback, useMemo, useState } from "react";
-//here we import the sdk we instantiated
+// here we import the sdk we instantiated
 import useSdk from "../hooks/useSdk";
 
 export default function Creator() {
@@ -188,21 +195,21 @@ export default function Creator() {
   const sdk = useSdk();
   const toast = useToast();
 
-//remember in this example we're creating a signature for the user to mint a NFT
+  // remember in this example we're creating a signature for the user to mint a NFT
   const module = useMemo(
     () => sdk.getNFTModule("0xc335111d58913C6A382F40c8B020b4ff1ee13Ba1"),
-    [sdk]
+    [sdk],
   );
 
-	//define all the variables
-	//we're using 'useState' to update the variable dynamically
+  // define all the variables
+  // we're using 'useState' to update the variable dynamically
 
-	//payload is used to contain both the signature and the NFT the signature is meant for
+  // payload is used to contain both the signature and the NFT the signature is meant for
   const [payload, setPayload] = useState<any>();
-	//signature is to contain the unique string
+  // signature is to contain the unique string
   const [signature, setSignature] = useState<string>();
 
-	//metadata is used to pass the description, name and image to mint the nft
+  // metadata is used to pass the description, name and image to mint the nft
   const [metadata, setMetadata] = useState(`
   {
 	    "name": "Some Awesome NFT",
@@ -211,7 +218,7 @@ export default function Creator() {
   }
   `);
 
-	//this function checks if the metadata has any syntax error
+  // this function checks if the metadata has any syntax error
 
   const generateSignature = useCallback(async () => {
     let metadataJson: any;
@@ -226,8 +233,8 @@ export default function Creator() {
     }
     console.log("Generating sig with metadata:", metadataJson);
 
-	//here we will create the unique string to create a signature
-	//the payload contains both the metadata and the signature to validate the signature for an nft
+    // here we will create the unique string to create a signature
+    // the payload contains both the metadata and the signature to validate the signature for an nft
     const { payload, signature } = await module.generateSignature({
       metadata: metadataJson,
       price: 0,
@@ -241,8 +248,8 @@ export default function Creator() {
     setSignature(signature);
   }, [module, metadata]);
 
-//here we render our page
-//once our signature is created, this page returns the payload and the sig
+  // here we render our page
+  // once our signature is created, this page returns the payload and the sig
   return (
     <Flex flexDirection={"column"}>
       <Heading textAlign={"center"}>Creator</Heading>
@@ -252,7 +259,7 @@ export default function Creator() {
         onChange={(ev) => setMetadata(ev.target.value)}
         value={metadata}
         minHeight="300px"
-      ></Textarea>
+      />
 
       <Button
         colorScheme="green"
@@ -293,7 +300,16 @@ export default function Creator() {
 Once we’ve created our payload and signature, we can go to the `Claimer` page to pass our payload and signature. Anyone holding both will be authorised to mint a NFT with the specific metadata we passed to the payload in the `Creator` page.
 
 ```tsx:claimer.tsx
-import { Alert,Button,Flex,Heading,Input,Text,Textarea,useToast,} from "@chakra-ui/react";
+import {
+  Alert,
+  Button,
+  Flex,
+  Heading,
+  Input,
+  Text,
+  Textarea,
+  useToast,
+} from "@chakra-ui/react";
 import { useCallback, useMemo, useState } from "react";
 import useSdk from "../hooks/useSdk";
 
@@ -304,7 +320,7 @@ export default function Claimer() {
 
   const module = useMemo(
     () => sdk.getNFTModule("0xc335111d58913C6A382F40c8B020b4ff1ee13Ba1"),
-    [sdk]
+    [sdk],
   );
 
   const [payloadValid, setPayloadValid] = useState(true);
@@ -316,7 +332,7 @@ export default function Claimer() {
 
     toast({
       status: "success",
-      title: "Successfully minted NFT with ID: " + id,
+      title: `Successfully minted NFT with ID: ${id}`,
     });
   }, [payload, signature, module]);
 
@@ -345,7 +361,7 @@ export default function Claimer() {
             setPayloadValid(false);
           }
         }}
-      ></Textarea>
+      />
       {!payloadValid && (
         <Alert status="warning">
           There is a JSON syntax error in your payload.

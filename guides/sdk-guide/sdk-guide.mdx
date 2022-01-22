@@ -52,17 +52,16 @@ export default function MarketPlace() {
   const { provider } = useWeb3();
 
   const sdk = new ThirdwebSDK(provider?.getSigner() as Signer);
-  return sdk;
 
-  //using the sdk object and getMarketplaceModule
+  // using the sdk object and getMarketplaceModule
   // to access the Marketplace as an exmape
   const market = useMemo(
     () =>
       sdk.getMarketplaceModule("0xf4e8C436d87Bd4cB1416E474948105FdF80BB6A0"),
-    [sdk]
+    [sdk],
   );
 
-  //using a method inside our sdk
+  // using a method inside our sdk
   const balance = market.getAllListings();
 
   return <p>My Listing: {JSON.stringify(balance)}</p>;
@@ -72,17 +71,17 @@ export default function MarketPlace() {
 Here is how the `useSdk()` function would be used as a component inside a **React** app.
 
 ```tsx
+import { ThirdwebProvider } from "@3rdweb/react";
 import React from "react";
 import "./App.css";
 import MarketPlace from "./components/MarketPlace";
-import { ThirdwebProvider } from "@3rdweb/react";
 
-//define the chains that your app can support.
-//every chain like polygon(137) or rinkeby(4) has an ID
-//If you want add other chains, search for their IDs and add them to the array below
+// define the chains that your app can support.
+// every chain like polygon(137) or rinkeby(4) has an ID
+// If you want add other chains, search for their IDs and add them to the array below
 const supportedChainIds = [4, 137];
 
-//define which wallets will be supported by your app
+// define which wallets will be supported by your app
 const connectors = {
   injected: {},
   magic: {},
@@ -94,8 +93,8 @@ const connectors = {
   },
 };
 
-//here we 'wrap' the components inside the thirdweb tags,
-//to ensure our component can make use of the selected chain(s) and wallet(s)
+// here we 'wrap' the components inside the thirdweb tags,
+// to ensure our component can make use of the selected chain(s) and wallet(s)
 export default function App() {
   return (
     <div className="App">
@@ -155,19 +154,19 @@ Your `index.ts` looks like this, when you instantiate the `sdk` with **private k
 ```tsx
 // Importing libraries
 import { ThirdwebSDK } from "@3rdweb/sdk";
-import { ethers } from "ethers";
 import { dotenv } from "dotenv";
+import { ethers } from "ethers";
 
 // getting the private key
-"dotenv".config();
+dotenv.config();
 
-//Instantiate 3rdweb SDK
+// Instantiate 3rdweb SDK
 const sdk = new ThirdwebSDK(
   new ethers.Wallet(
     // Your wallet private key
     process.env.PRIVATE_KEY as string,
     // This is the RPC URL for Rinkeby
-    ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
-  )
+    ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/"),
+  ),
 );
 ```
