@@ -97,13 +97,13 @@ const UseModule = () => {
     return undefined;
   }, [provider]);
 //instantiate the sdk
-  const nftCollectionModule = useMemo(() => {
+  const nftCollection = useMemo(() => {
     if (sdk) {
       return sdk.getNFTModule("<NFT_MODULE_ADDRESS>");
     }
     return undefined;
   }, [sdk]);
-  return nftModule;
+  return nftCollection;
 }
 export default UseModule
 ```
@@ -115,13 +115,6 @@ export default UseModule
 3. To setup your local dev environment, click [here](/portal/guides/sdk-guide).
 
 <MdxNavigation>
-  <MdxNavigationItem
-    href="/portal/learn/modules"
-    title="Modules"
-  />
-  <MdxNavigationItem
-    href="/portal/learn/recipes"
-    title="Recipes"
-    next
-  />
+  <MdxNavigationItem href="/portal/learn/modules" title="Modules" />
+  <MdxNavigationItem href="/portal/learn/modules/pack" title="Pack" next />
 </MdxNavigation>
