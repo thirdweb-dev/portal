@@ -100,7 +100,7 @@ export const useModule = () => {
     return undefined;
   }, [provider]);
 //instantiate the sdk
-  const nftCollectionModule = useMemo(() => {
+  const nftModule = useMemo(() => {
     if (sdk) {
       return sdk.getNFTModule("<NFT_MODULE_ADDRESS>");
     }
