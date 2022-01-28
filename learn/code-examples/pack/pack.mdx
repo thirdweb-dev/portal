@@ -80,6 +80,439 @@ const openPack = async () => {
 openPack();
 ```
 
+### Get
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const get = async () => {
+	// get pack with packId
+  try {
+    const response = await pack.get('0');
+    console.log(response);
+  } catch (error) {
+    console.log('Failed to get pack. Error: ', error);
+  }
+};
+
+get();
+```
+
+### Get All
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const getAll = async () => {
+  try {
+    const response = await pack.getAll();
+    console.log(response);
+  } catch (error) {
+    console.log('Failed to get all. Error: ', error);
+  }
+};
+
+getAll();
+```
+
+### Get LINK Balance
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const getLinkBalance = async () => {
+  try {
+    const response = await pack.getLinkBalance();
+    console.log(response);
+  } catch (error) {
+    console.log('Failed to get LINK balance. Error: ', error);
+  }
+};
+
+getLinkBalance();
+```
+
+### Get Royalty Bps
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const getRoyaltyBps = async () => {
+  try {
+    const response = await pack.getRoyaltyBps();
+    console.log(response);
+  } catch (error) {
+    console.log('Failed to get royalty Bps. Error: ', error);
+  }
+}; 
+
+getRoyaltyBps();
+```
+
+### Get Royalty Recipient Address
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const getRoyaltyRecipientAddress = async () => {
+  try {
+    const response = await pack.getRoyaltyRecipientAddress();
+    console.log(response);
+  } catch (error) {
+    console.log('Failed to get royalty recipient address. Error: ', error);
+  }
+};
+
+getRoyaltyRecipientAddress();
+```
+
+### Balance
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const balance = async () => {
+	// Get balance by tokenId
+  try {
+    const response = await pack.balance('0');
+    console.log(response);
+  } catch (error) {
+    console.log('Failed to get balance. Error: ', error);
+  }
+};
+
+balance();
+```
+
+### Balance Of
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const balanceOf = async () => {
+	// Get balance for (wallet address, tokenId)
+  try {
+    const response = await pack.balanceOf('<WALLET_ADDRESS>', '0');
+    console.log(response);
+  } catch (error) {
+    console.log('Failed to get balance of. Error: ', error);
+  }
+};
+
+balanceOf();
+```
+
+### Deposit LINK
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const depositLink = async () => {
+	// Deposit an amount of LINK
+  try {
+    await pack.depositLink(ethers.utils.parseUnit('1.0'));
+    console.log('Deposit successful!');
+  } catch (error) {
+    console.log('Failed to deposit. Error: ', error);
+  }
+};
+
+depositLink();
+```
+
+### Get NFTs
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const getNfts = async () => {
+	// Get NFTs of a pack by packId
+  try {
+    const response = await pack.getNFTs('0');
+    console.log(response);
+  } catch (error) {
+    console.log('Failed to get NFTs. Error: ', error);
+  }
+};
+
+getNFTs();
+```
+
+### Is Approved
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const isApproved = async () => {
+	// Check if a contract address is approved for the pack contract
+  try {
+    const response = pack.isApproved(
+      '<PACK_MODULE_ADDRESS>';
+      '<CONTRACT_ADDRESS>'
+    );
+    console.log(response);
+  } catch (error) {
+    console.log('Failed to check approved. Error: ', error);
+  }
+};
+
+isApproved();
+```
+
+### Is Transfer Restricted
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const isTransferRestricted = async () => {
+  try {
+    const response = await pack.isTransferRestricted();
+    console.log(response);
+  } catch (error) {
+    console.log('Faild to check restricted. Error: ', error);
+  }
+};
+
+isTransferRestricted();
+```
+
+### Set Approval
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const setApproval = async () => {
+	// Set approval for a contract address to true or false
+  try {
+    await pack.setApproval('<CONTRACT_ADDRESS>', true);
+    console.log('Approval set!');
+  } catch (error) {
+    console.log('Failed to set approval. Error: ', error);
+  }
+};
+
+setApproval();
+```
+
+### Set Restricted Transfer
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const setRestrictedTransfer = async () => {
+	// Set transfer restriction to true or false
+  try {
+    const response = await pack.setRestrictedTransfer(true);
+    console.log(response);
+  } catch (error) {
+    console.log('Failed to set transfer restriction. Error: ', error);
+  }
+};
+
+setRestrictedTransfer();
+```
+
+### Set Royalty Bps
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const setRoyaltyBps = async () => {
+	//Set royalty bps to amount
+  try {
+    const response = await pack.setRoyaltyBps(3);
+    console.log(response);
+  } catch (error) {
+    console.log('Failed to set royalty Bps. Error: ', error);
+  }
+};
+
+setRoyaltyBps();
+```
+
+### Withdraw LINK
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const withdrawLink = async () => {
+	// Withdraw LINK - (wallet address, amount)
+  try {
+    await pack.withdrawLink('<WALLET_ADDRESS>', ethers.utils.parseUnits('1.0'));
+    console.log('Withdrawal Successful!');
+  } catch (error) {
+    console.log('Failed to withdraw. Error: ', error);
+  }
+};
+
+withdrawLink();
+```
+
+### Transfer
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const transferTo = async () => {
+	// Transfer pack - (wallet address of recipient, packid, amount)
+  try {
+     await pack
+    .transfer(
+      '<WALLET_ADDRESS>',
+      '0',
+      ethers.utils.parseUnits('1.0')
+    );
+    console.log('Transfer Successful!')
+  } catch (error) {
+    console.log('Failed to transfer. Error: ', error);
+  }
+};
+
+transferTo();
+```
+
+### Set Module Metadata
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const setModuleMetadata = async () => {
+  const metadata: PackModuleMetadata = {
+    name: 'Pack Module Example',
+    sellerFeeBasisPoints: 1
+  };
+
+  try {
+    await pack.setModuleMetadata(metadata);
+    console.log('Successfully set metadat');
+  } catch (error) {
+    console.log('Failed to set metadata. Error: ', error);
+  }
+};
+
+setModuleMetadata();
+```
+
+### Transfer Batch From
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const transferBatchFrom = async () => {
+  try {
+    await pack
+    .transferBatchFrom(
+      '<FROM_ADDRESS>',
+      '<TO_ADDRESS>',
+      [{ tokenId: 0, amount: 1 }]
+    );
+    console.log('Sucessfully transfered batch!');
+  } catch (error) {
+    console.log('Failed to transfer batch. Error: ', error);
+  }
+};
+
+transferBatchFrom();
+```
+
+### Transfer From
+
+```ts
+// Set variable for the pack drop module contract address which can be found after creating a pack drop module in the dashboard
+const packAddress = '<MODULE_ADDRESS>';
+
+// Initialize the pack drop module with the contract address
+const pack = sdk.getPackModule(packAddress);
+
+const transferFrom = async () => {
+  try {
+    await pack
+    .transferFrom(
+      '<FROM_ADDRESS>',
+      '<TO_ADDRESS>',
+      { tokenId: 0, amount: 1 }
+    );
+    console.log('Successfully transfered!');
+  } catch (error) {
+    console.log('Failed to transfer from. Error: ', error);
+  }
+};
+
+transferFrom();
+```
+
 <MdxNavigation>
   <MdxNavigationItem
     href="/portal/learn/code-examples/marketplace"
