@@ -137,8 +137,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const get = async () => {
   // Get with tokenId
   try {
-    const response = await bundleDrop.get('0');
-    console.log(response);
+    await bundleDrop.get('0');
   } catch (error) {
     console.log('Failed to get. Error: ', error);
   }
@@ -158,8 +157,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const getAll = async () => {
   try {
-    const response = await bundleDrop.getAll();
-    console.log(response);
+    await bundleDrop.getAll();
   } catch (error) {
     console.log('Failed to get all. Error: ', error);
   }
@@ -179,8 +177,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const getRoyaltyBps = async () => {
   try {
-    const response = await bundleDrop.getRoyaltyBps();
-    console.log(response);
+    await bundleDrop.getRoyaltyBps();
   } catch (error) {
     console.log('Failed to get royalty Bps. Error: ', error);
   }
@@ -200,8 +197,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const getRoyaltyContract = async () => {
   try {
-    const response = await bundleDrop.getRoyaltyRecipientAddress();
-    console.log(response);
+    await bundleDrop.getRoyaltyRecipientAddress();
   } catch (error) {
     console.log('Failed to get royalty contract. Error: ', error);
   }
@@ -221,8 +217,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const getDefaultSaleRecipient = async () => {
   try {
-    const response = await bundleDrop.getDefaultSaleRecipient();
-    console.log(response);
+    await bundleDrop.getDefaultSaleRecipient();
   } catch (error) {
     console.log('Failed to get default sale recipient. Error: ', error);
   }
@@ -243,8 +238,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const getAllClaimConditions = async () => {
   // Get all claim conditions by tokenId
   try {
-    const response = await bundleDrop.getAllClaimConditions(0);
-    console.log(response);
+    await bundleDrop.getAllClaimConditions(0);
   } catch (error) {
     console.log('Failed to get all claim condition. Error: ', error);
   }
@@ -265,8 +259,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const getActiveClaimConditions = async () => {
   // Get active claim conditions by tokenId
   try {
-    const response = await bundleDrop.getActiveClaimCondition(0);
-    console.log(response);
+    await bundleDrop.getActiveClaimCondition(0);
   } catch (error) {
     console.log('Failed to get active claim conditions. Error: ', error);
   }
@@ -309,8 +302,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const balance = async () => {
   // Get balance of claimed NFTs by tokenId
   try {
-    const response = await bundleDrop.balance(0);
-    console.log(resonse);
+    await bundleDrop.balance(0);
   } catch (error) {
     console.log('Failed to get balance. Error: ', error);
   }
@@ -331,8 +323,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const balanceOf = async () => {
   // Get the balance of an NFT in a wallet address - (wallet address, tokenId)
   try {
-    const response = await bundleDrop.balanceOf("<WALLET_ADDRESS>", 0);
-    console.log(response);
+    await bundleDrop.balanceOf("<WALLET_ADDRESS>", 0);
   } catch (error) {
     console.log('Failed to get balance of. Error: ', error);
   }
@@ -353,8 +344,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const burn = async () => {
   // burn from the claimed supply - (tokenId, amount)
   try {
-    const response = await bundleDrop.burn(0, 1);
-    console.log(response);
+    await bundleDrop.burn(0, 1);
   } catch (error) {
     console.log('Failed to burn. Error: ', error);
   }
@@ -375,8 +365,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const canClaim = async () => {
   // Check if can claim. (tokenId, amount, wallet address)
   try {
-    const response = await bundleDrop.canClaim(0, 1, "<WALLET_ADDRESS>");
-    console.log(response);
+    await bundleDrop.canClaim(0, 1, "<WALLET_ADDRESS>");
   } catch (error) {
     console.log('Failed to check can claim. Error: ', error);
   }
@@ -397,8 +386,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const getClaimIneligibilityReasons = async () => {
   // Get reasons for claim ineligibility - (tokenId, amount, wallet address)
   try {
-    const response = await bundleDrop.getClaimIneligibilityReasons(0, 1, "<WALLET_ADDRESS>");
-    console.log(response)
+    await bundleDrop.getClaimIneligibilityReasons(0, 1, "<WALLET_ADDRESS>");
   } catch (error) {
     console.log('Failed to get ineligibility reasons. Error: ', error);
   }
@@ -419,8 +407,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const getAllClaimerAddresses = async () => {
   // Get all claimer addresses for specific tokenId
   try {
-    const response = await bundleDrop.getAllClaimerAddresses(0);
-    console.log(response);
+    await bundleDrop.getAllClaimerAddresses(0);
   } catch (error) {
     console.log('Failed to get all claimer addresses. Error: ', error);
   }
@@ -441,8 +428,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const getOwned = async () => {
   // Get owned NFTs for a wallet address
   try {
-    const response = await bundleDrop.getOwned("<WALLET_ADDRESS>");
-    console.log(response);
+    await bundleDrop.getOwned("<WALLET_ADDRESS>");
   } catch (error) {
     console.log('Failed to get owned. Error: ', error);
   }
@@ -462,8 +448,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const isTransferRestricted = async () => {
   try {
-    const response = await bundleDrop.isTransferRestricted();
-    console.log(response);
+    await bundleDrop.isTransferRestricted();
   } catch (error) {
     console.log('Failed to get restricted status. Error: ', error);
   }
@@ -484,8 +469,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const setRestrictedTransfer = async () => {
   // Set transfer restriction with a boolean
   try {
-    const response = await bundleDrop.setRestrictedTransfer(false);
-    console.log(resonse);
+    await bundleDrop.setRestrictedTransfer(false);
   } catch (error) {
     console.log('Failed to set restricted status. Error: ', error);
   }
@@ -506,8 +490,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const totalSupply = async () => {
   // Get total supply for an NFT by tokenId
   try {
-    const response = await bundleDrop.totalSupply(0);
-    console.log(response)
+    await bundleDrop.totalSupply(0);
   } catch(error) {
     console.log('Failed to get total supply. Error: ', error);
   }
@@ -528,8 +511,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const getSaleRecipient = async () => {
   // Get sale recipient for an NFT by tokenId
   try {
-    const response = await getSaleRecipient(0);
-    console.log(response);
+    await getSaleRecipient(0);
   } catch (error) {
     console.log('Failed to get sale recipient. Error: ', error);
   }
@@ -550,8 +532,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const setSaleRecipient = async () => {
   // Set sale recipient with tokenId and wallet address
   try {
-    const response = await bundleDrop.setSaleRecipient(0, '<WALLET_ADDRESS>');
-    console.log(response);
+    await bundleDrop.setSaleRecipient(0, '<WALLET_ADDRESS>');
   } catch (error) {
     console.log('Failed to set saile recipient. Error: ', error);
   }
@@ -571,8 +552,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const setDefaultSaleRecipient = async () => {
   try {
-    const response = await bundleDrop.setDefaultSaleRecipient('<WALLET_ADDRESS>');
-    console.log(response);
+    await bundleDrop.setDefaultSaleRecipient('<WALLET_ADDRESS>');
   } catch (error) {
     console.log('Failed to set default sale recipient. Error: ', error);
   }
@@ -592,35 +572,13 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 
 const getClaimConditionsFactory = async () => {
   try {
-    const factory = bundleDrop.getClaimConditionsFactory();
-    return factory;
+    return await bundleDrop.getClaimConditionsFactory();
   } catch (error) {
     console.log('Failed to get factory. Error: ', error);
   }
 };
 
 getClaimConditionsFactory();
-```
-
-### Get Claim Condition Factory
-
-```js
-// Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = "<BUNDLE_DROP_MODULE_ADDRESS>";
-
-// Initialize the bundle drop module with the contract address
-const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
-
-const getClaimConditionFactory = async () => {
-  try {
-    const factory = bundleDrop.getClaimConditionFactory();
-    return factory;
-  } catch (error) {
-    console.log('Failed to get factory. Error: ', error);
-  }
-};
-
-getClaimConditionFactory();
 ```
 
 ### Update Claim Conditions
@@ -651,8 +609,7 @@ const updateClaimConditions = async () => {
 
   // Update the tokenId with factory using the conditions
   try {
-    const response = await bundleDrop.updateClaimConditions(0, factory.fromPublicClaimConditions([conditions]));
-    console.log(response);
+    await bundleDrop.updateClaimConditions(0, factory.fromPublicClaimConditions([conditions]));
   } catch(error) {
     console.log('Failed to update claim conditions. Error: ', error);
   }
@@ -673,8 +630,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const claimTo = async () => {
   // Claim NFT and send to address - (tokenId, amount, wallet address)
   try {
-    const response = await bundleDrop.claimTo(0, 1, "<WALLET_ADDRESS>");
-    console.log(response);
+    await bundleDrop.claimTo(0, 1, "<WALLET_ADDRESS>");
   } catch (error) {
     console.log('Failed to claim to. Error: ', error);
   }
@@ -695,8 +651,8 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const isApproved = async () => {
   // Check if the other contract (operator) has approval
   try {
-    const response = await bundleDrop.isApproved("<APP_MODULE_ADDRESS", "<OPERATOR_CONTRACT_ADDRESS");
-    console.log(response);
+    await bundleDrop.isApproved("<APP_MODULE_ADDRESS", "<OPERATOR_CONTRACT_ADDRESS");
+    
   } catch (error) {
     console.log('Failed to check approved. Error: ', error);
   }
@@ -717,8 +673,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const setApproval = async () => {
   // Set approval for other contract (operator)
   try {
-    const response = await bundleDrop.setApproval("<OPERATOR_CONTRACT_ADDRESS", false);
-    console.log(response);
+    await bundleDrop.setApproval("<OPERATOR_CONTRACT_ADDRESS", false);
   } catch (error) {
     console.log('Failed to set approval. Error: ', error);
   }
@@ -739,8 +694,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const setRoyaltyBps = async () => {
   // Set royalty Bps to a new value
   try {
-    const response = await bundleDrop.setRoyaltyBps(3);
-    console.log(response);
+    await bundleDrop.setRoyaltyBps(3);
   } catch (error) {
     console.log('Failed to set royalty Bps. Error: ', error)l;
   }
@@ -768,8 +722,7 @@ const createBatch = async () => {
 
   // Call create batch method with batch data param
   try {
-    const response = await bundleDrop.createBatch([batchData]);
-    console.log(response);
+    await bundleDrop.createBatch([batchData]);
   } catch (error) {
     console.log('Failed to create bacth. Error: ', error);
   }
@@ -801,45 +754,8 @@ const lazyMintBatch = async () => {
     .then((data) => console.log(data))
     .catch((error) => console.error(error));
 };
-```
 
-### Set Claim Condition
-
-```js
-// Set variable for the bundle drop module contract address which can be found after creating a bundle drop module in the dashboard
-const bundleDropAddress = "<BUNDLE_DROP_MODULE_ADDRESS>";
-
-// Initialize the bundle drop module with the contract address
-const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
-
-const setClaimCondition = async () => {
-  // Create the claim conditions
-  const conditions: PublicClaimCondition = {
-    currentMintSupply: 5,
-    maxMintSupply: 8,
-    startTimestamp: ethers.BigNumber.from(Math.floor(Date.now() / 1000)),
-    quantityLimitPerTransaction: 1,
-    waitTimeSecondsLimitPerTransaction: 1,
-    pricePerToken: 1,
-    // This is the address for the native currency.
-    currency: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-    merkleRoot:
-      "0x0000000000000000000000000000000000000000000000000000000000000000",
-  };
-
-  // Get claim condition factory
-  const factory = bundleDrop.getClaimConditionFactory();
-
-  // Use setClaimCondition method for tokenId 2 to set its claim conditions factory built using the conditions we created above
-  try {
-    const response = await bundleDrop.setClaimCondition(2, factory.fromPublicClaimConditions([conditions]));
-    console.log(response);
-  } catch (error) {
-    console.log('Failed to set claim conditions. Error: ', error);
-  }
-};
-
-setClaimCondition();
+lazyMintBatch();
 ```
 
 ### Set Module Metadata
@@ -858,8 +774,7 @@ const setModuleMetadata = async () => {
   };
 
   try {
-    const response = await bundleDrop.setModuleMetadata(metadata);
-    console.log(response);
+    await bundleDrop.setModuleMetadata(metadata);
   } catch (error) {
     console.log('Failed to set module metadat. Error: ', error);
   }
@@ -880,8 +795,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const transferTo = async () => {
   // Transfer NFT to wallet address - (wallet address, tokenId, amount)
   try {
-    const response = await bundleDrop.transfer("<WALLET_ADDRESS>", 0, 1);
-    console.log(response);
+    await bundleDrop.transfer("<WALLET_ADDRESS>", 0, 1);
   } catch (error) {
     console.log('Failed to transfer to. Error: ', error);
   }
@@ -902,8 +816,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 const transferFrom = async () => {
   // Transfer an NFT (from wallet, to wallet, tokenId, amount)
   try {
-    const response = await bundleDrop.transferFrom("<FROM_WALLET_ADDRESS>", "<TO_WALLET_ADDRESS>", 0, 1);
-    console.log(resonse);
+    await bundleDrop.transferFrom("<FROM_WALLET_ADDRESS>", "<TO_WALLET_ADDRESS>", 0, 1);
   } catch (error) {
     console.log('Failed to transfer from. Error: ', error);
   }
