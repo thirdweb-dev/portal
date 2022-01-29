@@ -92,8 +92,7 @@ const pack = sdk.getPackModule(packAddress);
 const get = async () => {
 	// get pack with packId
   try {
-    const response = await pack.get('0');
-    console.log(response);
+    await pack.get('0');
   } catch (error) {
     console.log('Failed to get pack. Error: ', error);
   }
@@ -113,8 +112,7 @@ const pack = sdk.getPackModule(packAddress);
 
 const getAll = async () => {
   try {
-    const response = await pack.getAll();
-    console.log(response);
+    await pack.getAll();   
   } catch (error) {
     console.log('Failed to get all. Error: ', error);
   }
@@ -134,8 +132,7 @@ const pack = sdk.getPackModule(packAddress);
 
 const getLinkBalance = async () => {
   try {
-    const response = await pack.getLinkBalance();
-    console.log(response);
+    await pack.getLinkBalance();    
   } catch (error) {
     console.log('Failed to get LINK balance. Error: ', error);
   }
@@ -155,8 +152,7 @@ const pack = sdk.getPackModule(packAddress);
 
 const getRoyaltyBps = async () => {
   try {
-    const response = await pack.getRoyaltyBps();
-    console.log(response);
+    await pack.getRoyaltyBps();
   } catch (error) {
     console.log('Failed to get royalty Bps. Error: ', error);
   }
@@ -176,8 +172,7 @@ const pack = sdk.getPackModule(packAddress);
 
 const getRoyaltyRecipientAddress = async () => {
   try {
-    const response = await pack.getRoyaltyRecipientAddress();
-    console.log(response);
+    await pack.getRoyaltyRecipientAddress();  
   } catch (error) {
     console.log('Failed to get royalty recipient address. Error: ', error);
   }
@@ -198,8 +193,7 @@ const pack = sdk.getPackModule(packAddress);
 const balance = async () => {
 	// Get balance by tokenId
   try {
-    const response = await pack.balance('0');
-    console.log(response);
+    await pack.balance('0');   
   } catch (error) {
     console.log('Failed to get balance. Error: ', error);
   }
@@ -220,8 +214,7 @@ const pack = sdk.getPackModule(packAddress);
 const balanceOf = async () => {
 	// Get balance for (wallet address, tokenId)
   try {
-    const response = await pack.balanceOf('<WALLET_ADDRESS>', '0');
-    console.log(response);
+    await pack.balanceOf('<WALLET_ADDRESS>', '0');  
   } catch (error) {
     console.log('Failed to get balance of. Error: ', error);
   }
@@ -243,7 +236,6 @@ const depositLink = async () => {
 	// Deposit an amount of LINK
   try {
     await pack.depositLink(ethers.utils.parseUnit('1.0'));
-    console.log('Deposit successful!');
   } catch (error) {
     console.log('Failed to deposit. Error: ', error);
   }
@@ -264,8 +256,7 @@ const pack = sdk.getPackModule(packAddress);
 const getNfts = async () => {
 	// Get NFTs of a pack by packId
   try {
-    const response = await pack.getNFTs('0');
-    console.log(response);
+    await pack.getNFTs('0');
   } catch (error) {
     console.log('Failed to get NFTs. Error: ', error);
   }
@@ -286,11 +277,10 @@ const pack = sdk.getPackModule(packAddress);
 const isApproved = async () => {
 	// Check if a contract address is approved for the pack contract
   try {
-    const response = pack.isApproved(
+    pack.isApproved(
       '<PACK_MODULE_ADDRESS>';
       '<CONTRACT_ADDRESS>'
-    );
-    console.log(response);
+    );    
   } catch (error) {
     console.log('Failed to check approved. Error: ', error);
   }
@@ -310,8 +300,7 @@ const pack = sdk.getPackModule(packAddress);
 
 const isTransferRestricted = async () => {
   try {
-    const response = await pack.isTransferRestricted();
-    console.log(response);
+    await pack.isTransferRestricted();   
   } catch (error) {
     console.log('Faild to check restricted. Error: ', error);
   }
@@ -333,7 +322,6 @@ const setApproval = async () => {
 	// Set approval for a contract address to true or false
   try {
     await pack.setApproval('<CONTRACT_ADDRESS>', true);
-    console.log('Approval set!');
   } catch (error) {
     console.log('Failed to set approval. Error: ', error);
   }
@@ -354,8 +342,7 @@ const pack = sdk.getPackModule(packAddress);
 const setRestrictedTransfer = async () => {
 	// Set transfer restriction to true or false
   try {
-    const response = await pack.setRestrictedTransfer(true);
-    console.log(response);
+    await pack.setRestrictedTransfer(true);
   } catch (error) {
     console.log('Failed to set transfer restriction. Error: ', error);
   }
@@ -376,8 +363,7 @@ const pack = sdk.getPackModule(packAddress);
 const setRoyaltyBps = async () => {
 	//Set royalty bps to amount
   try {
-    const response = await pack.setRoyaltyBps(3);
-    console.log(response);
+    await pack.setRoyaltyBps(3);
   } catch (error) {
     console.log('Failed to set royalty Bps. Error: ', error);
   }
@@ -399,7 +385,6 @@ const withdrawLink = async () => {
 	// Withdraw LINK - (wallet address, amount)
   try {
     await pack.withdrawLink('<WALLET_ADDRESS>', ethers.utils.parseUnits('1.0'));
-    console.log('Withdrawal Successful!');
   } catch (error) {
     console.log('Failed to withdraw. Error: ', error);
   }
@@ -426,7 +411,6 @@ const transferTo = async () => {
       '0',
       ethers.utils.parseUnits('1.0')
     );
-    console.log('Transfer Successful!')
   } catch (error) {
     console.log('Failed to transfer. Error: ', error);
   }
@@ -452,7 +436,6 @@ const setModuleMetadata = async () => {
 
   try {
     await pack.setModuleMetadata(metadata);
-    console.log('Successfully set metadat');
   } catch (error) {
     console.log('Failed to set metadata. Error: ', error);
   }
@@ -478,7 +461,6 @@ const transferBatchFrom = async () => {
       '<TO_ADDRESS>',
       [{ tokenId: 0, amount: 1 }]
     );
-    console.log('Sucessfully transfered batch!');
   } catch (error) {
     console.log('Failed to transfer batch. Error: ', error);
   }
@@ -504,7 +486,6 @@ const transferFrom = async () => {
       '<TO_ADDRESS>',
       { tokenId: 0, amount: 1 }
     );
-    console.log('Successfully transfered!');
   } catch (error) {
     console.log('Failed to transfer from. Error: ', error);
   }
