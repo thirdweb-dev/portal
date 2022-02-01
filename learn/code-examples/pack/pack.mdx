@@ -69,15 +69,15 @@ createPack();
 ```ts 
 const pack = sdk.getPackModule("<MODULE_ADDRESS>");
 
-const openPack = async () => {
+const openPack = async (packTokenId) => {
   try {
-    await pack.open("<PACK_TOKEN_ID>");
+    await pack.open(packTokenId);
   } catch (error) {
     console.log(error);
   }
 };
 
-openPack();
+openPack("<PACK_TOKEN_ID>");
 ```
 
 ### Get
@@ -89,16 +89,16 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const get = async () => {
+const get = async (packTokenId) => {
 	// get pack with packId
   try {
-    await pack.get('0');
+    await pack.get(packTokenId);
   } catch (error) {
     console.log('Failed to get pack. Error: ', error);
   }
 };
 
-get();
+get("<PACK_TOKEN_ID>");
 ```
 
 ### Get All
@@ -190,16 +190,16 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const balance = async () => {
+const balance = async (packTokenId) => {
 	// Get balance by tokenId
   try {
-    await pack.balance('0');   
+    await pack.balance(packTokenId);   
   } catch (error) {
     console.log('Failed to get balance. Error: ', error);
   }
 };
 
-balance();
+balance("<PACK_TOKEN_ID>");
 ```
 
 ### Balance Of
@@ -211,16 +211,16 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const balanceOf = async () => {
+const balanceOf = async (walletAddress, packTokenId) => {
 	// Get balance for (wallet address, tokenId)
   try {
-    await pack.balanceOf('<WALLET_ADDRESS>', '0');  
+    await pack.balanceOf(walletAddress, tokenId);  
   } catch (error) {
     console.log('Failed to get balance of. Error: ', error);
   }
 };
 
-balanceOf();
+balanceOf("<WALLET_ADDRESS>", "<PACK_TOKEN_ID>");
 ```
 
 ### Deposit LINK
@@ -232,16 +232,16 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const depositLink = async () => {
+const depositLink = async (amount) => {
 	// Deposit an amount of LINK
   try {
-    await pack.depositLink(ethers.utils.parseUnit('1.0'));
+    await pack.depositLink(ethers.utils.parseUnit(amount));
   } catch (error) {
     console.log('Failed to deposit. Error: ', error);
   }
 };
 
-depositLink();
+depositLink("<AMOUNT_TO_DEPOSIT>");
 ```
 
 ### Get NFTs
@@ -253,16 +253,16 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const getNfts = async () => {
+const getNfts = async (packTokenId) => {
 	// Get NFTs of a pack by packId
   try {
-    await pack.getNFTs('0');
+    await pack.getNFTs(packTokenId);
   } catch (error) {
     console.log('Failed to get NFTs. Error: ', error);
   }
 };
 
-getNFTs();
+getNFTs("<PACK_TOKEN_ID>");
 ```
 
 ### Is Approved
@@ -274,19 +274,16 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const isApproved = async () => {
+const isApproved = async (packModuleAddress, contractAddress) => {
 	// Check if a contract address is approved for the pack contract
   try {
-    pack.isApproved(
-      '<PACK_MODULE_ADDRESS>';
-      '<CONTRACT_ADDRESS>'
-    );    
+    pack.isApproved(packModuleAddress, contractAddress);    
   } catch (error) {
     console.log('Failed to check approved. Error: ', error);
   }
 };
 
-isApproved();
+isApproved('<PACK_MODULE_ADDRESS>', '<CONTRACT_ADDRESS>');
 ```
 
 ### Is Transfer Restricted
@@ -318,16 +315,16 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const setApproval = async () => {
+const setApproval = async (contractAddress, approved) => {
 	// Set approval for a contract address to true or false
   try {
-    await pack.setApproval('<CONTRACT_ADDRESS>', true);
+    await pack.setApproval(contractAddress, approved);
   } catch (error) {
     console.log('Failed to set approval. Error: ', error);
   }
 };
 
-setApproval();
+setApproval('<CONTRACT_ADDRESS>', '<BOOLEAN>');
 ```
 
 ### Set Restricted Transfer
@@ -339,16 +336,16 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const setRestrictedTransfer = async () => {
+const setRestrictedTransfer = async (isRestrictedTransfer) => {
 	// Set transfer restriction to true or false
   try {
-    await pack.setRestrictedTransfer(true);
+    await pack.setRestrictedTransfer(isRestrictedTransfer);
   } catch (error) {
     console.log('Failed to set transfer restriction. Error: ', error);
   }
 };
 
-setRestrictedTransfer();
+setRestrictedTransfer('<BOOLEAN>');
 ```
 
 ### Set Royalty Bps
@@ -360,16 +357,16 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const setRoyaltyBps = async () => {
+const setRoyaltyBps = async (royaltyBps) => {
 	//Set royalty bps to amount
   try {
-    await pack.setRoyaltyBps(3);
+    await pack.setRoyaltyBps(royaltyBps);
   } catch (error) {
     console.log('Failed to set royalty Bps. Error: ', error);
   }
 };
 
-setRoyaltyBps();
+setRoyaltyBps('<ROYALTY_BPS'>);
 ```
 
 ### Withdraw LINK
@@ -381,16 +378,16 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const withdrawLink = async () => {
+const withdrawLink = async (walletAddress, amount) => {
 	// Withdraw LINK - (wallet address, amount)
   try {
-    await pack.withdrawLink('<WALLET_ADDRESS>', ethers.utils.parseUnits('1.0'));
+    await pack.withdrawLink(walletAddress, ethers.utils.parseUnits(amount));
   } catch (error) {
     console.log('Failed to withdraw. Error: ', error);
   }
 };
 
-withdrawLink();
+withdrawLink('<WALLET_ADDRESS>', '<AMOUNT_TO_WITHDRAW>');
 ```
 
 ### Transfer
@@ -402,21 +399,21 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const transferTo = async () => {
+const transferTo = async (walletAddress, packTokenId, amount) => {
 	// Transfer pack - (wallet address of recipient, packid, amount)
   try {
      await pack
     .transfer(
-      '<WALLET_ADDRESS>',
-      '0',
-      ethers.utils.parseUnits('1.0')
+      walletAddress,
+      packTokenId,
+      ethers.utils.parseUnits(amount)
     );
   } catch (error) {
     console.log('Failed to transfer. Error: ', error);
   }
 };
 
-transferTo();
+transferTo('<WALLET_ADDRESS>', '<PACK_TOKEN_ID>', '<AMOUNT_TO_TRANSFER>');
 ```
 
 ### Set Module Metadata
@@ -428,12 +425,7 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const setModuleMetadata = async () => {
-  const metadata: PackModuleMetadata = {
-    name: 'Pack Module Example',
-    sellerFeeBasisPoints: 1
-  };
-
+const setModuleMetadata = async (metadata) => {
   try {
     await pack.setModuleMetadata(metadata);
   } catch (error) {
@@ -441,7 +433,12 @@ const setModuleMetadata = async () => {
   }
 };
 
-setModuleMetadata();
+const mtdata: PackModuleMetadata = {
+  name: 'Pack Module Example',
+  sellerFeeBasisPoints: 1
+};
+
+setModuleMetadata(mtdata);
 ```
 
 ### Transfer Batch From
@@ -453,20 +450,16 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const transferBatchFrom = async () => {
+const transferBatchFrom = async (fromAddress, toAddress, tokenId, amount) => {
   try {
     await pack
-    .transferBatchFrom(
-      '<FROM_ADDRESS>',
-      '<TO_ADDRESS>',
-      [{ tokenId: 0, amount: 1 }]
-    );
+    .transferBatchFrom(fromAddress, toAddress, [{ tokenId, amount }]);
   } catch (error) {
     console.log('Failed to transfer batch. Error: ', error);
   }
 };
 
-transferBatchFrom();
+transferBatchFrom('<FROM_ADDRESS>', '<TO_ADDRESS>', '<PACK_TOKEN_ID>', '<AMOUNT_TO_TRANSFER>');
 ```
 
 ### Transfer From
@@ -478,20 +471,16 @@ const packAddress = '<MODULE_ADDRESS>';
 // Initialize the pack drop module with the contract address
 const pack = sdk.getPackModule(packAddress);
 
-const transferFrom = async () => {
+const transferFrom = async (fromAddress, toAddress, tokenId, amount) => {
   try {
     await pack
-    .transferFrom(
-      '<FROM_ADDRESS>',
-      '<TO_ADDRESS>',
-      { tokenId: 0, amount: 1 }
-    );
+    .transferFrom(fromAddress, toAddress, [{ tokenId, amount }]);
   } catch (error) {
     console.log('Failed to transfer from. Error: ', error);
   }
 };
 
-transferFrom();
+transferFrom('<FROM_ADDRESS>', '<TO_ADDRESS>', '<PACK_TOKEN_ID>', '<AMOUNT_TO_TRANSFER>');
 ```
 
 <MdxNavigation>
