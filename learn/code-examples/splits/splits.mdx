@@ -14,39 +14,94 @@ updated: "2022-01-13"
 const app = sdk.getAppModule("<APP_MODULE_ADDRESS>");
 
 const deploySplitModule = async () => {
-  const splitsModule = await app.deploySplitsModule({
-    name: "Splits",
-    description: "Splits Module",
-  
-    // Array of recipients and the shares we want to split with
-    // the total number of shares = 5
-    // therefore `<RECIPIENT_ADDRESS_1>` will recieve 20% of the royalties
-    // and `<RECIPIENT_ADDRESS_2>` will recieve 80% of the royalties
-    recipientSplits: [
-      {
-        address: "<RECIPIENT_ADDRESS_1>",
-        shares: 1,
-      },
-      {
-        address: "<RECIPIENT_ADDRESS_2>",
-        shares: 4,
-      },
-    ],
-  });
-  
-  // In order to use a splits module, you must set it as the 
-  // recipient when deploying a module
-  await app.deployNftModule({
-    name: "My NFT",
-    symbol: "NFT",
-    sellerFeeBasisPoints: 0,
-    // use the address of the splits module as the recipient.
-    feeRecipient: splitsModule.address,
-  });
+  try {
+    const splitsModule = await app.deploySplitsModule({
+      name: "Splits",
+      description: "Splits Module",
+    
+      // Array of recipients and the shares we want to split with
+      // the total number of shares = 5
+      // therefore `<RECIPIENT_ADDRESS_1>` will recieve 20% of the royalties
+      // and `<RECIPIENT_ADDRESS_2>` will recieve 80% of the royalties
+      recipientSplits: [
+        {
+          address: "<RECIPIENT_ADDRESS_1>",
+          shares: 1,
+        },
+        {
+          address: "<RECIPIENT_ADDRESS_2>",
+          shares: 4,
+        },
+      ],
+    });
+    
+    // In order to use a splits module, you must set it as the 
+    // recipient when deploying a module
+    await app.deployNftModule({
+      name: "My NFT",
+      symbol: "NFT",
+      sellerFeeBasisPoints: 0,
+      // use the address of the splits module as the recipient.
+      feeRecipient: splitsModule.address,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 deploySplitModule()
 // `feeRecipient` will be the address of the Splits module
+```
+
+### Deploying a royalty splits module
+
+Note: Minimum version needed from the sdk is @3rdweb/sdk@1.39.0
+
+```ts
+const deployRoyaltySplitsModule = async () => {
+  try {
+    await app.deployRoyaltySplitsModule({
+      name: "Royalty Split",
+      description: "Royalty Splits Module",
+
+      // Array of recipients and the shares we want to split with
+      // the total number of shares = 5
+      // therefore `<RECIPIENT_ADDRESS_1>` will recieve 20% of the royalties
+      // and `<RECIPIENT_ADDRESS_2>` will recieve 80% of the royalties
+      recipientSplits: [
+        {
+          address: "0x14fb3a9B317612ddc6d6Cc3c907CD9F2Aa091eE7",
+          shares: 1,
+        },
+        {
+          address: "0xF11D6862e655b5F4e8f62E00471261D2f9c7E380",
+          shares: 4,
+        },
+      ],
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+deployRoyaltySplitsModule();
+```
+
+### Changing the royalty recipient address of an existing module
+
+Replace `<APP_MODULE_ADDRESS>` with the address of the app under the **NFT Collection** module was created.
+
+Replace `<ROYALTY_SPLITS_ADDRESS>` with the new recipient address, it needs to be a **Royalty Splits** module module.
+
+```ts
+const changeRecipient = async () => {
+  // Updating the fee recipient requires the use of the app module
+  // that the target module is deployed in
+  const appModule = sdk.getAppModule("<APP_MODULE_ADDRESS>");
+  await appModule.setModuleRoyaltyTreasury("<MODULE_ADDRESS>", "<ROYALTY_SPLITS_ADDRESS>");
+}
+
+changeRecipient()
 ```
 
 <MdxNavigation>
@@ -55,8 +110,8 @@ deploySplitModule()
     title="Vote"
   />
   <MdxNavigationItem
-    href="/portal/learn/code-examples/others"
-    title="Others"
+    href="/portal/guides"
+    title="Developer Guides"
     next
   />
 </MdxNavigation>
