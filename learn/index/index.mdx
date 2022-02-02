@@ -43,7 +43,7 @@ For example, if you want a `mint` functionality in your app, then you’d need t
 
 Setting up a module is a matter of a few clicks! Click **[here](/portal/learn/introduction)** to create and deploy your first module.
 
-![overview of our modules](./modules.png)
+![Overview of our modules](./modules.png)
 
 Based on your needs you can pick modules, which contain the functionalities and features that you want in your app.
 
@@ -59,7 +59,7 @@ General steps:
 2. Pass the module address
 3. Use the methods inside a module
 
-## 1. Read data from the blockchain
+### 1. Read data from the blockchain
 
 If you _just_ want to read data from the blockchain, all you need is our `@3rdweb/sdk`.
 
@@ -85,7 +85,7 @@ const marketplace = sdk.getMarketplaceModule(marketplaceModuleAddress);
 marketplace.getAllListings();
 ```
 
-## 2. Make things happen on the blockchain
+### 2. Make things happen on the blockchain
 
 When you buy an NFT or make anything happen on the blockchain, you’re doing more than reading data from the blockchain. Every action that changes the data stored on the blockchain — like buying an NFT — is signed off by a wallet.
 
@@ -122,7 +122,7 @@ Information like chain and type of wallet, will be used to instantiate the sdk, 
 
 With the sdk you can access your deployed modules to mint NFTs, transfer tokens or list NFTs on your marketplace.
 
-## 3. Writing scripts
+### 3. Writing scripts
 
 **Warning:** This method is **not** suitable for frontend.
 
