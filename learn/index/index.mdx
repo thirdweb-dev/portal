@@ -1,230 +1,142 @@
 ---
-title: Getting Started
-author: "Nacho Iacovino"
-authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
-authorTwitter: "https://twitter.com/nachoiacovino"
-summary: "If you're new to thirdweb, you've come to the right place."
+title: Getting Started with thirdweb SDK
+author: "Raza Zaidi"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+summary: "You’re convinced. You want to start NOW. Say no more 👇"
 date: "2021-11-24"
-updated: "2021-11-30"
+updated: "2022-02-02"
 ---
 
-## Intro to our developer resources
+## Developers assemble!
+
+In a nutshell, our SDK integrates seamlessly on the frontend or backend, depending on your use case. We’ve written an article over [here](/portal/guides/sdk-guide), where we go more in dept.
+
+This is what we’re going to cover here:
+
+1. Your design based on your use case
+2. Set up your dev environment
+3. Using the SDK
+
+## Dependencies
+
+First make sure you install the dependencies.
+
+If you’re using JavaScript or TypeScript 👇
+
+```jsx
+npm install @3rdweb/sdk ethers
+// packages below are for frontend components
+npm install @3rdweb/react @3rdweb/hooks
+```
+
+If you’re using Python
+
+```python
+pip install thirdweb-sdk
+```
+
+## Your use case
+
+Before we get to the fun part of coding, let's talk about design. Depending on your use case, you’d want to use our sdk in a specific way. To cater for your web3 needs, we built smart contracts on steroids, `Modules`. Modules enable the feature you want inside your app.
+For example, if you want a `mint` functionality in your app, then you’d need the `NFT Collection` module. Maybe you want to reward users with your own tokens when they complete a specific action, then you want to have a look at our `Token` module. Auction your NFTs on your own Marketplace? We got you → the `Marketplace` module is what you need.
+
+Setting up a module is a matter of a few clicks! Click **[here](/portal/learn/introduction)** to create and deploy your first module.
+
+![overview of our modules](modules.png)
+
+Based on your needs you can pick modules, which contain the functionalities and features that you want in your app.
+
+Next up, setting up your dev environment.
+
+## Using our SDK - Setting up your dev environment
+
+Ok, so you know what you want to build. You deployed the modules you need through the dashboard. Now it’s time to integrate them into your own code!
+
+General steps:
+
+1. Instantiate the SDK
+2. Pass the module address
+3. Use the methods inside a module
+
+## 1. Read data from the blockchain
+
+If you _just_ want to read data from the blockchain, all you need is our `@3rdweb/sdk`.
+
+```jsx
+import { ThirdwebSDK } from "@3rdweb/sdk";
+
+// This url indicates which chain you want to connect to
+const rpcUrl = "https://polygon-rpc.com/";
+
+const sdk = new ThirdwebSDK(rpcUrl);
+```
+
+Side note, this is a public **RPC**. If you have your own dedicated **RPC** Alchemy or Infura**,** you can use that one instead.
+
+Reading data from the blockchain with our sdk looks like this 👇
+
+```jsx
+// Initialize market module by passing in the module address
+const marketplaceModuleAddress = "<MARKETPLACE_MODULE_ADDRESS>";
+const marketplace = sdk.getMarketplaceModule(marketplaceModuleAddress);
+
+// Get all the listings
+marketplace.getAllListings();
+```
+
+## 2. Make things happen on the blockchain
+
+When you buy an NFT or make anything happen on the blockchain, you’re doing more than reading data from the blockchain. Every action that changes the data stored on the blockchain — like buying an NFT — is signed off by a wallet.
+
+A provider is your connection to the blockchain.
+
+To read data from the blockchain, a `provider` needs an RPC url. To _write_ data to the blockchain i.e. send a transaction to the blockchain, — it needs to be able to interface with a wallet.
+
+The **`Signer`** object is a clean interface to interact with a wallet.
+
+Once you have a provider, you can use it to instantiate the SDK to write to the blockchain on behalf of a connected user.
+
+```tsx
+// Follow our guides to get a signer (from a connected wallet or your private key)
+const sdk = new ThirdwebSDK(signer);
+
+// Get your marketplace module
+const marketplaceModuleAddress = "0xC06adC34097afa2085324D4192fbE9206059f8e0";
+const marketplace = sdk.getMarketplaceModule(marketplaceModuleAddress);
+
+// Now you can buy from the connected signer
+marketplace.buyoutDirectListing({
+  listingId: 1,
+  quantityDesired: 1,
+});
+```
+
+How do you get a `signer` ? Glad you asked.
+
+To get a signer we need to connect the user’s wallet to our app. Let’s build a `connect wallet` button. thirdweb has a component for this 👇
+
+Check out [this](/portal/guides/add-connectwallet-to-your-website) guide first to understand how the `connect wallet` component works for frontend and [this](/portal/guides/sdk-guide#code-to-instantiate-the-sdk-at-the-client-side-frontend) guide is highly encouraged to read, to understand how the wallet information is used to instantiate the sdk and methods.
+
+Information like chain and type of wallet, will be used to instantiate the sdk, by getting the `provider` from `useWeb3()`.
+
+With the sdk you can access your deployed modules to mint NFTs, transfer tokens or list NFTs on your marketplace.
+
+## 3. Writing scripts
+
+**Warning:** This method is **not** suitable for frontend.
+
+The final way to initialise the sdk is to make use of your own wallet’s `private keys`.
+
+This method should be used with extreme care on the backend, making sure not to expose your private keys. If you want to know more about this method, check out [this](/portal/guides/sdk-guide#backend) guide.
+
+## Our SDK documentation
+
+To find out more about our SDKs, check out our documentations 👇
 
 - [TypeScript SDK](https://nftlabs.github.io/nftlabs-sdk-ts/sdk.html)
 - [Python SDK](https://python-docs.thirdweb.com/)
 - [Go SDK](https://pkg.go.dev/github.com/nftlabs/nftlabs-sdk-go/pkg/nftlabs)
-
-## Stay in touch
-
-Join our [Discord](https://discord.gg/thirdweb) to keep in touch with the community and interact with the thirdweb team
-
-## Getting Started
-
-In this guide you'll be deploying your own custom token ERC20 smart contract and using the typescript SDK to interact with that smart contract and mint the token.
-
-### Connect your wallet to Dashboard
-
-You'll need a wallet that is connected to the **Polygon Mumbai Testnet**. We'll use **MetaMask** for this guide, if you don't have a **MetaMask** wallet, you can create one by following [this guide](/portal/guides/create-a-metamask-wallet).
-
-- Head over to the [dashboard](/start).
-- Click "**Let's get started**".
-- Connect your wallet.
-- Select your network (**Mumbai**).
-
-![](./welcome.gif)
-
-### Create your first project
-
-To create our project, we'll need **MATIC** on testnet, if you don't have any, you can follow [this guide](/portal/guides/get-matic-on-polygon-mumbai-testnet-faucet) to get some.
-
-- Head over to the [dashboard](/dashboard).
-- Give your project a name (required)
-- Give your project a description.
-- Click "**Create**".
-- Accept the transaction on your wallet.
-
-![](./create-project.gif)
-
-### Create your first module
-
-- Select your project.
-- Click "**Add Module**".
-- Select the **Token** module.
-- Give it a **Name** and a **Symbol**, we'll use _Test Coin_ and _TEST_.
-- Accept the two transactions on your wallet.
-
-![](./create-module.gif)
-
-### View your smart contract on the blockchain
-
-The token module that was created deployed a smart contract to the Mumbai blockchain.  To see the actual transaction:
-
-- Inside the _Test Coin_ token module you will see an address under the name.  Copy this address
-- Go to the [Mumbai Polygon Scan](https://mumbai.polygonscan.com/) and paste the token module address
-
-You will see your smart contract and under transactions you will see the contract creation transaction.
-
-### Adding permissions to your smart contract
-
-In this section, we'll be giving minting permissions to a second wallet
-
-- Head over to the [dashboard](/dashboard), select your project and select the Token module we just created.
-- Select the "**Permissions**" tab.
-- On the "**Minter**" section, click "**Add Wallet**"
-- Paste the public address of a second wallet (We'll call it _Wallet B_) in the input field.
-- Click "**Save**"
-- Accept the transaction on your wallet.
-
-![](./give-permissions.gif)
-
-You'll see that now there's two wallets with "**Minter**" permissions.
-
-![](./minter.png)
-
-Next up, we'll create a project and install the **TypeScript SDK** so we can mint our tokens programmatically from our _Wallet B_.
-
-We're gonna be using thirdweb's **TypeScript SDK**, we'll be minting tokens from the wallet we just gave permissions to.
-
-<br />
-
-### Set up local environment
-
-Everything we're gonna do from now on it's gonna be on a [GitHub repository](https://github.com/nftlabs/examples/tree/main/typescript/token-minter), so feel free to take a look at the finished product there.
-
-Let's first create a folder and a TypeScript file, you can create these manually or do it from the terminal.
-
-```bash
-mkdir token-minter
-cd token-minter
-touch minter.ts
-```
-
-### Install required dependencies
-
-Next we'll initialize the project and install the required dependencies:
-
-- **@3rdweb/sdk** - thirdweb TypeScript SDK.
-- **ethers** - will give us very useful utils.
-- **dotenv** - to hide our private key.
-- **typescript** - since this is a TypeScript project
-- **@types/node** - typing for node as a dev dependency.
-- **tslib** - utility package
-
-```bash
-npm init -y
-npm install @3rdweb/sdk ethers dotenv
-npm install --save-dev typescript @types/node ts-node tslib
-```
-
-
-### Import the SDK
-
-```ts
-// Importing libraries
-import { ThirdwebSDK } from "@3rdweb/sdk";
-import { ethers } from "ethers";
-
-//Importing private key
-require('dotenv').config();
-```
-
-We also need to create a .env file with our `PRIVATE_KEY`, you can check how to get your wallet's private key, on [this guide](/portal/guides/create-a-metamask-wallet#export-your-private-key).
-
-Remember that we're gonna mint from _Wallet B_, so you'll need the `PRIVATE_KEY` of that one.
-
-Don't commit this `PRIVATE_KEY` to GitHub or anywhere else, don't use it on Repl.it, you will lose your funds, we recommend to use a Dev wallet instead of your real wallet.
-<br />
-
-```python:.env
-PRIVATE_KEY=<your-private-key-here>
-```
-
-You should create a `.gitignore` file and add this line before commiting to GitHub.
-
-```python:.gitignore
-node_modules
-.env
-```
-
-### Instantiate the SDK
-
-```ts
-//Instantiate 3rdweb SDK
-const sdk = new ThirdwebSDK(
-  new ethers.Wallet(
-    // Your wallet private key
-    process.env.PRIVATE_KEY as string,
-    // RPC URL, we'll use Polygon Mumbai
-    ethers.getDefaultProvider("https://rpc-mumbai.maticvigil.com")
-  )
-);
-```
-
-### Define what module to use
-
-We're gonna be interacting with the **Token** module we created before on the dashboard, so we need to get the address of that module.
-
-- Head over to the [dashboard](/dashboard).
-- Navigate over to our **Token** module.
-- Copy the address.
-
-Now, let's instantiate the **Token** module
-
-```ts
-const token = sdk.getTokenModule("0xFf5f08cA7c5b0287A349517fa4B4243BB13229b9");
-```
-
-### Let's mint some tokens!
-
-Let's now write some code to mint tokens, the interesting thing is we're minting them from _Wallet B_, which is not the wallet that created the contract, but the one that has **Minter** permissions.
-
-We'll put it inside a try/catch block to make sure it works and return an error if it doesn't.
-
-```ts
-// Set the amount of currency you want to mint
-// (Actual amount, number of decimals)
-const amount = ethers.utils.parseUnits("1000", 18);
-
-// Minting the currency, 1000 Test coin
-const mintCurrency = async () => {
-  try {
-    await token.mint(amount);
-    console.log("Minted 1000 Test coin");
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-// Running the entire thing
-mintCurrency();
-```
-
-So the only thing left is run our code! Open a terminal and paste the following:
-
-```bash
-npx ts-node minter.ts
-```
-
-You will see a successful `console.log`, let's go and see our dashboard now!
-
-![](./token-minted.png)
-
-And it's there, 1000 $TEST coins!
-
-## That's it!
-
-Congratulations! You've deployed smart contracts to the blockchain and integrated it with a mini web3 application. 
-
-Do you realize how powerful that is?
-
-The code for everything we've done in this project is in this [GitHub repository](https://github.com/nftlabs/examples/tree/main/typescript/token-minter).
-
-And this only scratching the surface on what thirdweb can do.  Check out our guides on some of the most common web3 workflows:
-
-- [Mint an NFT Collection with thirdweb TypeScript SDK](/portal/guides/mint-nft-collection-using-typescript-sdk)
-- [Create your own marketplace with thirdweb TypeScript SDK](/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk)
-- [Create NFT Memberships for your Discord](/portal/guides/membership-nft-for-discord)
-- [How to create an NFT Gated website](/portal/guides/nft-gated-website)
 
 <MdxNavigation>
   <MdxNavigationItem
