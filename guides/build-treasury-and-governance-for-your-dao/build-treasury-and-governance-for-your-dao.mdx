@@ -1,0 +1,293 @@
+---
+title: Build treasure and governance for your DAO
+author: "Nacho Iacovino"
+authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
+authorTwitter: "https://twitter.com/nachoiacovino"
+draft: false
+tags: [vote, typescript, javascript, sdk, dao]
+summary: "Learn how to use the vote module, building governance and creating proposals."
+image: "./thumbnail.png"
+date: "2022-02-03"
+updated: ""
+---
+
+Everything we do in this tutorial has been taken from our project **"Build your own DAO with just JavaScript"**, check it out [here](https://buildspace.so/daos).
+
+## Let's build our DAO
+
+So you want to build a DAO, but... what is a DAO? A DAO is a community of people with a shared bank account. Decisions around how that bank account is used are made by voting on different proposals that members create. When a proposal gets enough votes, it is executed on-chain!
+
+We need a governance token so users can vote on proposals. If you haven't deployed a token yet, you can follow [this guide](/portal/guides/create-your-currency-with-typescript-sdk).
+
+Once we do, we can start working with our **Vote** module.
+
+## Set up local environment
+
+First, we'll need to setup our local environment and instantiate the SDK, you can see how to do it [here](/portal/learn/code-examples).
+
+## Deploy a governance contract
+
+We want let people vote on stuff, automatically count the votes, and let any member execute the proposal on-chain.
+
+Create a `vote.js` file, make sure you initialize the SDK before you copy and paste the code.
+
+Replace `<PROJECT_MODULE_ADDRESS>` with the project address you will find on your dashboard, and `<TOKEN_MODULE_ADDRESS>` with the address of the token you just created.
+
+```js:vote.js
+// SDK initialization here
+
+// Grab the app module address.
+const appModule = sdk.getAppModule(
+  "<PROJECT_MODULE_ADDRESS>",
+);
+
+(async () => {
+  try {
+    const voteModule = await appModule.deployVoteModule({
+      // Give your governance contract a name.
+      name: "My amazing DAO",
+
+      // This is the location of our governance token, our ERC-20 contract!
+      votingTokenAddress: "<TOKEN_MODULE_ADDRESS>",
+
+      // After a proposal is created, when can members start voting?
+      // For now, we set this to immediately.
+      proposalStartWaitTimeInSeconds: 0,
+
+      // How long do members have to vote on a proposal when it's created?
+      // Here, we set it to 24 hours (86400 seconds)
+      proposalVotingTimeInSeconds: 24 * 60 * 60,
+
+      // The minimum % of the holders that need to vote for the proposal 
+      // to be valid after the time for the proposal has ended.
+      votingQuorumFraction: 0,
+
+      // What's the minimum # of tokens a user needs to be allowed to create a proposal?
+      // I set it to 0. Meaning no tokens are required for a user to be allowed to
+      // create a proposal.
+      minimumNumberOfTokensNeededToPropose: "0",
+    });
+
+    console.log(
+      "✅ Successfully deployed vote module, address:",
+      voteModule.address,
+    );
+  } catch (err) {
+    console.error("Failed to deploy vote module", err);
+  }
+})();
+```
+
+We can go ahead and execute this file to deploy our **Vote** module!
+
+```bash
+node vote.js
+```
+
+This will give this log the following to our terminal:
+
+```bash
+✅ Successfully deployed vote module, address: <VOTE_MODULE_ADDRESS>
+```
+
+Copy that **Vote** module address, we are gonna need it! If you lose it, you can always get it from your [thirdweb dashboard](/dashboard).
+
+## Setup the treasury
+
+Install `ethers`:
+
+```bash
+npm i ethers
+```
+
+Then, create a `treasury.js` file, make sure the SDK is initialized before you try to use it.
+
+```js:treasury.js
+import { ethers } from "ethers";
+
+// SDK initialization here
+
+// This is our governance contract.
+const voteModule = sdk.getVoteModule(
+  "<VOTE_MODULE_ADDRESS>",
+);
+
+// This is our ERC-20 contract.
+const tokenModule = sdk.getTokenModule(
+  "<TOKEN_MODULE_ADDRESS>",
+);
+
+(async () => {
+  try {
+    // Give our treasury the power to mint additional token if needed.
+    await tokenModule.grantRole("minter", voteModule.address);
+
+    console.log(
+      "Successfully gave vote module permissions to act on token module"
+    );
+  } catch (error) {
+    console.error(
+      "failed to grant vote module permissions on token module",
+      error
+    );
+    process.exit(1);
+  }
+
+  try {
+    // Grab our wallet's token balance, remember -- we hold basically the entire supply right now!
+    const ownedTokenBalance = await tokenModule.balanceOf(
+      "<YOUR_WALLET_ADDRESS>"
+    );
+
+    // Grab 90% of the supply that we hold.
+    const ownedAmount = ethers.BigNumber.from(ownedTokenBalance.value);
+    const percent90 = ownedAmount.div(100).mul(90);
+
+    // Transfer 90% of the supply to our voting contract.
+    await tokenModule.transfer(
+      voteModule.address,
+      percent90
+    );
+
+    console.log("✅ Successfully transferred tokens to vote module");
+  } catch (err) {
+    console.error("failed to transfer tokens to vote module", err);
+  }
+})();
+```
+
+What's going on here? We're moving 90% of the total tokens we hold to the **Vote** module, basically giving up our dictatorship and let the DAO decide how those tokens get spent.
+
+Before doing this, we could've done an airdrop to our NFT holders, or distribute tokens in another way, it's up to you how you want to do it!
+
+Let's execute this!
+
+```bash
+node treasury.js
+```
+
+This will give this log the following to our terminal:
+
+```bash
+✅ Successfully gave vote module permissions to act on token module
+✅ Successfully transferred tokens to vote module
+```
+
+## Create your DAO first proposals
+
+This is the fun part.
+
+Create a `proposals.js` file, make sure the SDK is initialized before you try to use it.
+
+```js:proposals.js
+import { ethers } from "ethers";
+
+// SDK initialization here
+
+// Our voting contract.
+const voteModule = sdk.getVoteModule(
+  "INSERT_VOTE_MODULE_ADDRESS",
+);
+
+// Our ERC-20 contract.
+const tokenModule = sdk.getTokenModule(
+  "INSERT_TOKEN_MODULE_ADDRESS",
+);
+
+(async () => {
+  try {
+    const amount = 420_000;
+    // Create proposal to mint 420,000 new token to the treasury.
+    await voteModule.propose(
+      "Should the DAO mint an additional " + amount + " tokens into the treasury?",
+      [
+        {
+          // Our nativeToken is ETH. nativeTokenValue is the amount of ETH we want
+          // to send in this proposal. In this case, we're sending 0 ETH.
+          // We're just minting new tokens to the treasury. So, set to 0.
+          nativeTokenValue: 0,
+          transactionData: tokenModule.contract.interface.encodeFunctionData(
+            // We're doing a mint! And, we're minting to the voteModule, which is
+            // acting as our treasury.
+            "mint",
+            [
+              voteModule.address,
+              ethers.utils.parseUnits(amount.toString(), 18),
+            ]
+          ),
+          // Our token module that actually executes the mint.
+          toAddress: tokenModule.address,
+        },
+      ]
+    );
+
+    console.log("✅ Successfully created proposal to mint tokens");
+  } catch (error) {
+    console.error("failed to create first proposal", error);
+    process.exit(1);
+  }
+
+  try {
+    const amount = 6_900;
+    // Create proposal to transfer ourselves 6,900 tokens for being awesome.
+    await voteModule.propose(
+      "Should the DAO transfer " +
+      amount + " tokens from the treasury to " +
+      "<WALLET_TO_TRANSFER_TOKENS_TO>" + " for being awesome?",
+      [
+        {
+          // Again, we're sending ourselves 0 ETH. Just sending our own token.
+          nativeTokenValue: 0,
+          transactionData: tokenModule.contract.interface.encodeFunctionData(
+            // We're doing a transfer from the treasury to our wallet.
+            "transfer",
+            [
+              "<WALLET_TO_TRANSFER_TOKENS_TO>",
+              ethers.utils.parseUnits(amount.toString(), 18),
+            ]
+          ),
+          toAddress: tokenModule.address,
+        },
+      ]
+    );
+
+    console.log(
+      "✅ Successfully created proposal to reward ourselves from the treasury, let's hope people vote for it!"
+    );
+  } catch (error) {
+    console.error("failed to create second proposal", error);
+  }
+})();
+```
+
+We’re actually creating two new proposals for members to vote on:
+
+1. We’re creating a proposal that allows the treasury to mint 420,000 new token. You can see we do a "mint" in the code. Maybe the treasury is running low and we want more tokens to award members. Remember, earlier we gave our voting contract the ability to mint new token — so this works! It’s a democratic treasury. If you members think this is proposal is stupid and vote “NO”, this simply won’t pass!
+   
+2. We’re creating a proposal that transfer 6,900 token to our wallet from the treasury. You can see we do a "transfer" in the code.
+
+Maybe we did something good and want to be rewarded for it! In the real world, you’d usually create proposals to send other people token. For example, maybe someone helped code up a new website for the DAO and wants to be rewarded for it. You can transfer them tokens!
+
+I want to make note on `nativeTokenValue`. Lets say we wanted to have our proposal say, “We’d like to reward this person for helping us with marketing with 2500 governance token and 0.1 ETH”. This is really cool! It means you can reward people with both ETH and governance token — best of both worlds. *Note: That 0.1 ETH would need to be in our treasury if we wanted to send it!*
+
+Let's execute this!
+
+```bash
+node proposals.js
+```
+
+This will give this log the following to our terminal:
+
+```bash
+✅ Successfully created proposal to mint tokens
+✅ Successfully created proposal to reward ourselves from the treasury
+```
+
+## We're done!
+
+And that's it! Now your proposals have been created, then you would need to create a frontend so people can vote on these.
+
+You can see more info on how to do it in [this link](https://github.com/buildspace/buildspace-dao-final/blob/d94cadc73703c09561fda946a338237eee7f9bee/src/App.jsx#L194), in which we built an entire frontend so people could vote on proposals.
+
+If you want lenghtier explanations about everything we did on this tutorial, you can check **"Build your own DAO with just JavaScript"**, our collaboration with buildspace, [in this link](https://buildspace.so/daos).
+
