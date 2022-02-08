@@ -21,7 +21,7 @@ const TokenPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
           title: "Token Guides | Portal | thirdweb",
           description:
             "Guides and tutorials on how to create and use an ERC20 token",
-          url: `https://thirdweb.com/portal/guides/token`,
+          url: `https://portal.thirdweb.com/guides/token`,
         }}
       />
       <Stack spacing={20}>

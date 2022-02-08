@@ -19,7 +19,7 @@ const Guides: ConsolePage<GuidesPageProps> = ({ guides }) => {
         title="Developer Guides | Portal"
         openGraph={{
           title: "Developer Guides | Portal | thirdweb",
-          url: `https://thirdweb.com/portal/guides`,
+          url: `https://portal.thirdweb.com/guides`,
         }}
       />
       <Stack spacing={20}>

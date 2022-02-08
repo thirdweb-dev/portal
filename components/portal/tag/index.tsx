@@ -9,7 +9,7 @@ interface GrayTagProps {
 
 export const GrayTag: React.FC<GrayTagProps> = ({ tag, blog }) => {
   return (
-    <NextLink key={tag} href={`/${blog ? "blog" : "portal/guides"}/tag/${tag}`}>
+    <NextLink key={tag} href={`/${blog ? "blog" : "guides"}/tag/${tag}`}>
       <Badge
         p={1.5}
         variant="subtle"

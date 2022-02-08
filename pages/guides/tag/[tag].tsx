@@ -29,7 +29,7 @@ const TagPage: ConsolePage<TagPageProps> = ({ guides }) => {
         openGraph={{
           title: `${tag.replace(/-/g, " ")} | Portal | thirdweb`,
           description: `${tag.replace(/-/g, " ")} guides and tutorials`,
-          url: `https://thirdweb.com/portal/tag/${tag}`,
+          url: `https://portal.thirdweb.com/tag/${tag}`,
         }}
       />
       <Stack spacing={20}>

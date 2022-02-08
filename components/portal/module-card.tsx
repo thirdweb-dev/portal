@@ -18,7 +18,7 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({
 
   return (
     <NextLink
-      href={`/portal/guides/${titleToSlug}`}
+      href={`/guides/${titleToSlug}`}
       _hover={{ textDecoration: "none" }}
     >
       <HStack _hover={{ backgroundColor: "gray.50" }} p={6}>

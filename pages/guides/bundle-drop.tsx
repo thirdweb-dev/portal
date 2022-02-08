@@ -21,7 +21,7 @@ const BundleDropPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
           title: "Bundle Drop Guides | Portal | thirdweb",
           description:
             "Guides and tutorials on how to create and use a Bundle Drop smart contract",
-          url: `https://thirdweb.com/portal/guides/bundle-drop`,
+          url: `https://portal.thirdweb.com/guides/bundle-drop`,
         }}
       />
       <Stack spacing={20}>

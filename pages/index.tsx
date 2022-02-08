@@ -118,10 +118,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 spacing={5}
               >
                 <LinkBox role="group">
-                  <NextLink
-                    href="/portal/learn"
-                    _hover={{ textDecoration: "none" }}
-                  >
+                  <NextLink href="/learn" _hover={{ textDecoration: "none" }}>
                     <Card
                       _groupHover={{ borderColor: "blue.600" }}
                       transition="all 0.25s ease-in-out"
@@ -228,10 +225,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   </SimpleGrid>
                 </Card>
                 <LinkBox role="group">
-                  <NextLink
-                    href="/portal/guides"
-                    _hover={{ textDecoration: "none" }}
-                  >
+                  <NextLink href="/guides" _hover={{ textDecoration: "none" }}>
                     <Card
                       _groupHover={{ borderColor: "blue.600" }}
                       transition="all 0.25s ease-in-out"

@@ -67,7 +67,7 @@ export const Resources: React.FC = () => {
         >
           <Icon as={FaConnectdevelop} boxSize={8} color="orange.500" />
           <LinkOverlay
-            href="https://thirdweb.com/portal"
+            href="https://portal.thirdweb.com"
             isExternal
             textAlign="center"
             color="gray.700"

@@ -20,7 +20,7 @@ const GeneralPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
         title="General Guides | Portal"
         openGraph={{
           title: "General Guides | Portal | thirdweb",
-          url: `https://thirdweb.com/portal/guides/general`,
+          url: `https://portal.thirdweb.com/guides/general`,
         }}
       />
       <Stack spacing={20}>

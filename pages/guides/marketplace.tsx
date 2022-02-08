@@ -21,7 +21,7 @@ const MarketPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
           title: "Marketplace Guides | Portal | thirdweb",
           description:
             "Guides and tutorials on how to create and use a whitelabel NFT Marketplace",
-          url: `https://thirdweb.com/portal/guides/marketplace`,
+          url: `https://portal.thirdweb.com/guides/marketplace`,
         }}
       />
       <Stack spacing={20}>

@@ -21,19 +21,19 @@ export const GuidesList: React.FC<GuidesListProps> = ({
   blog,
 }) => {
   return (
-    <PortalSection title={title} href={showMore ? "/portal/guides" : ""}>
+    <PortalSection title={title} href={showMore ? "/guides" : ""}>
       {tags && (
         <Stack
           direction="row"
           mb={4}
           overflowX={{ base: "scroll", md: "auto" }}
         >
-          <BlueTag name="All" href="/portal/guides" />
-          <BlueTag name="TypeScript" href="/portal/guides/tag/typescript" />
-          <BlueTag name="Python" href="/portal/guides/tag/python" />
-          <BlueTag name="Token" href="/portal/guides/token" />
-          <BlueTag name="NFT Collection" href="/portal/guides/nft-collection" />
-          <BlueTag name="Marketplace" href="/portal/guides/marketplace" />
+          <BlueTag name="All" href="/guides" />
+          <BlueTag name="TypeScript" href="/guides/tag/typescript" />
+          <BlueTag name="Python" href="/guides/tag/python" />
+          <BlueTag name="Token" href="/guides/token" />
+          <BlueTag name="NFT Collection" href="/guides/nft-collection" />
+          <BlueTag name="Marketplace" href="/guides/marketplace" />
         </Stack>
       )}
       {guides.length > 0 ? (
@@ -46,7 +46,7 @@ export const GuidesList: React.FC<GuidesListProps> = ({
             <PortalGuideCard
               key={`guide_${idx}`}
               guide={guide.metadata}
-              href={`${blog ? "/blog/" : "/portal/guides/"}${guide.slug}`}
+              href={`${blog ? "/blog/" : "/guides/"}${guide.slug}`}
               blog={blog}
             />
           ))}

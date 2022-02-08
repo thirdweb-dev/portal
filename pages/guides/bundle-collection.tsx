@@ -21,7 +21,7 @@ const BundlePage: ConsolePage<GuidesPageProps> = ({ guides }) => {
           title: "Bundle Collection Guides | Portal | thirdweb",
           description:
             "Guides and tutorials on how to create and use an ERC1155 token",
-          url: `https://thirdweb.com/portal/guides/bundle-collection`,
+          url: `https://portal.thirdweb.com/guides/bundle-collection`,
         }}
       />
       <Stack spacing={20}>

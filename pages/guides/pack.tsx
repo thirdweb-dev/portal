@@ -21,7 +21,7 @@ const PackPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
           title: "Pack Guides | Portal | thirdweb",
           description:
             "Guides and tutorials on how to create and use a Pack smart contract",
-          url: `https://thirdweb.com/portal/guides/pack`,
+          url: `https://portal.thirdweb.com/guides/pack`,
         }}
       />
       <Stack spacing={20}>

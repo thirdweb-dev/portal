@@ -21,7 +21,7 @@ const VotePage: ConsolePage<GuidesPageProps> = ({ guides }) => {
           title: "Vote Guides | Portal | thirdweb",
           description:
             "Guides and tutorials on how to create and use a whitelabel NFT Vote",
-          url: `https://thirdweb.com/portal/guides/vote`,
+          url: `https://portal.thirdweb.com/guides/vote`,
         }}
       />
       <Stack spacing={20}>

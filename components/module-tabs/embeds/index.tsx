@@ -189,7 +189,7 @@ export const WidgetSetup: React.FC<WidgetSetupProps> = ({ module }) => {
                 <Link
                   isExternal
                   color="blue.500"
-                  href="https://thirdweb.com/portal/guides/setup-gasless-transactions"
+                  href="https://portal.thirdweb.com/guides/setup-gasless-transactions"
                 >
                   Learn more
                 </Link>

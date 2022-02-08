@@ -24,117 +24,106 @@ export const PortalSidebar: React.FC = () => {
       pt={pxToRem(75)}
     >
       <Stack px={2} my={4} spacing={1}>
-        <SidebarItem label="Home" href="/portal" matchExact />
-        <SidebarItem label="Getting Started" matchExact href="/portal/learn">
+        <SidebarItem label="Home" href="/" matchExact />
+        <SidebarItem label="Getting Started" matchExact href="/learn">
           <SidebarItem
             label="Introduction"
             matchExact
-            href="/portal/learn/introduction"
+            href="/learn/introduction"
           />
-          <SidebarItem
-            label="Projects"
-            matchExact
-            href="/portal/learn/projects"
-          />
-          <SidebarItem label="Modules" matchExact href="/portal/learn/modules">
+          <SidebarItem label="Projects" matchExact href="/learn/projects" />
+          <SidebarItem label="Modules" matchExact href="/learn/modules">
             <SidebarItem
               label="NFT Collection"
               matchExact
-              href="/portal/learn/modules/nft-collection"
+              href="/learn/modules/nft-collection"
             />
-            <SidebarItem
-              label="Pack"
-              matchExact
-              href="/portal/learn/modules/pack"
-            />
+            <SidebarItem label="Pack" matchExact href="/learn/modules/pack" />
           </SidebarItem>
           <SidebarItem
             label="Connect to the blockchain"
             matchExact
-            href="/portal/learn/connect-to-blockchain"
+            href="/learn/connect-to-blockchain"
           />
-          <SidebarItem label="Recipes" matchExact href="/portal/learn/recipes">
+          <SidebarItem label="Recipes" matchExact href="/learn/recipes">
             <SidebarItem
               label="Sell YOUR NFTs in YOUR..."
               matchExact
-              href="/portal/learn/recipes/nft-token-marketplace"
+              href="/learn/recipes/nft-token-marketplace"
             />
           </SidebarItem>
         </SidebarItem>
         <SidebarItem
           label="Code Examples"
           matchExact
-          href="/portal/learn/code-examples"
+          href="/learn/code-examples"
         >
           <SidebarItem
             label="NFT Collection"
             matchExact
-            href="/portal/learn/code-examples/nft-collection"
+            href="/learn/code-examples/nft-collection"
           />
           <SidebarItem
             label="Bundle Collection"
             matchExact
-            href="/portal/learn/code-examples/bundle-collection"
+            href="/learn/code-examples/bundle-collection"
           />
           <SidebarItem
             label="NFT Drop"
             matchExact
-            href="/portal/learn/code-examples/nft-drop"
+            href="/learn/code-examples/nft-drop"
           />
           <SidebarItem
             label="Bundle Drop"
             matchExact
-            href="/portal/learn/code-examples/bundle-drop"
+            href="/learn/code-examples/bundle-drop"
           />
           <SidebarItem
             label="Token"
             matchExact
-            href="/portal/learn/code-examples/token"
+            href="/learn/code-examples/token"
           />
           <SidebarItem
             label="Marketplace"
             matchExact
-            href="/portal/learn/code-examples/marketplace"
+            href="/learn/code-examples/marketplace"
           />
           <SidebarItem
             label="Pack"
             matchExact
-            href="/portal/learn/code-examples/pack"
+            href="/learn/code-examples/pack"
           />
           <SidebarItem
             label="Vote"
             matchExact
-            href="/portal/learn/code-examples/vote"
+            href="/learn/code-examples/vote"
           />
           <SidebarItem
             label="Splits"
             matchExact
-            href="/portal/learn/code-examples/splits"
+            href="/learn/code-examples/splits"
           />
         </SidebarItem>
         <SidebarItem
           label="Developer Guides"
-          href="/portal/guides"
+          href="/guides"
           matchExact
           initialOpen
         >
-          <SidebarItem label="General" href="/portal/guides/general" />
-          <SidebarItem
-            label="NFT Collection"
-            href="/portal/guides/nft-collection"
-          />
+          <SidebarItem label="General" href="/guides/general" />
+          <SidebarItem label="NFT Collection" href="/guides/nft-collection" />
           <SidebarItem
             label="Bundle Collection"
-            href="/portal/guides/bundle-collection"
+            href="/guides/bundle-collection"
           />
-          <SidebarItem label="NFT Drop" href="/portal/guides/nft-drop" />
-          <SidebarItem label="Bundle Drop" href="/portal/guides/bundle-drop" />
-          <SidebarItem label="Token" href="/portal/guides/token" />
-          <SidebarItem label="Marketplace" href="/portal/guides/marketplace" />
-          <SidebarItem label="Pack" href="/portal/guides/pack" />
-          <SidebarItem label="Vote" href="/portal/guides/vote" />
-          <SidebarItem label="Splits" href="/portal/guides/splits" />
-          <SidebarItem label="UI" href="/portal/guides/ui" />
+          <SidebarItem label="NFT Drop" href="/guides/nft-drop" />
+          <SidebarItem label="Bundle Drop" href="/guides/bundle-drop" />
+          <SidebarItem label="Token" href="/guides/token" />
+          <SidebarItem label="Marketplace" href="/guides/marketplace" />
+          <SidebarItem label="Pack" href="/guides/pack" />
+          <SidebarItem label="Vote" href="/guides/vote" />
+          <SidebarItem label="Splits" href="/guides/splits" />
+          <SidebarItem label="UI" href="/guides/ui" />
         </SidebarItem>
 
         <SidebarItem label="SDKs" initialOpen>

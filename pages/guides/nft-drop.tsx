@@ -21,7 +21,7 @@ const DropPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
           title: "NFT Drop Guides | Portal | thirdweb",
           description:
             "Guides and tutorials on how to create and use an ERC721 token with Lazy Minting",
-          url: `https://thirdweb.com/portal/guides/nft-drop`,
+          url: `https://portal.thirdweb.com/guides/nft-drop`,
         }}
       />
       <Stack spacing={20}>

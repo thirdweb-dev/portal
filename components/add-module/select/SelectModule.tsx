@@ -39,7 +39,7 @@ export const MODULE_BUTTON_INFO: Partial<Record<ModuleType, ModuleButtonInfo>> =
       name: MODULE_TYPE_TO_NAME[ModuleType.NFT],
       label: "Create a collection of one-of-one NFTs.",
       description: "Collection of one-of-one NFTs",
-      portal: "https://thirdweb.com/portal/guides/nft-collection",
+      portal: "https://portal.thirdweb.com/guides/nft-collection",
       standard: "ERC721",
     },
     [ModuleType.BUNDLE]: {
@@ -48,7 +48,7 @@ export const MODULE_BUTTON_INFO: Partial<Record<ModuleType, ModuleButtonInfo>> =
       label:
         "Create a collection of NFTs that lets you optionally mint multiple copies of each NFT",
       description: "Collection of NFTs with many copies",
-      portal: "https://thirdweb.com/portal/guides/bundle-collection",
+      portal: "https://portal.thirdweb.com/guides/bundle-collection",
       standard: "ERC1155",
     },
     [ModuleType.DROP]: {
@@ -57,7 +57,7 @@ export const MODULE_BUTTON_INFO: Partial<Record<ModuleType, ModuleButtonInfo>> =
       label:
         "Setup a collection of one-of-one NFTs that are minted as users claim them.",
       description: "Claimable drop of one-of-one NFTs",
-      portal: "https://thirdweb.com/portal/guides/nft-drop",
+      portal: "https://portal.thirdweb.com/guides/nft-drop",
       standard: "ERC721",
     },
     [ModuleType.BUNDLE_DROP]: {
@@ -67,7 +67,7 @@ export const MODULE_BUTTON_INFO: Partial<Record<ModuleType, ModuleButtonInfo>> =
         "Setup a collection of NFTs with a customizable number of each NFT that are minted as users claim them.",
       description: "Claimable drop of NFTs with many copies",
       standard: "ERC1155",
-      portal: "https://thirdweb.com/portal/guides/bundle-drop",
+      portal: "https://portal.thirdweb.com/guides/bundle-drop",
     },
     [ModuleType.MARKETPLACE]: {
       image: FeatureIconMap[ModuleType.MARKETPLACE],
@@ -75,14 +75,14 @@ export const MODULE_BUTTON_INFO: Partial<Record<ModuleType, ModuleButtonInfo>> =
       label:
         "Create your own whitelabel marketplace that enables users to buy and sell any digital assets.",
       description: "Whitelabel marketplace for digital assets",
-      portal: "https://thirdweb.com/portal/guides/marketplace",
+      portal: "https://portal.thirdweb.com/guides/marketplace",
     },
     [ModuleType.CURRENCY]: {
       image: FeatureIconMap[ModuleType.CURRENCY],
       name: MODULE_TYPE_TO_NAME[ModuleType.CURRENCY],
       label: "Create a standard crypto token/crypto currency.",
       description: "Standard crypto token or currency",
-      portal: "https://thirdweb.com/portal/guides/token",
+      portal: "https://portal.thirdweb.com/guides/token",
       standard: "ERC20",
     },
     [ModuleType.PACK]: {
@@ -90,14 +90,14 @@ export const MODULE_BUTTON_INFO: Partial<Record<ModuleType, ModuleButtonInfo>> =
       name: MODULE_TYPE_TO_NAME[ModuleType.PACK],
       label: "Create lootboxes of NFTs with rarity based open mechanics.",
       description: "Lootbox of NFTs",
-      portal: "https://thirdweb.com/portal/guides/pack",
+      portal: "https://portal.thirdweb.com/guides/pack",
     },
     [ModuleType.SPLITS]: {
       image: FeatureIconMap[ModuleType.SPLITS],
       name: MODULE_TYPE_TO_NAME[ModuleType.SPLITS],
       label: "Create custom royalty splits to distribute funds.",
       description: "Custom royalty splits and fund distribution",
-      portal: "https://thirdweb.com/portal/guides/splits",
+      portal: "https://portal.thirdweb.com/guides/splits",
     },
     [ModuleType.VOTE]: {
       image: FeatureIconMap[ModuleType.VOTE],
@@ -105,7 +105,7 @@ export const MODULE_BUTTON_INFO: Partial<Record<ModuleType, ModuleButtonInfo>> =
       label:
         "Create a decentralized organization for token holders to vote on proposals.",
       description: "Decentralized voting and governance protocol",
-      portal: "https://thirdweb.com/portal/guides/vote",
+      portal: "https://portal.thirdweb.com/guides/vote",
     },
   };
 

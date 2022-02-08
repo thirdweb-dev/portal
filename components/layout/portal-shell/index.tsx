@@ -29,7 +29,7 @@ export const PortalShell: React.FC = ({ children }) => {
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       // close mobile sidebar if user navigates to a new page
-      if (url.indexOf("/portal") > -1) {
+      if (url.indexOf("/") > -1) {
         setFlag.off();
       }
     };
@@ -51,10 +51,10 @@ export const PortalShell: React.FC = ({ children }) => {
           title: "Portal | thirdweb",
           description:
             "Guides, tutorials and code examples for building web3 applications",
-          url: `https://thirdweb.com/portal`,
+          url: `https://portal.thirdweb.com/`,
           images: [
             {
-              url: "https://thirdweb.com/portal.png",
+              url: "https://portal.thirdweb.com/portal.png",
               width: 1200,
               height: 630,
               alt: "Portal | thirdweb",
@@ -89,7 +89,7 @@ export const PortalShell: React.FC = ({ children }) => {
           }
           onClick={setFlag.toggle}
         />
-        <NextLink display="flex" href="/portal">
+        <NextLink display="flex" href="/">
           <Logo />
         </NextLink>
       </Stack>

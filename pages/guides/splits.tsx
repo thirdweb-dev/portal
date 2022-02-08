@@ -21,7 +21,7 @@ const SplitsPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
           title: "Splits Guides | Portal | thirdweb",
           description:
             "Guides and tutorials on how to create and use a Splits smart contract",
-          url: `https://thirdweb.com/portal/guides/splits`,
+          url: `https://portal.thirdweb.com/guides/splits`,
         }}
       />
       <Stack spacing={20}>

@@ -20,7 +20,7 @@ const Portal404Page: ConsolePage = () => {
         <LinkButton
           alignSelf="flex-start"
           colorScheme="primary"
-          href="/portal"
+          href="/"
           leftIcon={<FiChevronLeft />}
         >
           Go back

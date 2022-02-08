@@ -21,7 +21,7 @@ const NftCollectionPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
           title: "NFT Collection Guides | Portal | thirdweb",
           description:
             "Guides and tutorials on how to create and use an ERC721 token",
-          url: `https://thirdweb.com/portal/guides/nft-collection`,
+          url: `https://portal.thirdweb.com/guides/nft-collection`,
         }}
       />
       <Stack spacing={20}>

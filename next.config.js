@@ -45,12 +45,12 @@ const moduleExports = {
   async rewrites() {
     return [
       {
-        source: "/portal/learn",
-        destination: "/portal/learn/index",
+        source: "/learn",
+        destination: "/learn/index",
       },
       {
-        source: "/portal/dashboard",
-        destination: "/portal/dashboard/index",
+        source: "/dashboard",
+        destination: "/dashboard/index",
       },
     ];
   },
