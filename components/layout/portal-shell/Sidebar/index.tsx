@@ -112,8 +112,6 @@ export const PortalSidebar: React.FC = () => {
             href="/portal/learn/code-examples/splits"
           />
         </SidebarItem>
-
-        <SidebarItem label="Blog" href="/portal/blog" matchExact />
         <SidebarItem
           label="Developer Guides"
           href="/portal/guides"
