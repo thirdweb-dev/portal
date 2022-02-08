@@ -47,7 +47,7 @@ export const GeneralCta: React.FC<GeneralCtaProps> = ({ size = "md" }) => {
           }
           textAlign="center"
           size={size}
-          href="/start"
+          href="https://thirdweb.com/start"
         >
           Get Early Access
         </LinkButton>

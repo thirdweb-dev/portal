@@ -34,7 +34,7 @@ export const LandingMenu: React.FC = () => {
         <NextLink href="">
           <MenuItem>Guides</MenuItem>
         </NextLink>
-        <NextLink href="/start">
+        <NextLink href="https://thirdweb.com/start">
           <MenuItem
             onClick={() =>
               trackEvent({
