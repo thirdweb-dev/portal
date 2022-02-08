@@ -1,0 +1,425 @@
+---
+title: Token Code Examples
+author: "Nacho Iacovino"
+authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
+authorTwitter: "https://twitter.com/nachoiacovino"
+summary: "Easy copy and paste snippets to use thirdweb Token module"
+date: "2021-12-01"
+updated: "2022-02-01"
+---
+
+## TokenModule Code Examples
+
+Don’t forget to replace anything between `'<>'` with your own values. 
+
+Initialize the token module:
+
+```tsx
+// Set variable for the token module address which can be found after creating a token module in the dashboard
+const tokenAddress = "<TOKEN_MODULE_ADDRESS>";
+
+// Initialize the token module with the module address
+const token = sdk.getTokenModule(tokenAddress);
+```
+
+### allowance
+
+```tsx
+const allowance = async (spender) => { 
+  try {
+    await token.allowance(spender);
+  } catch (error) {
+    console.log('Failed to check allowance. Error: ', error);
+  }
+};
+// get the allowance for specified address
+allowance("<SPENDER_ADDRESS>");
+```
+
+### allowanceOf
+
+```tsx
+const allowanceOf = async (owner, spender) => {
+  try {
+    await token.allowanceOf(owner, spender);
+  } catch (error) {
+    console.log('Failed to check allowance of. Error: ', error);
+  }
+};
+
+allowanceOf("<OWNER_ADDRESS>", "<SPENDER_ADDRESS>");
+```
+
+### balance
+
+```tsx
+const balance = async () => {
+  try {
+    await token.balance();
+  } catch (error) {
+    console.log('Failed to check balance. Error: ', error);
+  }
+};
+// get your balance
+balance();
+```
+
+### balanceOf
+
+```tsx
+const balanceOf = async (address) => {
+  try {
+    await token.balanceOf(address);
+  } catch (error) {
+    console.log('Failed to check balance of. Error: ', error);
+  }
+};
+// get the balance of the specified address
+balanceOf("<SPENDER_ADDRESS>");
+```
+
+### burn
+
+```tsx
+const burn = async (amount) => {
+  try {
+    await token.burn(ethers.utils.parseEther(amount));
+  } catch (error) {
+    console.log('Failed to burn. Error: ', error);
+  } 
+};
+// burn 1 from the supply from the owner
+burn('<AMOUNT_TO_BURN>');
+```
+
+### burnFrom
+
+```tsx
+const burnFrom = async (from, amount) => {
+  try {
+    await token.burnFrom(from, ethers.utils.parseEther(amount));
+  } catch (error) {
+    console.log('Failed to burn from. Error: ', error);
+  }
+};
+// burn 1 from the specified address
+burnFrom("<SPENDER_ADDRESS>", '<AMOUNT_TO_BURN>');
+```
+
+### get
+
+```tsx
+const get = async () => {
+  try {
+    await token.get();
+  } catch (error) {
+    console.log('Failed to get. Error: ', error);
+  }
+};
+// get details about the token module 
+get();
+```
+
+### getAllHolderBalances
+
+```tsx
+const getAllHolderBalances = async () => {
+  try {
+    await token.getAllHolderBalances();  
+  } catch (error) {
+    console.log('Failed to get all holder balances. Error: ', error);
+  }
+};
+  
+getAllHolderBalances();
+```
+
+### getDelegation
+
+```tsx
+const getDelegation = async () => {  
+  try {
+    await token.getDelegation();
+  } catch (error) {
+    console.log('Failed to get delegation. Error: ', error);
+  }
+};
+
+getDelegation();
+```
+
+### getDelegationOf
+
+```tsx
+const getDelegationOf = async (account) => {  
+  try {
+    await token.getDelegationOf(account);
+  } catch (error) {
+    console.log('Failed to get delegation of. Error: ', error);
+  }
+  };
+  
+getDelegationOf("<SPENDER_ADDRESS>");
+```
+
+### getValue
+
+```tsx
+const getValue = async (value) => {
+  try {
+    await token.getValue(ethers.utils.parseEther(value));
+  } catch (error) {
+    console.log('Failed to get value. Error: ', error);
+  }
+};
+// get value for the specified amount
+getValue('<VALUE>');
+```
+
+### getVoteBalance
+
+```tsx
+const getVoteBalance = async () => {
+  try {
+    await token.getVoteBalance();
+  } catch (error) {
+    console.log('Failed to get vote balance. Error: ', error);
+  }
+};
+// get information about the votebalance for yourself
+getVoteBalance();
+```
+
+### getVoteBalanceOf
+
+```tsx
+const getVoteBalanceOf = async (account) => {  
+  try {
+    await token.getVoteBalanceOf(account);
+  } catch (error) {
+    console.log('Failed to get vote balance of. Error: ', error);
+  }
+};
+// get information about the votebalance for the specified address
+getVoteBalanceOf("<SPENDER_ADDRESS>");
+```
+
+### isTransferRestricted
+
+```tsx
+const isTransferRestricted = async () => {  
+  try {
+    await token.isTransferRestricted();
+  } catch (error) {
+    console.log('Failed to check is transfer restricted. Error: ', error);
+  }
+};
+// get information about the transfer settings in the token module 
+isTransferRestricted();
+```
+
+### mint
+
+```tsx
+const mint = async (amount) => { 
+  try { 
+    await token.mint(ethers.utils.parseEther(amount));
+  } catch (error) {
+    console.log('Failed to mint. Error: ', error);
+  }
+};
+// mint an specific amount
+mint('<AMOUNT_TO_MINT>');
+```
+
+### mintBatchTo
+
+```tsx
+const mintBatchTo = async (batchTo) => { 
+  try { 
+    await token.mintBatchTo(batchTo);
+  } catch (error) {
+    console.log('Failed to mint batch to. Error: ', error);
+  }
+};
+
+const example = [
+  {
+    address: "<SPENDER_ADDRESS>",
+    amount: ethers.utils.parseEther("1")
+  },
+  {
+    address: "<SPENDER_ADDRESS_2>",
+    amount: ethers.utils.parseEther("5")
+  }
+]
+
+// mint different amounts to different addresses with one call
+mintBatchTo(example);
+```
+
+### mintTo
+
+```tsx
+const mintTo = async (to, amount) => {  
+  try { 
+    await token.mintTo(to, amount);
+  } catch (error) {
+    console.log('Failed to mint to. Error: ', error);
+  }
+};
+// mint a specified amount to a specific address
+mintTo("<SPENDER_ADDRESS>", ethers.utils.parseEther("1"));
+```
+
+### setAllowance
+
+```tsx
+const setAllowance = async (spender, amount) => {  
+  try {
+    await token.setAllowance(spender, ethers.utils.parseEther(amount));
+  } catch (error) {
+    console.log('Failed to set allowance. Error: ', error);
+  }
+};
+// set an allowance amount to a specified address
+setAllowance("<SPENDER_ADDRESS>", '<AMOUNT_TO_ALLOW>');
+```
+
+### setModuleMetadata
+
+```tsx
+const setModuleMetadata = async (metadata) => {
+  try {  
+    await token.setModuleMetadata(metadata);
+  } catch (error) {
+    console.log('Failed to set module metadata. Error: ', error);
+  }
+};
+
+//set Module metadata, success will return a transactionReceipt
+setModuleMetadata("<METADATA_URI_OR_OBJECT>");
+```
+
+### setRestrictedTransfer
+
+```tsx
+const setRestrictedTransfer = async (restricted) => { 
+  try { 
+    await token.setRestrictedTransfer(restricted);
+  } catch (error) {
+    console.log('Failed to set restricted transfer. Error: ', error);
+  }
+};
+// set true/false for the transfer settings for the token module 
+setRestrictedTransfer('<IS_RESTRICTED_TRANSFER>');
+```
+
+### totalSupply
+
+```tsx
+const totalSupply = async () => {  
+  try {
+    await token.totalSupply();
+  } catch (error) {
+    console.log('Failed to get total supply. Error: ', error);
+  }
+};
+// get information about the total supply of the token module
+totalSupply();
+```
+
+### transfer
+
+```tsx
+const transfer = async (to, amount) => {  
+  try {
+    await token.transfer(to, ethers.utils.parseEther(amount));
+  } catch (error) {
+    console.log('Failed to transfer. Error: ', error);
+  }
+};
+// transfer a specified amount to a specific address  
+transfer("<SPENDER_ADDRESS>", '<AMOUNT_TO_TRANSFER>');
+```
+
+### transferBatch
+
+```tsx
+const transferBatch = async (batch) => {  
+  try {
+    await token.transferBatch(batch);
+  } catch (error) {
+    console.log('Failed to transfer batch. Error: ', error);
+  }
+};
+
+const example = [
+  {
+      address: "<SPENDER_ADDRESS>",
+      amount: ethers.utils.parseEther("2")
+  },
+  {
+      address: "<SPENDER_ADDRESS_2>",
+      amount: ethers.utils.parseEt("1")
+  }
+]
+
+// transfer different amounts to different addresses with one call  
+transferBatch(example);
+```
+
+### transferFrom
+
+```tsx
+const transferFrom = async (from, to, amount) => { 
+  try { 
+    await token.transferFrom(from, to, ethers.utils.parseEther(amount));
+  } catch (error) {
+    console.log('Failed to transfer from. Error: ', error);
+  }
+};
+// transfer a specified amount from a specific address to another  
+transferFrom("<SPENDER_ADDRESS>", "<SPENDER_ADDRESS_2>", '<AMOUNT_TO_TRANSFER>');
+```
+
+### transferFromBatch
+
+```tsx
+const transferFromBatch = async (batch) => {  
+  try {
+    await token.transferFromBatch(batch);
+  } catch (error) {
+    console.log('Failed to trasnfer from batch. Error: ', error);
+  }
+};
+
+const example = [
+  {
+      address: "<TO_ADDRESS>",
+      amount: ethers.utils.parseEther("1"),
+      fromAddress: "<FROM_ADDRESS>"
+  },
+  {
+      address: "<TO_ADDRESS>",
+      amount: ethers.utils.parseEther("1"),
+      fromAddress: "<FROM_ADDRESS>"
+  }
+]
+
+// transfer different amounts FROM different addresses  
+// TO different addresses with one call  
+transferFromBatch(example);
+```
+
+<MdxNavigation>
+  <MdxNavigationItem
+    href="/portal/learn/code-examples/bundle-drop"
+    title="Bundle Drop"
+  />
+  <MdxNavigationItem
+    href="/portal/learn/code-examples/marketplace"
+    title="Marketplace"
+    next
+  />
+  </MdxNavigation>

@@ -1,0 +1,516 @@
+---
+title: Marketplace Code Examples
+author: "Nacho Iacovino"
+authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
+authorTwitter: "https://twitter.com/nachoiacovino"
+summary: "Easy copy and paste snippets to use thirdweb Marketplace module"
+date: "2022-01-21"
+updated: ""
+---
+
+### Create Auction Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const createAuctionListing = async () => {
+  // The contract address of the NFT that will be auctioned
+  const nftCollectionAddress = "<NFT_COLLECTION_MODULE_ADDRESS>";
+
+  await marketplace
+    .createAuctionListing({
+      assetContractAddress: nftCollectionAddress,
+      buyoutPricePerToken: ethers.utils.parseUnits("10"),
+      currencyContractAddress: "<CURRENCY_CONTRACT_ADDRESS>",
+      listingDurationInSeconds: 60 * 60 * 24,
+      quantity: 1,
+      reservePricePerToken: 1,
+      startTimeInSeconds: Math.floor(Date.now() / 1000),
+      tokenId: 0,
+    })
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+
+createAuctionListing();
+```
+
+### Create Direct Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const createDirectListing = async () => {
+  // The contract address of the NFT that will be auctioned
+  const nftCollectionAddress = "<NFT_COLLECTION_MODULE_ADDRESS>";
+
+  await marketplace
+    .createDirectListing({
+      assetContractAddress: nftCollectionAddress,
+      buyoutPricePerToken: ethers.utils.parseUnits("1"),
+      currencyContractAddress: "<CURRENCY_CONTRACT_ADDRESS>",
+      listingDurationInSeconds: 60 * 60 * 24,
+      quantity: 1,
+      startTimeInSeconds: Math.floor(Date.now() / 1000),
+      tokenId: 1,
+    })
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+```
+
+### Get All Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const getAllListings = async () => {
+  await marketplace
+    .getAllListings()
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+```
+
+### Get Auction Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const getAuctionListing = async () => {
+  // Get an auction listing by listingId
+  await marketplace
+    .getAuctionListing(0)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+```
+
+### Get Direct Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const getDirectListing = async () => {
+  // Get a direct listing by listingId
+  await marketplace
+    .getDirectListing(1)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+```
+
+### Get Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const getListing = async () => {
+  // Get any listing by listingId
+  await marketplace
+    .getListing(2)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+```
+
+### Update Auction Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const updateAuctionListing = async () => {
+  await marketplace
+    .updateAuctionListing({
+      assetContractAddress: "<NFT_COLLECTION_MODULE_ADDRESS>",
+      buyoutPrice: 15,
+      currencyContractAddress: "<CURRENCY_CONTRACT_ADDRESS>",
+      buyoutCurrencyValuePerToken: {
+        name: "",
+        symbol: "",
+        decimals: 0,
+        value: "15",
+        displayValue: "15",
+      },
+      id: "7",
+      tokenId: 1,
+      quantity: 1,
+      startTimeInEpochSeconds: 1641721828,
+      asset: {
+        name: "Update Test",
+        description: "The first updated NFT",
+        image:
+          "ipfs://bafybeieicywyvnaher24isrxoagjxbro6qr6kbzcz2feldbquoqeag7ivm",
+        external_url: "",
+        properties: {},
+        id: "1",
+        uri: "",
+      },
+      reservePriceCurrencyValuePerToken: {
+        name: "",
+        symbol: "",
+        decimals: 0,
+        value: "1",
+        displayValue: "1",
+      },
+      reservePrice: 1,
+      endTimeInEpochSeconds: 1641797690,
+      sellerAddress: "<SELLER_ADDRESS>",
+      type: 1,
+    })
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+```
+
+### Update Direct Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const updateDirectListing = async () => {
+  await marketplace
+    .updateDirectListing({
+      assetContractAddress: "<NFT_COLLECTION_MODULE_ADDRESS>",
+      buyoutPrice: 5,
+      currencyContractAddress: "<CURRENCY_CONTRACT_ADDRESS>",
+      buyoutCurrencyValuePerToken: {
+        name: "",
+        symbol: "",
+        decimals: 0,
+        value: "3",
+        displayValue: "3",
+      },
+      id: "8",
+      tokenId: 4,
+      quantity: 1,
+      startTimeInSeconds: parseInt("0x61dac1aa", 16),
+      asset: {
+        name: "NFT 4",
+        description: "",
+        image:
+          "ipfs://bafybeie7b3zj7phtsuuo6achh2avxp5gtm3fxopyhyec677dn7xgg6vfn4",
+        external_url: "",
+        properties: {},
+        id: "4",
+        uri: "",
+      },
+      secondsUntilEnd: parseInt("0x61dac52e", 16),
+      sellerAddress: "<SELLER_ADDRESS>",
+      type: 0,
+    })
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+```
+
+### Accept Direct Listing Offer
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const acceptDirectListingOffer = async () => {
+  // Accept the offer of the wallet address for the listingId listing
+  await marketplace
+    .acceptDirectListingOffer(0, "<BUYER_ADDRESS>")
+    .catch((error) => console.error(error));
+};
+```
+
+### Buyout Auction Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const buyoutAuction = async () => {
+  // Buyout the auction listing with listingId 1
+  await marketplace.buyoutAuctionListing(1).catch((error) => console.error(error));
+};
+```
+
+### Buyout Direct Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const buyoutDirectListing = async () => {
+  // Buyout the quantity of the direct listing with listingId 2
+  await marketplace
+    .buyoutDirectListing({ listingId: 2, quantityDesired: 1 })
+    .catch((error) => console.error(error));
+};
+```
+
+### Buyout Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const buyoutListing = async () => {
+  // Buyout a listing. (listingId, quantity).
+  await marketplace.buyoutListing(0, 1).catch((error) => console.error(error));
+};
+```
+
+### Get Bid Buffer Bps
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const getBufferBps = async () => {
+  await marketplace
+    .getBidBufferBps()
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+```
+
+### Get Active Offer
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const getActiveOffer = async () => {
+  // Get offers from the specified wallet on the specified listing
+  await marketplace
+    .getActiveOffer(0, "<BUYER_ADDRESS>")
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+```
+
+### Cancel Auction Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const cancelAuction = async () => {
+  // Cancel auction with listingId 0
+  await marketplace.cancelAuctionListing(0).catch((error) => console.error(error));
+};
+```
+
+### Cancel Direct Listing
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const cancelDirectListing = async () => {
+  // Cancel direct listing with listingId 1
+  await marketplace.cancelDirectListing(1).catch((error) => console.error(error));
+};
+```
+
+### Is Winning Bid
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const isWinning = async () => {
+  await marketplace
+    .isWinningBid(5, 7, 15)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+```
+
+### Get Winning Bid
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const getWinningBid = async () => {
+  // Get winning bid, if it exists, for listingId 2
+  await marketplace
+    .getWinningBid(2)
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+```
+
+### Get Time Buffer in Seconds
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const getTimeBuffer = async () => {
+  await marketplace
+    .getTimeBufferInSeconds()
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+```
+
+### Make Direct Listing Offer
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const makeDirectListingBid = async () => {
+  await marketplace
+    .makeDirectListingOffer({
+      listingId: 1,
+      quantityDesired: 1,
+      currencyContractAddress: "<CURRENCY_CONTRACT_ADDRESS",
+      pricePerToken: 2,
+    })
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error));
+};
+```
+
+### Make Auction Bid
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const makeAuctionBid = async () => {
+  await marketplace
+    .makeAuctionListingBid({ listingId: 0, pricePerToken: 2 })
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error));
+};
+```
+
+### Set Bid Buffer Bps
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const setBufferBps = async () => {
+  await marketplace.setBidBufferBps(5).catch((error) => console.error(error));
+};
+```
+
+### Set Time Buffer in Seconds
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const setTimeBuffer = async () => {
+  await marketplace
+    .setTimeBufferInSeconds(300)
+    .catch((error) => console.error(error));
+};
+```
+
+### Close Auction
+
+```js
+// Set variable for the market module contract address which can be found after creating a market module in the dashboard
+const marketplaceAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+
+// Initialize the market module with the contract address
+const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
+
+const closeAuction = async () => {
+  // Close auction with listingId 3 for buyer or seller
+  await marketplace
+    .closeAuctionListing(3, "<BUYER_ADDRESS> or <SELLER_ADDRESS>")
+    .catch((error) => console.error(error));
+};
+```
+
+<MdxNavigation>
+  <MdxNavigationItem
+    href="/portal/learn/code-examples/token"
+    title="Token"
+  />
+  <MdxNavigationItem
+    href="/portal/learn/code-examples/pack"
+    title="Pack"
+    next
+  />
+</MdxNavigation>
