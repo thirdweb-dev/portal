@@ -80,7 +80,7 @@ export const CodeExamples: React.FC = () => {
               colorScheme="twurple"
               _hover={{ bgColor: "twurple.600" }}
               borderRadius="full"
-              href="/portal/learn"
+              href="/learn"
               px={8}
               position="absolute"
               bottom={70}

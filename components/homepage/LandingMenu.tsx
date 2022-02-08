@@ -31,7 +31,7 @@ export const LandingMenu: React.FC = () => {
       <MenuList>
         <MenuItem onClick={() => scrollToId("features")}>Features</MenuItem>
         <MenuItem onClick={() => scrollToId("developers")}>Developers</MenuItem>
-        <NextLink href="/portal">
+        <NextLink href="">
           <MenuItem>Guides</MenuItem>
         </NextLink>
         <NextLink href="/start">

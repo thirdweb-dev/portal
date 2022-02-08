@@ -72,7 +72,7 @@ export const AppShell: React.FC = ({ children }) => {
               marginLeft="auto"
             >
               <NextLink
-                href="/portal"
+                href=""
                 variant="link"
                 color="inherit"
                 fontWeight="inherit"
