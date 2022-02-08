@@ -1,0 +1,137 @@
+---
+title: Create your own token with TypeScript
+author: "Pratham Prasoon & Raza Zaidi"
+authorAvatar: "/assets/portal/authors/pratham-prasoon.jpg"
+authorAvatar2: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/PrasoonPratham"
+authorTwitter2: "https://twitter.com/razacodes"
+draft: false
+tags: [token, currency, typescript, sdk]
+summary: "Creating tokens that can be used as your own currency with the thirdweb TypeScript SDK"
+image: "/assets/portal/guides/create-your-currency-with-typescript-sdk/thumbnail.png"
+date: "2021-11-21"
+updated: ""
+---
+
+## Intro
+
+This guide explains how to create your own currency. We need to create a project in the dashboard and create a Token module inside our project. We also need to connect a wallet. So if you don't have a wallet, make sure to sign up with **MetaMask** or **CoinWallet**. If don't have a wallet, [you can follow this guide to create one](/portal/guides/create-a-metamask-wallet).
+
+## Dashboard setup
+
+## Dashboard setup
+
+The first thing we need to do is head over to the [dashboard](/dashboard) and create a project and a **Token** module. if you don't know how to do this, check out [this guide](/portal/learn/introduction).
+
+Once your **Token** module has been created, it's time to mint our own currency, but we don't need the dashboard for that! For use cases where the interaction has a high frequency and requires conditions, using the sdk is more efficient.
+
+![](/assets/portal/guides/create-your-currency-with-typescript-sdk/16_module_done.png)
+
+## The code
+
+### 1. Install the SDK
+
+Next up use we'll install the ThirdWeb SDK using npm!
+
+SDK installation and setup with TypeScript
+
+- **@3rdweb/sdk** - thirdweb TypeScript SDK.
+- **ethers** - will give us very useful utils.
+- **dotenv** - to hide our private key.
+- **typescript** - since this is a TypeScript project
+- **@types/node** - typing for node as a dev dependency.
+- **tslib** - utility package
+
+```bash
+npm init -y
+npm install @3rdweb/sdk ethers dotenv
+npm install --save-dev typescript @types/node ts-node tslib
+```
+
+### 2. Import the SDK
+
+Let's take the code step by step. At the end we'll include a full code snippet.
+
+Create a file called `currency.ts`
+
+![](/assets/portal/guides/create-your-currency-with-typescript-sdk/18_ts_file.png)
+
+Import the following classes from the SDK.
+
+We will use the **dotenv** library for importing our private key.
+
+```jsx:currency.ts
+// Importing libraries
+import { ThirdwebSDK } from "@3rdweb/sdk"
+import { ethers } from "ethers"
+
+//Importing private key
+require('dotenv').config()
+```
+
+### 3. Set your network & private key
+
+Over here we need to enter the network that we will use. If you don't know what the URL of your network looks like, take a look over [here](https://chainlist.org/).
+
+To start using the SDK, we will create object inheriting all the methods inside the SDK.
+
+```tsx:currency.ts
+//Instantiate 3rdweb SDK
+const sdk = new ThirdwebSDK(
+    new ethers.Wallet(
+        // Your wallet private key
+        process.env.PRIVATE_KEY as string,
+        // RPC URL
+        ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
+    )
+);
+```
+
+### 4. Define which module to use
+
+Now we need to define which module we want to use. This is the module we just created inside our project **Making your own currency**. We called the module **Pratham Coin**. This module has an address. We need to pass the address here. You can find the address here, under **Pratham Coin**:
+
+In our `currency.ts` we include the following code.
+
+The token variable uses the token module inside the sdk with our address for the token smart contract.
+
+![](/assets/portal/guides/create-your-currency-with-typescript-sdk/16_module_done.png)
+
+```tsx:currency.ts
+// Instantiate Token module
+const token = sdk.getTokenModule("0x74846071E984C0039c597b0f3975814d111eF5F6");
+```
+
+### 5. Time to mint the coins (tokens)!
+
+The arguments passed over here are the same as minting the tokens inside the dashboard. If you want to familiarize yourself with the process, check out the dashboard! Ethereum deals with 18 decimals, so we need to adjust the input figure.
+
+```tsx:currency.ts
+// Set the amount of currency you want to mint
+// (Actual amount, number of decimals)
+const amount = ethers.utils.parseUnits("1000", 18)
+
+// Minting the currency, 1000 Pratham coin
+async function mintCurrency() {
+    console.log(await token.mint(amount))
+}
+
+// Running the entire thing
+mintCurrency()
+```
+
+So the only thing left is to run our code! Open a terminal and paste the following:
+```bash
+# Runs the TypeScript file
+npx ts-node index.ts
+```
+
+### 6. Results
+
+Get the balance to check it out or head over to the dashboard.
+
+![](/assets/portal/guides/create-your-currency-with-typescript-sdk/17_balance.png)
+
+## That's it!
+
+Congratulations! You have now created your own currency using only TypeScript code! The next step is spending it!

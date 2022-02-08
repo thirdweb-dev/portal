@@ -1,0 +1,159 @@
+---
+title: Create your own NFT marketplace with TypeScript
+author: "Pratham Prasoon & Raza Zaidi"
+authorAvatar: "/assets/portal/authors/pratham-prasoon.jpg"
+authorAvatar2: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/PrasoonPratham"
+authorTwitter2: "https://twitter.com/razacodes"
+draft: false
+tags: [marketplace, typescript]
+summary: "Create your own marketplace to sell your own NFTs with TypeScript"
+image: "/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/thumbnail.png"
+date: "2021-11-25"
+updated: ""
+---
+
+## Intro
+
+In this guide we'll create our own **marketplace** with the TypeScript SDK! In a **marketplace** you can list your tokens, like NFT's, for sale. Opensea is an example of a **marketplace**. Did you know you can do both! After we create our **marketplace**, we will list the NFT we minted with our sdk in our previous guide. Check that guide out over [here](/portal/mint-nft-collection-using-typescript-sdk).
+
+By the way we also need to connect a wallet. So if you don't have a wallet, make sure to sign up with MetaMask or CoinWallet. If don't have a wallet, [you can follow this guide to create one](/portal/guides/create-a-metamask-wallet).
+
+Alright without further ado, let's create our **marketplace**!
+
+## Dashboard setup
+
+The first thing we need to do is head over to the [dashboard](/dashboard) and create a project and a **Marketplace** module. if you don't know how to do this, check out [this guide](/portal/learn/introduction).
+
+Once you've created the module, it's time to list our first NFT, but we don't need the dashboard for that! I mean we could, but why use GUI if we can use TypeScript!?
+
+![](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/17-marketplace.png)
+
+![](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/18-roles.png)
+
+## The code
+
+### 1. Create a TypeScript file
+
+Go ahead and create a new TypeScript file. Let's call it `index.ts` and open it in your favorite code editor. We'll use Visual Studio code.
+
+![](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/19-jsfile.png)
+
+Next up use we'll install the ThirdWeb SDK using npm!
+
+### 2. SDK installation and setup with TypeScript
+
+- **@3rdweb/sdk** - thirdweb TypeScript SDK.
+- **ethers** - will give us very useful utils.
+- **dotenv** - to hide our private key.
+- **typescript** - since this is a TypeScript project
+- **@types/node** - typing for node as a dev dependency.
+- **tslib** - utility package
+
+```bash
+npm init -y
+npm install @3rdweb/sdk ethers dotenv
+npm install --save-dev typescript @types/node ts-node tslib
+```
+
+### 3. Import the SDK
+
+Let's take the code step by step. At the end we'll include a full code snippet.
+
+Import the following classes from the sdk.
+
+We will use the **dotenv** library for importing our private key.
+
+```tsx:index.ts
+// Importing libraries
+import { ThirdwebSDK } from "@3rdweb/sdk"
+import { ethers } from "ethers"
+
+//Importing private key
+require('dotenv').config()
+
+```
+
+### 4. Set your network & private key
+
+Over here we need to enter the network that we will use. If you don't know what the URL of your network looks like, take a look over [here](https://chainlist.org/).
+
+To start using the sdk, we will create object inheriting all the methods inside the sdk.
+
+```tsx:index.ts
+//Instantiate 3rdweb SDK
+const sdk = new ThirdwebSDK(
+    new ethers.Wallet(
+        // Your wallet private key
+        process.env.PRIVATE_KEY as string,
+        // RPC URL
+        ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
+    )
+);
+
+```
+
+### 5. Define which module to use
+
+Now we need to define which module we want to use. This is the module we just created inside our **project** Minting NFTs with TypeScript. We called the module '**Marketplace written in TypeScript**'. This module has an address. We need to pass the address here. You can find the address here, under '**Marketplace written in TypeScript**':
+
+![](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/20-module.png)
+
+In our `index.ts` file we include the following code. First we define a variable `marketModuleAddress` and store our module address in here.
+
+Then we create an object that uses the market module inside the SDK with our address.
+
+We will also need the module address of the NFT we want to list. To get your NFT module address head over to the dashboard. Inside your project go to your `NFT Collection` module and copy the address of that module.
+
+If you want to sell your NFT in your own coins, you will also need the module address of your coins. Head over to the dasboard and inside your project go to your `Token` module and copy the address of that module and paste it below.
+
+You can also use the native currency of the chain, such as Ether on Ethereum and Matic on Polygon.
+You will need the token address of the coin you want to use and pass it to the variable `tokenModuleAddress`.
+
+```tsx:index.ts
+// Initialize market module by passing in the module address
+const marketModuleAddress = "0xC06adC34097afa2085324D4192fbE9206059f8e0"
+const market = sdk.getMarketModule(marketModuleAddress);
+
+// Declaring the NFT Collection module address
+const nftCollectionModuleAddress = "0xdd25FAEE772FbB1bcB7ba0b2cEE6387A8F82f032"
+
+// Declaring the token module adress if you want to use your own tokens
+const tokenModuleAddress = "0x0d5fb8942eEa62093944F3e91C6Ac4e584336741";
+
+```
+
+### 6. Time to mint the NFT on the marketplace!
+
+We are using the NFT that we created in our previous guide. Each NFT has `tokenId`. We will pass that the following parameters to the '.list' method:
+
+```tsx:index.ts
+// the listingId of the listing you want to fetch data for
+const tokenId = "1";
+const tokenIdOffer = 1
+
+market.createDirectListing({
+      assetContractAddress: nftCollectionModuleAddress,
+      buyoutPricePerToken: ethers.utils.parseUnits(tokenIdOffer, 18),
+      currencyContractAddress: tokenModuleAddress,
+      startTimeInSeconds: Math.floor(Date.now() / 1000),
+      listingDurationInSeconds: 60 * 60 * 24,
+      tokenId: tokenId,
+      quantity: 1,
+    });
+
+// Get all the listings
+market.getAllListings();
+```
+
+So the only thing left is to run our code! Open a terminal and paste the following:
+
+```bash:virtual-env
+# Runs the TypeScript file
+npx ts-node index.ts
+
+```
+
+### 7. That's it!
+
+Congratulations! You have created your own marketplace.
