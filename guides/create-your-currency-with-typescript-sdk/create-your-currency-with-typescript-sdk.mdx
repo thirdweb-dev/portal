@@ -10,7 +10,7 @@ tags: [token, currency, typescript, sdk]
 summary: "Creating tokens that can be used as your own currency with the thirdweb TypeScript SDK"
 image: "./thumbnail.png"
 date: "2021-11-21"
-updated: ""
+updated: "2022-02-08"
 ---
 
 ## Intro
@@ -48,46 +48,18 @@ npm install @3rdweb/sdk ethers dotenv
 npm install --save-dev typescript @types/node ts-node tslib
 ```
 
-### 2. Import the SDK
+### 2. Istantiate the SDK
 
-Let's take the code step by step. At the end we'll include a full code snippet.
+Let's take the code step by step.
 
 Create a file called `currency.ts`
 
 ![](./18_ts_file.png)
 
-Import the following classes from the SDK.
+In order to make use of our SDK, you need to establish a connection to a blockchain.
+Click [here](/portal/learn/connect-to-blockchain) to learn how to connect to the blockchain and instantiate our SDK.
 
-We will use the **dotenv** library for importing our private key.
-
-```jsx:currency.ts
-// Importing libraries
-import { ThirdwebSDK } from "@3rdweb/sdk"
-import { ethers } from "ethers"
-
-//Importing private key
-require('dotenv').config()
-```
-
-### 3. Set your network & private key
-
-Over here we need to enter the network that we will use. If you don't know what the URL of your network looks like, take a look over [here](https://chainlist.org/).
-
-To start using the SDK, we will create object inheriting all the methods inside the SDK.
-
-```tsx:currency.ts
-//Instantiate 3rdweb SDK
-const sdk = new ThirdwebSDK(
-    new ethers.Wallet(
-        // Your wallet private key
-        process.env.PRIVATE_KEY as string,
-        // RPC URL
-        ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
-    )
-);
-```
-
-### 4. Define which module to use
+### 3. Define which module to use
 
 Now we need to define which module we want to use. This is the module we just created inside our project **Making your own currency**. We called the module **Pratham Coin**. This module has an address. We need to pass the address here. You can find the address here, under **Pratham Coin**:
 
@@ -102,7 +74,7 @@ The token variable uses the token module inside the sdk with our address for the
 const token = sdk.getTokenModule("0x74846071E984C0039c597b0f3975814d111eF5F6");
 ```
 
-### 5. Time to mint the coins (tokens)!
+### 4. Time to mint the coins (tokens)!
 
 The arguments passed over here are the same as minting the tokens inside the dashboard. If you want to familiarize yourself with the process, check out the dashboard! Ethereum deals with 18 decimals, so we need to adjust the input figure.
 
@@ -121,12 +93,13 @@ mintCurrency()
 ```
 
 So the only thing left is to run our code! Open a terminal and paste the following:
+
 ```bash
 # Runs the TypeScript file
 npx ts-node index.ts
 ```
 
-### 6. Results
+### 5. Results
 
 Get the balance to check it out or head over to the dashboard.
 
