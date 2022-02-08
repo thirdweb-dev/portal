@@ -14,6 +14,8 @@ import { GuideToc, GUIDE_TOC_WIDTH } from "components/portal/guide-toc";
 import { GrayTag } from "components/portal/tag";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import fs from "fs";
+import matter from "gray-matter";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { GetStaticProps } from "next";
@@ -21,7 +23,13 @@ import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
-import { getAllGuidePaths, getAllGuides } from "utils/mdxUtils";
+import path from "path";
+import {
+  getHeadings,
+  getMdxSource,
+  guidesFilePaths,
+  GUIDES_PATH,
+} from "utils/mdxUtils";
 import { Guide, TocHeading } from "utils/portalTypes";
 import { pxToRem } from "utils/pxFunctions";
 
@@ -150,31 +158,30 @@ export default GuidePage;
 GuidePage.Layout = PortalLayout;
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const allGuides = await getAllGuides();
-  const guide = allGuides.find((g) => g.slug === params?.slug);
+  const postFilePath = path.join(GUIDES_PATH, `${params?.slug}.mdx`);
+  const source = fs.readFileSync(postFilePath);
 
-  if (!guide) {
-    return {
-      notFound: true,
-    };
-  }
+  const { content, data } = matter(source);
+  const mdxSource = await getMdxSource(content, data);
 
   return {
     props: {
-      source: guide.mdxContent,
-      frontMatter: guide.metadata,
-      headings: guide.headings,
+      source: mdxSource,
+      frontMatter: data,
+      headings: getHeadings(content),
     },
   };
 };
 
 export const getStaticPaths = async () => {
-  const paths = (await getAllGuidePaths())
+  const paths = guidesFilePaths
+    // Remove file extensions for page paths
+    .map((pth) => pth.replace(/\.mdx?$/, ""))
     // Map the path into the static paths object required by Next.js
     .map((slug) => ({ params: { slug } }));
 
   return {
     paths,
-    fallback: "blocking",
+    fallback: false,
   };
 };

@@ -1,12 +1,27 @@
+import fs from "fs";
 import matter from "gray-matter";
 import mdxPrism from "mdx-prism";
 import { serialize } from "next-mdx-remote/serialize";
+import path from "path";
 import remarkAutolinkHeadings from "remark-autolink-headings";
 import remarkCodeTitles from "remark-code-titles";
 import remarkSlug from "remark-slug";
 import slugify from "slugify";
 
-const getHeadings = (src: string) => {
+// GUIDES_PATH is useful when you want to get the path to a specific file
+export const GUIDES_PATH = path.join(process.cwd(), "portal/guides");
+// guidesFilePaths is the list of all mdx files inside the GUIDES_PATH directory
+export const guidesFilePaths = fs
+  .readdirSync(GUIDES_PATH)
+  // Only include md(x) files
+  .filter((pth) => /\.mdx?$/.test(pth));
+
+export const LEARN_PATH = path.join(process.cwd(), "portal/learn");
+export const learnFilePaths = fs
+  .readdirSync(LEARN_PATH)
+  .filter((pth) => /\.mdx?$/.test(pth));
+
+export const getHeadings = (src: string) => {
   const headingLines = src.split("\n").filter((line) => line.match(/^###*\s/));
 
   return headingLines.map((raw) => {
@@ -18,7 +33,7 @@ const getHeadings = (src: string) => {
   });
 };
 
-const getMdxSource = async (content: string, data: any) =>
+export const getMdxSource = async (content: string, data: any) =>
   await serialize(content, {
     mdxOptions: {
       remarkPlugins: [remarkAutolinkHeadings, remarkSlug, remarkCodeTitles],
@@ -27,79 +42,17 @@ const getMdxSource = async (content: string, data: any) =>
     scope: data,
   });
 
-function getContentFromGithub() {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  return require("/public/portal-content.json");
-}
+export const getAllGuides = () => {
+  return guidesFilePaths
+    .map((filePath: string) => {
+      const source = fs.readFileSync(path.join(GUIDES_PATH, filePath));
+      const { data } = matter(source);
 
-function recursiveEntries(entries: any) {
-  const allEntries = entries?.reduce((acc: any, e: any) => {
-    if (e.type === "tree") {
-      acc.push(...recursiveEntries(e?.object.entries));
-    } else {
-      acc.push(e);
-    }
-
-    return acc;
-  }, []);
-
-  return allEntries;
-}
-
-export const getContent = async (contentType: "guides" | "learn" | "blog") => {
-  const allContent = await getContentFromGithub();
-
-  const specificContent = allContent.find((e: any) => e.name === contentType);
-
-  const allEntries = recursiveEntries(specificContent?.object.entries);
-
-  const slugMap = allEntries?.reduce((acc: any = {}, e: any) => {
-    let slug = e.path.replace(e.name, "");
-    slug = slug.slice(contentType.length + 1, slug.length - 1);
-    const slugAcc = slug in acc ? acc[slug] : { mdx: undefined, assets: [] };
-    // handle .mdx files
-    if (e.name.endsWith(".mdx")) {
-      slugAcc.mdx = e?.object.text;
-    } else if (!e.name.endsWith(".mdx")) {
-      slugAcc.assets = slugAcc.assets.concat({
-        token: `./${e.name}`,
-        replace: `https://github.com/nftlabs/portal/raw/main/${e.path}`,
-      });
-    }
-    acc[slug] = slugAcc;
-    return acc;
-  }, {});
-  const guides = Object?.keys(slugMap).map((slug) => {
-    return { slug, ...slugMap[slug] };
-  });
-
-  return (
-    await Promise.all(
-      guides
-        .filter((g) => !!g.mdx)
-        .map(async ({ slug, mdx, assets }: any) => {
-          for (const asset of assets) {
-            mdx = mdx.replace(new RegExp(asset.token, "g"), asset.replace);
-          }
-          const thumbnailUrl = assets.find(
-            (a: any) => a.token.indexOf("thumbnail") > -1,
-          )?.replace;
-          const { data, content } = matter(mdx);
-
-          return {
-            slug,
-            mdxContent: await getMdxSource(content, data),
-            headings: getHeadings(content),
-            metadata: {
-              ...data,
-              image: thumbnailUrl || null,
-            } as {
-              [key: string]: any;
-            },
-          };
-        }),
-    )
-  )
+      return {
+        slug: filePath.replace(/\.mdx?$/, ""),
+        metadata: data,
+      };
+    })
     .filter((guide: any) => !guide.metadata.draft)
     .sort((a, b) => {
       if (a.metadata.date > b.metadata.date) {
@@ -111,30 +64,3 @@ export const getContent = async (contentType: "guides" | "learn" | "blog") => {
       return 0;
     });
 };
-
-export async function getAllGuides() {
-  return await getContent("guides");
-}
-
-export async function getAllLearn() {
-  return await getContent("learn");
-}
-
-export async function getAllBlogs() {
-  return await getContent("blog");
-}
-
-export async function getAllGuidePaths() {
-  const guides = await getAllGuides();
-  return guides.map((guide) => guide.slug as string);
-}
-
-export async function getAllLearnPaths() {
-  const learns = await getAllLearn();
-  return learns.map((learn) => learn.slug as string);
-}
-
-export async function getAllBlogPaths() {
-  const blogs = await getAllBlogs();
-  return blogs.map((blog) => blog.slug as string);
-}

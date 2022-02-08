@@ -6,6 +6,8 @@ import { GuideToc, GUIDE_TOC_WIDTH } from "components/portal/guide-toc";
 import { GuidesList } from "components/portal/guides-list";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import fs from "fs";
+import matter from "gray-matter";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { GetStaticProps } from "next";
@@ -13,7 +15,14 @@ import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
-import { getAllGuides, getAllLearn, getAllLearnPaths } from "utils/mdxUtils";
+import path from "path";
+import {
+  getAllGuides,
+  getHeadings,
+  getMdxSource,
+  learnFilePaths,
+  LEARN_PATH,
+} from "utils/mdxUtils";
 import { Doc, GuidesPageProps, TocHeading } from "utils/portalTypes";
 import { pxToRem } from "utils/pxFunctions";
 
@@ -123,37 +132,39 @@ export default LearnPage;
 LearnPage.Layout = PortalLayout;
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const slug = Array.isArray(params?.slug) ? params?.slug?.join("/") : "";
+  const postFilePath = path.join(LEARN_PATH, `${params?.slug}.mdx`);
+  const source = fs.readFileSync(postFilePath);
 
-  const allLearn = await getAllLearn();
-  const learn = allLearn.find((g) => g.slug === slug);
+  const { content, data } = matter(source);
+  const mdxSource = await getMdxSource(content, data);
 
-  if (!learn) {
-    return {
-      notFound: true,
-    };
-  }
+  let [slug] = params?.slug as string[];
 
-  const guides = (await getAllGuides())
+  slug = slug.split(",")[1];
+
+  const guides = getAllGuides()
     .filter((guide) => guide.metadata.tags.some((tag: string) => tag === slug))
     .slice(0, 3);
 
   return {
     props: {
-      source: learn.mdxContent,
-      frontMatter: learn.metadata,
-      headings: learn.headings,
+      source: mdxSource,
+      frontMatter: data,
+      headings: getHeadings(content),
       guides,
     },
   };
 };
+
 export const getStaticPaths = async () => {
-  const paths = (await getAllLearnPaths())
+  const paths = learnFilePaths
+    // Remove file extensions for page paths
+    .map((pth) => pth.replace(/\.mdx?$/, ""))
     // Map the path into the static paths object required by Next.js
     .map((slug) => ({ params: { slug: slug.split(",") } }));
 
   return {
     paths,
-    fallback: "blocking",
+    fallback: false,
   };
 };

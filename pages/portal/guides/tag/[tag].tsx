@@ -48,7 +48,7 @@ export default TagPage;
 TagPage.Layout = PortalLayout;
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const guides = (await getAllGuides()).filter((guide) =>
+  const guides = getAllGuides().filter((guide) =>
     guide.metadata.tags.some((tag: string) => tag === params?.tag),
   );
 
@@ -60,7 +60,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = (await getAllGuides())
+  const paths = getAllGuides()
     .map((guide) =>
       guide.metadata.tags.map((tag: string) => ({ params: { tag } })),
     )
@@ -68,6 +68,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: "blocking",
+    fallback: false,
   };
 };

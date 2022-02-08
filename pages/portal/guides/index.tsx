@@ -39,8 +39,8 @@ const Guides: ConsolePage<GuidesPageProps> = ({ guides }) => {
   );
 };
 
-export async function getStaticProps() {
-  const guides = await getAllGuides();
+export function getStaticProps() {
+  const guides = getAllGuides();
 
   return {
     props: { guides },

@@ -35,8 +35,8 @@ const GeneralPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
   );
 };
 
-export async function getStaticProps() {
-  const guides = (await getAllGuides()).filter(
+export function getStaticProps() {
+  const guides = getAllGuides().filter(
     (guide) =>
       !guide.metadata.tags.some((tag: string) =>
         Object.keys(TagToModuleTypeMap).includes(tag),

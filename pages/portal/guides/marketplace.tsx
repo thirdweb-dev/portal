@@ -36,8 +36,8 @@ const MarketPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
   );
 };
 
-export async function getStaticProps() {
-  const guides = (await getAllGuides()).filter((guide) =>
+export function getStaticProps() {
+  const guides = getAllGuides().filter((guide) =>
     guide.metadata.tags.some((tag: string) => tag === "marketplace"),
   );
 
