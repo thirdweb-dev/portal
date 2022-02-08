@@ -1,0 +1,116 @@
+---
+title: "NFT Collection module"
+author: "Raza Zaidi"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+draft: false
+tags: [nft, module, sdk]
+summary: "This guide explains our NFT Collection Module - An ERC721 contract that enables you to mint one-of-one NFTs"
+date: "2022-01-26"
+updated: ""
+---
+
+## In a nutshell
+
+The `NFT Collection` is suited for cases where 1 media file is mapped to 1 token (NFT). In other words, you don’t want to mint an NFT multiple times with the same asset (like an image).
+
+If you’re looking for a module that can mint multiple NFTs based on the same asset (ERC-1155 standard), check out our `Bundle Collection` module [here](/portal/guides/bundle-collection).
+
+Perhaps you’re looking to efficiently create and distribute 10k pfp style collections, then check out our `Bundle Drop` module [here](/portal/guides/bundle-drop).
+
+The `NFT Collection` module is a smart contract, which is compliant with the ERC-721 standard. A thirdweb module is actually more than _just_ a smart contract.
+
+Click [here](/portal/learn/modules) to learn more about modules and how to create them.
+
+## The settings
+
+The following settings can be adjusted, when you create an `NFT Collection` module:
+
+- Name
+- Description
+- Image
+- Symbol
+- Royalty %
+
+Once you’ve created the module, you can adjust the following settings:
+
+- Name
+- Transfer Settings
+- Description
+- Image
+
+## Use Cases
+
+The following use cases are suited for the `NFT Collection` module
+
+1. Minting single (one of one) NFTs
+2. List an NFT for sale on a [Marketplace](/portal/guides/marketplace) (you would also need the `Marketplace` module for this)
+3. Create a button in your app, that allows users to mint an NFT
+
+## How it works
+
+You can mint an NFT via the dashboard or SDK. When you mint an NFT, the connected wallet pays for the gas fees. If you mint it via the dashboard, your wallet pops up to confirm the transactions. If you mint via code, you won’t see this explicit request to authorise the transaction.
+
+After you execute the transaction to mint the NFT, we upload the image to **IPFS** for you and pin it, making sure that the integrity of the image is safeguarded.
+
+Finally when the NFT is minted, you can see the NFT in your dashboard or call the metadata using our SDK via code.
+
+## How to use the module
+
+You can use the `NFT Collection` module with or without code:
+
+1. TypeScript
+2. Python
+3. Dashboard Embed (our no-code solution)
+
+### Setup your dev environment
+
+To interact with your NFT Collection module with code, you need to follow 3 steps:
+
+1. Install the necessary packages on your (local) machine
+2. Instantiate the SDK
+3. Passing the address of the Module inside your code
+
+To install the necessary packages for TypeScript or Python on your (local) machine and instantiate the SDK in your code, check out [this](/portal/guides/sdk-guide) guide to help you with that. Note, you can instantiate the SDK in multiple ways, so make sure to check out that guide.
+
+You can find the module address in the thirdweb dashboard, inside your project or inside the `NFT Collection` module itself.
+
+![Overview of modules and their addresses](/assets/portal/learn/nft-collection/module-address.png)
+
+See below for a code example. Please note: this example makes use of our `Connect Wallet` component to instantiate the SDK.
+
+```jsx
+import { useWeb3 } from "@3rdweb/hooks";
+import { ThirdwebSDK } from "@3rdweb/sdk";
+import { Signer } from "ethers";
+import { useMemo } from "react";
+
+export const useModule = () => {
+  const { provider } = useWeb3();
+  const sdk = useMemo(() => {
+    if (provider) {
+      return new ThirdwebSDK(provider?.getSigner() as Signer);
+    }
+    return undefined;
+  }, [provider]);
+  // instantiate the sdk
+  const nftCollection = useMemo(() => {
+    if (sdk) {
+      return sdk.getNFTModule("<NFT_COLLECTION_MODULE_ADDRESS>");
+    }
+    return undefined;
+  }, [sdk]);
+  return nftCollection;
+};
+```
+
+## Code Guide
+
+1. You can find code snippets for every method in our portal [here](/learn/code-examples/nft-collection).
+2. To check out guides for this module click [here](/guides/nft-collection).
+3. To setup your local dev environment, click [here](/guides/sdk-guide).
+
+<MdxNavigation>
+  <MdxNavigationItem href="/learn/modules" title="Modules" />
+  <MdxNavigationItem href="/learn/modules/pack" title="Pack" next />
+</MdxNavigation>
