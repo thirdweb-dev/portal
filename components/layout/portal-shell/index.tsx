@@ -89,7 +89,7 @@ export const PortalShell: React.FC = ({ children }) => {
           }
           onClick={setFlag.toggle}
         />
-        <NextLink display="flex" href="/">
+        <NextLink display="flex" href="https://thirdweb.com">
           <Logo />
         </NextLink>
       </Stack>
