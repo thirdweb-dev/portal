@@ -130,7 +130,7 @@ The arguments passed over here are the same as minting an NFT inside the dashboa
 // Minting the NFT asynchronously
 const lazyMintNft = async () => {
   try {
-    await drop.lazyMint({
+    await drop.createBatch({
       name: "thirdweb",
       description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
       image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
