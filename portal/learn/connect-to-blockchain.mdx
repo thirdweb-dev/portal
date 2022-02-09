@@ -60,7 +60,7 @@ nft.balance();
 
 You can find the addresses of your modules inside your dashboard.
 
-By now you should have some modules deployed. If you haven’t, check out [this](/portal/learn/projects) page to create and deploy a module. If you don’t know what modules are, click [here](/portal/learn/introduction)!
+By now you should have some modules deployed. If you haven’t, check out [this](/learn/projects) page to create and deploy a module. If you don’t know what modules are, click [here](/learn/introduction)!
 
 Here’s another example, to get all the listings in our market we use the `getAllListings` method.
 
@@ -93,9 +93,9 @@ The user does not need to worry that we can see their private keys. That is not 
 
 thirdweb has a component to get the necessary information from the wallet to provide context to the `Provider` , specifically the `Signer`, and we then use that provider to instantiate an sdk that can perform **write** methods.
 
-Click [here](/portal/guides/add-connectwallet-to-your-website) for a guide on how to obtain a `Signer` by including a `Connect Wallet` button in your app.
+Click [here](/guides/add-connectwallet-to-your-website) for a guide on how to obtain a `Signer` by including a `Connect Wallet` button in your app.
 
-Check out [this](/portal/guides/token-button-react) guide or [this](/portal/guides/claim-button-react) guide to see examples of using `Signer` with the thirdweb sdk.
+Check out [this](/guides/token-button-react) guide or [this](/guides/claim-button-react) guide to see examples of using `Signer` with the thirdweb sdk.
 
 ### Using your own signer with thirdweb
 
@@ -103,7 +103,7 @@ Check out [this](/portal/guides/token-button-react) guide or [this](/portal/guid
 
 There are cases where you might want to run a script or integrate our sdk on the backend. In this case the `Connect Wallet` frontend component cannot be used.
 
-Another way to connect to the blockchain in this case, is by passing the `Private Key` of your wallet directly, when instantiating the sdk. To understand more about **how** to do this properly (i.e. making sure your `Private Key` is not exposed), check out [this](/portal/guides/sdk-guide) guide.
+Another way to connect to the blockchain in this case, is by passing the `Private Key` of your wallet directly, when instantiating the sdk. To understand more about **how** to do this properly (i.e. making sure your `Private Key` is not exposed), check out [this](/guides/sdk-guide) guide.
 
 When opting for this method to establish a connection to the blockchain, you will need to explicitly pass the RPC url too, to tell the sdk which chain you want to connect.
 
