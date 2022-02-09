@@ -68,7 +68,7 @@ const moduleExports = {
     return config;
   },
   images: {
-    domains: ["thirdweb.com", "github.com"],
+    domains: ["thirdweb.com", "portal.thirdweb.com", "github.com"],
   },
 };
 
