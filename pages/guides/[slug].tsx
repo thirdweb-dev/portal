@@ -54,7 +54,7 @@ const GuidePage: ConsolePage<GuidePageProps> = ({
     slug,
   });
 
-  const ogImage = `https://thirdweb.com/_next/image?url=${frontMatter.image.replace(
+  const ogImage = `https://portal.thirdweb.com/_next/image?url=${frontMatter.image.replace(
     /\//g,
     "%2F",
   )}&w=1200&q=90`;
@@ -66,7 +66,7 @@ const GuidePage: ConsolePage<GuidePageProps> = ({
         openGraph={{
           title: frontMatter.title,
           description: frontMatter.summary,
-          url: `https://thirdweb.com${router.asPath}`,
+          url: `https://portal.thirdweb.com${router.asPath}`,
           type: "article",
           article: {
             publishedTime: new Date(frontMatter.date).toISOString(),

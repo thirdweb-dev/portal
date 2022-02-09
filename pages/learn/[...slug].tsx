@@ -55,7 +55,7 @@ const LearnPage: ConsolePage<LearnPageProps> = ({
         openGraph={{
           title: frontMatter.title,
           description: frontMatter.summary,
-          url: `https://thirdweb.com${router.asPath}`,
+          url: `https://portal.thirdweb.com${router.asPath}`,
           type: "article",
           article: {
             publishedTime: new Date(frontMatter.date).toISOString(),
