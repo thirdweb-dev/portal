@@ -1,0 +1,127 @@
+---
+title: Connect Wallet button in React
+author: "Raza"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+draft: false
+tags: [ui, connect-wallet, react]
+summary: "Add a connect wallet button in React"
+image: "./thumbnail.png"
+date: "2022-02-09"
+updated: ""
+---
+
+## Quick disclaimer
+
+---
+
+If you don’t have a a wallet, click [here](/portal/guides/create-a-metamask-wallet). If you don’t know how a connection works with the blockchain, click [here](/portal/learn/connect-to-blockchain). If you don’t know how to instantiating our sdk works....click [here](/portal/guides/sdk-guide). If all of this doesn’t make sense...please go to our [starting page](/portal/learn) 😬
+
+## Install packages
+
+```bash
+//Run this to install with npm
+npm install @3rdweb/react @3rdweb/hooks
+```
+
+## Create the button
+
+Inside your `components` folder, create a file `Connect.js` with the following code 👇
+
+By wrapping it in the `<nav>` tag, the button will appear in the nav bar.
+
+```js:Connect.js
+import { ConnectWallet } from "@3rdweb/react";
+
+const Connect = () => {
+  return
+		<nav>
+			<ConnectWallet />
+		</nav>;
+};
+```
+
+Before we can use this button, we need to add the provider to our app.👇
+
+## Choose the chain and wallet (provider and signer)
+
+Now we need to setup our `Provider`. For this we will use the custom component of thirdweb, the `ThirdwebProvider`. Go ahead and import it.
+
+```js:App.js
+import { ThirdwebProvider } from "@3rdweb/react";
+```
+
+Next we need to select the chain and type of wallet we want to connect to.
+
+With `supportedChainIds` we select the blockchain we want to connect with. We have to pass an `Id`. Every blockchain has an `Id`. We are using an `Id` instead of a `RPC url` here. (again click [here](/portal/learn/connect-to-blockchain) if you don’t know how a connection with blockchain works).
+
+```js:App.js
+const App = () => {
+  // Polygon's chain Id is 137
+  const supportedChainIds = [137];
+
+```
+
+With `connectors` we are selecting which wallets we want to support. If you want to learn more about our connect wallet component, click [here](/portal/guides/add-connectwallet-to-your-website).
+
+Metamask `conncector` setup 👇
+
+```js:App.js
+//injected - MetaMask
+const connectors = {
+    injected: {},
+  };
+```
+
+Coinbase `connector` setup 👇
+
+```js:App.js
+walletlink: {
+    appName: "",
+    url: "https://rinkeby-light.eth.linkpool.io/",
+    darkMode: false,
+  },
+};
+```
+
+We include the `ThirdwebProvider` in the return statement to wrap our app in the `ThirdwebProvider` , so that the provider information is accessible from anywhere.
+
+`ThirdwebProvider` tags should be included at the highest level, usually in react that is app.js except in next. In next it’s in \_app.js
+
+So make sure you put your `Component` within the brackets of the `ThirdwebProvider`.
+
+```js:App.js
+	return (
+    <ThirdwebProvider
+      connectors={connectors}
+      supportedChainIds={supportedChainIds}
+    >
+      </Connect> /* our connect wallet button */
+    </ThirdwebProvider>
+  );
+};
+```
+
+Here’s what the whole code looks like with `Metamask` as an example in your `App.js` file.
+
+```js:App.js
+import { ThirdwebProvider } from "@3rdweb/react";
+
+const App = () => {
+  // Polygon's chain Id is 137
+  const supportedChainIds = [137];
+  //injected - MetaMask
+	const connectors = {
+    injected: {},
+  };
+
+	return (
+    <ThirdwebProvider
+      connectors={connectors}
+      supportedChainIds={supportedChainIds}
+    >
+      </Connect> /* our connect wallet button */
+    </ThirdwebProvider>
+  );
+};
+```
