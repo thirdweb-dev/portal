@@ -1,0 +1,107 @@
+---
+title: Marketplace module
+author: "Raza Zaidi"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+draft: false
+tags: [marketplace, module, sdk]
+summary: "The thirdweb Marketplace is a market where you can either sell or auction NFTs"
+date: "2022-02-08"
+updated: ""
+---
+
+## In a nutshell
+
+In a marketplace you can sell or buy NFTs. Platforms like Opensea or Rarible are examples of marketplaces. thirdweb let’s you create your own marketplace, which allows you to sell NFTs both exclusively on your own marketplace or on multiple marketplaces. That is up to you!
+
+If you want to know more about creating modules, click [here](/learn/modules).
+
+## How it works
+
+The Marketplace is used to **list** NFTs. Listing NFTs is the process of making your NFT available to users for sale. Our marketplace gives you two ways to sell your NFT:
+
+1. Direct Listing: Sell it for a fixed price.
+2. Auction Listing: Let buyers bid on the NFT, under the constraints you set for your auction.
+
+In both choices, you are also given the option to list your NFT in the native currency, like `MATIC` on Polygon or your own tokens. If you’re wondering how to create your own token, click here.
+
+## Pre-requisites
+
+Depending on how you configure your `Marketplace`, there are different pre-requisites.
+
+If you want to run a **public** `Marketplace` i.e. anyone can list an NFT for sale on your marketplace, then you need to configure the `Permissions` properly.
+
+Make sure you configure the module in the `Permission` tab to allow **Everyone** to list an NFT on your `Marketplace`.
+
+![Set the permission to list an NFT](/assets/portal/learn/marketplace/permission.png)
+
+You can choose to make your `Marketplace` available to either **Everyone** or change it to specific wallets at any given time. Please note that if you change these settings, you will have to pay gas fees.
+
+To make use of the `Marketplace`yourself, you need to have NFTs! Make sure you have your NFTs minted and ready, so that you can list them on the `Marketplace`. If you want to mint NFTs, check out this page to learn about our `NFT Module`.
+
+## Direct Listing
+
+An NFT owner (or 'lister') can list their NFTs for sale at a fixed price. A potential buyer can buy the NFT for the specified price, or make an offer to buy the listed NFTs at a different price, which the lister can choose to accept. A sale is executed when either a buyer pays the fixed price, or the seller accepts an offer made to the listing.
+
+## Auction Listing
+
+An NFT owner (or 'lister') can auction their NFTs. Potential buyers make bids in the auction. At the closing of the auction, the buyer with the wining bid gets the auctioned NFTs, and the lister gets the winning bid amount.
+
+The lister can cancel an auction at any moment as long as no bids have been placed on the auction.
+
+## Further reading
+
+If you want to know more about the nitty gritty details, well you’re in luck. Head over to to [this](https://github.com/nftlabs/nftlabs-protocols/blob/main/contracts/marketplace/marketplace.md) page, where you can find out more on how things work under the hood.
+
+## How to use
+
+You can use the `Marketplace` by using code or no-code. Head over to our dashboard to make use of the no-code solution. To use the code solution, you need to install our packages and instantiate our sdk first. Check out [this](/learn/connect-to-blockchain) page on how to do that. You’ll also need the address of your `Marketplace` module. You can find that in the dashboard, inside your project.
+
+![Overview of modules and their addresses](/assets/portal/learn/marketplace/module-address.png)
+
+### Examples
+
+Here’s an example on how to list an NFT in TypeScript
+
+```jsx
+const marketModuleAddress = "0xC06adC34097afa2085324D4192fbE9206059f8e0";
+const marketplace = sdk.getMarketplaceModule(marketModuleAddress);
+const tokenId = "1";
+const tokenIdOffer = 1;
+marketplace.createDirectListing({
+  assetContractAddress: nftCollectionModuleAddress,
+  buyoutPricePerToken: ethers.utils.parseUnits(tokenIdOffer, 18),
+  currencyContractAddress: "0x0000000000000000000000000000000000000000",
+  startTimeInSeconds: Math.floor(Date.now() / 1000),
+  listingDurationInSeconds: 60 * 60 * 24,
+  tokenId: tokenId,
+  quantity: 1,
+});
+```
+
+here’s an example on how to list an NFT in the dashboard. After creating your marketplace, go to your `NFT Collection Module` and **list** the NFT you want👇
+
+![List an NFT](/assets/portal/learn/marketplace/list-nft.png)
+
+Here’s an example how to buy an NFT in TypeScript
+
+```jsx
+marketplace.buyoutDirectListing({
+  listingId: 1,
+  quantityDesired: 1,
+});
+```
+
+## Code Guide
+
+1. You can find code snippets for every method in our portal [here](/learn/code-examples/marketplace).
+2. To check out guides for this module click [here](/guides/marketplace).
+3. To setup your local dev environment, click [here](/guides/sdk-guide).
+
+<MdxNavigation>
+  <MdxNavigationItem
+    href="/learn/modules/marketplace"
+    title="NFT Collection"
+  />
+  <MdxNavigationItem href="/learn/modules/pack" title="Pack" next />
+</MdxNavigation>
