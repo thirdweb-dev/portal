@@ -56,45 +56,12 @@ npm install @3rdweb/sdk ethers dotenv
 npm install --save-dev typescript @types/node ts-node tslib
 ```
 
-### 3. Import the SDK
+In order to make use of our SDK, you need to establish a connection to a blockchain.
+Click [here](/learn/connect-to-blockchain) to learn how to connect to the blockchain and instantiate our SDK.
 
-Let's take the code step by step. At the end we'll include a full code snippet.
+For this guide, you will need to instantiate the SDK following [these](/learn/connect-to-blockchain#using-your-own-signer-with-thirdweb) steps, using your own signer with thirdweb.
 
-Import the following classes from the sdk.
-
-We will use the **dotenv** library for importing our private key.
-
-```tsx:index.ts
-// Importing libraries
-import { ThirdwebSDK } from "@3rdweb/sdk"
-import { ethers } from "ethers"
-
-//Importing private key
-require('dotenv').config()
-
-```
-
-### 4. Set your network & private key
-
-Over here we need to enter the network that we will use.
-If you don't know what the URL of your network looks like, take a look over [here](https://chainlist.org/).
-
-To start using the sdk, we will create object inheriting all the methods inside the sdk.
-
-```tsx:index.ts
-//Instantiate 3rdweb SDK
-const sdk = new ThirdwebSDK(
-    new ethers.Wallet(
-        // Your wallet private key
-        process.env.PRIVATE_KEY as string,
-        // RPC URL
-        ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
-    )
-);
-
-```
-
-### 5. Define which module to use
+### 3. Define which module to use
 
 Now we need to define which module we want to use. This is the module we just created inside our project Minting NFTs with TypeScript.
 We called the module '**Marketplace written in TypeScript**'.
@@ -119,7 +86,7 @@ const currencySmartContractAddress =
 
 ```
 
-### 6. Time to mint the NFT on the marketplace!
+### 4. Time to mint the NFT on the marketplace!
 
 We are using the NFT that we created in our previous guide. Each NFT has `token_id`. We will pass that the following parameters to the '.list' method:
 
@@ -149,7 +116,7 @@ npx ts-node index.ts
 
 ```
 
-### Make a bid
+### 5. Make a bid
 
 Now that you've placed your first auction on your marketplace, someone can make a bid on it!
 Check out the method below, that allows a user to make a bid!
@@ -161,7 +128,7 @@ market.makeAuctionListingBid({
       });
 ```
 
-### That's it!
+## That's it!
 
 Congratulations! You have created your own marketplace and listed your first auction!
 If you want to use this functionality **today** in your app, check out [this](https://github.com/razacodespython/auction-app) Github repo, which gives you a plug and play react component.

@@ -15,7 +15,7 @@ updated: ""
 
 ## Intro
 
-This guide explains in 6 easy steps how to mint an NFT. Minting an NFT requires a couple of steps. We need to create a project in the dashboard and create an **NFT Collection ** module inside our project. We also need to connect a wallet. So if you don't have a wallet, make sure to sign up with MetaMask or CoinWallet. [Here's our guide on how to create a Metamask Wallet](/guides/create-a-metamask-wallet).
+This guide explains in 4 easy steps how to mint an NFT. Minting an NFT requires a couple of steps. We need to create a project in the dashboard and create an **NFT Collection ** module inside our project. We also need to connect a wallet. So if you don't have a wallet, make sure to sign up with MetaMask or CoinWallet. [Here's our guide on how to create a Metamask Wallet](/guides/create-a-metamask-wallet).
 
 Alright without further ado, let's mint an NFT.
 
@@ -36,6 +36,8 @@ Go ahead and create a new TypeScript file. Let's call it `index.ts` and open it 
 
 Next up use we'll install the ThirdWeb SDK using npm!
 
+### 2. SDK installation and setup with TypeScript
+
 - **@3rdweb/sdk** - thirdweb TypeScript SDK.
 - **ethers** - will give us very useful utils.
 - **dotenv** - to hide our private key.
@@ -49,42 +51,12 @@ npm install @3rdweb/sdk ethers dotenv
 npm install --save-dev typescript @types/node ts-node tslib
 ```
 
-### 2. Import the SDK
+In order to make use of our SDK, you need to establish a connection to a blockchain.
+Click [here](/learn/connect-to-blockchain) to learn how to connect to the blockchain and instantiate our SDK.
 
-Let's take the code step by step. At the end we'll include a full code snippet.
+For this guide, you will need to instantiate the SDK following [these](/learn/connect-to-blockchain#using-your-own-signer-with-thirdweb) steps, using your own signer with thirdweb.
 
-Import the following classes from the sdk.
-
-We will use the `dotenv` library for importing our private key.
-
-```jsx
-// Importing libraries
-import { ThirdwebSDK } from "@3rdweb/sdk";
-import { ethers } from "ethers";
-
-//Importing private key
-require("dotenv").config();
-```
-
-### 3. Set your network & private key
-
-Over here we need to enter the network that we will use. If you don't know what the URL of your network looks like, take a look over [here](https://chainlist.org/).
-
-To start using the sdk, we will create object inheriting all the methods inside the sdk.
-
-```jsx
-//Instantiate 3rdweb SDK
-const sdk = new ThirdwebSDK(
-    new ethers.Wallet(
-        // Your wallet private key
-        process.env.PRIVATE_KEY as string,
-        // RPC URL
-        ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
-    )
-);
-```
-
-### 4. Define which module to use
+### 3. Define which module to use
 
 Now we need to define which module we want to use. This is the module we just created inside our project Minting NFTs with JavaScript/TypeScript. We called the module 'TypeScript'. This module has an address. We need to pass the address here. You can find the address here, under TypeScript:
 
@@ -102,7 +74,7 @@ nft_smart_contract_address = "0xD9bC403529471515F16DA32eee652c0a6cEcBA78";
 const nft = sdk.getNFTModule(nft_smart_contract_address);
 ```
 
-### 5. Time to mint the NFT!
+### 4. Time to mint the NFT!
 
 The arguments passed over here are the same as minting an NFT inside the dashboard. If you want to familiarize yourself with the process, check out the dashboard!
 

@@ -74,42 +74,12 @@ from dotenv import loadenv
 import os
 ```
 
-### 3. Set your network
+In order to make use of our SDK, you need to establish a connection to a blockchain.
+Click [here](/learn/connect-to-blockchain) to learn how to connect to the blockchain and instantiate our SDK.
 
-Over here we need to enter the network that we will use. If you don't know what the URL of your network looks like, take a look over [here](https://chainlist.org/).
+For this guide, you will need to instantiate the SDK following [these](/learn/connect-to-blockchain#using-your-own-signer-with-thirdweb) steps, using your own signer with thirdweb.
 
-To start using the sdk, we will create object inheriting all the methods inside the sdk.
-
-```python
-#choose your network
-network = "https://rinkeby-light.eth.linkpool.io/"
-
-#create the object
-sdk = ThirdwebSdk(SdkOptions(), network)
-```
-
-### 4. Setting the Private Key
-
-So your wallet has a private key. We will need that to make sure any transaction is done from this wallet. This is where the sdk uses your wallet.
-
-Create a `.env` file with no extensions. Open the `.env` file in your code editor and paste your private key inside a variable called `PRIVATE_KEY`.
-
-```python
-#example of the '.env' file in the same folder
-
-PRIVATE_KEY = '1234OUI132UIO5YAZKSJFDGIO'
-```
-
-```python
-#use the '.env' file inside Python
-load_dotenv("./.env")
-PRIVATE_KEY = os.getenv('PRIVATE_KEY')
-
-#over here we connect our wallet via the private key stored in the '.env' file 
-sdk.set_private_key(PRIVATE_KEY)
-```
-
-### 5. Define which module to use
+### 3. Define which module to use
 
 Now we need to define which module we want to use. This is the module we created inside our project. This module has an address. We need to pass the address here. You can find the address inside the dashboard:
 
@@ -123,7 +93,7 @@ pack_contract = "0xEA9e245C4663AC7A82Df0329A1a480C4729adC52"
 pack_module = sdk.get_pack_module(pack_contract)
 ```
 
-### 6. Time to create the pack!
+### 4. Time to create the pack!
 
 The arguments passed over here are the same as inside the dashboard. If you want to familiarize yourself with the process, check out the dashboard!
 
@@ -147,7 +117,7 @@ pack_module.create(CreatePackArg(
 ))
 ```
 
-### 7. Results
+### 5. Results
 
 Get the balance to check it out or head over to the dashboard.
 

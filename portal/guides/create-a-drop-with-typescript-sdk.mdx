@@ -10,7 +10,7 @@ tags: [nft-drop, claim, typescript]
 summary: "Create our own drop where we can create NFTs in TypeScript."
 image: "/assets/portal/guides/create-a-drop-with-typescript-sdk/thumbnail.png"
 date: "2021-12-06"
-updated: ""
+updated: "2022-02-10"
 featured: false
 ---
 
@@ -28,11 +28,11 @@ Once your **Drop** module has been created, we can go ahead and set the **Claim 
 
 ![Claim conditions](/assets/portal/guides/create-a-drop-with-typescript-sdk/claim_conditions.png)
 
-In this example we will first pick our currency. To choose the native currency of a chain, leave the default setting, i.e. the 0x000...000.  We set the max price per nft as **0.01** ETH and the max supply 5. Click on **add** to finalise. Your wallet will pop-up to authorise a transaction.
+In this example we will first pick our currency. To choose the native currency of a chain, leave the default setting, i.e. the 0x000...000. We set the max price per nft as **0.01** ETH and the max supply 5. Click on **add** to finalise. Your wallet will pop-up to authorise a transaction.
 
 ![Fill in claim conditions](/assets/portal/guides/create-a-drop-with-typescript-sdk/claim_conditions2.png)
 
-Go ahead to settings to check your claim conditions. You can see them here. Please note, that if you change your claim conditions, you will have to pay gas fees. 
+Go ahead to settings to check your claim conditions. You can see them here. Please note, that if you change your claim conditions, you will have to pay gas fees.
 
 ![Fill in module settings](/assets/portal/guides/create-a-drop-with-typescript-sdk/setup.png)
 
@@ -76,53 +76,27 @@ Let's take the code step by step. At the end we'll include a full code snippet.
 
 Import the following classes from the sdk.
 
-We will use the **dotenv** library for importing our private key.
+In order to make use of our SDK, you need to establish a connection to a blockchain.
+Click [here](/learn/connect-to-blockchain) to learn how to connect to the blockchain and instantiate our SDK.
 
-```tsx:index.ts
-// Importing libraries
-import { ThirdwebSDK } from "@3rdweb/sdk"
-import { ethers } from "ethers"
+For this guide, you will need to instantiate the SDK following [these](/learn/connect-to-blockchain#using-your-own-signer-with-thirdweb) steps, using your own signer with thirdweb.
 
-//Importing private key
-require('dotenv').config()
+### 4. Define which module to use
 
-```
-
-### 4. Set your network & private key
-
-Over here we need to enter the network that we will use. If you don't know what the URL of your network looks like, take a look over [here](https://chainlist.org/).
-
-To start using the sdk, we will create object inheriting all the methods inside the sdk.
-
-```tsx:index.ts
-//Instantiate 3rdweb SDK
-const sdk = new ThirdwebSDK(
-    new ethers.Wallet(
-        // Your wallet private key
-        process.env.PRIVATE_KEY as string,
-        // RPC URL
-        ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
-    )
-);
-
-```
-
-### 5. Define which module to use
-
-Now we need to define which module we want to use. This is the module we just created inside our project. We called the module **Drop written in TypeScript**. This module has an address. We need to pass the address here. You can find the address here, under **Drop  written in TypeScript**:
+Now we need to define which module we want to use. This is the module we just created inside our project. We called the module **Drop written in TypeScript**. This module has an address. We need to pass the address here. You can find the address here, under **Drop written in TypeScript**:
 
 ![start_drop.png](/assets/portal/guides/create-a-drop-with-typescript-sdk/start_drop.png)
 
-In our index.ts file we include the following code. First we define a variable `market_smart_contract_address` and store our module address in here.
+In our `index.ts` file we include the following code. First we define a variable `drop` and store our module in here.
 
-Then we create an object that uses the market module inside the SDK with our address.
+Then we create an object that uses the drop module inside the SDK with our address.
 
 ```tsx:index.ts
-// Initialize market module by passing in contract address
+// Initialize drop module by passing in contract address
 const drop = sdk.getDropModule("0x158cb62B40A474155f64f4b83f18DAB3DB2C780d");
 ```
 
-### 6. Time to mint the NFT in our Drop module!
+### 5. Time to mint the NFT in our Drop module!
 
 The arguments passed over here are the same as minting an NFT inside the dashboard. If you want to familiarize yourself with the process, check out the dashboard!
 
@@ -130,12 +104,12 @@ The arguments passed over here are the same as minting an NFT inside the dashboa
 // Minting the NFT asynchronously
 const lazyMintNft = async () => {
   try {
-    await drop.createBatch({
+    await drop.createBatch([{
       name: "thirdweb",
       description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
       image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
       properties: {},
-    });
+    }]);
   } catch (err) {
     console.log(err);
   }
@@ -146,15 +120,16 @@ lazyMintNft();
 ```
 
 So the only thing left is to run our code! Open a terminal and paste the following:
+
 ```bash:virtual-env
 # Runs the typescript file
 npx ts-node index.ts
 
 ```
 
-### 7. That's it!
+### 6. That's it!
 
-Congratulations! You have created your own drop. The NFTs are available to be claimed! You can use the code below to check all your drops! 
+Congratulations! You have created your own drop. The NFTs are available to be claimed! You can use the code below to check all your drops!
 
 ```tsx:index.ts
 //Get all Drops

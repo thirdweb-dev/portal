@@ -64,55 +64,12 @@ The Django structure looks like this. All I did was create the basic Django proj
 
 ### 2. Import the SDK
 
-Let's take the code step by step. At the end we'll include a full code snippet.
+In order to make use of our SDK, you need to establish a connection to a blockchain.
+Click [here](/learn/connect-to-blockchain) to learn how to connect to the blockchain and instantiate our SDK.
 
-Head over to the `nft_network.py` file and import the following classes from the SDK.
+For this guide, you will need to instantiate the SDK following [these](/learn/connect-to-blockchain#using-your-own-signer-with-thirdweb) steps, using your own signer with thirdweb.
 
-We will use the `dotenv` library for our private key in a bit.
-
-```python:nft_network.py
-# Importing stuff
-from thirdweb import ThirdwebSdk, SdkOptions, MintArg
-from dotenv import loadenv
-import os
-```
-
-### 3. Set your network
-
-Over here we need to enter the network that we will use. If you don't know what the URL of your network looks like, take a look over [here](https://chainlist.org/).
-
-To start using the SDK, we will create object inheriting all the methods inside the SDK.
-
-```python:nft_network.py
-#choose your network
-network = "https://rinkeby-light.eth.linkpool.io/"
-
-#create the object
-sdk = ThirdwebSdk(SdkOptions(), network)
-```
-
-### 4. Setting the Private Key
-
-So your wallet has a private key. We will need that to make sure any transaction is done from this wallet. This is where the SDK uses your wallet.
-
-Create a `.env` file with no extensions. Open the `.env` file in your code editor and paste your private key inside a variable called `PRIVATE_KEY`.
-
-```python:.env
-#example of the '.env' file in the same folder
-
-PRIVATE_KEY =1234OUI132UIO5YAZKSJFDGIO
-```
-
-```python:.env
-#use the '.env' file inside Python
-load_dotenv("./.env")
-PRIVATE_KEY = os.getenv('PRIVATE_KEY')
-
-#over here we connect our wallet via the private key stored in the '.env' file 
-sdk.set_private_key('PRIVATE_KEY')
-```
-
-### 5. Define which module to use
+### 3. Define which module to use
 
 Now we need to define which module we want to use. This is the module we just created inside our project PythonNFT. We called the module **Python**. This module has an address. We need to pass the address here. You can find the address here, under Python:
 
@@ -128,7 +85,7 @@ nft_smart_contract_address = "0xdd25FAEE772FbB1bcB7ba0b2cEE6387A8F82f032"
 nft_module = sdk.get_nft_module(nft_smart_contract_address)
 ```
 
-### 6. Time to mint the NFT!
+### 4. Time to mint the NFT!
 
 The arguments passed over here are the same as minting an nft inside the dashboard. If you want to familiarize yourself with the process, check out the dashboard!
 
@@ -140,31 +97,25 @@ from . import nft_network
 from thirdweb import ThirdwebSdk, SdkOptions, MintArg
 
 def home(request):
-    
     file_url = nft_network.nft_module.balance()
-    
     if request.method == 'POST' and request.FILES['home']:
         upload = request.FILES['home']
-        
         name_nft = "Wing_02"
         description_nft = "My-Wing"
         image_nft = upload.read()
         prop = {}
-
         nft_network.nft_module.mint(MintArg(name=name_nft,description=description_nft,image_uri=image_nft, properties=prop))
-        
         return redirect("success")
-     
     return render(request, "index.html", {'file_url': file_url})
 
 def success():
     return HttpResponse("successfully uploaded")
 ```
 
-### 7. Using a HTML form
+### 5. Using a HTML form
 
 If you go to the GitHub [repo](https://github.com/razacodespython/nft_creator), you might have noticed that I use a html form instead of a Django form. I did this, because some projects might use Django solely for the backend and html forms at the front. However feel free to use Django forms, the process would be essentially the same!
 
-### 8. That's it!
+### 6. That's it!
 
 Easy right? We have a ton of other functions and modules you can use. Check out our portal or our dashboard! Drop by our discord if you have any questions or need help.

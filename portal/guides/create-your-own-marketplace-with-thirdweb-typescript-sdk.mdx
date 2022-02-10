@@ -56,44 +56,12 @@ npm install @3rdweb/sdk ethers dotenv
 npm install --save-dev typescript @types/node ts-node tslib
 ```
 
-### 3. Import the SDK
+In order to make use of our SDK, you need to establish a connection to a blockchain.
+Click [here](/learn/connect-to-blockchain) to learn how to connect to the blockchain and instantiate our SDK.
 
-Let's take the code step by step. At the end we'll include a full code snippet.
+For this guide, you will need to instantiate the SDK following [these](/learn/connect-to-blockchain#using-your-own-signer-with-thirdweb) steps, using your own signer with thirdweb.
 
-Import the following classes from the sdk.
-
-We will use the **dotenv** library for importing our private key.
-
-```tsx:index.ts
-// Importing libraries
-import { ThirdwebSDK } from "@3rdweb/sdk"
-import { ethers } from "ethers"
-
-//Importing private key
-require('dotenv').config()
-
-```
-
-### 4. Set your network & private key
-
-Over here we need to enter the network that we will use. If you don't know what the URL of your network looks like, take a look over [here](https://chainlist.org/).
-
-To start using the sdk, we will create object inheriting all the methods inside the sdk.
-
-```tsx:index.ts
-//Instantiate 3rdweb SDK
-const sdk = new ThirdwebSDK(
-    new ethers.Wallet(
-        // Your wallet private key
-        process.env.PRIVATE_KEY as string,
-        // RPC URL
-        ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
-    )
-);
-
-```
-
-### 5. Define which module to use
+### 3. Define which module to use
 
 Now we need to define which module we want to use. This is the module we just created inside our **project** Minting NFTs with TypeScript. We called the module '**Marketplace written in TypeScript**'. This module has an address. We need to pass the address here. You can find the address here, under '**Marketplace written in TypeScript**':
 
@@ -123,7 +91,7 @@ const tokenModuleAddress = "0x0d5fb8942eEa62093944F3e91C6Ac4e584336741";
 
 ```
 
-### 6. Time to mint the NFT on the marketplace!
+### 4. Time to mint the NFT on the marketplace!
 
 We are using the NFT that we created in our previous guide. Each NFT has `tokenId`. We will pass that the following parameters to the '.list' method:
 
@@ -154,6 +122,6 @@ npx ts-node index.ts
 
 ```
 
-### 7. That's it!
+### 5. That's it!
 
 Congratulations! You have created your own marketplace.
