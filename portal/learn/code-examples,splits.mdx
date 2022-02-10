@@ -5,7 +5,7 @@ authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
 authorTwitter: "https://twitter.com/nachoiacovino"
 summary: "Easy copy and paste snippets to use thirdweb Splits module"
 date: "2021-12-01"
-updated: "2022-02-01"
+updated: "2022-02-10"
 ---
 
 ### Deploying a splits module
@@ -102,6 +102,135 @@ const changeRecipient = async () => {
 }
 
 changeRecipient()
+```
+
+### Withdraw
+
+```ts
+const withdraw = async (walletAddress) => {
+  try {
+    await splits.withdraw(walletAddress);
+  } catch (error) {
+    console.log('Failed to withdraw. Error: ', error);
+  }
+};
+
+withdraw('<WALLET_ADDRESS>');
+```
+
+### Get Recipient Split Percentages
+
+```ts
+const getRecipientSplitPercentages = async (walletAddress) => {
+  try {
+    await splits.getRecipientSplitPercentage(walletAddress);
+  } catch (error) {
+    console.log('Failed to get split percentages. Error: ', error);
+  }
+};
+
+getRecipientSplitPercentages('<WALLET_ADDRESS>');
+```
+
+### Get All Recipients
+
+```ts
+const getAllRecipients = async () => {
+  try {
+    await splits.getAllRecipients();
+  } catch (error) {
+    console.log('Failed to get all recipients. Error: ', error);
+  }
+};
+
+getAllRecipients();
+```
+
+### Get
+
+```ts
+const get = async () => {
+  try {
+    await splits.get();
+  } catch (error) {
+    console.log('Failed to get. Error: ', error);
+  }
+};
+
+get();
+```
+
+### Distribute
+
+```ts
+const distribute = async () => {
+  try {
+    await splits.distribute();
+  } catch (error) {
+    console.log('Failed to distribute. Error: ', error);
+  }
+};
+
+distribute();
+```
+
+### Get Balance of Tokens for all Recipients
+
+```ts
+const getBalanceOfTokenForAllRecipients = async (tokenAddress) => {
+  try {
+    await splits.balanceOfTokenAllRecipients(tokenAddress);
+  } catch (error) {
+    console.log(
+      'Failed to get balances of a token for all recipients: ',
+      error
+    );
+  }
+};
+
+getBalanceOfTokenForAllRecipients('<TOKEN_ADDRESS>');
+```
+
+### Get Balance of Token
+
+```ts
+const getBalanceOfToken = async (walletAddress, tokenAddress) => {
+  try {
+    await splits.balanceOfToken(walletAddress, tokenAddress);
+  } catch (error) {
+    console.log('Failed to get balance of token for wallet. Error: ', error);
+  }
+};
+
+getBalanceOfToken('<WALLET_ADDRESS>', '<TOKEN_ADDRESS>');
+```
+
+### Get Balance of All Recipients
+
+```ts
+const getBalanceOfAllRecipients = async () => {
+  try {
+    await splits.balanceOfAllRecipients();
+  } catch (error) {
+    console.log('Failed to get balance of all recipients: ', error);
+  }
+};
+
+getBalanceOfAllRecipients();
+```
+
+### Get Balance of
+
+```ts
+const getBalanceOf = async (walletAddress) => {
+  try {
+    await splits.balanceOf(walletAddress);
+  } catch (error) {
+    console.log('Failed to get get balance of address. Error: ', error);
+  }
+};
+
+getBalanceOf('<WALLET_ADDRESS');
 ```
 
 <MdxNavigation>

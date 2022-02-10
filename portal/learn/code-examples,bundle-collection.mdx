@@ -5,10 +5,597 @@ authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
 authorTwitter: "https://twitter.com/nachoiacovino"
 summary: "Easy copy and paste snippets to use thirdweb Bundle Collection module"
 date: "2021-12-01"
-updated: "2022-01-13"
+updated: "2022-02-10"
 ---
 
-No code examples for this module yet, check back soon!
+### Initialize the bundle module
+```ts
+// The Bundle collection module address received after initializing the Bundle module on the dashboard.
+const bundleAddress = "<MODULE_ADDRESS>";
+
+// Initialize the Bundle collection module with the contract address.
+const bundle = sdk.getBundleModule(bundleAddress);
+```
+
+### Get the initial supply for a token
+
+```ts
+const balanceOfToken = async (nftTokenId) => {
+
+  try {
+    await bundle.balance(nftTokenId);
+  } catch (error) {
+    console.log('Failed to get balance. Error: ', error);
+  }  
+};
+
+balanceOfToken("<NFT_TOKEN_ID>");
+```
+
+### Get the initial supply for a token for an address
+
+```ts
+const balanceOfTokenForAddress = async (accountAddress, nftTokenId) => {
+
+  try {
+    await bundle.balance(accountAddress, nftTokenId);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+balanceOfTokenForAddress("<WALLET_ADDRESS>", "<NFT_TOKEN_ID>");
+```
+
+### Burn NFT by token ID and amount to burn
+
+```ts
+const burnNftById = async (nftTokenId, amount) => {
+  try {
+    await bundle.burn({ tokenId: nftTokenId, amount });
+  } catch(error) {
+    console.log(error);
+  }
+};
+
+burnNftById("<NFT_TOKEN_ID>", "<AMOUNT>")
+```
+
+### Burn a batch of NFTs
+
+```ts
+const burnNftBatchById = async (tokenArray) => {
+  try {
+    await bundle.burnBatch(tokenArray);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+burnNftBatchById([
+      { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" },
+      { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" }
+    ])
+```
+
+### Burn a batch of NFTs from an address
+
+```ts
+const burnNftBatchFrom = async (walletAddress, tokenArray) => {
+  try {
+    await bundle.burnBatchFrom(walletAddress, tokenArray);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+burnNftBatchFrom('<WALLET_ADDRESS>', [
+      { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" },
+      { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" },
+      { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" }
+    ])
+```
+
+### Burn a NFT from an address
+
+```ts
+const burnFrom = async () => {
+  try {
+    await bundle.burnFrom(walletAddress, { tokenId: nftTokenId, amount });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+burnFrom("<WALLET_ADDRESS>", "<NFT_TOKEN_ID>", "<AMOUNT>")
+```
+
+### Create NFT
+
+```ts
+const createNft = async (nft) => {
+  try {
+    await bundle.create(nft)
+  } catch(error) {
+    console.log(error);
+  }
+};
+
+create({
+  name: '<NFT_NAME>',
+  description: '<DESCRIPTION>',
+  image: '<LINK>',
+  properties: 'PROPERTIES_OBJECT'
+})
+```
+
+### Create and Mint NFT
+
+```ts
+const createAndMintNft = async (nft) => {
+  try {
+     await bundle.createAndMint(nft)
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+createAndMintNft({
+  name: '<NFT_NAME>',
+  description: '<DESCRIPTION>',
+  image: '<LINK>',
+  properties: 'PROPERTIES_OBJECT',
+  initialSupply: '<INITIAL_SUPPLY_INT'
+});
+```
+
+### Create and mint a batch of NFTs
+
+```ts
+const createAndMintNftBatch = async (nftArray) => {
+  try {
+    await bundle.createAndMintBatch(nftArray);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+createAndMintNftBatch([
+  {
+    name: '<NFT_NAME>',
+    description: '<DESCRIPTION>',
+    image: '<LINK>',
+    properties: 'PROPERTIES_OBJECT',
+    initialSupply: '<INITIAL_SUPPLY_INT'
+  }, 
+  {
+    name: '<NFT_NAME>',
+    description: '<DESCRIPTION>',
+    image: '<LINK>',
+    properties: 'PROPERTIES_OBJECT',
+    initialSupply: '<INITIAL_SUPPLY_INT'
+  }
+]);
+```
+
+### Create a batch of NFTs
+
+```ts
+const createBatch = async (nftArray) => {
+  try {
+    await bundle.createBatch(nftArray);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+createBatch([
+  {
+    name: '<NFT_NAME>',
+    description: '<DESCRIPTION>',
+    image: '<LINK>',
+    properties: 'PROPERTIES_OBJECT'
+  }, 
+  {
+    name: '<NFT_NAME>',
+    description: '<DESCRIPTION>',
+    image: '<LINK>',
+    properties: 'PROPERTIES_OBJECT'
+  }
+]);
+```
+
+### Create with ERC-20
+
+```ts
+const createNftWithErc20 = async (tokenContractAddress, amount, token) => {
+  try {
+    await bundle.createWithERC20(tokenContractAddress, amount, token);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+createNftWithErc20( "<TOKEN_CONTRACT_ADDRESS>", '<AMOUNT>', {
+  name: '<TOKEN_NAME>',
+  description: '<DESCRIPTION>',
+  image: '<IMAGE_LINK>',
+  properties: '<PROPERTIES_OBJECT>',
+  supply: "<SUPPLY>",
+});
+```
+
+### Create with ERC-721
+
+```ts
+const createNftWithErc721 = async (tokenContractAddress, tokenId, nft) => {
+  try {
+    await bundle.createWithERC721(tokenContractAddress, tokenId, nft);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+createNftWithErc20( "<TOKEN_CONTRACT_ADDRESS>", '<TOKEN_ID>', {
+  name: '<NFT_NAME>',
+  description: '<DESCRIPTION>',
+  image: '<IMAGE_LINK>',
+  properties: '<PROPERTIES_OBJECT>'
+});
+```
+
+### Create with NFT
+
+```ts
+const createWithNft = async (tokenContractAddress, tokenId, nft) => {
+  try {
+    await bundle.createWithNFT(tokenContractAddress, tokenId, nft);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+createNftWithNft( "<TOKEN_CONTRACT_ADDRESS>", '<TOKEN_ID>', {
+  name: '<NFT_NAME>',
+  description: '<DESCRIPTION>',
+  image: '<IMAGE_LINK>',
+  properties: '<PROPERTIES_OBJECT>'
+});
+```
+
+### Create with token
+
+```ts
+const createWithToken = async (tokenContractAddress, amount, token) => {
+   try {
+    await bundle.createWithToken(tokenContractAddress, amount, token);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+createNftWithToken( "<TOKEN_CONTRACT_ADDRESS>", '<AMOUNT>', {
+  name: '<TOKEN_NAME>',
+  description: '<DESCRIPTION>',
+  image: '<IMAGE_LINK>',
+  properties: '<PROPERTIES_OBJECT>',
+  supply: "<SUPPLY>",
+});
+```
+
+### Get NFT by token ID
+
+```ts
+const getNftByIdAndAddress = async (tokenId, walletAddress) => {
+  try {
+    await bundle.get(tokenId, walletAddress); // Address is optional
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+getNftByIdAndAddress('<TOKEN_ID>', '<WALLET_ADDRESS>');
+```
+
+### Get all NFTs
+
+```ts
+const getAllNfts = async (walletAddress) => {
+  try {
+    await bundle.getAll(walletAddress);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+getAllNfts('<WALLET_ADDRESS>');
+```
+
+### Get all NFTs owned
+
+```ts
+const getAllNftsOwned = async (walletAddress) => {
+  try {
+    await bundle.getOwned(walletAddress);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+getAllNftsOwned('<WALLET_ADDRESS');
+```
+
+### Get royalty basis points
+
+```ts
+const getRoyaltyBasisPoints = async () => {
+  try {
+    await bundle.getRoyaltyBps();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+getRoyaltyBasisPoints();
+```
+
+### Get royalty recipient address
+
+```ts
+const getRoyaltyRecipientAddress = async () => {
+  try {
+    await bundle.getRoyaltyRecipientAddress();
+  } catch (errror) {
+    console.log(error);
+  }
+};
+
+getRoyaltyRecipientAddress();
+```
+
+### Check if a smart contract is approved to spend on your behalf.
+
+```ts
+const isApproved = async (address, operator) => {
+  try {
+    await bundle.isApproved(address, operator);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+isApproved('<CONTRACT_ADDRESS>', '<CONTRACT_ADDRESS>');
+```
+
+### Check if transfer is restricted.
+
+```ts
+const isTransferRestricted = async () => {
+  try {
+    await bundle.isTransferRestricted();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+isTransferRestricted();
+```
+
+### Specify supply for a NFT
+
+```ts
+const mintNft = async (nft) => {
+  try {
+    await bundle.mint(nft);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+mintNft({
+  amount: '<AMOUNT>',
+  tokenId: '<TOKEN_ID>'
+});
+```
+
+### Specify supply for a batch of NFTs
+
+```ts
+const mintNftBatch = async (nftArray) => {
+  try {
+    await bundle.mintBatch(nftArray);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+mintNftBatch([
+  { 
+    amount: '<AMOUNT>', 
+    tokenId: '<TOKEN_ID>' 
+  },
+  { 
+    amount: '<AMOUNT>', 
+    tokenId: '<TOKEN_ID>' 
+  }
+]);
+```
+
+### Specify supply for a batch of NFTs and send it to an address.
+
+```ts
+const mintNftBatchToAddress = async (walletAddress, nftArray) => {
+  try {
+    await bundle.mintBatchTo(walletAddress, nftArray);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+mintNftBatchToAddress('WALLET_ADDRESS', [
+  { 
+    amount: '<AMOUNT>', 
+    tokenId: '<TOKEN_ID>' 
+  },
+  { 
+    amount: '<AMOUNT>', 
+    tokenId: '<TOKEN_ID>' 
+  }
+]);
+```
+
+### Specify supply for a NFT and send it to an address.
+
+```ts
+const mintNftToAddress = async (walletAddress, args) => {
+  try {
+    await bundle.mintTo(walletAddress, args);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+mintNftToAddress('<WALLET_ADDRESS>', { amount: '<AMOUNT>', tokenId: '<TOKEN_ID>' });
+```
+
+### Set approval for an operator (Contract)
+
+```ts
+const setTokenApproval = async (contractAddress, status) => {
+  try {
+    await bundle.setApproval(contractAddress, status);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+setTokenApproval('<CONTRACT_ADDRESS>', '<STATUS>');
+```
+
+### Set metadata for the module
+
+```ts
+const setModuleMetadata = async (metadata) => {
+  try {
+    await bundle.setModuleMetadata(metadata);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+setModuleMetadata({
+  name: '<MODULE_NAME>',
+  description: '<DESCRIPTION>',
+  image: '<IMAGE_LINK>'
+});
+```
+
+### Set restriction on transfer
+
+```ts
+const setTransferRestriction = async (status) => {
+  try {
+    await bundle.setRestrictedTransfer(status);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+setTransferRestriction('<STATUS>'); // Status can be true or false
+```
+
+### Set royalty basis points
+
+```ts
+const setRoyaltyBasisPoints = async (amount) => {
+  try {
+    await bundle.setRoyaltyBps(amount);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+setRoyaltyBasisPoints('<AMOUNT>');
+```
+
+### Transfer a specific amount of NFTs to an address
+
+```ts
+const transferTokenToAddress = async (to, tokenId, amount) => {
+  try {
+    await bundle.transfer(to, tokenId, amount);
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+transferTokenToAddress('<WALLET_ADDRESS>', '<TOKEN_ID>', '<AMOUNT>');
+```
+
+### Transfer a specific amount of NFT from an address
+
+```ts
+const transferTokenFromAddress = async (from, to, nft) => {
+  try{
+    await bundle.transferFrom(from, to, nft);
+  } catch(error) {
+    console.log(error);
+  }
+};
+
+transferTokenFromAddress('<FROM_WALLET_ADDRESS', '<TO_WALLET_ADDRESS', { tokenId: '<TOKEN_ID>', amount: '<AMOUNT>'});
+```
+
+### Transfer a specific amount of NFT in batches from an address
+
+```ts
+const transferTokenFromAddressInBatch = async (from, to, nftArray) => {
+  try {
+    await bundle.transferBatchFrom(from, to, nftArray);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+transferTokenFromAddressInBatch('<FROM_WALLET_ADDRESS>', '<TO_WALLET_ADDRESS>', [
+  {
+    tokenId: '<TOKEN_ID>',
+    amount: '<AMOUNT>'
+  },
+  {
+    tokenId: '<TOKEN_ID>',
+    amount: '<AMOUNT>'
+  }
+]);
+```
+
+### Unwrap a NFT
+
+```ts
+const unwrapNft = async (tokenId) => {
+  try {
+    await bundle.unwrapNFT(tokenId);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+unwrapNft('<TOKEN_ID>');
+```
+
+### Unwrap a token
+
+```ts
+const unwrapToken = async (tokenId, amount) => {
+  try {
+    await bundle.unwrapToken(tokenId, amount);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+unwrapToken('<TOKEN_ID>', '<AMOUNT>');
+```
 
 <MdxNavigation>
   <MdxNavigationItem

@@ -8,7 +8,188 @@ date: "2021-12-01"
 updated: "2022-01-13"
 ---
 
-No code examples for this module yet, check back soon!
+### Initialize the vote module
+```ts
+// The vote collection module address received after initializing the vote module on the dashboard.
+const voteAddress = "<MODULE_ADDRESS>";
+
+// Initialize the vote collection module with the module address.
+const vote = sdk.getVoteModule(voteAddress);
+```
+
+### Get the balance of the project wallet in the native token of the chain
+
+```ts
+const getBalance = async () => {
+  try {
+    await vote.balance();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+getBalance();
+```
+
+### Get the balance of the project wallet in a particular ERC20 token contract
+
+```ts
+const getBalanceOfToken = async (tokenAddress) => {
+  try {
+    await vote.balanceOfToken(tokenAddress);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+getBalanceOfToken('<TOKEN_ADDRESS>')
+```
+
+### Can execute a proposal
+
+```ts
+const canExecuteProposal = async (proposalId) => {
+  try {
+    await vote.canExecute(proposalId);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+canExecuteProposal('<PROPOSAL_ID>')
+```
+
+### Execute a proposal
+
+```ts
+const executeProposal = async (proposalId) => {
+  try {
+    await vote.execute(proposalId);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+executeProposal('<PROPOSAL_ID>');
+```
+
+### Get a proposal by proposal ID
+
+```ts
+const getProposal = async (proposalId) => {
+  try {
+    await vote.get(proposalId);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+getProposal('<PROPOSAL_ID>');
+```
+
+### Get all the proposals
+
+```ts
+const getAllProposals = async () => {
+  try {
+    await vote.getAll();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+getAllProposals();
+```
+
+### Check if an account has voted for a proposal
+
+```ts
+const hasVotedForProposal = async (proposalId, walletAddress) => {
+  try {
+    await vote.hasVoted(proposalId, walletAddress);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+hasVotedForProposal('<PROPOSAL_ID>', '<WALLET_ADDRESS>');
+```
+
+### Create a proposal
+
+```ts
+const createProposal = async (description, executions) => {
+  try {
+    await vote.propose(description, executions);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+createProposal('<DESCRIPTION>', {
+  // The address of the contract that the proposal will execute a transaction on. If the proposal is
+  // sending a token to a wallet, this address should be the address of the wallet that will be receiving
+  // the tokens.
+  toAddress: "<WALLET_ADDRESS>",
+  // The amount of the native currency to send in this transaction
+  nativeTokenValue: 0,
+  // The transaction payload that will be executed if the proposal is approved.
+  transactionData: tokenModule.contract.interface.encodeFunctionData(
+    "transfer",
+    ["<FROM_WALLET_ADDRESS>", "<AMOUNT>"]
+  )
+});
+```
+
+### Set the metadata for the module
+
+```ts
+const setModuleMetadata = async (metadata) => {
+  try {
+    await vote.setModuleMetadata(metadata);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+setModuleMetadata({
+  name: '<NAME>',
+  description: '<DESCRIPTION>',
+  image: '<IMAGE_LINK'
+});
+```
+
+### Get the settings
+
+```ts
+const getSettings = async () => {
+  try {
+    await vote.settings();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+getSettings();
+```
+
+### Vote for a proposal
+
+```ts
+const voteForProposal = async (proposalId, voteType, reason) => {
+  try {
+    await vote.vote(proposalId, vote, reason);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Vote Types: 
+    // Against: 0
+    // For: 1
+    // Abstain: 2
+voteForProposal('<PROPOSAL_ID>', '<VOTE_TYPE>', '<REASON>');
+```
 
 <MdxNavigation>
   <MdxNavigationItem
