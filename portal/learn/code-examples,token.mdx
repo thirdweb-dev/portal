@@ -106,6 +106,20 @@ const burnFrom = async (from, amount) => {
 burnFrom("<SPENDER_ADDRESS>", '<AMOUNT_TO_BURN>');
 ```
 
+### Delegate To 
+
+```tsx
+const delegateTo = async (walletAddress) => {
+  try {
+    await token.delegateTo(walletAddress);
+  } catch (error) {
+    console.log('Failed to delegate to. Error: ', error);
+  }
+}
+
+delegateTo('<WALLET_ADDRESS>')
+```
+
 ### get
 
 ```tsx
