@@ -109,9 +109,9 @@ function ConsoleApp({ Component, pageProps }: ConsoleAppProps) {
         `}
       />
       <DefaultSeo
-        defaultTitle="thirdweb"
-        titleTemplate="%s | thirdweb"
-        description="Build Web3 projects in minutes with smart contracts you control, tools that accelerate your workflow and intuitive SDKs and widgets for developers."
+        defaultTitle="Portal"
+        titleTemplate="%s | Portal | thirdweb"
+        description="Guides, tutorials and code examples for building web3 applications."
         additionalLinkTags={[
           {
             rel: "icon",
@@ -119,17 +119,17 @@ function ConsoleApp({ Component, pageProps }: ConsoleAppProps) {
           },
         ]}
         openGraph={{
-          title: "thirdweb",
+          title: "Portal | thirdweb",
           type: "website",
           locale: "en_US",
-          url: "https://thirdweb.com",
-          site_name: "thirdweb",
+          url: "https://portal.thirdweb.com",
+          site_name: "Portal",
           images: [
             {
-              url: "https://thirdweb.com/thirdweb-og.png",
+              url: "https://portal.thirdweb.com/portal.png",
               width: 1200,
               height: 650,
-              alt: "thirdweb",
+              alt: "Portal | thirdweb",
             },
           ],
         }}
@@ -138,7 +138,7 @@ function ConsoleApp({ Component, pageProps }: ConsoleAppProps) {
           site: "@thirdweb_",
           cardType: "summary_large_image",
         }}
-        canonical={`https://thirdweb.com${router.asPath}`}
+        canonical={`https://portal.thirdweb.com${router.asPath}`}
       />
 
       <ChakraProvider theme={chakraTheme}>
