@@ -126,7 +126,7 @@ const createProposal = async (description, executions) => {
   }
 };
 
-createProposal('<DESCRIPTION>', {
+createProposal('<DESCRIPTION>', [
   // The address of the contract that the proposal will execute a transaction on. If the proposal is
   // sending a token to a wallet, this address should be the address of the wallet that will be receiving
   // the tokens.
@@ -138,7 +138,7 @@ createProposal('<DESCRIPTION>', {
     "transfer",
     ["<FROM_WALLET_ADDRESS>", "<AMOUNT>"]
   )
-});
+]);
 ```
 
 ### Set the metadata for the module
