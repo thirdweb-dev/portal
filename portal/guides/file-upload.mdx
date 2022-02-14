@@ -6,7 +6,7 @@ authorAvatar2: "/assets/portal/authors/sunrit.jpg"
 authorTwitter: "https://twitter.com/PrasoonPratham"
 authorTwitter2: "https://twitter.com/JanaSunrise"
 draft: false
-tags: [python, typescript, basics]
+tags: [nft-collection, python, typescript, basics]
 summary: "Understand how the thirdweb sdk handles file uploads"
 image: "/assets/portal/guides/file-upload/thumbnail.png"
 date: "2022-02-13"
@@ -25,14 +25,13 @@ The SDK gives us four ways to upload the images. They being,
 
 - Option 1: Local file stored on your computer.
 - Option 2: A file upload form.
-- Option 3: IPFS CID — short for [‘InterPlanetary file system’.](https://docs.ipfs.io/concepts/what-is-ipfs/)
+- Option 3: IPFS CID — short for [‘InterPlanetary File System’.](https://docs.ipfs.io/concepts/what-is-ipfs/)
 
 You can upload GIFs, PNGs, JPEGs, and other common image formats. Infact you can upload *any* file that you like, audio clips, text files etc.
 
 Only image files will show up on exchanges like OpenSea.
 
 Let’s go through each option in detail.
-
 
 ## 1. Local file stored on your computer
 
@@ -42,20 +41,20 @@ Here is how you can do it in TypeScript:
 
 ```tsx
 // Imports.
-import fs from "fs";
+import { readFileSync } from "fs";
 
 // Initializing the SDK
 ...
 
 // Load the file "logo.png".
-const imageBytes = fs.readFileSync("logo.png");
+const image = readFileSync("logo.png");
 
 // Minting the NFT asynchronously
 async function mint() {
     await nft.mint({
       name: "NFT 🖼️", 
       description: "Description of the NFT",
-      image: imageBytes,
+      image,
       properties: {},
     }),
 }
@@ -116,64 +115,63 @@ npm install @3rdweb/react @3rdweb/hooks
 > 
 
 ```tsx
-import { useState, useMemo } from 'react';
-
-import { ThirdwebSDK } from '@3rdweb/sdk';
-import { useWeb3 } from '@3rdweb/hooks';
+import { useWeb3 } from "@3rdweb/hooks";
+import { ThirdwebSDK } from "@3rdweb/sdk";
+import { useMemo, useState } from "react";
 
 const FrontendForm = () => {
- 		 // Define state for image.
-    const [image, setImage] = useState(null);
+  // Define state for image.
+  const [image, setImage] = useState(null);
 
-	  // Get the Web3 provider.
-    const { provider } = useWeb3();
+  // Get the Web3 provider.
+  const { provider } = useWeb3();
 
-    // Initialize the thirdweb SDK
-    const sdk = useMemo(
-          () =>
-              provider
-                  ? new ThirdwebSDK(provider.getSigner())
-                  : new ThirdwebSDK(),
-          [provider]
-    );
+  // Initialize the thirdweb SDK
+  const sdk = useMemo(
+    () =>
+      provider ? new ThirdwebSDK(provider.getSigner()) : new ThirdwebSDK(),
+    [provider],
+  );
 
-    // Get the NFT module.
-    const nftModule = sdk.getNFTModule("0xD91A8C3Dd5fa4F829A009FCd9C1DDc8417DB78f9");
+  // Get the NFT module.
+  const nftModule = sdk.getNFTModule(
+    "0xD91A8C3Dd5fa4F829A009FCd9C1DDc8417DB78f9",
+  );
 
-		// Function to handle the form submission.
-    const formSubmit = ev => {
-        ev.preventDefault();
+  // Function to handle the form submission.
+  const formSubmit = (ev) => {
+    ev.preventDefault();
 
-        // Ensure image is not empty.
-        if (image) {
-            (async () => {
-                console.log(
-                    await nftModule.mint({
-                        name: "Thirdweb NFT.",
-                        description: "NFT minted using thirdweb!",
-                        image: image,
-                        properties: {}
-                    })
-                );
-            })();
-        }
+    // Ensure image is not empty.
+    if (image) {
+      (async () => {
+        console.log(
+          await nftModule.mint({
+            name: "Thirdweb NFT.",
+            description: "NFT minted using thirdweb!",
+            image,
+            properties: {},
+          }),
+        );
+      })();
     }
+  };
 
-    return (
-        <div>
-            <form onSubmit={formSubmit}>
-                <input
-                    type="file"
-                    name="file"
-                    id="file"
-                    accept="image/png, image/jpeg" 
-                    onChange={ev => setImage(ev.target.files[0])}
-                />
-                <input type="submit" value="Submit" />
-            </form>
-        </div>
-    )
-}
+  return (
+    <div>
+      <form onSubmit={formSubmit}>
+        <input
+          type="file"
+          name="file"
+          id="file"
+          accept="image/png, image/jpeg"
+          onChange={(ev) => setImage(ev.target.files[0])}
+        />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  );
+};
 
 export default FrontendForm;
 ```
@@ -270,39 +268,38 @@ async def mint(
 **3. Configure the `_app.tsx` file to use the thirdweb connector.**
 
 ```tsx
-import { ThirdwebProvider } from '@3rdweb/react';
-
+import { ThirdwebProvider } from "@3rdweb/react";
 // Fix for the regeneration issue.
-import 'regenerator-runtime/runtime';
+import "regenerator-runtime/runtime";
 
 // Define the chain IDs and connectors that we want to use: Eth mainnet, Rinkeby testnet, Polygon.
 const supportedChainIds = [1, 4, 137];
-  const connectors = {
-    injected: {},
-    magic: {
-      apiKey: "pk_...", // Your magic api key
-      chainId: 1, // The chain ID you want to allow on magic
-    },
-    walletconnect: {},
-    walletlink: {
-      appName: "thirdweb - demo",
-      url: "https://thirdweb.com",
-      darkMode: false,
-    },
-  };
+const connectors = {
+  injected: {},
+  magic: {
+    apiKey: "pk_...", // Your magic api key
+    chainId: 1, // The chain ID you want to allow on magic
+  },
+  walletconnect: {},
+  walletlink: {
+    appName: "thirdweb - demo",
+    url: "https://thirdweb.com",
+    darkMode: false,
+  },
+};
 
 // Initialize App component with the provider.
 const MyApp = ({ Component, pageProps }) => {
-    return (
-        <>
-            <ThirdwebProvider
-                connectors={connectors}
-                supportedChainIds={supportedChainIds}
-            >
-                <Component {...pageProps} />
-            </ThirdwebProvider>
-        </>
-    );
+  return (
+    <>
+      <ThirdwebProvider
+        connectors={connectors}
+        supportedChainIds={supportedChainIds}
+      >
+        <Component {...pageProps} />
+      </ThirdwebProvider>
+    </>
+  );
 };
 
 export default MyApp;
@@ -311,64 +308,60 @@ export default MyApp;
 **4. Create the frontend form.**
 
 ```tsx
-import { useState, useMemo } from 'react';
-
-import axios from 'axios';
+import axios from "axios";
+import { useState } from "react";
 
 const FrontendForm = () => {
- 		 // Define state for image.
-		 const [image, setImage] = useState(null);
- 		 const [address, setAddress] = useState(null);
+  // Define state for image.
+  const [image, setImage] = useState(null);
+  const [address, setAddress] = useState(null);
 
-    // Get the NFT module.
-    const nftModule = sdk.getNFTModule("0xD91A8C3Dd5fa4F829A009FCd9C1DDc8417DB78f9");
+  // Function to handle the form submission.
+  const formSubmit = (ev) => {
+    ev.preventDefault();
 
-		// Function to handle the form submission.
-    const formSubmit = ev => {
-        ev.preventDefault();
+    // Ensure image is not empty.
+    if (image && address) {
+      const form = new FormData();
+      form.append("address", address);
+      form.append("name", "My NFT.");
+      form.append("description", "Thirdweb NFT!");
+      form.append("image", image);
 
-        // Ensure image is not empty.
-        if (image && address) {
-            const form = new FormData();
-		        form.append('address', address);
-		        form.append('name', "My NFT.");
-		        form.append('description', "Thirdweb NFT!");
-		        form.append('image', file);
-
-		        axios
-            .post('http://localhost:8000/mint', form)
-            .then(function (response) {
-                console.log(response);
-                alert(response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-                alert(error.data);
-            });
-        }
+      axios
+        .post("http://localhost:8000/mint", form)
+        .then(function (response) {
+          console.log(response);
+          alert(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+          alert(error.data);
+        });
     }
+  };
 
-    return (
-        <div>
-            <form onSubmit={formSubmit}>
-                <input
-                    type="file"
-                    name="file"
-                    id="file"
-                    accept="image/png, image/jpeg" 
-                    onChange={ev => setImage(ev.target.files[0])}
-                />
-				<input
-					type="text"
-                    name="address"
-                    id="address"
-                    onInput={ev => setAddress(ev.target.value}
-				/>
-                <input type="submit" value="Submit" />
-            </form>
-        </div>
-    )
-}
+  return (
+    <div>
+      <form onSubmit={formSubmit}>
+        <input
+          type="file"
+          name="file"
+          id="file"
+          accept="image/png, image/jpeg"
+          onChange={(ev) => setImage(ev.target.files[0])}
+        />
+        <input
+          type="text"
+          name="address"
+          id="address"
+          onInput={(ev) => setAddress(ev.target.value)}
+        />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+  );
+};
 
 export default FrontendForm;
 ```
@@ -394,7 +387,7 @@ Just like before you can pass the IPFS link in the mint function and thirdweb wi
 // Minting the NFT asynchronously
 async function mint() {
   console.log(
-    await nft.mint({
+    await nftCollection.mint({
       name: "NFT 🖼️", 
       description: "Description of the NFT",
       image: "ipfs://QmbGpe6dJQA9awBbTKEULufp9TTjXw1esVUbZNQrLM57nK",
