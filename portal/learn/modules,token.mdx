@@ -11,8 +11,6 @@ updated: ""
 
 ## In a nutshell
 
----
-
 The `Token` module is suited for projects in which you want to create your own currency. This currency can be purchased and traded between users on an exchange, utilized to buy and sell NFTs in a marketplace, and much more.
 
 This can be combined with other contracts like `NFT Drop` , `Splits` , `Bundle Drop` , and `Marketplace` for even greater functionality.
@@ -22,8 +20,6 @@ The `Token` module is a smart contract, which is compliant with the ERC20 standa
 Click [here](/learn/modules) to learn more about modules and how to create them.
 
 ## The settings
-
----
 
 The following settings can be adjusted, when you create an `Token` module:
 
@@ -100,7 +96,7 @@ And here is one in Python 👇
 
 ```python
 #pick your module and enter the smart contract address
-token_module = sdk.get_currency_module(<TOKEN_MODULE_ADDRESS>)
+token_module = sdk.get_currency_module("<TOKEN_MODULE_ADDRESS>")
 #blockchain converts numbers with 18 decimals
 input_amount = 1000
 converted_amount = amount* (10**18)
