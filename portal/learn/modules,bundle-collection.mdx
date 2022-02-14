@@ -27,7 +27,7 @@ The `Bundle Collection` is used to create NFTs, but also has powerful features, 
 
 With the `Bundle Collection` module you can create an NFT and then pass a supply👇
 
-![Bundle collection dashboard showing supply](/assets/portal/learn/bundle/supply.png)
+![Bundle collection dashboard showing supply](/assets/portal/learn/bundle-collection/supply.png)
 
 Each of these NFTs👆share the same ID and same image, but now you can have multiple of these. This type of NFT is also called `one-of-many` . Like this you can mint your own NFT collection. These NFTs can be listed for sale on any NFT platform or your own marketplace (created with third web’s `Marketplace` module).
 
@@ -40,7 +40,7 @@ This is useful if let's say you want to convert a token (ERC-20) to an NFT (ERC-
 
 You can use the `Bundle Collection` by using code or no-code. Head over to our dashboard to make use of the no-code solution. To use the code solution, you need to install our packages and instantiate our sdk first. Check out [this](/learn/connect-to-blockchain) page on how to do that. You’ll also need the address of your `Bundle Collection` module. You can find that in the dashboard, inside your project.
 
-![module addresses](/assets/portal/learn/bundle/module.png)
+![module addresses](/assets/portal/learn/bundle-collection/module.png)
 
 ### Examples
 
@@ -50,10 +50,10 @@ Here’s an example on how to create an NFT in TypeScript
 // The Bundle collection module address received after initializing the Bundle module on the dashboard.
 const bundleAddress = "<MODULE_ADDRESS>";
 // Initialize the Bundle collection module with the contract address.
-const bundle = sdk.getBundleModule(bundleAddress);
+const bundleCollection = sdk.getBundleModule(bundleAddress);
 const createAndMintNft = async (nft) => {
   try {
-    await bundle.createAndMint(nft);
+    await bundleCollection.createAndMint(nft);
   } catch (error) {
     console.log(error);
   }
