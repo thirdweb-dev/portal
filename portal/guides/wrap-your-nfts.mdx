@@ -17,7 +17,7 @@ Wrapping lets you add your own NFTs to your thirdweb projects
 
 ## Introduction
 
-In this guide, we are going to use TypeScript to take an NFT and wrap it so that it can be used in Thirdweb modules. This opens up a world of possibilities and you can read more [here](https://discord.com/channels/834227967404146718/902296761840853012/926253742939062273).  The process is quite simple. We’re going to create a bundle collection module, find the NFT data on OpenSea, and then wrap the NFT. Let’s dive into it!
+In this guide, we are going to use TypeScript to take an NFT and wrap it so that it can be used in thirdweb modules. This opens up a world of possibilities and you can read more [here](https://discord.com/channels/834227967404146718/902296761840853012/926253742939062273).  The process is quite simple. We’re going to create a `Bundle Collection` module, find the NFT data on OpenSea, and then wrap the NFT. Let’s dive into it!
 
 ## Overview
 
@@ -31,19 +31,16 @@ Here are the steps we will follow in this guide:
 
 ## 1. Create Module
 
-Our first step is to create a bundle collection module. This can be done in the [dashboard](/dashboard) and if you aren’t sure how to create the module please check [this guide.](/portal/learn/introduction) 
+Our first step is to create a `Bundle Collection` module. This can be done in the [dashboard](/dashboard) and if you aren’t sure how to create the module please check [this guide.](/portal/learn/introduction) 
 
-## 2. Install SDK
+### 2. Import the SDK
 
-Install the necessary dependencies:
+In order to make use of our SDK, you need to establish a connection to a blockchain.
+Click [here](/learn/connect-to-blockchain) to learn how to connect to the blockchain and instantiate our SDK.
 
-- **@3rdweb/sdk** - thirdweb TypeScript SDK.
-- **ethers** - will give us very useful utils.
-- **dotenv** - to hide our private key.
-- **typescript** - since this is a TypeScript project
-- **@types/node** - typing for node as a dev dependency.
-- **tslib** - utility package
+For this guide, you will need to instantiate the SDK following [these](/learn/connect-to-blockchain#using-your-own-signer-with-thirdweb) steps, using your own signer with thirdweb.
 
+Make sure you have the packages installed 👇
 ```tsx
 npm install @3rdweb/sdk ethers dotenv
 npm install --save-dev typescript @types/node ts-node tslib
