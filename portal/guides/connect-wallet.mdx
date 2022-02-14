@@ -45,7 +45,7 @@ Before we can use this button, we need to add the provider to our app.👇
 
 Now we need to setup our `Provider`. For this we will use the custom component of thirdweb, the `ThirdwebProvider`. Go ahead and import it.
 
-```js:App.js
+```jsx:App.js
 import { ThirdwebProvider } from "@3rdweb/react";
 ```
 
@@ -53,7 +53,7 @@ Next we need to select the chain and type of wallet we want to connect to.
 
 With `supportedChainIds` we select the blockchain we want to connect with. We have to pass an `Id`. Every blockchain has an `Id`. We are using an `Id` instead of a `RPC url` here. (again click [here](/learn/connect-to-blockchain) if you don’t know how a connection with blockchain works).
 
-```js:App.js
+```jsx:App.js
 const App = () => {
   // Polygon's chain Id is 137
   const supportedChainIds = [137];
@@ -62,7 +62,7 @@ const App = () => {
 
 With `connectors` we are selecting which wallets we want to support. If you want to learn more about our connect wallet component, click [here](/guides/add-connectwallet-to-your-website).
 
-Metamask `conncector` setup 👇
+MetaMask `connector` setup 👇
 
 ```jsx:App.js
 //injected - MetaMask
@@ -94,7 +94,7 @@ So make sure you put your `Component` within the brackets of the `ThirdwebProvid
       connectors={connectors}
       supportedChainIds={supportedChainIds}
     >
-      </Connect> /* our connect wallet button */
+      <Connect /> /* our connect wallet button */
     </ThirdwebProvider>
   );
 };
