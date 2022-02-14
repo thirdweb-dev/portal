@@ -1,0 +1,82 @@
+---
+title: Bundle Collection Module
+author: "Raza Zaidi"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+draft: false
+summary: "An ERC-1155 contract that enables you to mint one-of-many NFTs"
+date: "2022-02-14"
+updated: ""
+---
+
+## In a nutshell
+
+With the `NFT Collection` module, every NFT has an unique ID with an unique image. The `Bundle Collection` module let’s you mint multiple NFTs based on the same image or music file. Here’s how that works👇
+
+If you want to know more about creating modules, click [here](/learn/modules).
+
+## How it works
+
+The `Bundle Collection` is used to create NFTs, but also has powerful features, such as wrapping your tokens and NFTs. The `Bundle Collection` module can:
+
+1. Mint an NFT Collection
+2. Wrap Tokens
+3. Wrap NFTs
+
+## Mint an NFT Collection
+
+With the `Bundle Collection` module you can create an NFT and then pass a supply👇
+
+![Bundle collection dashboard showing supply](/assets/portal/learn/bundle-collection/supply.png)
+
+Each of these NFTs👆share the same ID and same image, but now you can have multiple of these. This type of NFT is also called `one-of-many` with ERC-1155. Like this you can mint your own NFT collection. These NFTs can be listed for sale on any NFT platform or your own marketplace (created with third web’s `Marketplace` module).
+
+## Wrap Tokens & NFTs
+
+This module allows you to wrap `Tokens` and `NFTs`. Wrapping makes a token which is created on a certain standard (like ERC-20), available in another standard(like ERC-721). The original token is **locked** in one standard and then a representation of that token is created in the new standard.
+This is useful if let's say you want to convert a token (ERC-20) to an NFT (ERC-721). thirdweb's wrapping feature takes care of that for you.
+
+## How to use
+
+You can use the `Bundle Collection` by using code or no-code. Head over to our dashboard to make use of the no-code solution. To use the code solution, you need to install our packages and instantiate our sdk first. Check out [this](/learn/connect-to-blockchain) page on how to do that. You’ll also need the address of your `Bundle Collection` module. You can find that in the dashboard, inside your project.
+
+![module addresses](/assets/portal/learn/bundle-collection/module.png)
+
+### Examples
+
+Here’s an example on how to create an NFT in TypeScript
+
+```jsx
+// The Bundle collection module address received after initializing the Bundle module on the dashboard.
+const bundleAddress = "<MODULE_ADDRESS>";
+// Initialize the Bundle collection module with the contract address.
+const bundleCollection = sdk.getBundleModule(bundleAddress);
+const createAndMintNft = async (nft) => {
+  try {
+    await bundleCollection.createAndMint(nft);
+  } catch (error) {
+    console.log(error);
+  }
+};
+createAndMintNft({
+  name: "<NFT_NAME>",
+  description: "<DESCRIPTION>",
+  image: "<LINK>",
+  properties: "PROPERTIES_OBJECT",
+  initialSupply: "<INITIAL_SUPPLY_INT",
+});
+```
+
+## Code Guide
+
+1. You can find code snippets for every method in our portal [here](/learn/code-examples/bundle-collection).
+2. To check out guides for this module click [here](/guides/bundle-collection).
+3. To setup your local dev environment, click [here](/guides/sdk-guide).
+
+<MdxNavigation>
+  <MdxNavigationItem
+    href="/learn/modules/nft-collection"
+    title="NFT Collection"
+  />
+  <MdxNavigationItem href="/learn/modules/nft-drop" title="NFT Drop" next />
+</MdxNavigation>
