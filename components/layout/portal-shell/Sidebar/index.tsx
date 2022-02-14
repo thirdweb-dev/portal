@@ -48,11 +48,7 @@ export const PortalSidebar: React.FC = () => {
               matchExact
               href="/learn/modules/nft-drop"
             />
-            <SidebarItem
-              label="Token"
-              matchExact
-              href="/learn/modules/token-module"
-            />
+            <SidebarItem label="Token" matchExact href="/learn/modules/token" />
             <SidebarItem
               label="Marketplace"
               matchExact
