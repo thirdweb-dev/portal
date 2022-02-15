@@ -71,7 +71,7 @@ const tokenIdOffer = 1;
 marketplace.createDirectListing({
   assetContractAddress: nftCollectionModuleAddress,
   buyoutPricePerToken: ethers.utils.parseUnits(tokenIdOffer, 18),
-  currencyContractAddress: "0x0000000000000000000000000000000000000000",
+  currencyContractAddress: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE", // native token address
   startTimeInSeconds: Math.floor(Date.now() / 1000),
   listingDurationInSeconds: 60 * 60 * 24,
   tokenId: tokenId,
