@@ -194,7 +194,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                         </Text>
                       </HStack>
                     </NextLink>
-                    <NextLink href="https://pkg.go.dev/github.com/nftlabs/nftlabs-sdk-go/pkg/nftlabs">
+                    <NextLink href="https://pkg.go.dev/github.com/thirdweb-dev/go-sdk/pkg">
                       <HStack
                         role="group"
                         _hover={{

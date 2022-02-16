@@ -19,7 +19,7 @@ In this guide, we are going to make our own early access NFTs using TypeScript. 
 
 ### 1. Create Module
 
-Our first step is to create a bundle drop module. This can be done in the [dashboard](/dashboard) and if you aren’t sure how to create the module please check [this guide.](/learn/introduction) 
+Our first step is to create a bundle drop module. This can be done in the [dashboard](/dashboard) and if you aren't sure how to create the module please check [this guide.](/learn/introduction) 
 
 ### 2. Project Set-Up
 
@@ -38,13 +38,13 @@ npm install --save-dev ts-node tslib
 
 ### 3. Instantiate the SDK
 
-To create, configure and interact with our NFTs we will need to use the thirdweb SDK. Instead of initializing it each time we use it, let’s make a function that initializes it and then can be called as needed. 
+To create, configure and interact with our NFTs we will need to use the thirdweb SDK. Instead of initializing it each time we use it, let's make a function that initializes it and then can be called as needed. 
 
 Start by making a new folder called `scripts` in the root of your project and then make a file in that folder called `getModule.ts`. 
 
 In `getModule.ts` , follow these steps:
 
-Import the libraries we’ll need:
+Import the libraries we'll need:
 
 ```tsx
 // Importing libraries
@@ -73,7 +73,7 @@ const bundleDrop = sdk.getBundleDropModule(bundleDropAddress);
 export default bundleDrop;
 ```
 
-(PS: We’re using the Rinkeby testnet in this guide)
+(PS: We're using the Rinkeby testnet in this guide)
 
 ### 4. Create the NFT
 
@@ -117,7 +117,7 @@ Awesome! We have our early access NFT☺️
 
 
 
-PS: This is a TypeScript project. Don’t forget that you will need a `tsconfig.json` file - [here is documentation where you can find examples](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
+PS: This is a TypeScript project. Don't forget that you will need a `tsconfig.json` file - [here is documentation where you can find examples](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
 
 ### 5. Set NFT Price and Supply
 
@@ -179,7 +179,7 @@ And you should see the success message in your console:
 
 ![](/assets/portal/guides/early-access-nft-with-typescript/1-early-access-nft.png)
 
-Amazing! We now have 1000 claimable NFTs! We just need a frontend for our users to interact with. Let’s do it☺️
+Amazing! We now have 1000 claimable NFTs! We just need a frontend for our users to interact with. Let's do it☺️
 
 ### 6. Display the NFT with a connect wallet button
 
@@ -277,7 +277,7 @@ function App() {
 export default App;
 ```
 
-This context makes adding the `WalletConnect` component very simple! We only want to display our NFT (and claim button) to users who are connected so in the `Nft` function in `Nft.tsx`, we’ve added some code to do this. There are comments on the lines we added.  
+This context makes adding the `WalletConnect` component very simple! We only want to display our NFT (and claim button) to users who are connected so in the `Nft` function in `Nft.tsx`, we've added some code to do this. There are comments on the lines we added.  
 
 ```tsx
 const Nft = () => {
@@ -320,7 +320,7 @@ export default Nft;
 
 ### 8. Add a claim button
 
-Okay. We have our NFT displayed and a connect button. All we need is a button for users to claim NFTs. Let’s create a new component in a file called `ClaimButton.tsx`. 
+Okay. We have our NFT displayed and a connect button. All we need is a button for users to claim NFTs. Let's create a new component in a file called `ClaimButton.tsx`. 
 
 First, we import the libraries and initialize the module:
 
@@ -382,7 +382,7 @@ export default ClaimButton;
 
 ## Next Steps
 
-Congrats🥳 You’ve got a claimable early access NFT! Yours could like something like this:
+Congrats🥳 You've got a claimable early access NFT! Yours could like something like this:
 
 ![Connect Button](/assets/portal/guides/early-access-nft-with-typescript/3-early-access-nft.png)
 

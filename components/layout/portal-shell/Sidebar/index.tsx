@@ -155,7 +155,7 @@ export const PortalSidebar: React.FC = () => {
           />
           <SidebarItem
             label="Go"
-            href="https://pkg.go.dev/github.com/nftlabs/nftlabs-sdk-go/pkg/nftlabs"
+            href="https://pkg.go.dev/github.com/thirdweb-dev/go-sdk/pkg"
             isExternal
           />
         </SidebarItem>

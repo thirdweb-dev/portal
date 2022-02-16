@@ -19,7 +19,7 @@ Connecting and interacting with a blockchain from the frontend works slightly di
 
 The provider is an easy way to connect to a block chain. When you _just_ want to **read** data from the blockchain, the provider is the best way to connect your app to the blockchain.
 
-Regardless of using thirdweb’s sdk or another sdk, you will need a provider to establish this connection.
+Regardless of using thirdweb's sdk or another sdk, you will need a provider to establish this connection.
 
 So a provider is a simple connection and this is what the connection looks like in terms of code:
 
@@ -49,7 +49,7 @@ const provider = ethers.getDefaultProvider(rpcUrl);
 const sdk = new ThirdwebSDK(provider);
 ```
 
-Here’s an example of how to use the provider in an use case where you _just_ want to retrieve data, like getting the number of NFTs you’ve minted so far. \*\*
+Here's an example of how to use the provider in an use case where you _just_ want to retrieve data, like getting the number of NFTs you've minted so far. \*\*
 
 ```jsx
 // Initialize nft module by passing in the module address
@@ -60,9 +60,9 @@ nft.balance();
 
 You can find the addresses of your modules inside your dashboard.
 
-By now you should have some modules deployed. If you haven’t, check out [this](/learn/projects) page to create and deploy a module. If you don’t know what modules are, click [here](/learn/introduction)!
+By now you should have some modules deployed. If you haven't, check out [this](/learn/projects) page to create and deploy a module. If you don't know what modules are, click [here](/learn/introduction)!
 
-Here’s another example, to get all the listings in our market we use the `getAllListings` method.
+Here's another example, to get all the listings in our market we use the `getAllListings` method.
 
 ```jsx
 // Initialize market module by passing in the module address
@@ -79,7 +79,7 @@ The `Signer` represents a connection established with a wallet. This connection 
 
 If you want to mint NFTs or claim tokens, then you want to **write** data on the blockchain. In order to do this we need to enrich the `Provider` with a `Signer`. We explained in the previous step why we need the `Provider`.
 
-The `Provider` doesn’t hold any interface or connection to a wallet, it can only read from the blockchain and thus requires less security and care.
+The `Provider` doesn't hold any interface or connection to a wallet, it can only read from the blockchain and thus requires less security and care.
 
 The `Signer` is necessary to authorize transactions. When you mint an NFT or claim a token, you perform a transaction on the blockchain. Every transaction **needs** to be authorized by the user. To authorize a transaction, the user needs to sign the transaction with their wallet. The `Signer` has access to methods that can prompt the connected wallet to authorize the relevant transaction
 
@@ -87,7 +87,7 @@ You might have seen this process while using your wallet on any web3 app. You wa
 
 ### Connect your users wallet with thirdweb
 
-A wallet contains sensitive information and you do **not** want this data accessible by anyone except for the owner! At thirdweb we take security extremely seriously. That’s why we developed a connect wallet flow for your users to sign transactions, without their sensitive data being exposed, by obtaining a `Signer`.
+A wallet contains sensitive information and you do **not** want this data accessible by anyone except for the owner! At thirdweb we take security extremely seriously. That's why we developed a connect wallet flow for your users to sign transactions, without their sensitive data being exposed, by obtaining a `Signer`.
 
 The user does not need to worry that we can see their private keys. That is not possible. Every transaction still needs to be approved by the user. The `Signer` just allows our sdk to handle the heavy lifting once the user authorizes the transaction from the frontend.
 
@@ -107,7 +107,7 @@ Another way to connect to the blockchain in this case, is by passing the `Privat
 
 When opting for this method to establish a connection to the blockchain, you will need to explicitly pass the RPC url too, to tell the sdk which chain you want to connect.
 
-Here’s an example of doing this in TypeScript👇
+Here's an example of doing this in TypeScript👇
 
 ```jsx
 // Instantiate thirdrdweb SDK

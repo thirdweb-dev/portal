@@ -12,7 +12,7 @@ updated: ""
 
 ## In a nutshell
 
-In a marketplace you can sell or buy NFTs. Platforms like Opensea or Rarible are examples of marketplaces. thirdweb let’s you create your own marketplace, which allows you to sell NFTs both exclusively on your own marketplace or on multiple marketplaces. That is up to you!
+In a marketplace you can sell or buy NFTs. Platforms like Opensea or Rarible are examples of marketplaces. thirdweb let's you create your own marketplace, which allows you to sell NFTs both exclusively on your own marketplace or on multiple marketplaces. That is up to you!
 
 If you want to know more about creating modules, click [here](/learn/modules).
 
@@ -23,7 +23,7 @@ The Marketplace is used to **list** NFTs. Listing NFTs is the process of making 
 1. Direct Listing: Sell it for a fixed price.
 2. Auction Listing: Let buyers bid on the NFT, under the constraints you set for your auction.
 
-In both choices, you are also given the option to list your NFT in the native currency, like `MATIC` on Polygon or your own tokens. If you’re wondering how to create your own token, click here.
+In both choices, you are also given the option to list your NFT in the native currency, like `MATIC` on Polygon or your own tokens. If you're wondering how to create your own token, click here.
 
 ## Pre-requisites
 
@@ -51,17 +51,17 @@ The lister can cancel an auction at any moment as long as no bids have been plac
 
 ## Further reading
 
-If you want to know more about the nitty gritty details, well you’re in luck. Head over to to [this](https://github.com/nftlabs/nftlabs-protocols/blob/main/contracts/marketplace/marketplace.md) page, where you can find out more on how things work under the hood.
+If you want to know more about the nitty gritty details, well you're in luck. Head over to to [this](https://github.com/thirdweb-dev/contracts/blob/main/contracts/marketplace/marketplace.md) page, where you can find out more on how things work under the hood.
 
 ## How to use
 
-You can use the `Marketplace` by using code or no-code. Head over to our dashboard to make use of the no-code solution. To use the code solution, you need to install our packages and instantiate our sdk first. Check out [this](/learn/connect-to-blockchain) page on how to do that. You’ll also need the address of your `Marketplace` module. You can find that in the dashboard, inside your project.
+You can use the `Marketplace` by using code or no-code. Head over to our dashboard to make use of the no-code solution. To use the code solution, you need to install our packages and instantiate our sdk first. Check out [this](/learn/connect-to-blockchain) page on how to do that. You'll also need the address of your `Marketplace` module. You can find that in the dashboard, inside your project.
 
 ![Overview of modules and their addresses](/assets/portal/learn/marketplace/module-address.png)
 
 ### Examples
 
-Here’s an example on how to list an NFT in TypeScript
+Here's an example on how to list an NFT in TypeScript
 
 ```jsx
 const marketModuleAddress = "0xC06adC34097afa2085324D4192fbE9206059f8e0";
@@ -79,11 +79,11 @@ marketplace.createDirectListing({
 });
 ```
 
-here’s an example on how to list an NFT in the dashboard. After creating your marketplace, go to your `NFT Collection Module` and **list** the NFT you want👇
+here's an example on how to list an NFT in the dashboard. After creating your marketplace, go to your `NFT Collection Module` and **list** the NFT you want👇
 
 ![List an NFT](/assets/portal/learn/marketplace/list-nft.png)
 
-Here’s an example how to buy an NFT in TypeScript
+Here's an example how to buy an NFT in TypeScript
 
 ```jsx
 marketplace.buyoutDirectListing({
