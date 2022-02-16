@@ -59,7 +59,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
             </Heading>
           </Box>
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing={15}>
-            <SimpleGrid direction="column" spacing={7} flexGrow={1}>
+            <SimpleGrid spacing={7} flexGrow={1}>
               <Box>
                 <ChakraNextImage
                   src={require("/public/assets/portal/thirdweb.png")}
@@ -111,12 +111,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
             </SimpleGrid>
             <Flex direction="column">
               <InstallTabs />
-              <SimpleGrid
-                mt={5}
-                direction="column"
-                columns={{ base: 1, md: 2 }}
-                spacing={5}
-              >
+              <SimpleGrid mt={5} columns={{ base: 1, md: 2 }} spacing={5}>
                 <LinkBox role="group">
                   <NextLink href="/learn" _hover={{ textDecoration: "none" }}>
                     <Card

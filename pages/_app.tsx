@@ -1,9 +1,7 @@
 import { ChakraProvider, useColorMode } from "@chakra-ui/react";
 import { css, Global } from "@emotion/react";
-import { AppLayout } from "components/app-layouts/app";
 import { FallbackLayout } from "components/app-layouts/fallback";
 import { PortalLayout } from "components/app-layouts/portal";
-import { Providers } from "components/app-layouts/web3-providers";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextComponentType, NextPageContext } from "next";
 import { DefaultSeo } from "next-seo";
@@ -20,7 +18,7 @@ export type ConsolePageComponent<IP, P> = NextComponentType<
   IP,
   P
 > & {
-  Layout?: typeof AppLayout | typeof PortalLayout;
+  Layout?: typeof PortalLayout;
 };
 
 export type ConsolePage<P = {}, IP = P> = ConsolePageComponent<IP, P>;
@@ -143,11 +141,10 @@ function ConsoleApp({ Component, pageProps }: ConsoleAppProps) {
 
       <ChakraProvider theme={chakraTheme}>
         <GlobalStyle />
-        <Providers>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </Providers>
+
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ChakraProvider>
     </Track>
   );

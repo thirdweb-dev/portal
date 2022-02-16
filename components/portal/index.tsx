@@ -14,7 +14,6 @@ import {
   useClipboard,
 } from "@chakra-ui/react";
 import { NextLink } from "components/shared/NextLink";
-// import Youtube from "mdx-embed";
 import Head from "next/head";
 import React from "react";
 import { onlyText } from "react-children-utilities";
