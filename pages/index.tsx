@@ -59,7 +59,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
             </Heading>
           </Box>
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing={15}>
-            <SimpleGrid direction="column" spacing={7} flexGrow={1}>
+            <SimpleGrid spacing={7} flexGrow={1}>
               <Box>
                 <ChakraNextImage
                   src={require("/public/assets/portal/thirdweb.png")}
@@ -111,12 +111,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
             </SimpleGrid>
             <Flex direction="column">
               <InstallTabs />
-              <SimpleGrid
-                mt={5}
-                direction="column"
-                columns={{ base: 1, md: 2 }}
-                spacing={5}
-              >
+              <SimpleGrid mt={5} columns={{ base: 1, md: 2 }} spacing={5}>
                 <LinkBox role="group">
                   <NextLink href="/learn" _hover={{ textDecoration: "none" }}>
                     <Card
@@ -147,7 +142,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 </LinkBox>
                 <Card p={0}>
                   <SimpleGrid>
-                    <NextLink href="https://nftlabs.github.io/nftlabs-sdk-ts/sdk.html">
+                    <NextLink href="https://thirdweb-dev.github.io/typescript-sdk/sdk.html">
                       <HStack
                         role="group"
                         _hover={{ bgColor: "blue.100", borderTopRadius: "xl" }}
@@ -199,7 +194,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                         </Text>
                       </HStack>
                     </NextLink>
-                    <NextLink href="https://pkg.go.dev/github.com/nftlabs/nftlabs-sdk-go/pkg/nftlabs">
+                    <NextLink href="https://pkg.go.dev/github.com/thirdweb-dev/go-sdk/pkg">
                       <HStack
                         role="group"
                         _hover={{

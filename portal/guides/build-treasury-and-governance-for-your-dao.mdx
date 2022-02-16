@@ -260,15 +260,15 @@ const tokenModule = sdk.getTokenModule(
 })();
 ```
 
-We’re actually creating two new proposals for members to vote on:
+We're actually creating two new proposals for members to vote on:
 
-1. We’re creating a proposal that allows the treasury to mint 420,000 new token. You can see we do a "mint" in the code. Maybe the treasury is running low and we want more tokens to award members. Remember, earlier we gave our voting contract the ability to mint new token — so this works! It’s a democratic treasury. If you members think this is proposal is stupid and vote “NO”, this simply won’t pass!
+1. We're creating a proposal that allows the treasury to mint 420,000 new token. You can see we do a "mint" in the code. Maybe the treasury is running low and we want more tokens to award members. Remember, earlier we gave our voting contract the ability to mint new token — so this works! It's a democratic treasury. If you members think this is proposal is stupid and vote “NO”, this simply won't pass!
    
-2. We’re creating a proposal that transfer 6,900 token to our wallet from the treasury. You can see we do a "transfer" in the code.
+2. We're creating a proposal that transfer 6,900 token to our wallet from the treasury. You can see we do a "transfer" in the code.
 
-Maybe we did something good and want to be rewarded for it! In the real world, you’d usually create proposals to send other people token. For example, maybe someone helped code up a new website for the DAO and wants to be rewarded for it. You can transfer them tokens!
+Maybe we did something good and want to be rewarded for it! In the real world, you'd usually create proposals to send other people token. For example, maybe someone helped code up a new website for the DAO and wants to be rewarded for it. You can transfer them tokens!
 
-I want to make note on `nativeTokenValue`. Lets say we wanted to have our proposal say, “We’d like to reward this person for helping us with marketing with 2500 governance token and 0.1 ETH”. This is really cool! It means you can reward people with both ETH and governance token — best of both worlds. *Note: That 0.1 ETH would need to be in our treasury if we wanted to send it!*
+I want to make note on `nativeTokenValue`. Lets say we wanted to have our proposal say, “We'd like to reward this person for helping us with marketing with 2500 governance token and 0.1 ETH”. This is really cool! It means you can reward people with both ETH and governance token — best of both worlds. *Note: That 0.1 ETH would need to be in our treasury if we wanted to send it!*
 
 Let's execute this!
 

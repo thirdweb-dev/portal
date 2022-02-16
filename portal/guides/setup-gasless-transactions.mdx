@@ -11,7 +11,7 @@ date: "2021-09-16"
 updated: "2021-11-04"
 ---
 
-Learn more about Gassless User Experience [here](https://docs.nftlabs.co/protocol/gasless-user-experience).
+Learn more about Gassless User Experience [here](https://thirdweb.gitbook.io/thirdweb/protocol/gasless-user-experience).
 
 Gasless Transactions require a Relayer to forward the transactions to the blockchain and pay the gas costs.
 
@@ -34,7 +34,7 @@ To setup gasless transaction using OpenZeppelin Defender we would need to setup 
    - Name: your desire name for the autotask.
    - Trigger: set to `Webhook`
    - Connect to a relayer: Select the Relayer you just created.
-   - Code: Copy the [code from our GitHub](https://raw.githubusercontent.com/nftlabs/ozdefender-autotask/main/src/forwarder_handler.js) and paste it in the Code box.
+   - Code: Copy the [code from our GitHub](https://raw.githubusercontent.com/thirdweb-dev/ozdefender-autotask/main/src/forwarder_handler.js) and paste it in the Code box.
 5. Copy the Webhook URI from the Autotask dashboard.
 6. Paste the Webhook URI into the SDK constructor options. For example:
 
@@ -44,4 +44,4 @@ new ThirdwebSDK(signerOrProvider, {
 });
 ```
 
-[Check the code on GitHub](https://github.com/nftlabs/ozdefender-autotask).
+[Check the code on GitHub](https://github.com/thirdweb-dev/ozdefender-autotask).

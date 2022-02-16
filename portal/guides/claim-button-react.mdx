@@ -21,7 +21,7 @@ This guide gives you a simple React **component** to claim a single `drop` and a
 
 ## Dependencies
 
-Quick heads up, in these examples, the thirdweb sdk is integrated with React **components**, but we’re ‘just’ using javascript. You can do the same magic with another framework!
+Quick heads up, in these examples, the thirdweb sdk is integrated with React **components**, but we're ‘just' using javascript. You can do the same magic with another framework!
 
 Make sure to have the dependencies  installed 
 
@@ -33,7 +33,7 @@ npm install @3rdweb/react @3rdweb/hooks
 
 ## The App.js - Connect your wallet
 
-In your `App.jsx` file we can use the code from this guide for our `connect wallet` button. thirdweb created a **component** for the `connect wallet` button so we don't have to code it ourself. This is great so we don’t have to mess around with private keys later. 
+In your `App.jsx` file we can use the code from this guide for our `connect wallet` button. thirdweb created a **component** for the `connect wallet` button so we don't have to code it ourself. This is great so we don't have to mess around with private keys later. 
 
 Inside our app we import our **component** for the `claim` button.
 
@@ -73,7 +73,7 @@ export default ExampleApp;
 
 In your `dropclaim.js` file we will write the code for the button. If you want to know more about the drop module you can find a guide [here](/guides/drop).
 
-The cool thing about this **component**, is that it’s using the `connect wallet` component to authorise the transaction 😄.
+The cool thing about this **component**, is that it's using the `connect wallet` component to authorise the transaction 😄.
 
 ```js:DropClaim.jsx
 import { useWeb3 } from "@3rdweb/hooks";

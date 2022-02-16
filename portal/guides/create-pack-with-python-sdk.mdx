@@ -19,7 +19,7 @@ This guide explains in 7 easy steps how to create a pack. We need to create a pr
 
 The first thing we need to do is head over to the [dashboard](https://thirdweb.com/dashboard) and create a project and a **Bundle Collection** module. if you don't know how to do this, check out [this guide](/learn/introduction).
 
-After you’re done this is what you Pack module should look like in the dashboard. I called my pack module `random`.
+After you're done this is what you Pack module should look like in the dashboard. I called my pack module `random`.
 
 ![A pack module](/assets/portal/guides/create-pack-with-python-sdk/module.png)
 
@@ -160,7 +160,7 @@ pack_module.create(CreatePackArg(
 
 In order to open a Pack we can re-use most of the code. instead of the `create()` method we will call the `open_pack` method 👇
 
-You can find the ‘pack_id’ inside your dashboard of fetch the data by using the `get_all` method we used in step 7.
+You can find the ‘pack_id' inside your dashboard of fetch the data by using the `get_all` method we used in step 7.
 
 ```python
 #pass the pack_id inside the method.
@@ -173,7 +173,7 @@ To open a random pack we need to perform some additional steps. In order to crea
 
 The following method, gets a random number from Chainlink and passes it on to our sdk. 
 
-The argument that we’re passing to our method is the amount of Chainlink tokens we need to pay. To make use of Chainlink we need special tokens. For the `Rinkeby` network you can get them [here](https://faucets.chain.link/rinkeby).
+The argument that we're passing to our method is the amount of Chainlink tokens we need to pay. To make use of Chainlink we need special tokens. For the `Rinkeby` network you can get them [here](https://faucets.chain.link/rinkeby).
 
 ```python
 #Creating a deposit link

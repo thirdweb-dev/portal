@@ -1,5 +1,4 @@
 import { extendTheme, Theme } from "@chakra-ui/react";
-import { StepsStyleConfig } from "chakra-ui-steps";
 import { colors } from "./colors";
 import { Heading } from "./components/heading";
 import { Text } from "./components/text";
@@ -9,36 +8,6 @@ import {
   letterSpacings,
   lineHeights,
 } from "./typography";
-
-const Steps = {
-  ...StepsStyleConfig,
-  baseStyle: {
-    ...StepsStyleConfig.baseStyle,
-    steps: {
-      maxWidth: "100%",
-    },
-    connector: {
-      borderColor: "gray.200",
-      transitionProperty: "border-color",
-      transitionDuration: "normal",
-      _highlighted: {
-        borderColor: "gray.100",
-      },
-    },
-
-    stepIconContainer: {
-      bg: "transparent",
-      borderColor: "gray.100",
-      _activeStep: {
-        bg: "gray.100",
-      },
-      _highlighted: {
-        bg: "teal.700",
-        borderColor: "teal.700",
-      },
-    },
-  },
-};
 
 const chakraTheme: Theme = extendTheme(
   {
@@ -62,7 +31,6 @@ const chakraTheme: Theme = extendTheme(
       },
     },
     components: {
-      Steps,
       Heading,
       Text,
       Button: {

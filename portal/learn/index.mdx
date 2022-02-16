@@ -3,16 +3,16 @@ title: Getting Started with thirdweb SDK
 author: "Raza Zaidi"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
 authorTwitter: "https://twitter.com/razacodes"
-summary: "You’re convinced. You want to start NOW. Say no more 👇"
+summary: "You're convinced. You want to start NOW. Say no more 👇"
 date: "2021-11-24"
 updated: "2022-02-02"
 ---
 
 ## Developers assemble!
 
-In a nutshell, our SDK integrates seamlessly on the frontend or backend, depending on your use case. We’ve written an article over [here](/guides/sdk-guide), where we go more in dept.
+In a nutshell, our SDK integrates seamlessly on the frontend or backend, depending on your use case. We've written an article over [here](/guides/sdk-guide), where we go more in dept.
 
-This is what we’re going to cover here:
+This is what we're going to cover here:
 
 1. Your design based on your use case
 2. Set up your dev environment
@@ -22,7 +22,7 @@ This is what we’re going to cover here:
 
 First make sure you install the dependencies.
 
-If you’re using JavaScript or TypeScript 👇
+If you're using JavaScript or TypeScript 👇
 
 ```bash
 npm install @3rdweb/sdk ethers
@@ -30,7 +30,7 @@ npm install @3rdweb/sdk ethers
 npm install @3rdweb/react @3rdweb/hooks
 ```
 
-If you’re using Python
+If you're using Python
 
 ```bash
 pip install thirdweb-sdk
@@ -38,8 +38,8 @@ pip install thirdweb-sdk
 
 ## Your use case
 
-Before we get to the fun part of coding, let's talk about design. Depending on your use case, you’d want to use our sdk in a specific way. To cater for your web3 needs, we built smart contracts on steroids, `Modules`. Modules enable the feature you want inside your app.
-For example, if you want a `mint` functionality in your app, then you’d need the `NFT Collection` module. Maybe you want to reward users with your own tokens when they complete a specific action, then you want to have a look at our `Token` module. Auction your NFTs on your own Marketplace? We got you → the `Marketplace` module is what you need.
+Before we get to the fun part of coding, let's talk about design. Depending on your use case, you'd want to use our sdk in a specific way. To cater for your web3 needs, we built smart contracts on steroids, `Modules`. Modules enable the feature you want inside your app.
+For example, if you want a `mint` functionality in your app, then you'd need the `NFT Collection` module. Maybe you want to reward users with your own tokens when they complete a specific action, then you want to have a look at our `Token` module. Auction your NFTs on your own Marketplace? We got you → the `Marketplace` module is what you need.
 
 Setting up a module is a matter of a few clicks! Click **[here](/learn/introduction)** to create and deploy your first module.
 
@@ -51,7 +51,7 @@ Next up, setting up your dev environment.
 
 ## Using our SDK - Setting up your dev environment
 
-Ok, so you know what you want to build. You deployed the modules you need through the dashboard. Now it’s time to integrate them into your own code!
+Ok, so you know what you want to build. You deployed the modules you need through the dashboard. Now it's time to integrate them into your own code!
 
 General steps:
 
@@ -87,7 +87,7 @@ marketplace.getAllListings();
 
 ### 2. Make things happen on the blockchain
 
-When you buy an NFT or make anything happen on the blockchain, you’re doing more than reading data from the blockchain. Every action that changes the data stored on the blockchain — like buying an NFT — is signed off by a wallet.
+When you buy an NFT or make anything happen on the blockchain, you're doing more than reading data from the blockchain. Every action that changes the data stored on the blockchain — like buying an NFT — is signed off by a wallet.
 
 A provider is your connection to the blockchain.
 
@@ -114,7 +114,7 @@ marketplace.buyoutDirectListing({
 
 How do you get a `signer` ? Glad you asked.
 
-To get a signer we need to connect the user’s wallet to our app. Let’s build a `connect wallet` button. thirdweb has a component for this 👇
+To get a signer we need to connect the user's wallet to our app. Let's build a `connect wallet` button. thirdweb has a component for this 👇
 
 Check out [this](/guides/add-connectwallet-to-your-website) guide first to understand how the `connect wallet` component works for frontend and [this](/guides/sdk-guide#code-to-instantiate-the-sdk-at-the-client-side-frontend) guide is highly encouraged to read, to understand how the wallet information is used to instantiate the sdk and methods.
 
@@ -126,7 +126,7 @@ With the sdk you can access your deployed modules to mint NFTs, transfer tokens 
 
 **Warning:** This method is **not** suitable for frontend.
 
-The final way to initialise the sdk is to make use of your own wallet’s `private keys`.
+The final way to initialise the sdk is to make use of your own wallet's `private keys`.
 
 This method should be used with extreme care on the backend, making sure not to expose your private keys. If you want to know more about this method, check out [this](/guides/sdk-guide#backend) guide.
 
@@ -134,9 +134,9 @@ This method should be used with extreme care on the backend, making sure not to 
 
 To find out more about our SDKs, check out our documentations 👇
 
-- [TypeScript SDK](https://nftlabs.github.io/nftlabs-sdk-ts/sdk.html)
+- [TypeScript SDK](https://thirdweb-dev.github.io/typescript-sdk/sdk.html)
 - [Python SDK](https://python-docs.thirdweb.com/)
-- [Go SDK](https://pkg.go.dev/github.com/nftlabs/nftlabs-sdk-go/pkg/nftlabs)
+- [Go SDK](https://pkg.go.dev/github.com/thirdweb-dev/go-sdk/pkg)
 
 <MdxNavigation>
   <MdxNavigationItem

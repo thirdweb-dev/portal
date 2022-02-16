@@ -14,4 +14,5 @@ export const FeatureIconMap: Record<ModuleType, StaticImageData> = {
   [ModuleType.ACCESS_NFT]: require("public/assets/tw-icons/access-nft.png"),
   [ModuleType.SPLITS]: require("public/assets/tw-icons/splits.png"),
   [ModuleType.VOTE]: require("public/assets/tw-icons/vote.png"),
+  [ModuleType.BUNDLE_SIGNATURE]: require("public/assets/tw-icons/bundle.png"),
 };

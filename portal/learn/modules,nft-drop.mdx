@@ -13,7 +13,7 @@ updated: ""
 
 ![Dashboard option](/assets/portal/learn/nft-drop/dashboard.png)
 
-thirdweb’s `Drop` module lazy mints an NFT and makes it available to be claimed by your users. Lazy minting is when the creator defines conditions for a third party (your audience) to come in and mint the NFT. You choose what the underlying token is you want to distribute. So it can be a 1 of 1 NFT or 1 of many. Our `Drop` module gives you the mechanism to distribute that token.
+thirdweb's `Drop` module lazy mints an NFT and makes it available to be claimed by your users. Lazy minting is when the creator defines conditions for a third party (your audience) to come in and mint the NFT. You choose what the underlying token is you want to distribute. So it can be a 1 of 1 NFT or 1 of many. Our `Drop` module gives you the mechanism to distribute that token.
 
 ![Module options](/assets/portal/learn/nft-drop/options.png)
 
@@ -25,7 +25,7 @@ Make sure you choose the right module. If you want your **drop** to include 1 of
 
 To be clear, when you create a drop inside your `Drop` module, the NFT is not minted yet. We prepare everything for your audience, so that they can mint it. The user who claims an NFT, mints it and transfers it to their wallet. By default the user pays the gas fees.
 
-You can create a drop via the dashboard or our SDK. Once you’ve created a drop with the `Drop` module, the NFT does not show up in your wallet, but in a null address. The NFT is now ready to be claimed.
+You can create a drop via the dashboard or our SDK. Once you've created a drop with the `Drop` module, the NFT does not show up in your wallet, but in a null address. The NFT is now ready to be claimed.
 
 The claim conditions determine the rules for claiming an NFT over a period of time. The claim conditions have a different scope depending on the underlying contract. If you use an `NFT Drop` module, then the claim conditions you set, apply to every NFT (token ID) in that module.
 
@@ -35,9 +35,9 @@ If you use the `Bundle Drop` module, you can set claim conditions **per NFT** (t
 
 You can set the condition in both the dashboard, inside your `Drop` module or via code. Some of the conditions you can set:
 
-1. The currency, meaning what the NFT should be payed in, if there’s a price to mint.
+1. The currency, meaning what the NFT should be payed in, if there's a price to mint.
 2. Price per NFT
-3. The max number of NFTs that are available to be claimed. It’s possible you minted more, than you want people to claim.
+3. The max number of NFTs that are available to be claimed. It's possible you minted more, than you want people to claim.
 4. The wait time between claims
 5. Claims per transaction decides how many NFTs you can claim per transaction
 6. Snapshot will allow you to include a list of `Allow-list` wallet addresses
@@ -92,7 +92,7 @@ You can find the module address in the thirdweb dashboard, inside your project o
 
 ### Usage Examples
 
-After you instantiate the sdk, you can use the `Drop` module with our sdk. Here’s how to get the module inside your code using typescript and claim one token.
+After you instantiate the sdk, you can use the `Drop` module with our sdk. Here's how to get the module inside your code using typescript and claim one token.
 
 ```jsx
 const drop = sdk.getDropModule("0x7aB28C145FF201e0b6C96C8Adea78dA44B551d72");
@@ -100,7 +100,7 @@ quantity = 1;
 drop.claim(quantity);
 ```
 
-Here’s an example of setting the claim conditions with code
+Here's an example of setting the claim conditions with code
 
 ```jsx
 // Initialize the NFT drop module with the contract address.

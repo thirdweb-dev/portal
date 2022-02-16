@@ -145,7 +145,7 @@ export const PortalSidebar: React.FC = () => {
         <SidebarItem label="SDKs" initialOpen>
           <SidebarItem
             label="TypeScript"
-            href="https://nftlabs.github.io/nftlabs-sdk-ts/sdk.html"
+            href="https://thirdweb-dev.github.io/typescript-sdk/sdk.html"
             isExternal
           />
           <SidebarItem
@@ -155,7 +155,7 @@ export const PortalSidebar: React.FC = () => {
           />
           <SidebarItem
             label="Go"
-            href="https://pkg.go.dev/github.com/nftlabs/nftlabs-sdk-go/pkg/nftlabs"
+            href="https://pkg.go.dev/github.com/thirdweb-dev/go-sdk/pkg"
             isExternal
           />
         </SidebarItem>

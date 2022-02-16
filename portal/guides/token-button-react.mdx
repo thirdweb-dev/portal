@@ -17,7 +17,7 @@ This guide gives you a simple React **component** to get the balance and a butto
 
 ## Dependencies
 
-Quick heads up, in these examples, the thirdweb sdk is integrated with React **components**, but we’re ‘just’ using javascript. You can do the same magic with another framework!
+Quick heads up, in these examples, the thirdweb sdk is integrated with React **components**, but we're ‘just' using javascript. You can do the same magic with another framework!
 
 Make sure to have the dependencies  installed 
 
@@ -29,7 +29,7 @@ npm install @3rdweb/react @3rdweb/hooks
 
 ## The App.js - Connect your wallet
 
-In your `App.js` file we can use the code from this guide for our connect wallet button. Thirdweb created a component for the connect wallet button so we don't have to code it ourself. This is great so we don’t have to mess around with private keys later. 
+In your `App.js` file we can use the code from this guide for our connect wallet button. Thirdweb created a component for the connect wallet button so we don't have to code it ourself. This is great so we don't have to mess around with private keys later. 
 
 ```jsx
 import { ThirdwebProvider, ConnectWallet } from '@3rdweb/react';
@@ -71,7 +71,7 @@ export default ExampleApp;
 
 In your `tokencomponent.js` file we will write the code for the button and get balance. If you want to know more about the token module you can find a guide [here](/guides/create-your-currency-with-typescript-sdk).
 
-The cool thing about this component, is that it’s using the `connect wallet` component to authorise the transaction 😄.
+The cool thing about this component, is that it's using the `connect wallet` component to authorise the transaction 😄.
 
 ```jsx:tokencomponent.js
 import { useWeb3 } from "@3rdweb/hooks";
@@ -135,6 +135,6 @@ const TokenComponent = () => {
 export default TokenComponent;
 ```
 
-### That’s it!
+### That's it!
 
-It’s really **that** easy. If you have any questions, drop by our discord!
+It's really **that** easy. If you have any questions, drop by our discord!
