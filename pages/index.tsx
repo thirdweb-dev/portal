@@ -142,7 +142,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 </LinkBox>
                 <Card p={0}>
                   <SimpleGrid>
-                    <NextLink href="https://nftlabs.github.io/nftlabs-sdk-ts/sdk.html">
+                    <NextLink href="https://thirdweb-dev.github.io/typescript-sdk/sdk.html">
                       <HStack
                         role="group"
                         _hover={{ bgColor: "blue.100", borderTopRadius: "xl" }}
