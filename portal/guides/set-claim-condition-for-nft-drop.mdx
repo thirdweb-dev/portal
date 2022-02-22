@@ -1,0 +1,156 @@
+---
+title: Set Claim Conditions for NFT Drop with TypeScript
+author: "Mordi Goldstein"
+authorAvatar: ""
+authorTwitter: "https://twitter.com/mordigoldstein"
+draft: false
+tags: [drop, typescript]
+summary: "Create an allow list and set other settings for an NFT drop"
+image: "/assets/portal/guides/set-claim-condition-for-nft-drop/thumbnail.png"
+date: "2022-02-22"
+updated: ""
+---
+
+# Set Claim Conditions for NFT Drop Using TypeScript
+
+Create an allow list and set other settings for an NFT drop
+
+## Introduction
+
+In this guide, we will go through a step-by-step approach on how to set up claim conditions using TypeScript. Claim conditions are a requirement for the claim process and are used to set conditions such as start date, max quantity, an allow list, and max claim per transaction for an NFT drop. This guide makes use of the `NFT Drop` module which lets you set up a collection of one-of-one NFTs that are minted as users claim them.
+
+## Overview
+
+Here are the steps we will follow in this guide. 
+
+1. Create an `NFT Drop` module
+2. Instantiate the SDK
+3. Create an NFT
+4. Set the Claim conditions
+5. View the results in our dashboard
+6. Next steps...
+
+## 1. Create an NFT drop module
+
+Our first step is to create an `NFT Drop` module. This can be done in the [dashboard](https://thirdweb.com/dashboard) and if you aren’t sure how to create the module please check [this guide.](https://thirdweb.com/portal/learn/introduction) 
+
+## 2. Import the SDK
+
+In order to make use of our SDK, you need to establish a connection to a blockchain. Click [here](/learn/connect-to-blockchain) to learn how to connect to the blockchain and instantiate our SDK.
+
+For this guide, you will need to instantiate the SDK following [these](/learn/connect-to-blockchain#using-your-own-signer-with-thirdweb) steps, using your own signer with thirdweb.
+
+Make sure you have the latest versions of these packages installed 👇
+
+```
+npm install @3rdweb/sdk ethers dotenv
+npm install --save-dev typescript @types/node ts-node tslib
+```
+
+## 3. Create the NFT
+
+Import the necessary libraries and initialized the module: 
+
+```tsx
+// Importing libraries
+import { ThirdwebSDK } from '@3rdweb/sdk';
+import { ethers } from 'ethers';
+import dotenv from 'dotenv';
+
+//Importing private key
+dotenv.config();
+
+const sdk = new ThirdwebSDK(
+  new ethers.Wallet(
+    // Your wallet private key
+    process.env.PRIVATE_KEY as string,
+    // RPC URL
+    ethers.getDefaultProvider('https://rinkeby-light.eth.linkpool.io/')
+  )
+);
+
+// Set variable for the nft drop module contract address which can be found after creating a nft drop module in the dashboard
+const dropAddress = '<MODULE_ADDRESS>';
+
+// Initialize the nft drop module with the contract address
+const drop = sdk.getDropModule(dropAddress);
+```
+
+PS: We are use the Rinkeby testnet in this guide
+
+Then we can create our NFT:
+
+```tsx
+const createNft = async () => {
+  const nftMetadata = {
+    name: '<NFT_NAME>',
+    description: '<NFT_DESCRIPTION>',
+    image:
+      'ipfs://<IPFS_FILE_CID>'
+  };
+
+  try {
+    await drop.createBatch([nftMetadata]);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+createNft();
+```
+
+## 4. Set Claim Conditions
+
+Now that we have an NFT in our drop, we can use the claim conditions to control the price, allow list and other config for our drop. 
+
+Please follow along in the comments in the code. 
+
+```tsx
+const setClaimConditions = async () => {
+  // First, we get a claim conditions factory from the module
+  let factory = drop.getClaimConditionsFactory();
+
+  // Then, we create a new claim phase
+  const claimPhase = factory.newClaimPhase({
+    startTime: new Date(),
+    maxQuantity: 10,
+    maxQuantityPerTransaction: 1
+  });
+
+	// Use ethers to convert the price to a big number type
+  const price = ethers.utils.parseUnits('0.05')
+
+  // Set the price
+  claimPhase.setPrice(price);
+
+  // Create an allow list
+  const allowList = [
+    '<WALLET_ADDRESS>',
+    '<WALLET_ADDRESS>',
+    '<WALLET_ADDRESS>'
+  ];
+
+  claimPhase.setSnapshot(allowList);
+
+  // Set claim conditions.
+  try {
+    await drop.setClaimCondition(factory);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+setClaimConditions();
+```
+
+## 5. View the Results in Dashboard
+
+We have created an NFT drop and set the claim conditions using TypeScript. We can view our NFT and claim conditions in the dashboard. Go to the “settings” tab where we find something that should look like this:
+
+![Claim Condition on Dashboard](/assets/portal/guides/set-claim-condition-for-nft-drop/1-set-claim-conditions.png)
+
+We can edit our claim conditions here or we can use our code again. 
+
+## 6. Next Steps...
+
+Awesome! As a next step, please explore the [code examples](/learn/code-examples/nft-drop) to see what else can be done with a drop module. See if you can get all the claim conditions, check if your wallet is on the allow list for the drop and then claim an NFT.
