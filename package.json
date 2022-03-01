@@ -31,7 +31,7 @@
     "next-mdx-remote": "^3.0.8",
     "next-seo": "^5.1.0",
     "posthog-js": "^1.14.4",
-    "prismjs": "^1.25.0",
+    "prismjs": "^1.27.0",
     "react": "17.0.2",
     "react-children-utilities": "^2.6.3",
     "react-cool-dimensions": "^2.0.7",
