@@ -115,7 +115,7 @@ export const Logo: React.FC<ILogoProps> = ({
   color,
 }) => {
   return (
-    <Stack as="h1" align="center" direction="row">
+    <Stack as="h2" align="center" direction="row">
       {hideIcon ?? <IconLogo w={[9, 9, 10]} flexShrink={0} />}
       {hideWordmark ?? (
         <Wordmark color={color} w={[24, 24, 28]} flexShrink={0} />
