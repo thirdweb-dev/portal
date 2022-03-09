@@ -1,4 +1,7 @@
 import {
+  Alert,
+  AlertIcon,
+  AlertProps,
   Box,
   BoxProps,
   Button,
@@ -132,6 +135,18 @@ export const CodeWithCopy: React.FC = ({ children }) => {
   );
 };
 
+export const MdxAlert: React.FC<AlertProps> = ({
+  status = "info",
+  children,
+}) => {
+  return (
+    <Alert status={status} borderRadius="xl">
+      <AlertIcon />
+      {children}
+    </Alert>
+  );
+};
+
 export const MdxComponents = {
   a: MdxA,
   h1: MdxH1,
@@ -172,5 +187,6 @@ export const MdxComponents = {
   ImageSideToSide,
   MdxNavigation,
   MdxNavigationItem,
+  MdxAlert,
   // Youtube,
 };
