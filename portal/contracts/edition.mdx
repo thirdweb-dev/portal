@@ -1,0 +1,69 @@
+---
+title: Edition Contract
+author: "Raza Zaidi"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+draft: true
+summary: "An ERC-1155 contract that enables you to mint one-of-many NFTs"
+date: "2022-02-14"
+updated: "2022-03-14"
+---
+
+## In a nutshell
+
+With the `NFT Collection` contract, every NFT has an unique ID with an unique image. The `Edition` contract let's you mint multiple NFTs based on the same image or music file. Here's how that works👇
+
+If you want to know more about creating contracts, click [here](/contracts).
+
+## Mint an NFT Collection
+
+With the `Edition` contract you can create an NFT and then pass a supply👇
+
+![Edition dashboard showing supply](/assets/portal/contracts/edition/supply.png)
+
+Each of these NFTs👆share the same ID and same image, but now you can have multiple of these. This type of NFT is also called `one-of-many` with ERC-1155. Like this you can mint your own NFT collection. These NFTs can be listed for sale on any NFT platform or your own marketplace (created with third web's `Marketplace` contract).
+
+## How to use
+
+You can use the `Edition` by using code or no-code. Head over to our dashboard to make use of the no-code solution. To use the code solution, you need to install our packages and instantiate our sdk first. Check out [this](/learn/connect-to-blockchain) page on how to do that. You'll also need the address of your `Edition` contract. You can find that in the dashboard, inside your project.
+
+![Contract addresses](/assets/portal/contracts/edition/contract.png)
+
+### Examples
+
+Here's an example on how to create an NFT in TypeScript
+
+```jsx
+// The Edition contract address received after initializing the Edition contract on the dashboard.
+const editionAddress = "<EDITION_ADDRESS>";
+// Initialize the Edition contract with the address.
+const edition = sdk.getEdition(editionAddress);
+const mintNft = async (nft) => {
+  try {
+    await edition.mint(nft);
+  } catch (error) {
+    console.log(error);
+  }
+};
+mintNft({
+  name: "<NFT_NAME>",
+  description: "<DESCRIPTION>",
+  image: "<LINK>",
+  properties: "PROPERTIES_OBJECT",
+  initialSupply: "<INITIAL_SUPPLY_INT>",
+});
+```
+
+## Code Guide
+
+1. You can find the official TypeScript documentation [here](https://docs.thirdweb.com/typescript/sdk.edition).
+2. To check out guides for this contract click [here](/guides/edition).
+3. To setup your local dev environment, click [here](/guides/sdk-guide).
+
+<MdxNavigation>
+  <MdxNavigationItem
+    href="/learn/contracts/nft-collection"
+    title="NFT Collection"
+  />
+  <MdxNavigationItem href="/learn/contracts/nft-drop" title="NFT Drop" next />
+</MdxNavigation>

@@ -32,29 +32,29 @@ export const PortalSidebar: React.FC = () => {
             href="/learn/introduction"
           />
           <SidebarItem label="Projects" matchExact href="/learn/projects" />
-          <SidebarItem label="Modules" matchExact href="/learn/modules">
+          <SidebarItem label="Modules" matchExact href="/contracts">
             <SidebarItem
               label="NFT Collection"
               matchExact
-              href="/learn/modules/nft-collection"
+              href="/contracts/nft-collection"
             />
             <SidebarItem
               label="Bundle Collection"
               matchExact
-              href="/learn/modules/bundle-collection"
+              href="/contracts/bundle-collection"
             />
             <SidebarItem
               label="NFT Drop"
               matchExact
-              href="/learn/modules/nft-drop"
+              href="/contracts/nft-drop"
             />
-            <SidebarItem label="Token" matchExact href="/learn/modules/token" />
+            <SidebarItem label="Token" matchExact href="/contracts/token" />
             <SidebarItem
               label="Marketplace"
               matchExact
-              href="/learn/modules/marketplace"
+              href="/contracts/marketplace"
             />
-            <SidebarItem label="Pack" matchExact href="/learn/modules/pack" />
+            <SidebarItem label="Pack" matchExact href="/contracts/pack" />
           </SidebarItem>
           <SidebarItem
             label="Connect to the blockchain"

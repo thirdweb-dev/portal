@@ -1,8 +1,9 @@
 ---
-title: Pack
+title: Pack contract
 author: "Jake Loo"
 authorAvatar: "/assets/portal/authors/jake-loo.jpeg"
 authorTwitter: "https://twitter.com/jake_loo"
+draft: true
 summary: ""
 date: "2021-09-16"
 updated: "2021-11-05"
@@ -12,7 +13,7 @@ The protocol has three primitives - coins, NFTs and packs. In this section, we d
 
 The **Pack** component provides a flexible 'lootbox' API. Packs can contain arbitrary crypto assets as items - exclusive NFTs to ERC 20 tokens. A pack can be opened in exchange for one or more of the items packed within. The chance of receiving a particular item depends on how rare the item is.
 
-![](/assets/portal/learn/pack/pack.png)
+![](/assets/portal/contracts/pack/pack.png)
 
 ## Packs
 
@@ -32,7 +33,7 @@ Packs 1-1 represent their underlying items, which guarantees the receipt of an i
 
 Let's create a set of packs with three kinds of items - 80 **circles**, 15 **squares**, and 5 **stars**. The number of packs created is equal to the sum of the supplies of each item. So, we now have `80 + 15 + 5` i.e. 100 packs at hand.
 
-![](/assets/portal/learn/pack/pack-diagram.png)
+![](/assets/portal/contracts/pack/pack-diagram.png)
 
 On opening one of these 100 packs, the opener will receive one of the pack's items - either a **circle**, a **square**, or a **star**. The chances of receiving a particular item is determined by how many of that item exists across our set of packs. The chances of receiving a particular item are calculated as:
 
@@ -56,7 +57,7 @@ We shall extend the above 'Simple example' of a set of 100 packs with three kind
 
 The supply of the items in this set of packs - 80 **circles**, 15 **squares**, and 5 **stars** - can be represented on a number line, from zero to the total supply of packs - in this case, 100.
 
-![](/assets/portal/learn/pack/pack-distribution.png)
+![](/assets/portal/contracts/pack/pack-distribution.png)
 
 Whenever a pack is opened, the protocol uses a new random number in the range of the total supply of packs to determine what item will be distributed to the pack opener.
 
@@ -72,18 +73,18 @@ To this end, the protocol uses [Chainlink VRF (Verifiable Random Function)](http
 
 Chainlink VRF is a random number generator that operates on a request ←→ response model, where a smart contract can request a random number from the Chainlink VRF system in one transaction, and the Chainlink VRF system fulfills that request in a subsequent transaction with a random number.
 
-![](/assets/portal/learn/pack/pack-final-diagram.png)
+![](/assets/portal/contracts/pack/pack-final-diagram.png)
 
 When a pack is opened, the protocol requests Chainlink VRF for a new random number, which then determined which item is distributed to the pack opener.
 
 <MdxNavigation>
   <MdxNavigationItem
-    href="/learn/modules/marketplace"
+    href="/contracts/marketplace"
     title="Marketplace"
   />
-  <MdxNavigationItem 
-    href="/learn/connect-to-blockchain" 
+<!--   <MdxNavigationItem 
+    href="/contracts/connect-to-blockchain" 
     title="Connect to the blockchain" 
     next 
-  />
+  /> -->
 </MdxNavigation>
