@@ -49,6 +49,10 @@ const moduleExports = {
         destination: "/learn/index",
       },
       {
+        source: "/contracts",
+        destination: "/contracts/index",
+      },
+      {
         source: "/dashboard",
         destination: "/dashboard/index",
       },

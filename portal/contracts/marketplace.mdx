@@ -1,20 +1,19 @@
 ---
-title: Marketplace module
+title: Marketplace contract
 author: "Raza Zaidi"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
 authorTwitter: "https://twitter.com/razacodes"
-draft: true
-tags: [marketplace, module, sdk]
+draft: false
 summary: "The thirdweb Marketplace is a market where you can either sell or auction NFTs"
 date: "2022-02-08"
-updated: ""
+updated: "2022-03-14"
 ---
 
 ## In a nutshell
 
 In a marketplace you can sell or buy NFTs. Platforms like Opensea or Rarible are examples of marketplaces. thirdweb let's you create your own marketplace, which allows you to sell NFTs both exclusively on your own marketplace or on multiple marketplaces. That is up to you!
 
-If you want to know more about creating modules, click [here](/learn/modules).
+If you want to know more about creating contracts, click [here](/contracts).
 
 ## How it works
 
@@ -31,13 +30,13 @@ Depending on how you configure your `Marketplace`, there are different pre-requi
 
 If you want to run a **public** `Marketplace` i.e. anyone can list an NFT for sale on your marketplace, then you need to configure the `Permissions` properly.
 
-Make sure you configure the module in the `Permission` tab to allow **Everyone** to list an NFT on your `Marketplace`.
+Make sure you configure the contract in the `Permission` tab to allow **Everyone** to list an NFT on your `Marketplace`.
 
-![Set the permission to list an NFT](/assets/portal/learn/marketplace/permission.png)
+![Set the permission to list an NFT](/assets/portal/contracts/marketplace/permission.png)
 
 You can choose to make your `Marketplace` available to either **Everyone** or change it to specific wallets at any given time. Please note that if you change these settings, you will have to pay gas fees.
 
-To make use of the `Marketplace`yourself, you need to have NFTs! Make sure you have your NFTs minted and ready, so that you can list them on the `Marketplace`. If you want to mint NFTs, check out this page to learn about our `NFT Module`.
+To make use of the `Marketplace`yourself, you need to have NFTs! Make sure you have your NFTs minted and ready, so that you can list them on the `Marketplace`. If you want to mint NFTs, check out this page to learn about our `NFT Contract`.
 
 ## Direct Listing
 
@@ -55,38 +54,57 @@ If you want to know more about the nitty gritty details, well you're in luck. He
 
 ## How to use
 
-You can use the `Marketplace` by using code or no-code. Head over to our dashboard to make use of the no-code solution. To use the code solution, you need to install our packages and instantiate our sdk first. Check out [this](/learn/connect-to-blockchain) page on how to do that. You'll also need the address of your `Marketplace` module. You can find that in the dashboard, inside your project.
+You can use the `Marketplace` by using code or no-code. Head over to our dashboard to make use of the no-code solution. To use the code solution, you need to install our packages and instantiate our sdk first. Check out [this](/contracts/connect-to-blockchain) page on how to do that. You'll also need the address of your `Marketplace` contract. You can find that in the dashboard, inside your project.
 
-![Overview of modules and their addresses](/assets/portal/learn/marketplace/module-address.png)
+![Overview of contracts and their addresses](/assets/portal/contracts/marketplace/contract-address.png)
 
 ### Examples
 
-Here's an example on how to list an NFT in TypeScript
+Here's an example on how to list an NFT in TypeScript:
 
-```jsx
-const marketModuleAddress = "0xC06adC34097afa2085324D4192fbE9206059f8e0";
-const marketplace = sdk.getMarketplaceModule(marketModuleAddress);
-const tokenId = "1";
-const tokenIdOffer = 1;
-marketplace.createDirectListing({
-  assetContractAddress: nftCollectionModuleAddress,
-  buyoutPricePerToken: ethers.utils.parseUnits(tokenIdOffer, 18),
-  currencyContractAddress: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE", // native token address
-  startTimeInSeconds: Math.floor(Date.now() / 1000),
-  listingDurationInSeconds: 60 * 60 * 24,
+```tsx
+const marketplaceAddress = "<MARKETPLACE_ADDRESS>";
+const marketplace = sdk.getMarketplace(marketplaceAddress);
+
+// the listingId of the listing you want to create a listing for
+const tokenId = "0";
+const listing = {
+  // address of the contract the asset you want to list is on
+  assetContractAddress: nftCollectionAddress,
+  // token ID of the asset you want to list
   tokenId: tokenId,
+  // in how many seconds with the listing open up
+  startTimeInSeconds: 0,
+  // how long the listing will be open for
+  listingDurationInSeconds: 86400,
+  // how many of the asset you want to list
+  // For ERC721s, this value should always be 1 
+  // (and will be forced internally regardless of what is passed here).
   quantity: 1,
-});
+  // address of the currency contract that will be used to pay for the listing
+  currencyContractAddress: tokenAddress,
+  // how much the asset will be sold for
+  buyoutPricePerToken: "1.5",
+}
+
+const createListing = async () => {
+  try {
+    await marketplace.direct.createListing(listing);
+  } catch (err) {
+    console.log(err);
+  }
+}
+createListing();
 ```
 
-here's an example on how to list an NFT in the dashboard. After creating your marketplace, go to your `NFT Collection Module` and **list** the NFT you want👇
+Here's an example on how to list an NFT in the dashboard. After creating your marketplace, go to your `NFT Collection Contract` and **list** the NFT you want👇
 
-![List an NFT](/assets/portal/learn/marketplace/list-nft.png)
+![List an NFT](/assets/portal/contracts/marketplace/list-nft.png)
 
-Here's an example how to buy an NFT in TypeScript
+Here's an example how to buy an NFT in TypeScript:
 
 ```jsx
-marketplace.buyoutDirectListing({
+marketplace.direct.buyoutListing({
   listingId: 1,
   quantityDesired: 1,
 });
@@ -94,14 +112,14 @@ marketplace.buyoutDirectListing({
 
 ## Code Guide
 
-1. You can find code snippets for every method in our portal [here](/learn/code-examples/marketplace).
-2. To check out guides for this module click [here](/guides/marketplace).
+1. You can find the official TypeScript documentation [here](https://docs.thirdweb.com/typescript/sdk.marketplace).
+2. To check out guides for this contract click [here](/guides/marketplace).
 3. To setup your local dev environment, click [here](/guides/sdk-guide).
 
 <MdxNavigation>
   <MdxNavigationItem
-    href="/learn/modules/token"
+    href="/contracts/token"
     title="Token"
   />
-  <MdxNavigationItem href="/learn/modules/pack" title="Pack" next />
+  <MdxNavigationItem href="/contracts/pack" title="Pack" next />
 </MdxNavigation>

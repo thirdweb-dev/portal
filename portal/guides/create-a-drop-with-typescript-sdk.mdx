@@ -26,7 +26,7 @@ The first thing we need to do is head over to the [dashboard](https://thirdweb.c
 
 Once the contract is created, it's time to create our first NFT, but we don't need the dashboard for that! I mean we could, but why use GUI if we can use TypeScript!?
 
-![New NFT Drop contract viewed in the thirdweb dashboard](/assets/portal/guides/create-a-drop-with-typescript-sdk/NFT_Drop_Contract_Dashboard_View.png)
+![New NFT Drop contract viewed in the thirdweb dashboard](/assets/portal/guides/create-a-drop-with-typescript-sdk/nft-drop-contract-dashboard-view.png)
 
 ## The code
 
@@ -68,7 +68,7 @@ For this guide, you will need to instantiate the SDK following [these](/learn/co
 
 Now we need to define which contract we want to use. Here we created an NFT Drop contract and called it '**My Drop**'. This contract has an address. We need to pass the address here. You can find the address on the dashboard under **My Drop**:
 
-![See NFT Drop contract address under contract name](/assets/portal/guides/create-a-drop-with-typescript-sdk/NFT_Drop_Contract_Dashboard_View.png)
+![See NFT Drop contract address under contract name](/assets/portal/guides/create-a-drop-with-typescript-sdk/nft-drop-contract-dashboard-view.png)
 
 In our `index.ts` file we include the following code. First we define a variable `nftDrop` and store our contract in here.
 
@@ -117,12 +117,13 @@ The second phase does not add a snapshot so everyone is able to claim.
 ```tsx:index.ts
 const presaleStartTime = new Date();
 const publicSaleStartTime = new Date(new Date() + 60 * 60 * 24 * 1000); // today's date + 24 hours
+const allowList = ['0x...', '0x...'] // modify this with your allow list
 const claimConditions = [
   {
     startTime: presaleStartTime, // start the presale now
     maxQuantity: 20, // limit how many mints for this presale
     price: 0.01, // presale price
-    snapshot: ['0x...', '0x...'], // limit minting to only certain wallet addresses
+    snapshot: allowList, // limit minting to only certain wallet addresses
   },
   {
     startTime: publicSaleStartTime, // 24h after presale, start public sale
