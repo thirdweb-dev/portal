@@ -79,18 +79,18 @@ const token = sdk.getToken("0x43E0C32F2BC4A79e70421CF449e14EcADD3adbad");
 The arguments passed over here are the same as minting the tokens inside the dashboard. If you want to familiarize yourself with the process, check out the dashboard!
 
 ```tsx:currency.ts
-// Set the amount of currency you want to mint
-
-const mintCurrency = async () => {
+const mintCurrency = async (amount) => {
   try {
-    const amount = "1000";
     await token.mint(amount);
   } catch (err) {
     console.log(err);
   }
 }
 
-mintCurrency();
+// Set the amount of currency you want to mint
+const amount = "1000";
+// Execute the function
+mintCurrency(amount);
 ```
 
 So the only thing left is to run our code! Open a terminal and paste the following:

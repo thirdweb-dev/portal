@@ -32,30 +32,6 @@ export const PortalSidebar: React.FC = () => {
             href="/learn/introduction"
           />
           <SidebarItem label="Projects" matchExact href="/learn/projects" />
-          <SidebarItem label="Modules" matchExact href="/learn/modules">
-            <SidebarItem
-              label="NFT Collection"
-              matchExact
-              href="/learn/modules/nft-collection"
-            />
-            <SidebarItem
-              label="Bundle Collection"
-              matchExact
-              href="/learn/modules/bundle-collection"
-            />
-            <SidebarItem
-              label="NFT Drop"
-              matchExact
-              href="/learn/modules/nft-drop"
-            />
-            <SidebarItem label="Token" matchExact href="/learn/modules/token" />
-            <SidebarItem
-              label="Marketplace"
-              matchExact
-              href="/learn/modules/marketplace"
-            />
-            <SidebarItem label="Pack" matchExact href="/learn/modules/pack" />
-          </SidebarItem>
           <SidebarItem
             label="Connect to the blockchain"
             matchExact
@@ -68,6 +44,22 @@ export const PortalSidebar: React.FC = () => {
               href="/learn/recipes/nft-token-marketplace"
             />
           </SidebarItem>
+        </SidebarItem>
+        <SidebarItem label="Contracts" matchExact href="/contracts">
+          <SidebarItem
+            label="NFT Collection"
+            matchExact
+            href="/contracts/nft-collection"
+          />
+          <SidebarItem label="Edition" matchExact href="/contracts/edition" />
+          <SidebarItem label="NFT Drop" matchExact href="/contracts/nft-drop" />
+          <SidebarItem label="Token" matchExact href="/contracts/token" />
+          <SidebarItem
+            label="Marketplace"
+            matchExact
+            href="/contracts/marketplace"
+          />
+          <SidebarItem label="Pack" matchExact href="/contracts/pack" />
         </SidebarItem>
         <SidebarItem
           label="Code Examples"

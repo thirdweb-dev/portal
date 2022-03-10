@@ -117,12 +117,13 @@ The second phase does not add a snapshot so everyone is able to claim.
 ```tsx:index.ts
 const presaleStartTime = new Date();
 const publicSaleStartTime = new Date(new Date() + 60 * 60 * 24 * 1000); // today's date + 24 hours
+const allowList = ['0x...', '0x...'] // modify this with your allow list
 const claimConditions = [
   {
     startTime: presaleStartTime, // start the presale now
     maxQuantity: 20, // limit how many mints for this presale
     price: 0.01, // presale price
-    snapshot: ['0x...', '0x...'], // limit minting to only certain wallet addresses
+    snapshot: allowList, // limit minting to only certain wallet addresses
   },
   {
     startTime: publicSaleStartTime, // 24h after presale, start public sale
