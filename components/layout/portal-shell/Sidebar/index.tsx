@@ -32,30 +32,6 @@ export const PortalSidebar: React.FC = () => {
             href="/learn/introduction"
           />
           <SidebarItem label="Projects" matchExact href="/learn/projects" />
-          <SidebarItem label="Modules" matchExact href="/contracts">
-            <SidebarItem
-              label="NFT Collection"
-              matchExact
-              href="/contracts/nft-collection"
-            />
-            <SidebarItem
-              label="Bundle Collection"
-              matchExact
-              href="/contracts/bundle-collection"
-            />
-            <SidebarItem
-              label="NFT Drop"
-              matchExact
-              href="/contracts/nft-drop"
-            />
-            <SidebarItem label="Token" matchExact href="/contracts/token" />
-            <SidebarItem
-              label="Marketplace"
-              matchExact
-              href="/contracts/marketplace"
-            />
-            <SidebarItem label="Pack" matchExact href="/contracts/pack" />
-          </SidebarItem>
           <SidebarItem
             label="Connect to the blockchain"
             matchExact
@@ -68,6 +44,22 @@ export const PortalSidebar: React.FC = () => {
               href="/learn/recipes/nft-token-marketplace"
             />
           </SidebarItem>
+        </SidebarItem>
+        <SidebarItem label="Contracts" matchExact href="/contracts">
+          <SidebarItem
+            label="NFT Collection"
+            matchExact
+            href="/contracts/nft-collection"
+          />
+          <SidebarItem label="Edition" matchExact href="/contracts/edition" />
+          <SidebarItem label="NFT Drop" matchExact href="/contracts/nft-drop" />
+          <SidebarItem label="Token" matchExact href="/contracts/token" />
+          <SidebarItem
+            label="Marketplace"
+            matchExact
+            href="/contracts/marketplace"
+          />
+          <SidebarItem label="Pack" matchExact href="/contracts/pack" />
         </SidebarItem>
         <SidebarItem
           label="Code Examples"
