@@ -21,6 +21,11 @@ export const learnFilePaths = fs
   .readdirSync(LEARN_PATH)
   .filter((pth) => /\.mdx?$/.test(pth));
 
+export const CONTRACTS_PATH = path.join(process.cwd(), "portal/contracts");
+export const contractsFilePaths = fs
+  .readdirSync(CONTRACTS_PATH)
+  .filter((pth) => /\.mdx?$/.test(pth));
+
 export const getHeadings = (src: string) => {
   const headingLines = src.split("\n").filter((line) => line.match(/^###*\s/));
 
