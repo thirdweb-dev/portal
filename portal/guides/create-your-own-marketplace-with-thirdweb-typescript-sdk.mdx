@@ -65,7 +65,7 @@ Now we need to define which contract we want to use. We created the contract ajd
 
 ![](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/1.png)
 
-In our `index.ts` file we include the following code. First we define a variable `marketplaceAddress` and store our contract address in here.
+In our `index.ts` file we include the following code. First we define a variable `marketplaceAddress` and store our contract address in here.
 
 Then we create an object that uses the market contract inside the SDK with our address.
 
@@ -86,30 +86,52 @@ const nftCollectionAddress = "0x8CeCAe3548f3844f68c07428E9Bbac50Ba887035"
 
 // Declaring the token contract adress if you want to use your own tokens
 const tokenAddress = "0x43E0C32F2BC4A79e70421CF449e14EcADD3adbad";
-
 ```
 
 ### 4. Time to list the NFT on the marketplace!
 
-We are using the NFT that we created in our previous guide. Each NFT has `tokenId`. We will pass that the following parameters to the '.list' method:
+We are using the NFT that we created in our previous guide. Each NFT has `tokenId`. We will pass that the following parameters to the '.list' method:
 
 ```tsx:index.ts
-// the listingId of the listing you want to fetch data for
-const tokenId = "1";
-const tokenIdOffer = 1
+// the listingId of the listing you want to create a listing for
+const tokenId = "0";
+const listing = {
+  // address of the contract the asset you want to list is on
+  assetContractAddress: nftCollectionAddress,
+  // token ID of the asset you want to list
+  tokenId: tokenId,
+  // in how many seconds with the listing open up
+  startTimeInSeconds: 0,
+  // how long the listing will be open for
+  listingDurationInSeconds: 86400,
+  // how many of the asset you want to list
+  // For ERC721s, this value should always be 1 (and will be forced internally regardless of what is passed here).
+  quantity: 1,
+  // address of the currency contract that will be used to pay for the listing
+  currencyContractAddress: tokenAddress,
+  // how much the asset will be sold for
+  buyoutPricePerToken: "1.5",
+}
 
-marketplace.direct.createListing({
-      assetContractAddress: nftCollectionAddress,
-      buyoutPricePerToken: ethers.utils.parseUnits(tokenIdOffer, 18),
-      currencyContractAddress: tokenAddress,
-      startTimeInSeconds: Math.floor(Date.now() / 1000),
-      listingDurationInSeconds: 60 * 60 * 24,
-      tokenId: tokenId,
-      quantity: 1,
-    });
+const createListing = async () => {
+  try {
+    await contract.direct.createListing(listing);
+  } catch (err) {
+    console.log(err);
+  }
+}
+createListing();
 
 // Get all the listings
-marketplace.getAllListings();
+const getAllListings = async () => {
+  try {
+    await marketplace.getAllListings();
+  } catch (err) {
+    console.log(err);
+  }
+}
+getAllListings();
+
 ```
 
 So the only thing left is to run our code! Open a terminal and paste the following:
@@ -117,7 +139,6 @@ So the only thing left is to run our code! Open a terminal and paste the followi
 ```bash:virtual-env
 # Runs the TypeScript file
 npx ts-node index.ts
-
 ```
 
 ### 5. That's it!
