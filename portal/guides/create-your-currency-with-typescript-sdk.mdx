@@ -2,7 +2,7 @@
 title: Create your own token with TypeScript
 author: "Raza Zaidi & Devin Rattray"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
-authorAvatar2: "/assets/portal/authors/devin-rattray.jpg"
+authorAvatar2: "/assets/portal/authors/devin-rattray.jpeg"
 authorTwitter: "https://twitter.com/razacodes"
 authorTwitter2: "https://twitter.com/dvnsctt"
 draft: false
@@ -15,15 +15,15 @@ updated: "2022-03-14"
 
 ## Intro
 
-This guide explains how to create your own currency. We need to create a project in the dashboard and create a Token contract inside our project. We also need to connect a wallet. So if you don't have a wallet, make sure to sign up with **MetaMask** or **CoinWallet**. If don't have a wallet, [you can follow this guide to create one](/guides/create-a-metamask-wallet).
+This guide explains how to create your own currency. We will create a **Token** contract on the dashboard and mint some tokens from the SDK. We also need to connect a wallet. So if you don't have a wallet, make sure to sign up with **MetaMask** or **CoinWallet**. If don't have a wallet, [you can follow this guide to create one](/guides/create-a-metamask-wallet).
 
 ## Dashboard setup
 
-The first thing we need to do is head over to the [dashboard](https://thirdweb.com/dashboard) and create a project and a **Token** contract. if you don't know how to do this, check out [this guide](/learn/introduction).
+The first thing we need to do is head over to the [dashboard](https://thirdweb.com/dashboard) and create a **Token** contract. if you don't know how to do this, check out [this guide](/learn/introduction).
 
-Once your **Token** contract has been created, it's time to mint our own currency, but we don't need the dashboard for that! For use cases where the interaction has a high frequency and requires conditions, using the sdk is more efficient.
+Once your **Token** contract has been created, it's time to mint our own currency, but we don't need the dashboard for that! For use cases where the interaction has a high frequency and requires conditions, using the SDK is more efficient.
 
-![](/assets/portal/guides/create-your-currency-with-typescript-sdk/1.png)
+![New Token contract viewed in the thirdweb dashboard](/assets/portal/guides/create-your-currency-with-typescript-sdk/Token_Contract_Dashboard_View.png)
 
 ## The code
 
@@ -33,7 +33,7 @@ Next up use we'll install the ThirdWeb SDK using npm!
 
 SDK installation and setup with TypeScript
 
-- **@@thirdweb-dev/sdk** - thirdweb TypeScript SDK.
+- **@thirdweb-dev/sdk** - thirdweb TypeScript SDK.
 - **ethers** - will give us very useful utils.
 - **dotenv** - to hide our private key.
 - **typescript** - since this is a TypeScript project
@@ -61,13 +61,13 @@ For this guide, you will need to instantiate the SDK following [these](/learn/co
 
 ### 3. Define which contract to use
 
-Now we need to define which contract we want to use. This is the contract we just created inside our project **Making your own currency**. We called the contract **Future Coin**. This contract has an address. We need to pass the address here. You can find the address here, under **Future Coin**:
+Now we need to define which contract we want to use. Here we created a Token contract and called it '**Future Coin**'. This contract has an address. We need to pass the address here. You can find the address on the dashboard under '**Future Coin**':
+
+![See Token contract address under contract name](/assets/portal/guides/create-your-currency-with-typescript-sdk/Token_Contract_Dashboard_View.png)
 
 In our `currency.ts` we include the following code.
 
 The token variable uses the token contract inside the sdk with our address for the token smart contract.
-
-![](/assets/portal/guides/create-your-currency-with-typescript-sdk/1.png)
 
 ```tsx:currency.ts
 // Instantiate Token contract
@@ -76,23 +76,25 @@ const token = sdk.getToken("0x43E0C32F2BC4A79e70421CF449e14EcADD3adbad");
 
 ### 4. Time to mint the coins (tokens)!
 
-The arguments passed over here are the same as minting the tokens inside the dashboard. If you want to familiarize yourself with the process, check out the dashboard! Ethereum deals with 18 decimals, so we need to adjust the input figure.
+The arguments passed over here are the same as minting the tokens inside the dashboard. If you want to familiarize yourself with the process, check out the dashboard!
 
 ```tsx:currency.ts
 // Set the amount of currency you want to mint
-// (Actual amount, number of decimals)
-const amount = ethers.utils.parseUnits("1000", 18)
 
-// Minting the currency, 1000 Future Coin
-async function mintCurrency() {
-    console.log(await token.mint(amount))
+const mintCurrency = async () => {
+  try {
+    const amount = "1000";
+    await token.mint(amount);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
-// Running the entire thing
-mintCurrency()
+mintCurrency();
 ```
 
 So the only thing left is to run our code! Open a terminal and paste the following:
+
 ```bash
 # Runs the TypeScript file
 npx ts-node index.ts
@@ -102,7 +104,7 @@ npx ts-node index.ts
 
 Get the balance to check it out or head over to the dashboard.
 
-![](/assets/portal/guides/create-your-currency-with-typescript-sdk/2.png)
+![Token contract with 1,000 minted tokens viewed on the thirdweb dashboard](/assets/portal/guides/create-your-currency-with-typescript-sdk/Token_Contract_Dashboard_View_With_Tokens.png)
 
 ## That's it!
 

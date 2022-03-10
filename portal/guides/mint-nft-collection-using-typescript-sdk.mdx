@@ -2,7 +2,7 @@
 title: Mint an NFT Collection with TypeScript 
 author: "Raza Zaidi & Devin Rattray"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
-authorAvatar2: "/assets/portal/authors/devin-rattray.jpg"
+authorAvatar2: "/assets/portal/authors/devin-rattray.jpeg"
 authorTwitter: "https://twitter.com/razacodes"
 authorTwitter2: "https://twitter.com/dvnsctt"
 draft: false
@@ -15,20 +15,20 @@ updated: "2022-03-14"
 
 ## Intro
 
-This guide explains in 4 easy steps how to mint an NFT. Minting an NFT requires a couple of steps. We need to create a project in the dashboard and create an **NFT Collection ** contract inside our project. We also need to connect a wallet. So if you don't have a wallet, make sure to sign up with MetaMask or CoinWallet. [Here's our guide on how to create a Metamask Wallet](/guides/create-a-metamask-wallet).
+This guide explains how to mint your own NFT. We will create an **NFT Collection** contract on the dashboard and mint an NFT from the SDK. We also need to connect a wallet. So if you don't have a wallet, make sure to sign up with MetaMask or CoinWallet. [Here's our guide on how to create a Metamask Wallet](/guides/create-a-metamask-wallet).
 
 Alright without further ado, let's mint an NFT.
 
 ## Dashboard setup
-The first thing we need to do is head over to the [dashboard](https://thirdweb.com/dashboard) and create a project and an **NFT Collection** contract. if you don't know how to do this, check out [this guide](/learn/introduction).
+The first thing we need to do is head over to the [dashboard](https://thirdweb.com/dashboard) and create an **NFT Collection** contract. if you don't know how to do this, check out [this guide](/learn/introduction).
 
-Once the contract is created, it's time to mint our first NFT, but we don't need the dashboard for that! I mean we could, but why use GUI if we can use Typescript!?
+Once the contract is created, it's time to mint our first NFT, but we don't need the dashboard for that! I mean we could, but why use GUI if we can use TypeScript!?
 
-![](/assets/portal/guides/mint-nft-collection-using-typescript-sdk/1.png)
+![New NFT Collection contract viewed in the thirdweb dashboard](/assets/portal/guides/mint-nft-collection-using-typescript-sdk/NFT_Collection_Contract_Dashboard_View.png)
 
 ## The code
 
-### 1. Create a Typescript file
+### 1. Create a TypeScript file
 
 Go ahead and create a new TypeScript file. Let's call it `index.ts` and open it in your favorite code editor. We'll use Visual Studio Code.
 
@@ -58,15 +58,15 @@ For this guide, you will need to instantiate the SDK following [these](/learn/co
 
 ### 3. Define which contract to use
 
-Now we need to define which contract we want to use. This is the contract we just created inside our project Minting NFTs with JavaScript/TypeScript. We called the contract 'TypeScript'. This contract has an address. We need to pass the address here. You can find the address here, under TypeScript:
+Now we need to define which contract we want to use. Here we created an NFT Collection contract and called it '**TypeScript**'. This contract has an address. We need to pass the address here. You can find the address here, under '**TypeScript**':
+
+![See NFT Collection contract address under contract name](/assets/portal/guides/mint-nft-collection-using-typescript-sdk/NFT_Collection_Contract_Dashboard_View.png)
 
 In our `index.ts` we include the following code. First we define a variable `nftCollectionAddress` and store our contract address in here.
 
 Then we create an object that uses the **NFT Collection** contract inside the sdk with our address.
 
-![](/assets/portal/guides/mint-nft-collection-using-typescript-sdk/1.png)
-
-```jsx
+```tsx
 // assign the NFT Collection address
 const nftCollectionAddress = "0x8CeCAe3548f3844f68c07428E9Bbac50Ba887035";
 
@@ -78,7 +78,7 @@ const nftCollection = sdk.getNftCollection(nftCollectionAddress);
 
 The arguments passed over here are the same as minting an NFT inside the dashboard. If you want to familiarize yourself with the process, check out the dashboard!
 
-```jsx
+```tsx
 // Minting the NFT asynchronously
 async function mint() {
   console.log(
@@ -94,6 +94,8 @@ async function mint() {
 // Running the entire thing
 mint();
 ```
+
+So the only thing left is to run our code! Open a terminal and paste the following:
 
 ```bash
 # Runs the TypeScript file

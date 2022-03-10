@@ -2,7 +2,7 @@
 title: Create an NFT drop with TypeScript
 author: "Raza Zaidi & Devin Rattray"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
-authorAvatar2: "/assets/portal/authors/devin-rattray.jpg"
+authorAvatar2: "/assets/portal/authors/devin-rattray.jpeg"
 authorTwitter: "https://twitter.com/razacodes"
 authorTwitter2: "https://twitter.com/dvnsctt"
 draft: false
@@ -16,17 +16,21 @@ featured: false
 
 ## Intro
 
-In this guide, we'll create our own drop with the **TypeScript** SDK! In a drop, you can list your tokens, like NFTs, for sale. OpenSea is an example of a drop. Did you know you can do both! After we create our drop, we will list the NFT we minted with our SDK in our previous guide. Check that guide out over here.
+In this guide, we'll create our own **NFT Drop** with the TypeScript SDK! First we will create an **NFT Drop** on the dashboard, then create NFTs, and finally set claim conditions from the SDK. In these drop conditions, you can set the mint price, upload allowlists for claiming, and more!
+
+We also need to connect a wallet. So if you don't have a wallet, make sure to sign up with **MetaMask** or **CoinWallet**. If don't have a wallet, [you can follow this guide to create one](/guides/create-a-metamask-wallet). 
 
 ## Dashboard setup
 
-The first thing we need to do is head over to the [dashboard](https://thirdweb.com/dashboard) and create a project and a **Drop** contract. if you don't know how to do this, check out [this guide](/learn/introduction).
+The first thing we need to do is head over to the [dashboard](https://thirdweb.com/dashboard) and create an **NFT Drop** contract. if you don't know how to do this, check out [this guide](/learn/introduction).
 
-Once the contract is created, it's time to create our first NFT, but we don't need the dashboard for that! I mean we could, but why use GUI if we can use Typescript!?
+Once the contract is created, it's time to create our first NFT, but we don't need the dashboard for that! I mean we could, but why use GUI if we can use TypeScript!?
+
+![New NFT Drop contract viewed in the thirdweb dashboard](/assets/portal/guides/create-a-drop-with-typescript-sdk/NFT_Drop_Contract_Dashboard_View.png)
 
 ## The code
 
-### 1. Create a Typescript file
+### 1. Create a TypeScript file
 
 Go ahead and create a new TypeScript file. Let's call it `index.ts` and open it in your favorite code editor. We'll use VS code.
 
@@ -62,9 +66,9 @@ For this guide, you will need to instantiate the SDK following [these](/learn/co
 
 ### 4. Define which contract to use
 
-Now we need to define which contract we want to use. This is the contract we just created inside our project. We called the contract **My Drop**. This contract has an address. We need to pass the address here. You can find the address here, under **My Drop**:
+Now we need to define which contract we want to use. Here we created an NFT Drop contract and called it '**My Drop**'. This contract has an address. We need to pass the address here. You can find the address on the dashboard under **My Drop**:
 
-![](/assets/portal/guides/create-a-drop-with-typescript-sdk/1.png)
+![See NFT Drop contract address under contract name](/assets/portal/guides/create-a-drop-with-typescript-sdk/NFT_Drop_Contract_Dashboard_View.png)
 
 In our `index.ts` file we include the following code. First we define a variable `nftDrop` and store our contract in here.
 
@@ -101,7 +105,7 @@ lazyMintNft();
 
 ### 6. Set up claim phases
 
-Once your **Drop** contract has been created and has some NFTs. set the **Claim Phases**. These phases are some of the rules we'll apply when someone wants to claim an NFT, such as price, max amount of tokens claimed, wallets allowed to claim, etc. 
+Once your **NFT Drop** contract is created and has some NFTs, it's time to set the **Claim Phases**. These phases are some of the rules we'll apply when someone wants to claim an NFT, such as price, max amount of tokens claimed, wallets allowed to claim, etc. 
 
 Below we will set two claim phases - you can set more or less depending on your needs. 
 
@@ -110,7 +114,7 @@ We are also adding `maxQuantity` so only 20 NFTs can be minted in this phase.
 
 The second phase does not add a snapshot so everyone is able to claim. 
 
-```
+```tsx:index.ts
 const presaleStartTime = new Date();
 const publicSaleStartTime = new Date(new Date() + 60 * 60 * 24 * 1000); // today's date + 24 hours
 const claimConditions = [

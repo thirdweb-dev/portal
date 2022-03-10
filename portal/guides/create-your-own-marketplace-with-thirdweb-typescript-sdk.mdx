@@ -2,12 +2,12 @@
 title: Create your own NFT marketplace with TypeScript
 author: "Raza Zaidi & Devin Rattray"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
-authorAvatar2: "/assets/portal/authors/devin-rattray.jpg"
+authorAvatar2: "/assets/portal/authors/devin-rattray.jpeg"
 authorTwitter: "https://twitter.com/razacodes"
 authorTwitter2: "https://twitter.com/dvnsctt"
 draft: false
 tags: [marketplace, typescript]
-summary: "Create your own marketplace to sell your own NFTs with TypeScript"
+summary: "Create your own marketplace to sell NFTs with TypeScript"
 image: "/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/thumbnail.png"
 date: "2021-11-25"
 updated: "2022-03-14"
@@ -15,7 +15,7 @@ updated: "2022-03-14"
 
 ## Intro
 
-In this guide we'll create our own **marketplace** with the TypeScript SDK! In a **marketplace** you can list your tokens, like NFT's, for sale. Opensea is an example of a **marketplace**. Did you know you can do both! After we create our **marketplace**, we will list the NFT we minted with our sdk in our previous guide. Check that guide out over [here](/guides/mint-nft-collection-using-typescript-sdk).
+In this guide we'll create our own **marketplace** with the TypeScript SDK! In a **marketplace** you can list your tokens, like NFT's, for sale. Opensea is an example of a **marketplace**. Did you know you can do both! After we create our **marketplace**, we will list the NFT we minted with our SDK in our previous guide. Check that guide out over [here](/guides/mint-nft-collection-using-typescript-sdk).
 
 By the way we also need to connect a wallet. So if you don't have a wallet, make sure to sign up with MetaMask or CoinWallet. If don't have a wallet, [you can follow this guide to create one](/guides/create-a-metamask-wallet).
 
@@ -23,11 +23,11 @@ Alright without further ado, let's create our **marketplace**!
 
 ## Dashboard setup
 
-The first thing we need to do is head over to the [dashboard](https://thirdweb.com/dashboard) and create a project and a **Marketplace** contract. if you don't know how to do this, check out [this guide](/learn/introduction).
+The first thing we need to do is head over to the [dashboard](https://thirdweb.com/dashboard) and create a **Marketplace** contract. if you don't know how to do this, check out [this guide](/learn/introduction).
 
 Once you've created the contract, it's time to list our first NFT, but we don't need the dashboard for that! I mean we could, but why use GUI if we can use TypeScript!?
 
-![](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/1.png)
+![New Marketplace contract viewed in the thirdweb dashboard](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/Marketplace_Contract_Dashboard_View.png)
 
 ## The code
 
@@ -61,9 +61,9 @@ For this guide, you will need to instantiate the SDK following [these](/learn/co
 
 ### 3. Define which contract to use
 
-Now we need to define which contract we want to use. We created the contract ajd called it '**Cool NFT Marketplace**'. This contract has an address. We need to pass the address here. You can find the address here, under '**Cool NFT Marketplace**':
+Now we need to define which contract we want to use. We created the Marketplace contract and called it '**Cool NFT Marketplace**'. This contract has an address. We need to pass the address here. You can find the address here, under '**Cool NFT Marketplace**':
 
-![](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/1.png)
+![See Marketplace contract address under contract name](/assets/portal/guides/create-your-own-marketplace-with-thirdweb-typescript-sdk/Marketplace_Contract_Dashboard_View.png)
 
 In our `index.ts` file we include the following code. First we define a variable `marketplaceAddress` and store our contract address in here.
 
@@ -143,4 +143,4 @@ npx ts-node index.ts
 
 ### 5. That's it!
 
-Congratulations! You have created your own marketplace.
+Congratulations! You have created a listing on your own marketplace using the thirdweb TypeScript SDK.
