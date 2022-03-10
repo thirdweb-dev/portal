@@ -5,7 +5,7 @@ authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
 authorAvatar2: "/assets/portal/authors/devin-rattray.jpg"
 authorTwitter: "https://twitter.com/razacodes"
 authorTwitter2: "https://twitter.com/dvnsctt"
-draft: true
+draft: false
 tags: [nft-drop, claim, typescript]
 summary: "Create our own drop where we can create NFTs in TypeScript."
 image: "/assets/portal/guides/create-a-drop-with-typescript-sdk/thumbnail.png"
@@ -86,7 +86,7 @@ const lazyMintNft = async () => {
     await nftDrop.createBatch([{
       name: "thirdweb",
       description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
-      image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
+      image: "ipfs://<YOUR_IPFS_FOLDER_CID>/1.png",
       properties: {},
     }]);
   } catch (err) {
@@ -103,17 +103,43 @@ lazyMintNft();
 
 Once your **Drop** contract has been created and has some NFTs. set the **Claim Phases**. These phases are some of the rules we'll apply when someone wants to claim an NFT, such as price, max amount of tokens claimed, wallets allowed to claim, etc. 
 
+Below we will set two claim phases - you can set more or less depending on your needs. 
+
+The first claim phase will be a presale with an added snapshot. Only the addresses listed will be able to claim NFTs from the drop. 
+We are also adding `maxQuantity` so only 20 NFTs can be minted in this phase.
+
+The second phase does not add a snapshot so everyone is able to claim. 
 
 ```
-{enter claim phase code}
+const presaleStartTime = new Date();
+const publicSaleStartTime = new Date(new Date() + 60 * 60 * 24 * 1000); // today's date + 24 hours
+const claimConditions = [
+  {
+    startTime: presaleStartTime, // start the presale now
+    maxQuantity: 20, // limit how many mints for this presale
+    price: 0.01, // presale price
+    snapshot: ['0x...', '0x...'], // limit minting to only certain wallet addresses
+  },
+  {
+    startTime: publicSaleStartTime, // 24h after presale, start public sale
+    price: 0.08, // public sale price
+  }
+]);
+const setClaimConditions = async () => {
+  try {
+    await nftDrop.claimConditions.set(claimConditions);
+  } catch (err) {
+    console.log(err)
+  }
+}
+setClaimConditions();
 ```
 
 So the only thing left is to run our code! Open a terminal and paste the following:
 
 ```bash:virtual-env
-# Runs the typescript file
+# Runs the TypeScript file
 npx ts-node index.ts
-
 ```
 
 ### 7. That's it!
@@ -121,6 +147,13 @@ npx ts-node index.ts
 Congratulations! You have created your own drop. The NFTs are available to be claimed! You can use the code below to check all your drops!
 
 ```tsx:index.ts
-//Get all Drops
-nftDrop.getAll()
+// Get all unclaimed NFTs
+const getAllNfts = () => {
+  try {
+    await nftDrop.getAllUnclaimed();
+  } catch (err) {
+    console.log(err)
+  }
+}
+getAllNfts();
 ```
