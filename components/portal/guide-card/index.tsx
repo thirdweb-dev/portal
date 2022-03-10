@@ -21,15 +21,14 @@ interface PortalGuideCardProps {
 }
 export const TagToModuleTypeMap = {
   "nft-collection": ModuleType.NFT,
+  edition: ModuleType.COLLECTION,
+  "nft-drop": ModuleType.DROP,
+  "edition-drop": ModuleType.BUNDLE_DROP,
   token: ModuleType.CURRENCY,
-  bundle: ModuleType.COLLECTION,
-  pack: ModuleType.PACK,
   marketplace: ModuleType.MARKET,
-  drop: ModuleType.DROP,
-  datastore: ModuleType.DATASTORE,
-  "dynamic nft": ModuleType.DYNAMIC_NFT,
-  "access nft": ModuleType.ACCESS_NFT,
-  splits: ModuleType.SPLITS,
+  pack: ModuleType.PACK,
+  vote: ModuleType.VOTE,
+  split: ModuleType.SPLITS,
 };
 
 export const PortalGuideCard: React.FC<PortalGuideCardProps> = ({
