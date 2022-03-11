@@ -61,7 +61,7 @@ function exampleApp() {
       connectors={connectors}
       supportedChainIds={supportedChainIds}
     >
-      <ConnectWallet />
+      <Connect />
       <AuctionComponent /> /*render the claim button*/
     </ThirdwebProvider>
   );
@@ -70,6 +70,19 @@ export default exampleApp;
 ```
 
 You can learn more about the walletconnect options on their official docs [here](https://docs.walletconnect.com/quick-start/dapps/web3-provider#provider-options) and wallet link [here](https://github.com/walletlink/walletlink/blob/cb476f778faac0755d33df2b6865991c2f5311bc/js/src/WalletLink.ts#L22-L42)
+
+## Add The thirdweb Connect Component
+
+Create a new folder called components that will host all custom components of your app. After that, create a new file called connect.js. The component is very simple and only consists of the following code:
+
+```js:connect.js
+import { useDisconnect, useMetamask } from "@thirdweb-dev/react";
+ 
+export const Connect = () => {
+  const connectWithMetamask = useMetamask();
+  return <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>;
+};
+```
 
 ## The AuctionListing.js - The Buy button
 
