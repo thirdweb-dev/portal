@@ -38,24 +38,16 @@ import { ThirdwebProvider } from '@thirdweb-dev/react';
 import './App.css';
 
 //import component for claim button
-import AuctionComponent from './AuctionListing'; 
+import AuctionComponent from '../components/AuctionListing'; 
+import Connect from '../components/Connect';
 
 const supportedChainIds = [1, 4, 137, 250, 43114, 80001];
 
 function exampleApp() {
   return (
-<<<<<<< Updated upstream
-    <ThirdwebProvider
-      connectors={connectors}
-      supportedChainIds={supportedChainIds}
-    >
-      <Connect />
-      <AuctionComponent /> /*render the claim button*/
-=======
     <ThirdwebProvider desiredChainId={supportedChainIds}>
       <Connect />
       <AuctionComponent /> /*render the auction button*/
->>>>>>> Stashed changes
     </ThirdwebProvider>
   );
 }
@@ -78,7 +70,7 @@ export const Connect = () => {
 ```
 
 ## The AuctionListing.js - The Buy button
-
+Create a file called `AuctionListing.js` inside your components folder.
 In your `AuctionListing.js` file we will write the code for the button.
 
 Let's take it step by step, but feel free to scroll to the bottom to copy the full piece of code.
@@ -124,7 +116,7 @@ Next up we instantiate the sdk, marketplace contract and create variables with o
 
   // Declaring the nft smart contract address
   const nftSmartContractAddress = "0x95c78aca2c99df3E7469769C56565ECc0e8eCe95";
-  const currencySmartContractAddress =
+  const tokenSmartContractAddress =
     "0x0d5fb8942eEa62093944F3e91C6Ac4e584336741";
 ```
 
@@ -175,7 +167,7 @@ The `createAuctionListing` method takes two **prices** as input.
     await market.createAuctionListing({
       assetContractAddress: nftSmartContractAddress,
       buyoutPricePerToken: ethers.utils.parseUnits(tokenIdOffer, 18),
-      currencyContractAddress: currencySmartContractAddress,
+      currencyContractAddress: tokenSmartContractAddress,
       startTimeInSeconds: Math.floor(Date.now() / 1000),
       listingDurationInSeconds: 60 * 2,
       tokenId: tokenId,
@@ -273,13 +265,13 @@ const AuctionComponent = () => {
   // initiated with the latest `sdk` variable
   const market = useMemo(
     () =>
-      sdk.getMarketplacecontract("0xCb67A96FAd36D8c24f192B9eDaD5fF3c7A7A867f"),
+      sdk.getMarketplace("0xCb67A96FAd36D8c24f192B9eDaD5fF3c7A7A867f"),
     [sdk]
   );
 
   // Declaring the nft smart contract address
   const nftSmartContractAddress = "0x95c78aca2c99df3E7469769C56565ECc0e8eCe95";
-  const currencySmartContractAddress =
+  const tokenSmartContractAddress =
     "0x0d5fb8942eEa62093944F3e91C6Ac4e584336741";
 
   const [tokenId, setTokenId] = React.useState("");
@@ -321,7 +313,7 @@ const AuctionComponent = () => {
     await market.createAuctionListing({
       assetContractAddress: nftSmartContractAddress,
       buyoutPricePerToken: ethers.utils.parseUnits(tokenIdOffer, 18),
-      currencyContractAddress: currencySmartContractAddress,
+      currencyContractAddress: tokenSmartContractAddress,
       startTimeInSeconds: Math.floor(Date.now() / 1000),
       listingDurationInSeconds: 60 * 2,
       tokenId: tokenId,
