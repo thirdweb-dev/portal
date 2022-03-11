@@ -29,7 +29,6 @@ Once you've created the contract, it's time to list our first NFT, but we don't 
 
 ![](/assets/portal/guides/create-your-own-auction-with-thirdweb-typescript-sdk/17-marketplace.png)
 
-![](/assets/portal/guides/create-your-own-auction-with-thirdweb-typescript-sdk/18-roles.png)
 
 ## The code
 
@@ -91,20 +90,29 @@ const tokenSmartContractAddress =
 We are using the NFT that we created in our previous guide. Each NFT has `token_id`. We will pass that the following parameters to the '.list' method:
 
 ```tsx:index.ts
-// the listingId of the listing you want to fetch data for
-const tokenId = "1";
-const tokenIdOffer = 1
+// Data of the auction you want to create
+const auction = {
+  // address of the contract the asset you want to list is on
+  assetContractAddress: nftSmartContractAddress,
+  // token ID of the asset you want to list
+  tokenId: "0",
+  // in how many seconds with the listing open up
+  startTimeInSeconds: 0,
+  // how long the listing will be open for
+  listingDurationInSeconds: 86400,
+  // how many of the asset you want to list
+  quantity: 1,
+  // address of the currency contract that will be used to pay for the listing
+  currencyContractAddress: NATIVE_TOKEN_ADDRESS,
+  // how much people would have to bid to instantly buy the asset
+  buyoutPricePerToken: "10",
+  // the minimum bid that will be accepted for the token
+  reservePricePerToken: "1.5",
+}
 
-marketPlace.createAuctionListing({
-      assetContractAddress: nftSmartContractAddress,
-      buyoutPricePerToken: ethers.utils.parseUnits("10"),
-      currencyContractAddress: tokenSmartContractAddress,
-      startTimeInSeconds: Math.floor(Date.now() / 1000),
-      listingDurationInSeconds: 60 * 60 * 24,
-      tokenId: 1,
-      quantity: 1,
-      reservePricePerToken: 1,
-    });
+const tx = await marketPlace.auction.createListing(auction);
+const receipt = tx.receipt; // the transaction receipt
+const listingId = tx.id; // the id of the newly created listing
 
 ```
 
@@ -122,10 +130,8 @@ Now that you've placed your first auction on your marketplace, someone can make 
 Check out the method below, that allows a user to make a bid!
 
 ```tsx:index.ts
-marketPlace.makeAuctionListingBid({
-        listingId: 0,
-        pricePerToken: 1,
-      });
+const pricePerToken = 2.6;
+await marketPlace.auction.makeBid(listingId, pricePerToken);
 ```
 
 ## That's it!
