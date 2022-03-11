@@ -62,7 +62,7 @@ Create a new folder called components that will host all custom components of yo
 
 ```js:connect.js
 import { useDisconnect, useMetamask } from "@thirdweb-dev/react";
-
+ 
 export const Connect = () => {
   const connectWithMetamask = useMetamask();
   return <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>;
