@@ -1,11 +1,9 @@
 ---
 title: Build an auction button in React for your dApp with TypeScript
-author: "Pratham Prasoon & Raza Zaidi"
-authorAvatar: "/assets/portal/authors/pratham-prasoon.jpg"
-authorAvatar2: "/assets/portal/authors/raza-zaidi.jpg"
-authorTwitter: "https://twitter.com/PrasoonPratham"
-authorTwitter2: "https://twitter.com/razacodes"
-draft: true
+author: "Raza Zaidi"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+draft: false
 tags: [react, marketplace, auction, front-end]
 summary: "Create an auction button in your website"
 image: "/assets/portal/guides/auction-button-react/thumbnail.png"
@@ -15,18 +13,18 @@ updated: ""
 
 ## What you get
 
-This guide gives you a simple React **component** to create an `auction` and a **component** for a `connect wallet` button. Check the code at GitHub over [here](https://github.com/razacodespython/auction-app).
+This guide gives you a simple React **component** to create an `auction` and a **component** for a `connect wallet` button. Check out our repo with examples at Github [here]().
 
 ![](/assets/portal/guides/auction-button-react/button.png)
 
 ## Dependencies
 
-Quick heads up, in these examples, the thirdweb sdk is integrated with React **components**, but we're 'just' using javascript. You can do the same magic with another framework!
+Quick heads up, in these examples, the thirdweb sdk is integrated with React **components**.
 
 Make sure to have the dependencies installed
 
 ```bash
-npm install @3rdweb/sdk @3rdweb/react @3rdweb/hooks ethers
+npm install @thirdweb-dev/sdk @thirdweb-dev/react @thirdweb-dev/hooks ethers
 ```
 
 ## The App.js - Connect your wallet
@@ -36,33 +34,28 @@ In your `App.jsx` file we can use the code from [this](/guides/add-connectwallet
 Inside our app we import our **component** for the `claim` button.
 
 ```js:App.jsx
-import { ThirdwebProvider, ConnectWallet } from '@3rdweb/react';
+import { ThirdwebProvider } from '@thirdweb-dev/react';
 import './App.css';
 
 //import component for claim button
 import AuctionComponent from './AuctionListing'; 
 
 const supportedChainIds = [1, 4, 137, 250, 43114, 80001];
-const connectors = {
-  injected: {},
-  magic: {
-  },
-  walletconnect: {},
-  walletlink: {
-    appName: "thirdweb - demo",
-    url: "https://thirdweb.com",
-    darkMode: false,
-  },
-};
 
 function exampleApp() {
   return (
+<<<<<<< Updated upstream
     <ThirdwebProvider
       connectors={connectors}
       supportedChainIds={supportedChainIds}
     >
       <Connect />
       <AuctionComponent /> /*render the claim button*/
+=======
+    <ThirdwebProvider desiredChainId={supportedChainIds}>
+      <Connect />
+      <AuctionComponent /> /*render the auction button*/
+>>>>>>> Stashed changes
     </ThirdwebProvider>
   );
 }
@@ -95,7 +88,7 @@ The hooks and sdk should be familiar :).
 
 ```js:AuctionListing.jsx
 import { useCallback, useMemo, useEffect, useState } from "react";
-import { ThirdwebSDK } from "@3rdweb/sdk";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { ethers } from "ethers";
 import React from "react";
 ```
@@ -110,7 +103,7 @@ const AuctionComponent = () => {
   const { provider } = useWeb3();
 ```
 
-Next up we instantiate the sdk, marketplace module and create variables with our contracts.
+Next up we instantiate the sdk, marketplace contract and create variables with our contracts.
 
 ```js:AuctionListing.jsx
 // We won't always have a provider, and so we need to be sure to
@@ -125,7 +118,7 @@ Next up we instantiate the sdk, marketplace module and create variables with our
   // initiated with the latest `sdk` variable
   const market = useMemo(
     () =>
-      sdk.getMarketplaceModule("0xCb67A96FAd36D8c24f192B9eDaD5fF3c7A7A867f"),
+      sdk.getMarketplace("0xCb67A96FAd36D8c24f192B9eDaD5fF3c7A7A867f"),
     [sdk]
   );
 
@@ -258,9 +251,9 @@ export default AuctionComponent;
 The full piece of code that goes inside `AuctionListing.js`
 
 ```js:AuctionListing.jsx
-import { useWeb3 } from "@3rdweb/hooks";
+import { useWeb3 } from "@thirdweb-dev/hooks";
 import { useCallback, useMemo, useEffect, useState } from "react";
-import { ThirdwebSDK } from "@3rdweb/sdk";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { ethers } from "ethers";
 import React from "react";
 
@@ -280,7 +273,7 @@ const AuctionComponent = () => {
   // initiated with the latest `sdk` variable
   const market = useMemo(
     () =>
-      sdk.getMarketplaceModule("0xCb67A96FAd36D8c24f192B9eDaD5fF3c7A7A867f"),
+      sdk.getMarketplacecontract("0xCb67A96FAd36D8c24f192B9eDaD5fF3c7A7A867f"),
     [sdk]
   );
 
