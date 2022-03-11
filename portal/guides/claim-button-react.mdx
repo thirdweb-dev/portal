@@ -71,7 +71,7 @@ export const Connect = () => {
 
 ## The dropclaim.js - The Claim button
 Create a file called `dropclaim.js` inside the components folder.
-In your `dropclaim.js` file we will write the code for the button. If you want to know more about the drop module you can find a guide [here](/guides/drop).
+In your `dropclaim.js` file we will write the code for the button. If you want to know more about the drop contract you can find a guide [here](/guides/drop).
 
 The cool thing about this **component**, is that it's using the `connect wallet` component to authorise the transaction 😄.
 
@@ -91,7 +91,7 @@ const DropClaim = () => {
     return undefined;
   }, [provider]);
 
-//paste your drop module contract address here. this is an example
+//paste your drop contract contract address here. this is an example
   const drop = useMemo(() => {
     if (sdk) {
       return sdk.getNFTDrop("0x5B20A683e1c20246b9e72E01e243A458618Fc587")
@@ -100,9 +100,9 @@ const DropClaim = () => {
   }, [sdk]);
 
   const onClick = useCallback(() => {
-    dropModule.claim(1);
+    dropcontract.claim(1);
 
-  }, [dropModule]);
+  }, [dropcontract]);
 
   return (
     <div>
