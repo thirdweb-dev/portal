@@ -11,27 +11,29 @@ updated: "2022-03-14"
 
 ## In a nutshell
 
-With the `NFT Collection` contract, every NFT has an unique ID with an unique image. The `Edition` contract let's you mint multiple NFTs based on the same image or music file. Here's how that works👇
+With the `NFT Collection` contract, every NFT has an unique ID with an unique image. The **`Edition`** contract let's you mint multiple NFTs based on the same image or music file. Here's how that works👇
 
 If you want to know more about creating contracts, click [here](/contracts).
 
-## Mint an NFT Collection
+![Select Edition from dashboard options](/assets/portal/contracts/edition/select-edition-from-dashboard.png)
 
-With the `Edition` contract you can create an NFT and then pass a supply👇
+## Mint your Edition NFT
 
-![Edition dashboard showing supply](/assets/portal/contracts/edition/supply.png)
+With the **`Edition`** contract you can create an NFT and then pass a supply👇
 
-Each of these NFTs👆share the same ID and same image, but now you can have multiple of these. This type of NFT is also called `one-of-many` with ERC-1155. Like this you can mint your own NFT collection. These NFTs can be listed for sale on any NFT platform or your own marketplace (created with third web's `Marketplace` contract).
+![Edition dashboard showing supply](/assets/portal/contracts/edition/edition-with-minted-nfts.png)
+
+Each of these NFTs👆share the same ID and same image, but now you can have multiple of these. This type of NFT is also called `one-of-many` with ERC-1155. Like this you can mint your own collection of NFTs. These NFTs can be listed for sale on any NFT platform or your own marketplace (created with thirdweb's `Marketplace` contract).
 
 ## How to use
 
-You can use the `Edition` by using code or no-code. Head over to our dashboard to make use of the no-code solution. To use the code solution, you need to install our packages and instantiate our sdk first. Check out [this](/learn/connect-to-blockchain) page on how to do that. You'll also need the address of your `Edition` contract. You can find that in the dashboard, inside your project.
+You can create an **`Edition`** contract by using code or no-code. Head over to our dashboard to make use of the no-code solution. To use the code solution, you need to install our packages and instantiate our SDK first. Check out [this](/learn/connect-to-blockchain) page on how to do that. You'll also need the address of your `Edition` contract. You can find that on the dashboard or inside your contract.
 
-![Contract addresses](/assets/portal/contracts/edition/contract.png)
+![Contract address shown in Edition contract page](/assets/portal/contracts/edition/edition-contract-address.png)
 
 ### Examples
 
-Here's an example on how to create an NFT in TypeScript
+Here's an example on how to create an NFT in TypeScript:
 
 ```jsx
 // The Edition contract address received after initializing the Edition contract on the dashboard.
