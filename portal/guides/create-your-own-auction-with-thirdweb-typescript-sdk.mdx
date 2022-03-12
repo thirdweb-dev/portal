@@ -8,7 +8,7 @@ tags: [marketplace, typescript]
 summary: "Create your own marketplace to sell your own NFTs with TypeScript"
 image: "/assets/portal/guides/create-your-own-auction-with-thirdweb-typescript-sdk/thumbnail.png"
 date: "2022-01-06"
-updated: ""
+updated: "2022-03-14"
 ---
 
 ## Intro
@@ -68,32 +68,33 @@ This contract has an address. We need to pass the address here. You can find the
 
 ![](/assets/portal/guides/create-your-own-auction-with-thirdweb-typescript-sdk/20-module.png)
 
-In our `index.ts` file we include the following code. First we define a variable `market_smart_contract_address` and store our contract address in here.
+In our `index.ts` file we include the following code. First we define a variable `marketplaceAddress` and store our contract address in here.
 
-Then we create an object that uses the market contract inside the SDK with our address.
+Then we create an object that access the marketplace contract inside the SDK with our address.
 
 ```tsx:index.ts
-// Initialize market contract by passing in contract address
-const marketPlace = sdk.getMarketplace("0xC06adC34097afa2085324D4192fbE9206059f8e0");
+// Declaring the Marketplace contract address
+const marketplaceAddress = "0xC06adC34097afa2085324D4192fbE9206059f8e0"
 
-// Declaring the nft smart contract address
-const nftSmartContractAddress = "0xdd25FAEE772FbB1bcB7ba0b2cEE6387A8F82f032"
+// Initialize Marketplace contract by passing in contract address
+const marketplace = sdk.getMarketplace(marketplaceAddress);
 
-// Declaring the token contract contract if you want to use your own tokens
-const tokenSmartContractAddress =
-    "0x0d5fb8942eEa62093944F3e91C6Ac4e584336741";
+// Declaring the NFT Collection contract address
+const nftCollectionAddress = "0xdd25FAEE772FbB1bcB7ba0b2cEE6387A8F82f032"
 
+// Declaring the Token contract if you want to use your own tokens
+const tokenAddress = "0x0d5fb8942eEa62093944F3e91C6Ac4e584336741";
 ```
 
 ### 4. Time to mint the NFT on the marketplace!
 
-We are using the NFT that we created in our previous guide. Each NFT has `token_id`. We will pass that the following parameters to the '.list' method:
+We are using the NFT that we created in our previous guide. Each NFT has `token_id`. We will pass that the following parameters to the '.list' method:
 
 ```tsx:index.ts
 // Data of the auction you want to create
 const auction = {
   // address of the contract the asset you want to list is on
-  assetContractAddress: nftSmartContractAddress,
+  assetContractAddress: nftCollectionAddress,
   // token ID of the asset you want to list
   tokenId: "0",
   // in how many seconds with the listing open up
@@ -103,25 +104,36 @@ const auction = {
   // how many of the asset you want to list
   quantity: 1,
   // address of the currency contract that will be used to pay for the listing
-  currencyContractAddress: NATIVE_TOKEN_ADDRESS,
+  // use NATIVE_TOKEN_ADDRESS or don't pass currencyContractAddress to use
+  // the native token of the chain, (ETH for Ethereum, MATIC for Polygon, etc.)
+  currencyContractAddress: tokenAddress,
   // how much people would have to bid to instantly buy the asset
   buyoutPricePerToken: "10",
   // the minimum bid that will be accepted for the token
   reservePricePerToken: "1.5",
 }
 
-const tx = await marketPlace.auction.createListing(auction);
-const receipt = tx.receipt; // the transaction receipt
-const listingId = tx.id; // the id of the newly created listing
+
+
+const createListing = async () => {
+  try {
+    const tx = await marketplace.auction.createListing(auction);
+    const receipt = tx.receipt; // the transaction receipt
+    const listingId = tx.id; // the id of the newly created listing
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+createListing();
 
 ```
 
 So the only thing left is to run our code! Open a terminal and paste the following:
 
-```bash:virtual-env
+```bash
 # Runs the typescript file
 npx ts-node index.ts
-
 ```
 
 ### 5. Make a bid
@@ -130,11 +142,28 @@ Now that you've placed your first auction on your marketplace, someone can make 
 Check out the method below, that allows a user to make a bid!
 
 ```tsx:index.ts
+const makeBid = async (listingId, pricePerToken) => {
+  try {
+    await marketplace.auction.makeBid(listingId, pricePerToken);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const listingId = "0";
 const pricePerToken = 2.6;
-await marketPlace.auction.makeBid(listingId, pricePerToken);
+
+makeBid(listingId, pricePerToken);
+```
+
+And run the code! (Make sure to comment the `createListing` function call if you don't want it to be run again!)
+
+```bash
+# Runs the typescript file
+npx ts-node index.ts
 ```
 
 ## That's it!
 
 Congratulations! You have created your own marketplace and listed your first auction!
-If you want to examples on how to use the sdk in your app, check out [this](https://github.com/thirdweb-dev/examples/tree/main/typescript) Github repo.
+If you want to examples on how to use the SDK in your app, check out [this](https://github.com/thirdweb-dev/examples/tree/main/typescript) GitHub repo.
