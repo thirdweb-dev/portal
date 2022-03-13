@@ -4,7 +4,7 @@ author: "Devin Rattray"
 authorAvatar: "/assets/portal/authors/devin-rattray.jpg"
 authorTwitter: "https://twitter.com/dvnsctt"
 draft: false
-summary: "The Edition Drop contract gives you a distribution mechanism for your 1-of-many NFTs."
+summary: "The Edition Drop contract gives you a distribution mechanism for your many-of-many NFTs."
 date: "2022-03-14"
 updated: ""
 ---
@@ -19,7 +19,7 @@ Click [here](/contracts) to learn more about contracts and how to create them.
 
 ## How it works
 
-Make sure you choose the right contract. If you want your drop to include 1-of-many NFTs, choose the **`Edition Drop`** contract. If you want to mint 1-of-1 NFTs, choose the `NFT Drop` contract.
+Make sure you choose the right contract. If you want your drop to include 1-of-many NFTs, choose the **`Edition Drop`** contract. If you want to mint 1-of-1 NFTs, choose the `NFT Drop` contract [here](/contracts/nft-drop).
 
 To be clear, when you create a drop inside your `Edition Drop` contract, the NFT is not minted yet. We prepare everything for your audience, so that they can mint it. The user who claims an NFT, mints it and transfers it to their wallet. By default the user pays the gas fees.
 
@@ -35,7 +35,7 @@ If you use the `NFT Drop` contract, you can set claim conditions for **all NFTs*
 
 After uploading your NFT, you can set the claim conditions in the dashboard inside your **`Edition Drop`** token settings. This can also be done by code via the SDK. Some of the conditions you can set include:
 
-1. The currency, meaning what the NFT should be payed in, if there's a price to mint.
+1. The currency, meaning what the NFT should be payed in if there's a price to mint.
 2. Price to claim each NFT
 3. The max number of NFTs that are available to be claimed. It's possible you created more NFTs than you want people to claim.
 4. The wait time between claims - 'Unlimited' means a wallet can only claim once
@@ -90,7 +90,7 @@ You can find the contract address in the thirdweb dashboard, inside your project
 After you instantiate the SDK, you can use the `Edition Drop` contract with our SDK. Here's how to get the contract inside your code using typescript and claim one token.
 
 ```jsx
-const editionDrop = sdk.getEditionDrop("<NFT_DROP_ADDRESS>");
+const editionDrop = sdk.getEditionDrop("<EDITION_DROP_ADDRESS>");
 const tokenId = 0; // the id of the NFT you want to claim
 const quantity = 1; // how many NFTs you want to claim
 
@@ -108,7 +108,7 @@ claimNft();
 Here's an example of setting the claim conditions with code:
 
 ```jsx
-const editionDrop = sdk.getEditionDrop("<NFT_DROP_ADDRESS>");
+const editionDrop = sdk.getEditionDrop("<EDITION_DROP_ADDRESS>");
 const presaleStartTime = new Date();
 const publicSaleStartTime = new Date(new Date() + 60 * 60 * 24 * 1000); // today's date + 24 hours
 const allowList = ['0x...', '0x...'] // modify this with your allow list
