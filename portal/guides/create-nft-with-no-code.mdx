@@ -1,50 +1,55 @@
 ---
 title: Mint an NFT with no code
-author: "Raza Zaidi"
-authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
-authorTwitter: "https://twitter.com/razacodes"
-draft: true
+author: Samina"
+authorAvatar: "/assets/portal/authors/samina.jpg"
+authorTwitter: "https://twitter.com/saminacodes"
+draft: false
 tags: [nft-collection, mint, no-code]
 summary: "Mint your own NFT using the thirdweb dashboard"
 image: "/assets/portal/guides/create-nft-with-no-code/thumbnail.png"
-date: "2022-01-22"
+date: "2022-03-13"
 updated: ""
 ---
+This guide explains how to mint an NFT without writing code on thirdweb in a few steps.
 
-## Intro
+Minting with thirdweb guarantees you own both the NFT and the smart contract. If you mint an NFT on a platform where you don't own the smart contract, this can create issues. What will happen if this platform goes down or decides to change the royalties of a smart contract? Owning both the NFT and the smart contract ensures true **ownership**.
 
-This guide explains in a couple of easy steps how to mint an NFT.
-You might wonder, why create an NFT with thirdweb and not some other platform?
-Well with thirdweb you don't just own the NFT, but you also own the smart contract. **Full Control**.
+To create our NFT, we will need to have a crypto wallet. For this guide, we are using **Coinbase Wallet**. If you don't have a wallet, you can create one by following our *Setup Coinbase Wallet Guide*.
 
-When you mint an NFT on a platform, where you don't own the smart contract, this can create issues.
-What will happen when the platform goes down or the platform decides to change the royalties of a smart contract.
+## **Setup**
 
-Make sure you check whether you not only own the NFT, but also the smart contract.
+To begin, navigate to the thirdweb [dashboard](https://thirdweb.com/dashboard) and connect your wallet. Once connected, you will be able to click the blue ‘**+ Create New Contract**’ button > click ‘**Create NFTs and Tokens**’ > click ‘**NFT Collection**’.
 
-Alright without further ado, let's mint an NFT.
-Minting an NFT requires a couple of steps. We need to create a project in the dashboard and create an NFT Collection module inside our project. We also need to connect a wallet. So if you don't have a wallet, make sure to sign up with **MetaMask** or **CoinWallet**. We are gonna use Metamask, if you don't have one, you can follow [this guide](/guides/create-a-metamask-wallet).
+![Choose the NFT Collection contract](/assets/portal/guides/create-nft-with-no-code/pasted_image_0.png)
 
-## Dashboard setup
+Under **general settings**, add a contract name, description, image, and symbol to distinguish your contracts.You can pick any name you want for the contract. Under **payout settings**, add the wallet address for primary sales and, optionally, royalty sales. The wallet address for primary sales is usually your own wallet, which is filled in by default. Leave it like this if you want to receive the proceeds of any sale under this contract.
 
-The first thing we need to do is head over to the [dashboard](https://thirdweb.com/dashboard) and create a project and an **NFT Collection** module. if you don't know how to do this, check out [this guide](/learn/introduction).
+![Fill in the contract details](/assets/portal/guides/create-nft-with-no-code/pasted_image_0-2.png)
 
-Once you've set everything up, it's time to mint our first NFT and all we need is the dashboard!
+Scroll down and click the blue ‘**deploy now**’ button to prompt a transaction confirmation from your wallet. Confirm this from the pop-up on your wallet.
 
-![An empty NFT Collection Module](/assets/portal/guides/create-nft-with-no-code/nft-module.png)
+Once we get through the settings, we can mint our first NFT through the dashboard.
 
-## Minting the NFT
+**Minting the NFT**
 
-Click on the blue button, which says `+ Mint first NFT` in the middle of your screen or click on `+ Mint` in the top right corner.
-You should see the following screen pop-up.
-Go ahead and give your NFT a name, description and upload a picture.
-After you're done, click on `+ Mint NFT` (yes it's really **that** simple!).
+Click on the blue ‘**+ Mint**’ button in the top right corner.
 
-![The NFT settings to mint an NFT](/assets/portal/guides/create-nft-with-no-code/nft-settings.png)
+![NFT Collection contract](/assets/portal/guides/create-nft-with-no-code/pasted_image_0-3.png)
 
-You will be asked to confirm the transaction via your wallet.
-Click confirm.
+A settings panel will pop up on the right side of your screen. Give your NFT a name, description, and upload your file.
 
-## That's it!
+NFTs can be a variety of different mediums including image, audio, video, html, text file, pdf, or even 3d models.
 
-You have minted your own NFT using thirdweb's dashboard!
+![Mint an NFT](/assets/portal/guides/create-nft-with-no-code/pasted_image_0-4.png)
+
+Optionally, you can add some metadata or properties to your NFT using ‘key’ and ‘value’ pairs. In this example, I chose the color of the cookie and the number of chocolate chips as the key-value properties.
+
+![Mint an NFT fill in details](/assets/portal/guides/create-nft-with-no-code/pasted_image_0-5.png)
+
+After adding the fields, click on the blue ‘+ Mint NFT’. You will be prompted to confirm the transaction in your wallet. Click the confirmation button. And that’s it- the newly minted NFT will appear in your dashboard.
+
+![NFT minted](/assets/portal/guides/create-nft-with-no-code/pasted_image_0-6.png)
+
+## **Congratulations!**
+
+You have now minted your first NFT using thirdweb's dashboard. Now you can send it to a friend, list it on a marketplace, set it as your profile pic on Twitter, or just hold it in your wallet for safekeeping. The possibilities are endless with NFTs.
