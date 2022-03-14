@@ -98,10 +98,14 @@ createListing();
 Here's an example how to buy an NFT in TypeScript:
 
 ```jsx
-marketplace.direct.buyoutListing({
-  listingId: 1,
-  quantityDesired: 1,
-});
+const buyoutListing = async (listingId, quantityDesired) => {
+  try {
+    await marketplace.direct.buyoutListing(listingId, quantityDesired);
+  } catch (err) {
+    console.log(err);
+  }
+}
+buyoutListing(listingId, quantityDesired);
 ```
 
 ### No-code example

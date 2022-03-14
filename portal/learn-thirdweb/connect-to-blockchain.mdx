@@ -3,12 +3,12 @@ title: "Connect to the blockchain and use our SDK"
 author: "Raza Zaidi"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
 authorTwitter: "https://twitter.com/razacodes"
-draft: true
+draft: false
 tags: [sdk, client, server]
 summary: "Providers and Signers are used to connect with the blockchain. Find out how to do this to use our sdk"
 image: "./thumbnail.png"
 date: "2022-02-06"
-updated: ""
+updated: "2022-03-14"
 ---
 
 ## Intro
@@ -24,7 +24,7 @@ Regardless of using thirdweb's sdk or another sdk, you will need a provider to e
 So a provider is a simple connection and this is what the connection looks like in terms of code:
 
 ```jsx
-import { ethers } from ethers
+import { ethers } from ethers;
 const rpcUrl = "https://polygon-rpc.com/";
 const provider = ethers.getDefaultProvider(rpcUrl);
 ```
@@ -35,13 +35,13 @@ A `provider` contains the information to tell our sdk which blockchain you want 
 
 ### Using a read only provider with thirdweb
 
-The thirdwebs sdk can be used to interact with your modules. To use our sdk to read data from the blockchain we need to create a connection with a `provider`. Then we tell it which blockchain to target via the **RPC** url.
+The thirdwebs sdk can be used to interact with your contracts. To use our sdk to read data from the blockchain we need to create a connection with a `provider`. Then we tell it which blockchain to target via the **RPC** url.
 
-Make sure you have the packages installed. `npm install @3rdweb/sdk` for JavaScript or TypeScript and `pip install thirdweb-sdk` for Python.
+Make sure you have the packages installed. `npm install @thirdweb/sdk` for JavaScript or TypeScript.
 
 ```jsx
 import { ethers } from "ethers";
-import { ThirdwebSDK } from "@3rdweb/sdk";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 // This url indicates which chain you want to connect to
 const rpcUrl = "https://polygon-rpc.com/";
@@ -52,25 +52,32 @@ const sdk = new ThirdwebSDK(provider);
 Here's an example of how to use the provider in an use case where you _just_ want to retrieve data, like getting the number of NFTs you've minted so far. \*\*
 
 ```jsx
-// Initialize nft module by passing in the module address
-const nftModuleAddress = "0xD9bC403529471515F16DA32eee652c0a6cEcBA78";
-const nft = sdk.getNFTModule(nftModuleAddress);
-nft.balance();
+// Initialize NFT collection by passing in the contract address
+const nftCollectionAddress = "0xD9bC403529471515F16DA32eee652c0a6cEcBA78";
+const nftCollection = sdk.getNFTCollection(nftCollectionAddress);
+nftCollection.balance();
 ```
 
-You can find the addresses of your modules inside your dashboard.
+You can find the addresses of your contracts inside your dashboard.
 
-By now you should have some modules deployed. If you haven't, check out [this](/learn/projects) page to create and deploy a module. If you don't know what modules are, click [here](/learn/introduction)!
+By now you should have some contracts deployed.If you don't know what contracts are, click [here](/contracts)!
 
 Here's another example, to get all the listings in our market we use the `getAllListings` method.
 
 ```jsx
-// Initialize market module by passing in the module address
-const marketplaceModuleAddress = "0xC06adC34097afa2085324D4192fbE9206059f8e0";
-const marketplace = sdk.getMarketplaceModule(marketModuleAddress);
+// Initialize marketplace contract by passing in the contract address
+const marketplaceAddress = "0xC06adC34097afa2085324D4192fbE9206059f8e0";
+const marketplace = sdk.getMarketplace(marketplaceAddress);
 
 // Get all the listings
-marketplace.getAllListings();
+const getAllListings = async () => {
+  try {
+    await marketplace.getAllListings();
+  } catch (err) {
+    console.log(err);
+  }
+}
+getAllListings();
 ```
 
 ## Signer
@@ -91,11 +98,78 @@ A wallet contains sensitive information and you do **not** want this data access
 
 The user does not need to worry that we can see their private keys. That is not possible. Every transaction still needs to be approved by the user. The `Signer` just allows our sdk to handle the heavy lifting once the user authorizes the transaction from the frontend.
 
-thirdweb has a component to get the necessary information from the wallet to provide context to the `Provider` , specifically the `Signer`, and we then use that provider to instantiate an sdk that can perform **write** methods.
+thirdweb has a component to get the necessary information from the wallet to provide context to the `Provider` , specifically the `Signer` and we then use that provider to instantiate an sdk that can perform **write** methods.
 
-Click [here](/guides/add-connectwallet-to-your-website) for a guide on how to obtain a `Signer` by including a `Connect Wallet` button in your app.
+### Connect your wallet
 
-Check out [this](/guides/token-button-react) guide or [this](/guides/claim-button-react) guide to see examples of using `Signer` with the thirdweb sdk.
+thirdweb has created custom hooks for most wallets, that provides you the functionality for a `connect wallet` button. 
+You can use this functionality inside a button. Here's an example of what the code looks like:
+
+```jsx
+import { useMetamask } from "@thirdweb-dev/react";
+
+export const ConnectMetamaskButtonComponent = () => {
+  // get a function to connect to a particular wallet
+  // options: useMetamask() - useCoinbaseWallet() - useWalletConnect()
+  const connectWithMetamask = useMetamask();
+  // once connected, you can get the connected wallet information from anywhere (address, signer)
+  const address = useAddress();
+  return (
+    <div>
+      <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
+    </div>
+  );
+};
+```
+For each wallet we have a dedicated hook. Head over to our [documentation](https://docs.thirdweb.com/react) to check which wallets we support, and check our full connect wallet guide [here](/guides/add-connectwallet-to-your-website).
+
+### Interacting with your contract
+
+Once you've connected your wallet, your application can access the `Signer` to authorise transactions. thirdweb developed custom hooks for each of our contracts. 
+This means you don't have to pass the `Signer` manually. We even instantiate the sdk for you! 
+To make use of this:
+1. Import the hook from `@thirdweb-dev/react`
+2. Pass your contract address
+3. 
+After that you can make use of the methods in our sdk, this is how it looks:
+
+```jsx
+import { useState} from "react";
+import { useNFTCollection } from "@thirdweb-dev/react";
+
+const NFTListComponent = () => {
+  // get an instance of your own contract
+  const nftCollection = useNFTCollection("{{your NFT Collection contract address}}");
+  const [nfts, setNfts] = useState([]);
+  useEffect(() => {
+    if (nftCollection) {
+      // call functions on your contract
+      nftCollection
+        .getAll()
+        .then((nfts) => {
+          setNfts(nfts);
+        })
+        .catch((error) => {
+          console.error("failed to fetch nfts", error);
+        });
+    }
+  }, [nftCollection]);
+  return (
+    <ul>
+      {nfts.map((nft) => (
+        <li key={nft.metadata.id.toString()}>{nft.metadata.name}</li>
+      ))}
+    </ul>
+  );
+};
+```
+After you've imported the hook and passed your contract address, you have access to all our methods, read and write, to interact with your contract.
+Head over to our [documentation](https://docs.thirdweb.com/react) to check out all our hooks.
+
+
+### Interact with your contract
+
+Click [here](/guides/add-connectwallet-to-your-website) for a guide on how to add a Connect Wallet button to your website.
 
 ### Using your own signer with thirdweb
 
@@ -112,33 +186,23 @@ Here's an example of doing this in TypeScript👇
 ```jsx
 // Instantiate thirdrdweb SDK
 const sdk = new ThirdwebSDK(
-    new ethers.Wallet(
-        // Your wallet private key
-        process.env.PRIVATE_KEY as string,
-        // RPC URL
-        ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
-    )
+  new ethers.Wallet(
+    // Your wallet private key
+    process.env.PRIVATE_KEY as string,
+    // RPC URL
+    ethers.getDefaultProvider("https://rinkeby-light.eth.linkpool.io/")
+  )
 );
-```
-
-And here is one in Python 👇
-
-```python
-# choose your network
-network = "https://rinkeby-light.eth.linkpool.io/"
-# create the object
-sdk = ThirdwebSdk(SdkOptions(), network)
-# use the '.env' file inside Python
-loadenv("./.env")
-PRIVATE_KEY = os.getenv('PRIVATE_KEY')
-# over here we connect our wallet via the private key stored in the '.env' file
-sdk.set_private_key(PRIVATE_KEY)
 ```
 
 <MdxNavigation>
   <MdxNavigationItem
-    href="/contracts/pack"
-    title="Pack"
+    href="/learn-thirdweb"
+    title="Getting started"
   />
-  <MdxNavigationItem href="/learn/recipes" title="Recipes" next />
+  <MdxNavigationItem
+    href="/contracts"
+    title="Contracts"
+    next
+  />
 </MdxNavigation>
