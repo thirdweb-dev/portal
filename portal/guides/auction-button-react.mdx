@@ -24,7 +24,7 @@ Quick heads up, in these examples, the thirdweb sdk is integrated with React **c
 Make sure to have the dependencies installed
 
 ```bash
-npm install @thirdweb-dev/sdk @thirdweb-dev/react @thirdweb-dev/hooks ethers
+npm install @thirdweb-dev/react @thirdweb-dev/sdk ethers
 ```
 
 ## The App.js - Connect your wallet
@@ -47,7 +47,7 @@ function exampleApp() {
   return (
     <ThirdwebProvider desiredChainId={supportedChainIds}>
       <Connect />
-      <AuctionComponent /> /*render the auction button*/
+      <AuctionComponent />
     </ThirdwebProvider>
   );
 }
@@ -61,7 +61,7 @@ You can learn more about the walletconnect options on their official docs [here]
 Create a new folder called components that will host all custom components of your app. After that, create a new file called connect.js. The component is very simple and only consists of the following code:
 
 ```js:connect.js
-import { useDisconnect, useMetamask } from "@thirdweb-dev/react";
+import { useMetamask } from "@thirdweb-dev/react";
  
 export const Connect = () => {
   const connectWithMetamask = useMetamask();
@@ -79,41 +79,27 @@ First we import all the necessary dependencies.
 The hooks and sdk should be familiar :).
 
 ```js:AuctionListing.jsx
-import { useWeb3 } from "@thirdweb-dev/react";
-import { useCallback, useMemo, useEffect, useState } from "react";
-import { ThirdwebSDK } from "@thirdweb-dev/sdk";
-import { ethers } from "ethers";
 import React from "react";
+import { useState } from "react";
+import {
+  ThirdwebProvider,
+  ChainId,
+  useAddress,
+  useMetamask,
+  useMarketplace,
+} from "@thirdweb-dev/react";
 ```
 
 In this guide we will **not** be passing the private keys manually. This is not considered best practice and is actually a security issue when applied on the client side.
-Instead we will make use of `provider`, which we pull when a wallet is connected via the `Connect Wallet` component.
+Instead we will make use of the `Signer`, which we pull when a wallet is connected via the `Connect` component.
 
-The cool thing about this **component**, is that it's using the `connect wallet` component to authorise the transaction 😄.
-
-```js:AuctionListing.jsx
-const AuctionComponent = () => {
-  const { provider } = useWeb3();
-```
-
-Next up we instantiate the sdk, marketplace contract and create variables with our contracts.
+The cool thing about this **component**, is that it's using the `connect` component to authorise the transaction 😄.
+thirdweb provides you hooks to connect to your contract and interact with it. In this example we make use of the `useMarketplace`.
 
 ```js:AuctionListing.jsx
-// We won't always have a provider, and so we need to be sure to
-  // instantiate the ThirdwebSDK with a provider *only if we have one*
-  const sdk = useMemo(
-    () =>
-      provider ? new ThirdwebSDK(provider.getSigner()) : new ThirdwebSDK(),
-    [provider]
-  );
 
-  // We should use the `useMemo` to ensure that the `market` is always
-  // initiated with the latest `sdk` variable
-  const market = useMemo(
-    () =>
-      sdk.getMarketplace("0xCb67A96FAd36D8c24f192B9eDaD5fF3c7A7A867f"),
-    [sdk]
-  );
+  // using a hook to connect to our contract
+  const market = useMarketplace("0xf7bd818c15a0642893fDc256D5D2836b951F3804");
 
   // Declaring the nft smart contract address
   const nftSmartContractAddress = "0x95c78aca2c99df3E7469769C56565ECc0e8eCe95";
@@ -165,27 +151,24 @@ The `createAuctionListing` method takes two **prices** as input.
   // function is always initiated with the latest `market` variable
 
   const createAuctionListing = async () => {
-    await marketPlace.auction.createListing({
-  assetContractAddress: nftSmartContractAddress,
-  buyoutPricePerToken: tokenIdOffer,
-  currencyContractAddress: tokenSmartContractAddress,
-  startTimeInSeconds: 0,
-  listingDurationInSeconds: 86400,
-  tokenId: tokenId,
-  quantity: 1,
-  reservePricePerToken: tokenIdReservePrice,
-});
-  }, [market, tokenId, tokenIdOffer, tokenIdReservePrice];
+    await market.auction.createListing({
+      assetContractAddress: nftSmartContractAddress,
+      buyoutPricePerToken: tokenIdOffer,
+      currencyContractAddress: currencySmartContractAddress,
+      startTimeInSeconds: Math.floor(Date.now() / 1000),
+      listingDurationInSeconds: 60 * 2,
+      tokenId: tokenId,
+      quantity: 1,
+      reservePricePerToken: tokenIdReservePrice,
+    });
+  };
 
-  const makeBid = 
-    async (listingId) => {
-      await market.auction.makeBid({
-        listingId: listId,
-        pricePerToken: listIdBid,
-      });
-    },
-    [listId, listIdBid, market]
-  ;
+  const makeBid = async () => {
+    await market.auction.makeBid({
+      listingId: listId,
+      pricePerToken: listIdBid,
+    });
+  };
 
 ```
 
@@ -244,39 +227,23 @@ export default AuctionComponent;
 The full piece of code that goes inside `AuctionListing.js`
 
 ```js:AuctionListing.jsx
-import { useWeb3 } from "@thirdweb-dev/react";
-import { useCallback, useMemo, useEffect, useState } from "react";
-import { ThirdwebSDK } from "@thirdweb-dev/sdk";
-import { ethers } from "ethers";
 import React from "react";
+import { useState } from "react";
+import {
+  ThirdwebProvider,
+  ChainId,
+  useAddress,
+  useMetamask,
+  useMarketplace,
+} from "@thirdweb-dev/react";
 
-const AuctionComponent = () => {
-  const { provider } = useWeb3();
-
-  // We won't always have a provider, and so we need to be sure to
-  // instantiate the ThirdwebSDK with a provider *only if we have one*
-  const sdk = useMemo(
-    () =>
-      provider ? new ThirdwebSDK(provider.getSigner()) : new ThirdwebSDK(),
-    [provider]
-  );
-  // const sdk = useMemo(() => {
-
-  // We should use the `useMemo` to ensure that the `market` is always
-  // initiated with the latest `sdk` variable
-  const market = useMemo(
-    () =>
-      sdk.getMarketplace("0xCb67A96FAd36D8c24f192B9eDaD5fF3c7A7A867f"),
-    [sdk]
-  );
-
-  // Declaring the nft smart contract address
-  const nftSmartContractAddress = "0x95c78aca2c99df3E7469769C56565ECc0e8eCe95";
-  const tokenSmartContractAddress =
-    "0x0d5fb8942eEa62093944F3e91C6Ac4e584336741";
-
-  const [tokenId, setTokenId] = React.useState("");
-  const [tokenIdOffer, setTokenIdOffer] = React.useState("");
+function AuctionComponent() {
+  const market = useMarketplace("0xf7bd818c15a0642893fDc256D5D2836b951F3804");
+  const nftSmartContractAddress = "0x1AF863CCa75201A619bE1Ba69797309ebb82c8b0";
+  const currencySmartContractAddress =
+    "0xf457dEFDC6F9db81E86B4769A265E4b10D454A7c";
+  const [tokenId, setTokenId] = useState("");
+  const [tokenIdOffer, setTokenIdOffer] = useState("");
 
   function auctionListingTokenId(event) {
     setTokenId(event.target.value);
@@ -289,8 +256,8 @@ const AuctionComponent = () => {
     createAuctionListing();
   }
 
-  const [listId, setListId] = React.useState("");
-  const [listIdBid, setListIdOffer] = React.useState("");
+  const [listId, setListId] = useState("");
+  const [listIdBid, setListIdOffer] = useState("");
 
   function auctionListingListId(event) {
     setListId(event.target.value);
@@ -304,34 +271,28 @@ const AuctionComponent = () => {
   }
 
   //setting the minimum bid as 100th of the buyout price
-  const tokenIdReserve = tokenIdOffer / 1000;
+  const tokenIdReserve = tokenIdOffer / 100;
   const tokenIdReservePrice = tokenIdReserve.toString();
 
-  // We should use the `useCallback` to ensure that the `buy`
-  // function is always initiated with the latest `market` variable
-
   const createAuctionListing = async () => {
-    await marketPlace.auction.createListing({
-  assetContractAddress: nftSmartContractAddress,
-  buyoutPricePerToken: tokenIdOffer,
-  currencyContractAddress: tokenSmartContractAddress,
-  startTimeInSeconds: 0,
-  listingDurationInSeconds: 86400,
-  tokenId: tokenId,
-  quantity: 1,
-  reservePricePerToken: tokenIdReservePrice,
-});
-  }, [market, tokenId, tokenIdOffer, tokenIdReservePrice];
+    await market.auction.createListing({
+      assetContractAddress: nftSmartContractAddress,
+      buyoutPricePerToken: tokenIdOffer,
+      currencyContractAddress: currencySmartContractAddress,
+      startTimeInSeconds: Math.floor(Date.now() / 1000),
+      listingDurationInSeconds: 60 * 2,
+      tokenId: tokenId,
+      quantity: 1,
+      reservePricePerToken: tokenIdReservePrice,
+    });
+  };
 
-  const makeBid = 
-    async (listingId) => {
-      await market.auction.makeBid({
-        listingId: listId,
-        pricePerToken: listIdBid,
-      });
-    },
-    [listId, listIdBid, market]
-  ;
+  const makeBid = async () => {
+    await market.auction.makeBid({
+      listingId: listId,
+      pricePerToken: listIdBid,
+    });
+  };
   return (
     <div>
       <form onSubmit={submitAuctionListing}>
@@ -367,7 +328,7 @@ const AuctionComponent = () => {
           backgroundColor: "#44014C",
           color: "white",
         }}
-        class="btn"
+        className="btn"
         onClick={createAuctionListing}
       >
         Create auction listing!
@@ -375,7 +336,7 @@ const AuctionComponent = () => {
       <br />
     </div>
   );
-};
+}
 export default AuctionComponent;
 
 ```
