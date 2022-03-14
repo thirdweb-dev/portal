@@ -27,11 +27,6 @@ export const PortalSidebar: React.FC = () => {
         <SidebarItem label="Home" href="/" matchExact />
         <SidebarItem label="Getting Started" matchExact href="/learn-thirdweb">
           <SidebarItem
-            label="Introduction"
-            matchExact
-            href="/learn-thirdweb/introduction"
-          />
-          <SidebarItem
             label="Connect to the blockchain"
             matchExact
             href="/learn-thirdweb/connect-to-blockchain"

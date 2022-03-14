@@ -101,8 +101,8 @@ const moduleExports = {
   async rewrites() {
     return [
       {
-        source: "/learn",
-        destination: "/learn/index",
+        source: "/learn-thirdweb",
+        destination: "/learn-thirdweb/index",
       },
       {
         source: "/contracts",
