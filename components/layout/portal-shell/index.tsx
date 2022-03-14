@@ -10,7 +10,6 @@ import {
 import { Logo } from "components/logo";
 import { BannerCta } from "components/portal/guide-cta";
 import { NextLink } from "components/shared/NextLink";
-import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import React, { useEffect, useMemo } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
@@ -45,24 +44,6 @@ export const PortalShell: React.FC = ({ children }) => {
 
   return (
     <Flex position="relative" overflow="hidden">
-      <NextSeo
-        title="Portal"
-        openGraph={{
-          title: "Portal | thirdweb",
-          description:
-            "Guides, tutorials and code examples for building web3 applications",
-          url: `https://portal.thirdweb.com/`,
-          images: [
-            {
-              url: "https://portal.thirdweb.com/portal.png",
-              width: 1200,
-              height: 630,
-              alt: "Portal | thirdweb",
-            },
-          ],
-        }}
-      />
-
       <Stack
         position="fixed"
         bg="white"

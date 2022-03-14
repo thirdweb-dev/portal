@@ -107,7 +107,7 @@ function ConsoleApp({ Component, pageProps }: ConsoleAppProps) {
         `}
       />
       <DefaultSeo
-        defaultTitle="Portal"
+        defaultTitle="Portal | thirdweb"
         titleTemplate="%s | Portal | thirdweb"
         description="Guides, tutorials and code examples for building web3 applications."
         additionalLinkTags={[
