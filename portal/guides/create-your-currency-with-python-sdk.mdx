@@ -6,12 +6,17 @@ authorAvatar2: "/assets/portal/authors/raza-zaidi.jpg"
 authorTwitter: "https://twitter.com/PrasoonPratham"
 authorTwitter2: "https://twitter.com/razacodes"
 draft: true
-tags: [token, currency, python, sdk]
+tags: [currency, python, sdk]
 summary: "In this guide we will create tokens that can be used as your own currency with the thirdweb Python SDK"
 image: "/assets/portal/guides/create-your-currency-with-python-sdk/thumbnail.png"
 date: "2021-11-20"
 updated: ""
 ---
+
+<br />
+<MdxAlert status="warning">
+Python SDK is not available on thirdweb v2. This guide is for thirdweb v1. We will be adding Python SDK support for v2 soon.
+</MdxAlert>
 
 ## Intro
 
@@ -19,7 +24,7 @@ This guide explains how to create your own currency. We need to create a project
 
 ## Dashboard setup
 
-The first thing we need to do is head over to the [dashboard](https://thirdweb.com/dashboard) and create a project and a **Token** module. if you don't know how to do this, check out [this guide](/learn/introduction).
+The first thing we need to do is head over to the [dashboard](https://v1.thirdweb.com/dashboard) and create a project and a **Bundle Collection** module. if you don't know how to do this, check out [this guide](/learn-thirdweb/projects-and-modules).
 
 Once your **Token** module has been created, it's time to mint our own currency, but we don't need the dashboard for that! For use cases where the interaction has a high frequency and requires conditions, using the sdk is more efficient.
 
