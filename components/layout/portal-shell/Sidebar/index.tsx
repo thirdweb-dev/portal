@@ -25,25 +25,12 @@ export const PortalSidebar: React.FC = () => {
     >
       <Stack px={2} my={4} spacing={1}>
         <SidebarItem label="Home" href="/" matchExact />
-        <SidebarItem label="Getting Started" matchExact href="/learn">
-          <SidebarItem
-            label="Introduction"
-            matchExact
-            href="/learn/introduction"
-          />
-          <SidebarItem label="Projects" matchExact href="/learn/projects" />
+        <SidebarItem label="Getting Started" matchExact href="/learn-thirdweb">
           <SidebarItem
             label="Connect to the blockchain"
             matchExact
-            href="/learn/connect-to-blockchain"
+            href="/learn-thirdweb/connect-to-blockchain"
           />
-          <SidebarItem label="Recipes" matchExact href="/learn/recipes">
-            <SidebarItem
-              label="Sell YOUR NFTs in YOUR..."
-              matchExact
-              href="/learn/recipes/nft-token-marketplace"
-            />
-          </SidebarItem>
         </SidebarItem>
         <SidebarItem label="Contracts" matchExact href="/contracts">
           <SidebarItem
@@ -53,6 +40,11 @@ export const PortalSidebar: React.FC = () => {
           />
           <SidebarItem label="Edition" matchExact href="/contracts/edition" />
           <SidebarItem label="NFT Drop" matchExact href="/contracts/nft-drop" />
+          <SidebarItem
+            label="Edition Drop"
+            matchExact
+            href="/contracts/edition-drop"
+          />
           <SidebarItem label="Token" matchExact href="/contracts/token" />
           <SidebarItem
             label="Marketplace"
@@ -61,7 +53,7 @@ export const PortalSidebar: React.FC = () => {
           />
           <SidebarItem label="Pack" matchExact href="/contracts/pack" />
         </SidebarItem>
-        <SidebarItem
+        {/* <SidebarItem
           label="Code Examples"
           matchExact
           href="/learn/code-examples"
@@ -111,7 +103,7 @@ export const PortalSidebar: React.FC = () => {
             matchExact
             href="/learn/code-examples/splits"
           />
-        </SidebarItem>
+        </SidebarItem> */}
         <SidebarItem
           label="Developer Guides"
           href="/guides"
@@ -120,12 +112,9 @@ export const PortalSidebar: React.FC = () => {
         >
           <SidebarItem label="General" href="/guides/general" />
           <SidebarItem label="NFT Collection" href="/guides/nft-collection" />
-          <SidebarItem
-            label="Bundle Collection"
-            href="/guides/bundle-collection"
-          />
+          <SidebarItem label="Edition" href="/guides/edition" />
           <SidebarItem label="NFT Drop" href="/guides/nft-drop" />
-          <SidebarItem label="Bundle Drop" href="/guides/bundle-drop" />
+          <SidebarItem label="Edition Drop" href="/guides/edition-drop" />
           <SidebarItem label="Token" href="/guides/token" />
           <SidebarItem label="Marketplace" href="/guides/marketplace" />
           <SidebarItem label="Pack" href="/guides/pack" />
@@ -137,7 +126,17 @@ export const PortalSidebar: React.FC = () => {
         <SidebarItem label="SDKs" initialOpen>
           <SidebarItem
             label="TypeScript"
-            href="https://thirdweb-dev.github.io/typescript-sdk/sdk.html"
+            href="https://docs.thirdweb.com/typescript"
+            isExternal
+          />
+          <SidebarItem
+            label="React"
+            href="https://docs.thirdweb.com/react"
+            isExternal
+          />
+          <SidebarItem
+            label="Contracts"
+            href="https://docs.thirdweb.com/contracts"
             isExternal
           />
           <SidebarItem

@@ -1,0 +1,62 @@
+---
+title: What are projects and modules?
+author: "Raza Zaidi"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+summary: "Projects and Modules in thirdweb are smart contracts on steroids"
+date: "2021-12-21"
+updated: ""
+---
+
+With thirdweb you can mint NFTs, create drops and build your own marketplace. All of this is done inside **Projects** and **Modules**. In this guide we'll dive in what **Projects** and **Modules** are.
+
+## Project
+
+A **project** is a smart contract that gets deployed with your wallet. Think of this as a container holding together a set of **modules**. But what are **modules**? Keep reading 👇
+
+## Modules
+
+At first sight modules may seem smart contracts, but they are much more. **Modules** are more like packages that contain smart contracts and other features and functionalities. Let's dive into it.
+
+![Select Module](/assets/portal/learn-thirdweb/projects-and-modules/select-module.png)
+
+### Basics
+
+At the base a **module** is smart contract that is deployed on the blockchain is held by a **project**. Every **module** has a smart contract address that can be looked up on etherscan. In the example below, underneath `Cool NFT marketplace`, you can see the smart contract address. 
+
+![Dashboard](/assets/portal/learn-thirdweb/projects-and-modules/dashboard.png)
+
+This smart contract is used to define certain rules, like royalty, claim conditions etc.
+
+thirdweb allows you to configure these rules via the dashboard 👇 or through the SDKs.
+
+![Deploy NFT module](/assets/portal/learn-thirdweb/projects-and-modules/deploy-nft-module.png)
+
+### Permission Manager
+
+The cool thing about **module** is that it also allows you to manage roles. You can easily assign and revoke roles such as `Admin`, `Minter`, `Lister`, etc. These roles use the wallet address of an user. Again you can manage these roles inside a **module** via the dashboard or any of the SDKs we created.
+
+![Permission Manager](/assets/portal/learn-thirdweb/projects-and-modules/permission-manager.png)
+
+### Working with modules inside the SDKs
+
+Whenever you use a **module**, you need to define which **module** you want to use. A **module** has an address and you need to pass that address inside your code. Here are two examples:
+
+```python
+#pick your module and enter the smart contract address
+market_smart_contract_address = "0x56c1F1f63dC507F24495E5fD56003D56FD12A7F9"
+market_module = SDK.get_market_module(market_smart_contract_address)
+
+#pick your module and enter the smart contract address
+nft_smart_contract_address = "0xdd25FAEE772FbB1bcB7ba0b2cEE6387A8F82f032"
+nft_module = SDK.get_nft_module(nft_smart_contract_address)
+
+```
+
+<MdxNavigation>
+  <MdxNavigationItem
+    href="/learn-thirdweb/projects"
+    title="Projects"
+    next
+  />
+</MdxNavigation>

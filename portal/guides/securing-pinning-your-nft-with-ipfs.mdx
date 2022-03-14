@@ -31,32 +31,32 @@ In order to pin an image, you need control over the network. This where pinning 
 
 When an image is pinned you get the unique footprint of the image. IPFS retrieves that image, based on that unique hash. This is an example👇
 
-```
+```bash
 QmfM2r8seH2GiRaC4esTjeraXEachRt8ZsSeGaWTPLyMoG
 ```
 
 The canonical link to that image looks like this 👇
 
-```
+```bash
 ipfs://QmfM2r8seH2GiRaC4esTjeraXEachRt8ZsSeGaWTPLyMoG
 ```
 
 If you pass that link in your browser, it won’t work, because your browser does not know how to get there. Technically speaking your browser doesn’t have the tools to do so, but let’s not get into that.
 
-To access that link you need an IPFS gateway. An IPFS gateway is like a bridge between traditional web browsers and IPFS. There are public gateways and private gateways. Private gateways are used when your IPFS network is private, ie not available to outsiders.
+To access that link you need an IPFS gateway. An IPFS gateway is like a bridge between traditional web browsers and IPFS. There are public gateways and private gateways. Private gateways are used when your IPFS network is private, ie not available to outsiders.
 
 ## Public
 
 The easiest way to access your image is by using a public gateway. Simply speaking that means converting that link from this:
 
-```
-**ipfs://QmfM2r8seH2GiRaC4esTjeraXEachRt8ZsSeGaWTPLyMoG**
+```bash
+ipfs://QmfM2r8seH2GiRaC4esTjeraXEachRt8ZsSeGaWTPLyMoG
 ```
 
 to this
 
-```
-**https://ipfs.io/ipfs/QmfM2r8seH2GiRaC4esTjeraXEachRt8ZsSeGaWTPLyMoG**
+```bash
+https://ipfs.io/ipfs/QmfM2r8seH2GiRaC4esTjeraXEachRt8ZsSeGaWTPLyMoG
 ```
 
 There are other public gateways that you can use. Check it out over [here](https://ipfs.github.io/public-gateway-checker/).
