@@ -1,64 +1,81 @@
 ---
 title: Release an NFT drop with delayed reveal without writing any code
-author: "Raza"
+author: "Raza Zaidi and Samina"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorAvatar2: "/assets/portal/authors/samina.jpeg"
 authorTwitter: "https://twitter.com/razacodes"
-draft: true
+authorTwitter2: "https://twitter.com/saminacodes"
+draft: false
 tags: [nft-drop, dashboard, no-code]
 summary: "Mint your NFT now, but reveal it when you want to."
 image: "/assets/portal/guides/nft-drop-with-delayed-reveal/thumbnail.png"
 date: "2022-02-14"
-updated: ""
+updated: "2022-03-14"
 ---
 
-## Intro
+Sometimes we may want to have users mint an NFT, but reveal the contents of the NFT to the user later at a specific date. You can add this functionality without writing any code through the thirdweb dashboard. 
 
-In this guide we'll create multiple NFT Drop's with the `NFT Drop` module, but we won't reveal the NFTs immediately. Instead we'll set up some conditions to reveal the NFTs. So you mint your NFTs now, but reveal them when you want to. Let's go👇
+In this guide, we'll create a drop using the **NFT Drop** contract and opt to reveal them later. In order to do so, we will set up some conditions to reveal the NFTs in the dashboard. 
 
-## Disclaimer
+This guide assumes you already know how to make a contract though the thirdweb dashboard. If you need a refresher, please check out our [Create Contracts on thirdweb](https://portal.thirdweb.com/contracts) guide. 
 
-In order to use this feature you need to make sure your `NFT Drop` module is deployed after 12th of February. Older versions of this module do not support this feature. If you try this in an older version, you'll see a warning in the dashboard.
+### Batch Upload Your NFTs
 
-Also if you're looking for an in-depth guide on how to release a big NFT drop with no-code, check out [this](/guides/release-an-nft-drop-with-no-code) guide. If you want to know how to create a `NFT Drop` module, check out that guide or [this](/contracts) page.
+After creating either an **NFT Drop** or **Edition Drop** contract, click on **Batch Upload** on the top right of the dashboard.
 
-Make sure you have a module set up, before you continue.
+![Select batch upload](/assets/portal/guides/nft-drop-with-delayed-reveal/select-batch-upload.png)
 
-## Create the bulk upload
+You will be prompted to upload your NFTs along with either a `.csv` or `.json` file that captures each NFT’s metadata. 
 
-Go ahead and click on `Batch Upload` inside your module.
+In this project, the NFTs we are uploading are images, or more specifically `.png` files. 
 
-![Dashboard with the Batch Upload button](/assets/portal/guides/nft-drop-with-delayed-reveal/upload-button.png)
+<MdxAlert>
+The .csv or .json file and images must be in the same folder when uploading.
+</MdxAlert>
 
-You should see the following screen, which asks you for a csv file and the assets (images for example). The csv file and images must be in the same folder. Below I dragged to folder to the upload area. If you're looking for a quick example, check out [this](https://github.com/nachoiacovino/thirdweb-pokemon) Github. It's the one I'm using in the example below.
+![Upload your files](/assets/portal/guides/nft-drop-with-delayed-reveal/upload-your-files.png)
 
-Click next when you're done.
+Upon uploading, the dashboard will display all of your NFTs. Click **Next** if everything looks correct!
 
-## Upload the files
+![Preview your NFTs](/assets/portal/guides/nft-drop-with-delayed-reveal/preview-your-nfts.png)
 
-![Upload screen](/assets/portal/guides/nft-drop-with-delayed-reveal/upload-screen.png)
+### Set the Delay Feature
 
-![Upload screen after upload](/assets/portal/guides/nft-drop-with-delayed-reveal/upload-done.png)
+On the next screen, we can finally choose how to reveal our NFTs. We have two options:
 
-## Configuring the delay feature
+- **Reveal upon mint:** Collectors will immediately see the final NFT when they complete the minting.
+- **Delayed Reveal:** Collectors will mint your placeholder image, then you reveal at a later time.
 
-Pick the option you prefer. In this guide we will go for `Delayed Reveal`.
+ For this guide, we are going to choose **Delayed Reveal**.
 
-![Reveal options](/assets/portal/guides/nft-drop-with-delayed-reveal/reveal-options.png)
+![Select Delayed Reveal](/assets/portal/guides/nft-drop-with-delayed-reveal/select-delayed-reveal.png)
 
-You will be prompted to fill in the following information. The `password` and `name` are mandatory. Make sure you remember the `password` well! You need this to `reveal` your NFTs later on. Click on `Upload NFT` when you're done.
+When you select **Delayed Reveal**, you will be prompted to create a password. 
 
-![Filling in delayed reveal form](/assets/portal/guides/nft-drop-with-delayed-reveal/reveal-form.png)
+<MdxAlert status="warning">
+Remember or store your password somewhere safe. You will use this password to reveal the NFTs later.
+</MdxAlert>
 
-Once you're inside your dashboard you should see all your NFTs there, but the image is hidden. To reveal your NFTs, go ahead and click on `Reveal NFTs`.
+![Choose password to later reveal NFTs](/assets/portal/guides/nft-drop-with-delayed-reveal/enter-password.png)
 
-![Delayed reveal setup](/assets/portal/guides/nft-drop-with-delayed-reveal/reveal-setup.png)
+After setting your password, upload your placeholder image, add a temporary name for the unrevealed NFTs, a description, and then click **Upload** when you are finished.
 
-## Reveal the NFT Drop
+![Enter placeholder image and metadata](/assets/portal/guides/nft-drop-with-delayed-reveal/placeholder-metadata.png)
 
-You will be prompted for the password you created in the previous step. Note, revealing the NFTs will reveal all NFTs and you will need to pay for gas fees. Once the dashboard is done you should see your NFTs 👇
+When you return to the dashboard, your NFTs will be displayed with the placeholder data.
 
-![Dashboard after Reveal NFT is executed](/assets/portal/guides/nft-drop-with-delayed-reveal/reveal-done.png)
+![Dashboard shows unrevealed NFTs](/assets/portal/guides/nft-drop-with-delayed-reveal/unrevealed-nfts.png)
 
-## That's it!
+Feel free to add the claim conditions and other settings on your drop. 
 
-Congratulations! You've created an NFT collection with a reveal function. If you have any questions please drop it in [Discord](https://discord.gg/thirdweb).
+When you are ready to reveal the NFTs you can click the **Reveal NFTs** button on your dashboard.
+
+![Select reveal your NFTs on dashboard](/assets/portal/guides/nft-drop-with-delayed-reveal/select-reveal-nfts.png)
+
+This action will prompt for the password you created in the previous step. Finally, it will prompt you to confirm a transaction on your wallet and pay the gas fees. 
+
+Your NFTs are now revealed. Happy minting!
+
+### That's it!
+
+Congratulations! You've created an NFT collection with a reveal function. Show us the creative ways you use this functionality in our discord channel: #built-on-thirdweb
