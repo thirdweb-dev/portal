@@ -47,6 +47,11 @@ const moduleExports = {
         permanent: true,
       },
       {
+        source: "/learn/recipes/:match*",
+        destination: "/guides",
+        permanent: true,
+      },
+      {
         source: "/guides/tag/bundle-collection",
         destination: "/guides/tag/edition",
         permanent: true,
@@ -74,6 +79,21 @@ const moduleExports = {
       {
         source: "/guides/connect-wallet",
         destination: "/guides/add-connectwallet-to-your-website",
+        permanent: true,
+      },
+      {
+        source: "/learn/connect-to-blockchain",
+        destination: "/learn-thirdweb/connect-to-blockchain",
+        permanent: true,
+      },
+      {
+        source: "/learn/projects",
+        destination: "/learn-thirdweb/projects",
+        permanent: true,
+      },
+      {
+        source: "/learn",
+        destination: "/learn-thirdweb",
         permanent: true,
       },
     ];
