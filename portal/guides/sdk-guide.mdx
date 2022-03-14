@@ -23,43 +23,45 @@ Here is a typical use case. You have an app (or are building one) and you want u
 
 Example: I click on the `claim` button and the client side makes sure my wallet pops up and I authorise the transaction.
 
-The SDK is created (instantiated) and uses the `provider` for all the necessary data that the `sdk` object needs to execute the transaction from the connected wallet. See below for an explanation of what `provider` is and an example where the `sdk` is instantiated via a thirdweb component.
+thirdweb has created a hook for React and Nextjs apps to give your app a `connect wallet` functionality and a hook to connect & interact with your contracts via our sdk.
+
+If you want to know more about how a connection with a blockchain works, click [here](/learn/connect-to-blockchain).
 
 ### Code to instantiate the SDK at the Client Side (frontend)
 
 To use the SDK in your frontend, first make sure you make use of the thirdweb component to connect your wallet to your app. If you want to know more about our `Connect Wallet` component, click [here](/guides/add-connectwallet-to-your-website).
+In this example we will make use of the hook for Metamask, but we have hooks for the most popular wallets. Check it out [here](https://docs.thirdweb.com/react).
 
-```tsx
-import { ConnectWallet } from "@3rdweb/react";
+Inside your components folder, create a file `connect.js` with the following code:
+```jsx:connect.js
+import { useMetamask } from "@thirdweb-dev/react";
 
-const Layout = () => {
-  return <ConnectWallet />;
+export default function ConnectMetamaskButtonComponent() {
+  // get a function to connect to a particular wallet
+  // options: useMetamask() - useCoinbase() - useWalletConnect()
+  const connectWithMetamask = useMetamask();
+  return (
+    <div>(
+        <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
+      )}
+    </div>
+  );
 };
-export default Layout;
 ```
+Inside your `Marketplace.js` we can import the hook `useMarketplace` to connect and interact with our marketplace contract.
 
-Once you have your `connect wallet` component, we can use it to pass the **provider** with the information to instantiate the `sdk`. Please note that the **provider** will be set to **null** if the wallet is not connected.
-
-`Provider` extracts the necessary data from the connected wallet to interact with the blockchain and authorises transactions. The `getSigner`method takes the information that is needed to sign transactions and stores it in the `Signer`.
-
-```tsx
-import { useWeb3 } from "@3rdweb/hooks";
-import { ThirdwebSDK } from "@3rdweb/sdk";
-import { Signer } from "ethers";
+```js:Marketplace.js
 import { useMemo } from "react";
+import { useMarketplace } from "@thirdweb-dev/react";
 
 export default function MarketPlace() {
   const { provider } = useWeb3();
 
   const sdk = new ThirdwebSDK(provider?.getSigner() as Signer);
 
-  // using the sdk object and getMarketplaceModule
-  // to access the Marketplace as an exmape
-  const market = useMemo(
-    () =>
-      sdk.getMarketplaceModule("0xf4e8C436d87Bd4cB1416E474948105FdF80BB6A0"),
-    [sdk],
-  );
+  // using the thirdweb hook
+  // to access the Marketplace as an example
+  const market =useMarket("0xf4e8C436d87Bd4cB1416E474948105FdF80BB6A0")
 
   // using a method inside our sdk
   const balance = market.getAllListings();
@@ -68,43 +70,30 @@ export default function MarketPlace() {
 }
 ```
 
-Here is how the `useSdk()` function would be used as a component inside a **React** app.
+Now we can use both components in our app, by importing them into our `App.js`.
 
-```tsx
-import { ThirdwebProvider } from "@3rdweb/react";
+```js:App.js
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 import React from "react";
 import "./App.css";
 import MarketPlace from "./components/MarketPlace";
+import Connect from "./components/Connect"
 
 // define the chains that your app can support.
 // every chain like polygon(137) or rinkeby(4) has an ID
 // If you want add other chains, search for their IDs and add them to the array below
 const supportedChainIds = [4, 137];
 
-// define which wallets will be supported by your app
-const connectors = {
-  injected: {},
-  magic: {},
-  walletconnect: {},
-  walletlink: {
-    appName: "thirdweb - demo",
-    url: "https://thirdweb.com",
-    darkMode: false,
-  },
-};
 
 // here we 'wrap' the components inside the thirdweb tags,
-// to ensure our component can make use of the selected chain(s) and wallet(s)
+// to ensure our component can make use of the selected chain(s)
 export default function App() {
   return (
-    <div className="App">
-      <ThirdwebProvider
-        connectors={connectors}
-        supportedChainIds={supportedChainIds}
-      >
-        <MarketPlace />
-      </ThirdwebProvider>
-    </div>
+return (
+    <ThirdwebProvider desiredChainId={supportedChainIds}>
+      <Connect />
+      <Marketplace >
+    </ThirdwebProvider>
   );
 }
 ```
@@ -153,7 +142,7 @@ Your `index.ts` looks like this, when you instantiate the `sdk` with **private k
 
 ```tsx
 // Importing libraries
-import { ThirdwebSDK } from "@3rdweb/sdk";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { dotenv } from "dotenv";
 import { ethers } from "ethers";
 
