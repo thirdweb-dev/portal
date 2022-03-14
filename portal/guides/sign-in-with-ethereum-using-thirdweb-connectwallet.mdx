@@ -32,41 +32,13 @@ To get started with the **Thirdweb Component Library**, you just need to setup t
 Setting up this context is as easy as wrapping your app with the following setup:
 
 ```jsx:App.js
-import { ThirdwebWeb3Provider, ThirdwebThemeProvider } from "@3rdweb/react";
+import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 
-const App = ({ children }) => {
-  // Put the ethereum chain ids of the chains you want to support
-  const supportedChainIds = [1, 4, 137];
-
-  /**
-   * Include the connectors you want to support
-   * injected - MetaMask
-   * magic - Magic Link
-   * walletconnect - Wallet Connect
-   * walletlink - Coinbase Wallet
-   */
-  const connectors = {
-    injected: {},
-    magic: {
-      apiKey: "pk_...", // Your magic api key
-      chainId: 1, // The chain ID you want to allow on magic
-    },
-    walletconnect: {},
-    walletlink: {
-      appName: "thirdweb - demo",
-      url: "https://thirdweb.com",
-      darkMode: false,
-    },
-  };
-
-  /**
-   * Make sure that your app is wrapped with these contexts.
-   * If you're using Next JS, you'll have to replace children with the Component setup
-   */
+const App = () => {
   return (
-    <ThirdwebWeb3Provider>
-      <ThirdwebThemeProvider>{children}</ThirdwebThemeProvider>
-    </ThirdwebWeb3Provider>
+    <ThirdwebProvider desiredChainId={ChainId.Mainnet}>
+      <YourApp />
+    </ThirdwebProvider>
   );
 };
 ```
@@ -85,10 +57,23 @@ There are two main ways to implement wallet connection and web3 integration with
 Using our `ConnectWallet` component is the easiest way to integrate web3 into your app, complete with network switching, wallet connection, and everything else you need. Adding our connect wallet button is as easy as the following:
 
 ```jsx:components/Connect.js
-import { ConnectWallet } from "@3rdweb/react";
+import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
 
-const Connect = () => {
-  return <ConnectWallet />;
+export const ConnectMetamaskButtonComponent = () => {
+  // get a function to connect to a particular wallet
+  // options: useMetamask() - useCoinbase() - useWalletConnect()
+  const connectWithMetamask = useMetamask();
+  // once connected, you can get the connected wallet information from anywhere (address, signer)
+  const address = useAddress();
+  return (
+    <div>
+      {address ? (
+        <h4>Connected as {address}</h4>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
+      )}
+    </div>
+  );
 };
 ```
 
@@ -113,16 +98,34 @@ You can find the GitHub repo over [here](https://github.com/razacodespython/sign
 First lets create our homepage with the `Connect Wallet` component
 
 ```jsx:pages/index.js
-import { useWeb3 } from "@3rdweb/hooks";
-import { ConnectWallet } from "@3rdweb/react";
+
+
+import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
+
+export const ConnectMetamaskButtonComponent = () => {
+  // get a function to connect to a particular wallet
+  // options: useMetamask() - useCoinbase() - useWalletConnect()
+  const connectWithMetamask = useMetamask();
+  // once connected, you can get the connected wallet information from anywhere (address, signer)
+  const address = useAddress();
+  return (
+    <div>
+      {address ? (
+        <h4>Connected as {address}</h4>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
+      )}
+    </div>
+  );
+};
 /*import Profile from "../components/Profile";
 */
 export default function Home() {
-  const { address } = useWeb3();
+  const address = useAddress();
 
   return (
     <div>
-      <ConnectWallet></ConnectWallet>
+      <ConnectMetamaskButtonComponent/>
       {address ? <Profile></Profile> : <h1>Please connect your wallet</h1>}
     </div>
   );
@@ -358,13 +361,13 @@ Let's take it step by step. First we create a function to get the message:
  
 
 ```tsx:components/Profile.jsx
-import { useWeb3 } from "@3rdweb/hooks";
+import { useAddress, useDisconnect, useMetamask, useProvider } from "@thirdweb-dev/react";
 import { Profiler, useCallback, useEffect, useState } from "react";
 import { Button, useToast, Spinner, Input } from "@chakra-ui/react";
 
 export default function Profile() {
-  const { address, provider } = useWeb3();
-
+  const provider = useProvider()
+  const address = useAddress();
   const [jwt, setJwt] = useState(null);
   const [username, setUsername] = useState(null);
 
@@ -547,13 +550,14 @@ return (
 And for the full code of the `Profile.jsx` component 👇
 
 ```tsx:components/Profile.jsx
-import { useWeb3 } from "@3rdweb/hooks";
+import { useAddress, useProvider } from "@thirdweb-dev/react";
+
 import { Profiler, useCallback, useEffect, useState } from "react";
 import { Button, useToast, Spinner, Input } from "@chakra-ui/react";
 
 export default function Profile() {
-  const { address, provider } = useWeb3();
-
+  const address = useAddress();
+  const provider = useProvider();
   const [jwt, setJwt] = useState(null);
   const [username, setUsername] = useState(null);
 
