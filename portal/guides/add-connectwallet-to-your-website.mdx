@@ -40,25 +40,24 @@ Once you've installed the necessary package, you just need to setup the `Thirdwe
 Setting up this context is as easy as wrapping your app with the following setup:
 
 ```tsx:pages/_app.tsx
+import type { AppProps } from 'next/app';
 import { ThirdwebProvider } from '@thirdweb-dev/react';
 
-const App = ({ children }) => {
-
-  // The desired chain id of our app, in our case, we're using 80001 for Polygon Mumbai (testnet).
+function MyApp({ Component, pageProps }: AppProps) {
   const desiredChainId = 80001;
 
   /**
    * Make sure that your app is wrapped with these contexts.
-   * If you're using Next JS, you'll have to replace children with the Component setup
+   * If you're using React, you'll have to replace the Component setup with {children}
    */
   return (
-    <ThirdwebProvider 
-      desiredChainId={desiredChainId}
-    >
-      {children}
+    <ThirdwebProvider desiredChainId={desiredChainId}>
+      <Component {...pageProps} />
     </ThirdwebProvider>
   );
-};
+}
+
+export default MyApp;
 ```
 
 ## Connect Wallet & Web3 Setup
