@@ -25,20 +25,21 @@ Example: I click on the `claim` button and the client side makes sure my wallet 
 
 thirdweb has created a hook for React and Nextjs apps to give your app a `connect wallet` functionality and a hook to connect & interact with your contracts via our sdk.
 
-If you want to know more about how a connection with a blockchain works, click [here](/learn/connect-to-blockchain).
+If you want to know more about how a connection with a blockchain works, click [here](/learn-thirdweb/connect-to-blockchain).
 
 ### Code to instantiate the SDK at the Client Side (frontend)
 
 To use the SDK in your frontend, first make sure you make use of the thirdweb component to connect your wallet to your app. If you want to know more about our `Connect Wallet` component, click [here](/guides/add-connectwallet-to-your-website).
 In this example we will make use of the hook for Metamask, but we have hooks for the most popular wallets. Check it out [here](https://docs.thirdweb.com/react).
 
-Inside your components folder, create a file `connect.js` with the following code:
-```jsx:connect.js
+Inside your components folder, create a file `ConnectWithMetamask.js` with the following code:
+
+```jsx:ConnectWithMetamask.js
 import { useMetamask } from "@thirdweb-dev/react";
 
-export default function ConnectMetamaskButtonComponent() {
+export const ConnectWithMetamask = () => {
   // get a function to connect to a particular wallet
-  // options: useMetamask() - useCoinbase() - useWalletConnect()
+  // options: useMetamask() - useCoinbaseWallet() - useWalletConnect()
   const connectWithMetamask = useMetamask();
   return (
     <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
@@ -81,7 +82,7 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 import React from "react";
 import "./App.css";
 import Marketplace from "./components/Marketplace";
-import ConnectWallet from "./components/ConnectWallet"
+import ConnectWithMetamask from "./components/ConnectWithMetamask"
 
 // define the chains that your app can support.
 // every chain like polygon(137) or rinkeby(4) has an ID
@@ -95,14 +96,14 @@ export default function App() {
   return (
 return (
     <ThirdwebProvider desiredChainId={4} supportedChains={supportedChains}>
-      <ConnectWallet />
+      <ConnectWithMetamask />
       <Marketplace >
     </ThirdwebProvider>
   );
 }
 ```
 
-You can get the `<ConnectWallet>` component from [this guide](/guides/add-connectwallet-to-your-website).
+You can get a full `<ConnectWallet />` component with other providers from [this guide](/guides/add-connectwallet-to-your-website).
 
 ## Backend
 
@@ -122,17 +123,17 @@ This is how to instantiate the `sdk`, when all you want is to read data.
 
 ```tsx
 const ethers = require("ethers");
-//your rpc URL here
-//RPC stands for Remote Procedure Call and is a simple form of API interaction
-//Every chain has a rpc url, this is Rinkeby's public one
-const rpcUrl = "https://rinkeby-light.eth.linkpool.io/"";
+// Your rpc URL here
+// RPC stands for Remote Procedure Call and is a simple form of API interaction
+// Every chain has a rpc url, this is Rinkeby's public one
+const rpcUrl = "https://rinkeby-light.eth.linkpool.io/";
 
 const provider = ethers.getDefaultProvider(rpcUrl);
 
 const sdk = new ThirdwebSDK(provider);
 ```
 
-### Writing:Code to instantiate the SDK at the server-side(back-end)
+### Writing: Code to instantiate the SDK at the server-side (backend)
 
 To use the SDK at the server side, the object `sdk` is instantiated different. It makes use of the **private keys** of a wallet. You can import the private keys, using the **dotenv** library. In the same folder you would need a `.env` file to store the private keys.
 
@@ -147,8 +148,8 @@ Your `index.ts` looks like this, when you instantiate the `sdk` with **private k
 ```tsx
 // Importing libraries
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
-import { dotenv } from "dotenv";
 import { ethers } from "ethers";
+import dotenv from "dotenv";
 
 // getting the private key
 dotenv.config();

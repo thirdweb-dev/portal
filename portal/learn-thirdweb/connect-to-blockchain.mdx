@@ -105,19 +105,15 @@ thirdweb has a component to get the necessary information from the wallet to pro
 thirdweb has created custom hooks for most wallets, that provides you the functionality for a `connect wallet` button. 
 You can use this functionality inside a button. Here's an example of what the code looks like:
 
-```jsx
+```jsx:ConnectWithMetamask.jdx
 import { useMetamask } from "@thirdweb-dev/react";
 
-export const ConnectMetamaskButtonComponent = () => {
+export const ConnectWithMetamask = () => {
   // get a function to connect to a particular wallet
   // options: useMetamask() - useCoinbaseWallet() - useWalletConnect()
   const connectWithMetamask = useMetamask();
-  // once connected, you can get the connected wallet information from anywhere (address, signer)
-  const address = useAddress();
   return (
-    <div>
-      <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
-    </div>
+    <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
   );
 };
 ```
