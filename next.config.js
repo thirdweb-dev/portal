@@ -71,6 +71,11 @@ const moduleExports = {
         destination: "/guides/split",
         permanent: true,
       },
+      {
+        source: "/guides/connect-wallet",
+        destination: "/guides/add-connectwallet-to-your-website",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
