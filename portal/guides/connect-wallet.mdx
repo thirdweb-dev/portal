@@ -21,7 +21,7 @@ If you don't have a a wallet, click [here](/guides/create-a-metamask-wallet). If
 
 ```bash
 //Run this to install with npm
-npm install @thirdweb-dev/react @thirdweb-dev/hooks
+npm install @thirdweb-dev/react
 ```
 
 ## Create the button
@@ -31,7 +31,7 @@ Inside your `components` folder, create a file `Connect.js` with the following c
 
 
 ```js:Connect.js
-import { useDisconnect, useMetamask } from "@thirdweb-dev/react";
+import { useMetamask } from "@thirdweb-dev/react";
 
 export const Connect = () => {
   const connectWithMetamask = useMetamask();
