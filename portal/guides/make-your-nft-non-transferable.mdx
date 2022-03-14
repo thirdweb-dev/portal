@@ -3,48 +3,61 @@ title: Make your NFT non-transferable
 author: "Nacho Iacovino"
 authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
 authorTwitter: "https://twitter.com/nachoiacovino"
-draft: true
+draft: false
 tags: [nft-drop, bundle-drop, nft-collection, bundle-collection, non-transferable, permissions]
 summary: "Learn how to make it so your users can't transfer or sell your NFTs."
 image: "/assets/portal/guides/make-your-nft-non-transferable/thumbnail.png"
 date: "2021-12-27"
-updated: ""
+updated: "2022-03-14"
 ---
 
-## Dashboard setup
 
-The first thing we need to do is head over to the [dashboard](https://thirdweb.com/dashboard) and create a project and a **NFT Collection**, **Bundle**, **Drop** or **Bundle Drop** module, you can make your NFT non-transferable in any of these. If you don't know how to create a project, check out [this guide](/learn/introduction).
+By default, NFTs are transferrable. We can sell them on secondary markets or transfer them to other users. There are also times when we want the NFT to be non-transferable. For example, maybe we want to reward our community with some exclusive award NFT to those who completed a challenge, or maybe for issuing NFT certificates.
 
-## Create the module
+💡 Another common name for non-transferrable NFTs are soulbound NFTs. Learn more about them and their use cases from Vitalik Buterin’s post titled [Soulbound](https://vitalik.eth.limo/general/2022/01/26/soulbound.html).
 
-For my example, I'll create bundle drop module! A **Cookie Access NFT!**.
+In this guide, we will learn how to make it so users can't transfer or sell our NFTs. This process can all be done without writing any code. 
 
-![](/assets/portal/guides/make-your-nft-non-transferable/create-bundle-drop.png)
+Let’s get started!
 
-Then I'll create the access NFT, a **Chocolate Cookie**.
+### Setup
 
-![](/assets/portal/guides/make-your-nft-non-transferable/create-nft.png)
+Navigate to the [dashboard](https://thirdweb.com/dashboard), and create a new contract: choose from either an **NFT Collection, Edition, NFT Drop,** or **Edition Drop**. You can make your NFT non-transferable in any of these versions.
 
-## Make it non-transferable
+For this guide, we will create an **NFT Collection** contract.
 
-Once we create it, click on **Settings**.
+Fill out the general settings to distinguish your contracts and payout settings. After that, scroll down and click the blue bar at the bottom that says **Deploy Now**.
 
-![](/assets/portal/guides/make-your-nft-non-transferable/click-settings.png)
+![Deploy your contract](/assets/portal/guides/make-your-nft-non-transferable/contract-creation-settings.png)
 
-Then, we can scroll down and we'll find "Transfer Settings", here is where we can switch our NFT to be non-transferable.
+Next, click the blue **Mint +** button on the top right. This will pull up a side panel that will allow us to create our NFT. After filling in the fields, click **+ Mint NFT** to finish the minting process.
 
-![](/assets/portal/guides/make-your-nft-non-transferable/transfer-settings.png)
+![Mint your NFT](/assets/portal/guides/make-your-nft-non-transferable/mint-new-nft.png)
 
-Click **Save** and accept the transaction on your wallet.
+### Make it non-transferable
 
-## Permissions
+Once created, you should see your newly minted NFT on your dashboard. Click on the **permissions** tab. 
 
-Once this has been set, only people with the **Transfer** role would be able to transfer, by default, it's only set to the wallet that created the NFT.
+![Navigate to permissions tab](/assets/portal/guides/make-your-nft-non-transferable/select-permissions-tab.png)
 
-You can go to the **Permissions** tab and remove yourself, also, if you don't want to be able to add a **Transfer** role to anyone in the future, you can also remove yourself from the **Admin** role.
+From the permissions tab, scroll down to the **Transfer** permissions. Click the drop down that says **Transferrable** and change it to **Non-Transferrable.**
 
-![](/assets/portal/guides/make-your-nft-non-transferable/permissions.png)
+After updating, click on **update permissions**. This will prompt a transaction you need to confirm from your wallet.
 
-## That's it!
+![Update to non-transferrable](/assets/portal/guides/make-your-nft-non-transferable/update-non-transferrable-permission.png)
 
-Now your NFT can't be transferred or sold anymore, one thing to note is that people can still list it on platforms like OpenSea, but if someone tries to buy it, the transaction will fail.
+### Permissions
+
+Once updated, only addresses with the **Transfer** role are able to transfer the NFT. By default, this is set to the wallet that created the NFT.
+
+💡 Having an **Admin** role allows you to change the rules of the contract in the future. If you don't want to be able to add a **Transfer** role to anyone in the future, remove yourself from the **Admin** role.
+
+If you don’t want to be able to transfer the NFT, remove yourself from the **transfer** permissions and update permissions again.
+
+![Remove permissions](/assets/portal/guides/make-your-nft-non-transferable/remove-permissions.png)
+
+💡 **Note:** users can still list non-transferrable NFTs on marketplaces like OpenSea. However, if someone tries to purchase it, the transaction will fail.
+
+### That’s it!
+
+Now, your NFT is non-transferrable.
