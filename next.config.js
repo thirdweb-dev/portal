@@ -40,7 +40,38 @@ const moduleExports = {
     ];
   },
   async redirects() {
-    return [];
+    return [
+      {
+        source: "/learn/modules/:match*",
+        destination: "/contracts/:match*",
+        permanent: true,
+      },
+      {
+        source: "/guides/tag/bundle-collection",
+        destination: "/guides/tag/edition",
+        permanent: true,
+      },
+      {
+        source: "/guides/tag/bundle-drop",
+        destination: "/guides/tag/edition-drop",
+        permanent: true,
+      },
+      {
+        source: "/guides/bundle-collection",
+        destination: "/guides/edition",
+        permanent: true,
+      },
+      {
+        source: "/guides/bundle-drop",
+        destination: "/guides/edition-drop",
+        permanent: true,
+      },
+      {
+        source: "/guides/splits",
+        destination: "/guides/split",
+        permanent: true,
+      },
+    ];
   },
   async rewrites() {
     return [

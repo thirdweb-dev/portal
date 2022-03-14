@@ -291,18 +291,14 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   title="NFT Collection"
                   description="ERC721 standard"
                 />
-                <ModuleCard
-                  title="Bundle Collection"
-                  description="ERC1155 standard"
-                  slug="bundle"
-                />
+                <ModuleCard title="Edition" description="ERC1155 standard" />
                 <ModuleCard
                   title="NFT Drop"
                   description="ERC721 with lazy minting"
                   slug="drop"
                 />
                 <ModuleCard
-                  title="Bundle Drop"
+                  title="Edition Drop"
                   description="ERC1155 standard with lazy minting"
                   slug="drop"
                 />
@@ -312,7 +308,6 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 <ModuleCard
                   title="Marketplace"
                   description="Whitelabel Marketplace"
-                  slug="market"
                 />
                 <ModuleCard
                   title="Pack"
