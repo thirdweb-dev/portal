@@ -32,7 +32,7 @@ Create a new React project with TypeScript and then install the dependencies:
 
 ```bash
 npx create-react-app my-app --template typescript
-npm install @thirdweb-dev/sdk ethers dotenv fs
+npm install @thirdweb-dev/sdk ethers dotenv
 npm install --save-dev ts-node tslib
 ```
 
@@ -48,12 +48,13 @@ Import the libraries we'll need:
 
 ```tsx
 // Importing libraries
-// Importing libraries
 import { ThirdwebSDK } from '@thirdweb-dev/sdk';
 import { ethers } from 'ethers';
+import dotenv from 'dotenv';
+
 
 //Importing private key
-require('dotenv').config();
+dotenv.config();
 ```
 
 Instantiate and connect to the contract using the contract address found in the dashboard. Then export the contract.
@@ -84,11 +85,10 @@ Now that we can connect to the SDK, we can move to the exciting step of creating
 Import our module and the necessary library:
 
 ```tsx
-import { readFileSync } from 'fs';
 import editionDrop from './getContract';
 ```
 
-Use the `createBatch` method to create our NFT. This method allows for the creation of multiple NFTs but we are only going to create one for now. The image we want mint as an NFT can be added to a new folder called `assets` which we can add inside our `scripts` folder.
+Use the `createBatch` method to create our NFT. This method allows for the creation of multiple NFTs but we are only going to create one for now.
 
 ```tsx
 const createNFT = async () => {
@@ -131,7 +131,7 @@ For our project, we are only going to set the start time, price, and supply. We 
 
 ```tsx
 import { ethers } from 'ethers';
-import bundleDrop from './getModule';
+import editionDrop from './getModule';
 ```
 
 Then we create a function called `nftConfig` and add the code to adjust the config of our NFT. 
@@ -172,198 +172,127 @@ To do this, we will work in the `src` folder in our React app.
 
 Our first step is to create a file called `Nft.tsx` which will be our component used to display the NFT. 
 
-We start off by installing the relevant libraries:
+We start off by installing the relevant library:
 
 ```bash
-npm install @3rdweb/react @3rdweb/hooks
+npm install @thirdweb-dev/react
 ```
 
-Then we can import all the libraries:
+Then we can import the libraries we will need:
 
 ```tsx
 import { useEffect, useState } from 'react';
-import { useWeb3 } from '@3rdweb/hooks';
-import { ThirdwebSDK } from '@thirdweb-dev/sdk';
-import { ConnectWallet } from '@3rdweb/react';
+import { useEditionDrop } from '@thirdweb-dev/react';
 ```
 
-Instantiate the SDK with the bundledrop module address found in the dashboard:
-
-```tsx
-const sdk = new ThirdwebSDK('rinkeby');
-const bundleDrop = sdk.getBundleDropModule(
-  '<MODULE_ADDRESS>'
-);
-```
 
 Create the `Nft` function and with a `useEffect` hook to fetch the NFT using the SDK and the token id (which is found in the dashboard) as a param:
 
 ```tsx
 const Nft = () => {
-	// Use state to store the NFT's url
+  const editionDrop = useEditionDrop(
+    '<CONTRACT_ADDRESS>'
+  );
   const [nft, setNft] = useState('');
+
   async function fetchNft() {
     try {
-      const nft = await bundleDrop.get('0');
-      if (nft.metadata.image) {
-        setNft(nft.metadata.image);
+      const nft = await editionDrop?.get('0');
+      if (nft?.metadata.image) {
+        setNft(nft?.metadata.image);
       }
     } catch (error) {
       console.log('Failed to get NFT. Error: ', error);
     }
   }
+
   useEffect(() => {
     fetchNft();
   }, []);
+
   return (
-    <div>
-      <h1>Claim your early access NFT!</h1>
-      <img alt='early access nft' src={nft} width='250px' height='250px' />
+    <div style={{ margin: '10vh' }}>
+      <h1 style={{ fontSize: '28px', marginBottom: '10vh' }}>
+        Claim your early access NFT!
+      </h1>
+      <img
+        alt='early access nft'
+        src={nft}
+        width='250px'
+        height='250px'
+        style={{ marginBottom: '5vh' }}
+      />
     </div>
   );
 };
+
 export default Nft;
 ```
+### 7. Claim Button
 
-### 7. Add a connect wallet button
+Okay. We have our NFT displayed and all we need is a button for users to claim NFTs. Let's create a new component in a file called `ClaimButton.tsx`. 
 
-Before users can claim an NFT, they need to connect their wallets. Thirdweb makes this incredibly easy! We can simply use the `ThirdwebProvider` context with the `ConnectWallet` component to make it happen. For all the details, please check out [this guide](/guides/add-connectwallet-to-your-website). 
-
-After going through that guide, our `App.tsx` file should look similar to this:
-
-```tsx
-import { ThirdwebProvider } from "@3rdweb/react";
-import React from "react";
-import "./App.css";
-// The config for the thirdweb wallet connect component
-const supportedChainIds = [1, 4, 137, 250, 43114, 80001];
-const connectors = {
-  injected: {},
-  walletconnect: {},
-  walletlink: {
-    appName: "early-access",
-    url: "https://thirdweb.com",
-    darkMode: false,
-  },
-};
-
-function App() {
-  return (
-    <ThirdwebProvider
-      connectors={connectors}
-      supportedChainIds={supportedChainIds}
-    >
-      <div className="App"></div>
-    </ThirdwebProvider>
-  );
-}
-export default App;
-```
-
-This context makes adding the `WalletConnect` component very simple! We only want to display our NFT (and claim button) to users who are connected so in the `Nft` function in `Nft.tsx`, we've added some code to do this. There are comments on the lines we added.  
+First, we import the libraries:
 
 ```tsx
-const Nft = () => {
-  const [nft, setNft] = useState("");
-  // If the user is connected, we can get their address
-  const { address } = useWeb3();
-  async function fetchNft() {
-    try {
-      const nft = await bundleDrop.get("1");
-      if (nft.metadata.image) {
-        setNft(nft.metadata.image);
-      }
-    } catch (error) {
-      console.log("Failed to get NFT. Error: ", error);
-    }
-  }
-  useEffect(() => {
-    fetchNft();
-  }, []);
-  // If the user is not connected, we can display the ConnectWallet component. See the guide referenced above for details.
-  if (!address) {
-    return (
-      <div style={{ margin: "10vh" }}>
-        <h1 style={{ fontSize: "28px", marginBottom: "10vh" }}>
-          Please connect to claim your early access NFT
-        </h1>{" "}
-        <ConnectWallet />
-      </div>
-    );
-  }
-  return (
-    <div>
-      <h1>Claim your early access NFT!</h1>
-      <img alt="early access nft" src={nft} width="250px" height="250px" />
-    </div>
-  );
-};
-export default Nft;
+import { useState } from 'react';
+import { useEditionDrop, useMetamask, useAddress } from '@thirdweb-dev/react';
 ```
 
-### 8. Add a claim button
-
-Okay. We have our NFT displayed and a connect button. All we need is a button for users to claim NFTs. Let's create a new component in a file called `ClaimButton.tsx`. 
-
-First, we import the libraries and initialize the module:
-
-```tsx
-import { useState, useEffect } from 'react';
-import { ThirdwebSDK } from '@3rdweb/sdk';
-import { useWeb3 } from '@3rdweb/hooks';
-const sdk = new ThirdwebSDK('rinkeby');
-const editionDrop = sdk.getEditionDrop(
-  '<MODULE_ADDRESS>'
-);
-```
-
-Then we can create a function called `ClaimButton`. Please follow along the comments in the code:
+We will use the `useMetamask` and `useAddress` thirdweb hooks to allow users to connect to their MetaMask wallets. We will check if the user is connected and if so, we will allow them to claim an NFT using the `claim` method with the token id and quantity as params.
 
 ```tsx
 const ClaimButton = () => {
+  const connectWithMetamask = useMetamask();
+
+  const editionDrop = useEditionDrop(
+    '<CONTRACT_ADDRESS>'
+  );
+
+  const address = useAddress();
+  
   // State to track when a user is claiming an NFT
   const [claiming, setClaiming] = useState(false);
-  // Get provider and then signer from the context
-  const { provider } = useWeb3();
-  const signer = provider ? provider.getSigner() : undefined;
-  useEffect(() => {
-    if (signer) {
-      sdk.updateSignerOrProvider(signer);
-    }
-  }, [signer]);
+
   // Claim our NFT with the claim method - (token id, quantity)
   const onClick = async () => {
     setClaiming(true);
     try {
-      await editionDrop.claim(0, 1);
-      alert("Successfully Claimed!");
+      await editionDrop?.claim(0, 1);
+      alert('Successfully Claimed!');
       setClaiming(false);
     } catch (error) {
-      console.log("Failed to claim. Error: ", error);
+      console.log('Failed to claim. Error: ', error);
       setClaiming(false);
     }
   };
+
   return (
-    <button
-      disabled={claiming}
-      style={{
-        padding: "10px 20px",
-        textAlign: "center",
-        backgroundColor: "#05A266",
-        color: "white",
-      }}
-      className="btn"
-      onClick={onClick}
-    >
-      {claiming ? "Claiming..." : "Claim Early Access NFT"}
-    </button>
+    <div>
+      {address ? (
+        <button
+          disabled={claiming}
+          style={{
+            padding: '10px 20px',
+            textAlign: 'center',
+            backgroundColor: '#05A266',
+            color: 'white',
+          }}
+          className='btn'
+          onClick={onClick}
+        >
+          {claiming ? 'Claiming...' : 'Claim Early Access NFT'}
+        </button>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect MetaMask Wallet</button>
+      )}
+    </div>
   );
 };
 
 export default ClaimButton;
-
-Don't forget to add your ClaimButton to your Nft component.
 ```
+Don't forget to add your ClaimButton to your Nft component.
 
 ## Next Steps
 
