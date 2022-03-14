@@ -318,7 +318,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   description="Decentralized voting and governance protocol"
                 />
                 <ModuleCard
-                  title="Splits"
+                  title="Split"
                   description="Custom royalty splits and fund distribution"
                 />
               </Box>

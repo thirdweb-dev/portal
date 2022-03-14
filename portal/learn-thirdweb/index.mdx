@@ -3,9 +3,9 @@ title: Getting Started with thirdweb SDK
 author: "Raza Zaidi"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
 authorTwitter: "https://twitter.com/razacodes"
-summary: "You're convinced. You want to start NOW. Say no more 👇"
+summary: "Learn how to use thirdweb SDKs, and how to integrate thirdweb SDKs with your existing codebase."
 date: "2021-11-24"
-updated: "2022-02-02"
+updated: "2022-03-14"
 ---
 
 ## Developers assemble!
@@ -25,46 +25,42 @@ First make sure you install the dependencies.
 If you're using JavaScript or TypeScript 👇
 
 ```bash
-npm install @3rdweb/sdk ethers
-// packages below are for frontend components
-npm install @3rdweb/react @3rdweb/hooks
+npm install @thirdweb-dev/sdk ethers
 ```
 
-If you're using Python
+And if you're using React 👇
 
 ```bash
-pip install thirdweb-sdk
+npm install @thirdweb-dev/react @thirdweb-dev/sdk ethers
 ```
 
 ## Your use case
 
-Before we get to the fun part of coding, let's talk about design. Depending on your use case, you'd want to use our sdk in a specific way. To cater for your web3 needs, we built smart contracts on steroids, `Modules`. Modules enable the feature you want inside your app.
-For example, if you want a `mint` functionality in your app, then you'd need the `NFT Collection` module. Maybe you want to reward users with your own tokens when they complete a specific action, then you want to have a look at our `Token` module. Auction your NFTs on your own Marketplace? We got you → the `Marketplace` module is what you need.
+Before we get to the fun part of coding, let's talk about design. Depending on your use case, you'd want to use our sdk in a specific way. To cater for your web3 needs, we built smart contracts on steroids. Our contracts enable the feature you want inside your app.
+For example, if you want a `mint` functionality in your app, then you'd need the `NFT Collection` contract. Maybe you want to reward users with your own tokens when they complete a specific action, then you want to have a look at our `Token` contract. Auction your NFTs on your own Marketplace? We got you → the `Marketplace` contract is what you need.
 
-Setting up a module is a matter of a few clicks! Click **[here](/learn/introduction)** to create and deploy your first module.
+![Overview of our contracts](/assets/portal/contracts/index/select-type-of-contract.png)
 
-![Overview of our modules](/assets/portal/learn/index/modules.png)
-
-Based on your needs you can pick modules, which contain the functionalities and features that you want in your app.
+Based on your needs you can pick contracts, which contain the functionalities and features that you want in your app.
 
 Next up, setting up your dev environment.
 
 ## Using our SDK - Setting up your dev environment
 
-Ok, so you know what you want to build. You deployed the modules you need through the dashboard. Now it's time to integrate them into your own code!
+Ok, so you know what you want to build. You deployed the contracts you need through the dashboard. Now it's time to integrate them into your own code!
 
 General steps:
 
 1. Instantiate the SDK
-2. Pass the module address
-3. Use the methods inside a module
+2. Pass the contract address
+3. Use the methods inside a contract
 
 ### 1. Read data from the blockchain
 
-If you _just_ want to read data from the blockchain, all you need is our `@3rdweb/sdk`.
+If you _just_ want to read data from the blockchain, all you need is our `@thirdweb-dev/sdk`.
 
 ```jsx
-import { ThirdwebSDK } from "@3rdweb/sdk";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 // This url indicates which chain you want to connect to
 const rpcUrl = "https://polygon-rpc.com/";
@@ -77,12 +73,19 @@ Side note, this is a public **RPC**. If you have your own dedicated **RPC** Alch
 Reading data from the blockchain with our sdk looks like this 👇
 
 ```jsx
-// Initialize market module by passing in the module address
-const marketplaceModuleAddress = "<MARKETPLACE_MODULE_ADDRESS>";
-const marketplace = sdk.getMarketplaceModule(marketplaceModuleAddress);
+// Initialize marketplace contract by passing in the contract address
+const marketplaceAddress = "<MARKETPLACE_ADDRESS>";
+const marketplace = sdk.getMarketplace(marketplaceAddress);
 
 // Get all the listings
-marketplace.getAllListings();
+const getAllListings = async () => {
+  try {
+    await marketplace.getAllListings();
+  } catch (err) {
+    console.log(err);
+  }
+}
+getAllListings();
 ```
 
 ### 2. Make things happen on the blockchain
@@ -101,15 +104,19 @@ Once you have a provider, you can use it to instantiate the SDK to write to the 
 // Follow our guides to get a signer (from a connected wallet or your private key)
 const sdk = new ThirdwebSDK(signer);
 
-// Get your marketplace module
-const marketplaceModuleAddress = "0xC06adC34097afa2085324D4192fbE9206059f8e0";
-const marketplace = sdk.getMarketplaceModule(marketplaceModuleAddress);
+// Get your marketplace contract
+const marketplaceAddress = "0xC06adC34097afa2085324D4192fbE9206059f8e0";
+const marketplace = sdk.getMarketplace(marketplaceAddress);
 
 // Now you can buy from the connected signer
-marketplace.buyoutDirectListing({
-  listingId: 1,
-  quantityDesired: 1,
-});
+const buyoutListing = async (listingId, quantityDesired) => {
+  try {
+    await marketplace.direct.buyoutListing(listingId, quantityDesired);
+  } catch (err) {
+    console.log(err);
+  }
+}
+buyoutListing(listingId, quantityDesired);
 ```
 
 How do you get a `signer` ? Glad you asked.
@@ -120,7 +127,7 @@ Check out [this](/guides/add-connectwallet-to-your-website) guide first to under
 
 Information like chain and type of wallet, will be used to instantiate the sdk, by getting the `provider` from `useWeb3()`.
 
-With the sdk you can access your deployed modules to mint NFTs, transfer tokens or list NFTs on your marketplace.
+With the sdk you can access your deployed contracts to mint NFTs, transfer tokens or list NFTs on your marketplace.
 
 ### 3. Writing scripts
 
@@ -134,14 +141,16 @@ This method should be used with extreme care on the backend, making sure not to 
 
 To find out more about our SDKs, check out our documentations 👇
 
-- [TypeScript SDK](https://thirdweb-dev.github.io/typescript-sdk/sdk.html)
+- [TypeScript SDK](https://docs.thirdweb.com/typescript)
+- [React SDK](https://docs.thirdweb.com/react)
+- [Contracts](https://docs.thirdweb.com/contracts)
 - [Python SDK](https://python-docs.thirdweb.com/)
 - [Go SDK](https://pkg.go.dev/github.com/thirdweb-dev/go-sdk/pkg)
 
 <MdxNavigation>
   <MdxNavigationItem
-    href="/learn/introduction"
-    title="Introduction"
+    href="/learn-thirdweb/connect-to-blockchain"
+    title="Connect to blockchain"
     next
   />
 </MdxNavigation>

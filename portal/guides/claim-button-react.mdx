@@ -1,34 +1,30 @@
 ---
 title: Build an NFT claim button in React for your dApp with TypeScript
-author: "Pratham Prasoon & Raza Zaidi"
-authorAvatar: "/assets/portal/authors/pratham-prasoon.jpg"
+author: "Nacho Iacovino & Raza Zaidi"
+authorAvatar: "/assets/portal/authors/nacho-iacovino.jpg"
 authorAvatar2: "/assets/portal/authors/raza-zaidi.jpg"
-authorTwitter: "https://twitter.com/PrasoonPratham"
+authorTwitter: "https://twitter.com/nachoiacovino"
 authorTwitter2: "https://twitter.com/razacodes"
 draft: true
-tags: [react, nft-drop, claim, front-end]
+tags: [nft-drop, react, claim, frontend]
 summary: "Create a claim button in your website that allows users to claim a single drop"
 image: "/assets/portal/guides/claim-button-react/thumbnail.png"
 date: "2022-01-05"
-updated: ""
+updated: "2022-03-14"
 ---
 
 ## What you get
 
-This guide gives you a simple React **component** to claim a single `drop` and a **component** for a `connect wallet` button. Check the code at GitHub over [here](https://github.com/razacodespython/drop-claim).
-
-![A connect wallet button and claim a drop button](/assets/portal/guides/claim-button-react/button.png)
+This guide gives you a simple React **component** to claim a single `drop` and a **component** for a `connect wallet` button. Check the code at GitHub over [here](https://github.com/thirdweb-dev/examples/tree/main/typescript/claim-button-react).
 
 ## Dependencies
 
 Quick heads up, in these examples, the thirdweb sdk is integrated with React **components**, but we're ‘just' using javascript. You can do the same magic with another framework!
 
-Make sure to have the dependencies  installed 
+Let's start by installing the required dependencies:
 
-```jsx
-npm install @3rdweb/sdk ethers
-
-npm install @3rdweb/react @3rdweb/hooks
+```bash
+npm install @thirdweb-dev/react @thirdweb-dev/sdk ethers
 ```
 
 ## The App.js - Connect your wallet
@@ -37,86 +33,70 @@ In your `App.jsx` file we can use the code from this guide for our `connect wall
 
 Inside our app we import our **component** for the `claim` button.
 
-```js:App.jsx
-import { ThirdwebProvider, ConnectWallet } from '@3rdweb/react';
-import './App.css';
-import DropClaim from './dropclaim'; //import component for claim button
+```tsx:pages/_app.tsx
+import type { AppProps } from 'next/app';
+import { ThirdwebProvider } from '@thirdweb-dev/react';
 
-const supportedChainIds = [1, 4, 137, 250, 43114, 80001];
-const connectors = {
-  injected: {},
-  magic: {
-  },
-  walletconnect: {},
-  walletlink: {
-    appName: "thirdweb - demo",
-    url: "https://thirdweb.com",
-    darkMode: false,
-  },
-};
+function MyApp({ Component, pageProps }: AppProps) {
+  // We'll use 4 for Rinkeby
+  const desiredChainId = 4;
 
-function ExampleApp() {
+  /**
+   * Make sure that your app is wrapped with these contexts.
+   * If you're using React, you'll have to replace the Component setup with {children}
+   */
   return (
-    <ThirdwebProvider
-      connectors={connectors}
-      supportedChainIds={supportedChainIds}
-    >
-      <ConnectWallet />
-      <DropClaim /> /*render the claim button*/
+    <ThirdwebProvider desiredChainId={desiredChainId}>
+      <Component {...pageProps} />
     </ThirdwebProvider>
   );
 }
-export default ExampleApp;
+
+export default MyApp;
 ```
 
-## The dropclaim.js - The Claim button
+## The Claim button
 
-In your `dropclaim.js` file we will write the code for the button. If you want to know more about the drop module you can find a guide [here](/guides/drop).
+Let's create a components under `components/ClaimButton.tsx`. If you want to know more about the drop module you can find guides [here](/guides/nft-drop).
 
-The cool thing about this **component**, is that it's using the `connect wallet` component to authorise the transaction 😄.
+```tsx:components/ClaimButton.tsx
+import { useAddress, useMetamask, useNFTDrop } from '@thirdweb-dev/react';
 
-```js:DropClaim.jsx
-import { useWeb3 } from "@3rdweb/hooks";
-import { useEffect, useMemo, useState, useCallback } from "react";
-import { ThirdwebSDK } from "@3rdweb/sdk";
-import { ethers } from "ethers";
-
-const DropClaim = () => {
-  const { provider } = useWeb3();
-
-  const sdk = useMemo(() => {
-    if (provider) {
-      return new ThirdwebSDK(provider.getSigner())
-    }
-    return undefined;
-  }, [provider]);
-
-//paste your drop module contract address here. this is an example
-  const dropModule = useMemo(() => {
-    if (sdk) {
-      return sdk.getDropModule("0x5B20A683e1c20246b9e72E01e243A458618Fc587")
-    }
-    return undefined;
-  }, [sdk]);
-
-  const onClick = useCallback(() => {
-    dropModule.claim(1);
-
-  }, [dropModule]);
-
+export const ClaimButton = () => {
+  const connectWithMetamask = useMetamask();
+  const nftDrop = useNFTDrop('0xA9F8815255E2fDC1CB2E164dE1bEedfD815D421B');
+  const address = useAddress();
   return (
     <div>
-        <br>
-        </br>
-      <button style={{ padding: "10px 20px", textAlign: "center",  backgroundColor: "#44014C" , color: "white"}}class="btn" onClick={onClick}>
-        Claim normal Drop!
-      </button>
+      {address ? (
+        <button onClick={() => nftDrop?.claim(1)}>Claim 1</button>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect Wallet</button>
+      )}
     </div>
   );
 };
-export default DropClaim;
+```
+
+Then, we need to import this component on our `index.tsx` file:
+
+```tsx:pages/index.tsx
+import type { NextPage } from 'next';
+import { ClaimButton } from '../components/ClaimButton';
+
+const Home: NextPage = () => {
+  return (
+    <div>
+      <ClaimButton />
+    </div>
+  );
+};
+
+export default Home;
 ```
 
 ## That's it!
 
-It's really **that** easy. If you have any questions, drop by our discord!
+It's really **that** easy. You can see the finished code in this GitHub repo over [here](https://github.com/thirdweb-dev/examples/tree/main/typescript/claim-button-react).
+
+If you have any questions, drop by our [discord](https://discord.gg/thirdweb)!
