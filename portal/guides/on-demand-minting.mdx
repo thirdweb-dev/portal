@@ -1,13 +1,13 @@
 ---
-title: "Using signature based minting"
+title: "Minting NFTs on demand using signatures"
 author: "Raza Zaidi"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
 authorTwitter: "https://twitter.com/razacodes"
-draft: true
+draft: false
 tags: [nft-drop, signature, mint]
 summary: "This guide shows how to create a signature and allow anyone holding that signature to mint an NFT!"
-image: "/assets/portal/guides/minting-with-signature/thumbnail.png"
-date: "2022-01-18"
+image: "/assets/portal/guides/on-demand-minting/thumbnail.png"
+date: "2022-03-14"
 updated: ""
 ---
 
@@ -29,33 +29,18 @@ After instantiating the `sdk`, we're going to:
 2. Create a unique signature that the owner of the NFT can sell or gift to someone
 3. Allow anyone, holding that unique signature, to claim a NFT
 
-## 1. Setup the SDK & Navigation
+## 1. Setup the Navigation
 
-In this example project, we're going to create a `hook` for our **sdk**. Create a folder in your project directory called `hook` and create a file in it called `useSdk.ts` and use the following code. The `provider` contains the necessary data from our wallet to authorise transactions from our app. If you want to know more about how the **sdk** and `provider` works, click here.
-
-```tsx:useSDK.tsx
-import { useWeb3 } from "@3rdweb/hooks";
-import { ThirdwebSDK } from "@3rdweb/sdk";
-import { Signer } from "ethers";
-
-export default function useSdk() {
-  const { provider } = useWeb3();
-
-  const sdk = new ThirdwebSDK(provider?.getSigner() as Signer);
-
-  return sdk;
-}
-```
-
-The second file in this folder is the `useProtectedPage.ts` to navigate the request to the correct page.
+Create a folder in your project directory called `hook`.
+The first file in the hooks folder is the `useProtectedPage.ts` to navigate the request to the correct page.
 
 ```tsx:useProtectedPage.tsx
-import { useWeb3 } from "@3rdweb/hooks";
+import { useAddress } from "@thirdweb-dev/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export default function useProtectedPage() {
-  const { address } = useWeb3();
+  const address = useAddress();
 
   const router = useRouter();
 
@@ -69,18 +54,36 @@ export default function useProtectedPage() {
 
 ## 2. Create the layout for our page
 
-Next up we create a component folder and inside it create a `Layout.ts` file for our layout.
+Next up we create a component folder. The first file in the components folder is for our connect wallet button. We will be using Metamask in this example.
 
+```tsx:Connect.tsx
+import { useMetamask } from "@thirdweb-dev/react";
+
+export const Connect = () => {
+  // get a function to connect to a particular wallet
+  // options: useMetamask() - useCoinbase() - useWalletConnect()
+  const connectWithMetamask = useMetamask();
+  // once connected, you can get the connected wallet information from anywhere (address, signer)
+  
+  return (
+    <div>(
+        <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
+      )}
+    </div>
+  );
+};
+```
+Next create a `Layout.ts` file for our layout.
 The `Flex` library is used to style our component and we're using the `connect wallet` component here to get our **connect wallet** button. If you want to know more about the connect wallet button component, click [here](https://thirdweb.com/portal/guides/add-connectwallet-to-your-website).
 
 ```tsx:Layout.tsx
-import { ConnectWallet } from "@3rdweb/react";
+import { Connect} from "../hooks/Connect";
 import { Flex } from "@chakra-ui/react";
 
 const Layout: React.FC = ({ children }) => {
   return (
     <Flex flexDir="column" padding={6}>
-      <ConnectWallet />
+      <Connect />
       {children}
     </Flex>
   );
@@ -141,13 +144,13 @@ export default function Home() {
 Don't forget to connect the homepage to the `index.ts`
 
 ```tsx:index.tsx
-import { useWeb3 } from "@3rdweb/hooks";
+import { useAddress } from "@thirdweb-dev/react";
 import { Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export default function LandingPage() {
-  const { address } = useWeb3();
+  const address = useAddress()
 
   const router = useRouter();
 
@@ -175,7 +178,7 @@ The code below also contains comments explaining the code.
 
 ```tsx:creator.tsx
 // we're importing 'NATIVE_TOKEN_ADDRESS' to make use of the native currency
-import { NATIVE_TOKEN_ADDRESS } from "@3rdweb/sdk";
+import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
 // importing features for alerts and styling
 import {
   Button,
@@ -186,20 +189,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useCallback, useMemo, useState } from "react";
-// here we import the sdk we instantiated
-import useSdk from "../hooks/useSdk";
+import { useNFTCollection } from "@thirdweb-dev/react";
 
 export default function Creator() {
   const [loading, setLoading] = useState(false);
-
-  const sdk = useSdk();
   const toast = useToast();
 
   // remember in this example we're creating a signature for the user to mint a NFT
-  const module = useMemo(
-    () => sdk.getNFTModule("0xc335111d58913C6A382F40c8B020b4ff1ee13Ba1"),
-    [sdk],
-  );
+  const contract = useNFTCollection("0xc335111d58913C6A382F40c8B020b4ff1ee13Ba1")
 
   // define all the variables
   // we're using 'useState' to update the variable dynamically
@@ -235,7 +232,7 @@ export default function Creator() {
 
     // here we will create the unique string to create a signature
     // the payload contains both the metadata and the signature to validate the signature for an nft
-    const { payload, signature } = await module.generateSignature({
+    const { payload, signature } = await contract.generateSignature({
       metadata: metadataJson,
       price: 0,
       currencyAddress: NATIVE_TOKEN_ADDRESS,
@@ -246,7 +243,7 @@ export default function Creator() {
     });
     setPayload(payload);
     setSignature(signature);
-  }, [module, metadata]);
+  }, [contract, metadata]);
 
   // here we render our page
   // once our signature is created, this page returns the payload and the sig
@@ -311,30 +308,27 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useCallback, useMemo, useState } from "react";
-import useSdk from "../hooks/useSdk";
+import { useNFTCollection } from "@thirdweb-dev/react";
 
 export default function Claimer() {
   const [loading, setLoading] = useState(false);
-  const sdk = useSdk();
+
   const toast = useToast();
 
-  const module = useMemo(
-    () => sdk.getNFTModule("0xc335111d58913C6A382F40c8B020b4ff1ee13Ba1"),
-    [sdk],
-  );
+  const contract = useNFTCollection("0xc335111d58913C6A382F40c8B020b4ff1ee13Ba1")
 
   const [payloadValid, setPayloadValid] = useState(true);
   const [payload, setPayload] = useState<any>();
   const [signature, setSignature] = useState<string>();
 
   const mint = useCallback(async () => {
-    const id = await module.mintWithSignature(payload, signature as string);
+    const id = await contract.mintWithSignature(payload, signature as string);
 
     toast({
       status: "success",
       title: `Successfully minted NFT with ID: ${id}`,
     });
-  }, [payload, signature, module]);
+  }, [payload, signature, contract]);
 
   return (
     <Flex flexDirection="column">
