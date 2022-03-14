@@ -1,8 +1,10 @@
 ---
 title: Release an NFT drop with delayed reveal without writing any code
-author: "Raza"
+author: "Raza Zaidi and Samina"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorAvatar2: "/assets/portal/authors/samina.jpeg"
 authorTwitter: "https://twitter.com/razacodes"
+authorTwitter2: "https://twitter.com/saminacodes"
 draft: false
 tags: [nft-drop, dashboard, no-code]
 summary: "Mint your NFT now, but reveal it when you want to."
@@ -14,8 +16,6 @@ updated: "2022-03-14"
 Sometimes we may want to have users mint an NFT, but reveal the contents of the NFT to the user later at a specific date. You can add this functionality without writing any code through the thirdweb dashboard. 
 
 In this guide, we'll create a drop using the **NFT Drop** contract and opt to reveal them later. In order to do so, we will set up some conditions to reveal the NFTs in the dashboard. 
-
-🛑 In order to use this feature you need to make sure your `NFT Drop` contract is deployed after 02-02-2022. Older versions of this contract do not support the delayed-reveal feature.
 
 This guide assumes you already know how to make a contract though the thirdweb dashboard. If you need a refresher, please check out our [Create Contracts on thirdweb](https://portal.thirdweb.com/contracts) guide. 
 
@@ -29,7 +29,9 @@ You will be prompted to upload your NFTs along with either a `.csv` or `.json` f
 
 In this project, the NFTs we are uploading are images, or more specifically `.png` files. 
 
-💡 The `.csv` or `.json` file and images must be in the same folder when uploading.
+<MdxAlert>
+The .csv or .json file and images must be in the same folder when uploading.
+</MdxAlert>
 
 ![Upload your files](/assets/portal/guides/nft-drop-with-delayed-reveal/upload-your-files.png)
 
@@ -50,7 +52,9 @@ On the next screen, we can finally choose how to reveal our NFTs. We have two op
 
 When you select **Delayed Reveal**, you will be prompted to create a password. 
 
-🛑 Remember or store your password somewhere safe. You will use this password to reveal the NFTs later.
+<MdxAlert status="warning">
+Remember or store your password somewhere safe. You will use this password to reveal the NFTs later.
+</MdxAlert>
 
 ![Choose password to later reveal NFTs](/assets/portal/guides/nft-drop-with-delayed-reveal/enter-password.png)
 

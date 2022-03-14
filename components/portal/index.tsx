@@ -140,7 +140,7 @@ export const MdxAlert: React.FC<AlertProps> = ({
   children,
 }) => {
   return (
-    <Alert status={status} borderRadius="xl">
+    <Alert status={status} borderRadius="xl" my={5}>
       <AlertIcon />
       {children}
     </Alert>
