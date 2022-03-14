@@ -55,7 +55,7 @@ export const BannerCta: React.FC = () => {
               lineHeight={1.8}
               size="label.lg"
             >
-              🎉{"  "}⏱ Ready to build? Get early access now!⏱{"  "}🎉
+              Ready to build? Get early access now!{"  "}⏱{"  "}🎉
             </Heading>
           </Center>
           <GeneralCta />
