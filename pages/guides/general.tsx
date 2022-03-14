@@ -1,12 +1,12 @@
 import { Stack } from "@chakra-ui/react";
 import { PortalLayout } from "components/app-layouts/portal";
-import { TagToModuleTypeMap } from "components/portal/guide-card";
 import { GuidesList } from "components/portal/guides-list";
 import { PortalHeaderCard } from "components/portal/header-card";
 import { useTrack } from "hooks/analytics/useTrack";
 import { NextSeo } from "next-seo";
 import { ConsolePage } from "pages/_app";
 import React from "react";
+import { TagToContractTypeMap } from "utils/mappings";
 import { getAllGuides } from "utils/mdxUtils";
 import { GuidesPageProps } from "utils/portalTypes";
 
@@ -37,9 +37,9 @@ const GeneralPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
 
 export function getStaticProps() {
   const guides = getAllGuides().filter(
-    (guide) =>
+    (guide: any) =>
       !guide.metadata.tags.some((tag: string) =>
-        Object.keys(TagToModuleTypeMap).includes(tag),
+        Object.keys(TagToContractTypeMap).includes(tag),
       ),
   );
 

@@ -1,4 +1,3 @@
-import { ModuleType } from "@3rdweb/sdk";
 import {
   AspectRatio,
   Box,
@@ -10,7 +9,7 @@ import {
 import { ChakraNextImage } from "components/Image";
 import { NextLink } from "components/shared/NextLink";
 import React, { useMemo } from "react";
-import { FeatureIconMap } from "utils/feature-icons";
+import { FeatureIconMap, TagToContractTypeMap } from "utils/mappings";
 import { Guide } from "utils/portalTypes";
 import { GrayTag } from "../tag";
 
@@ -19,17 +18,6 @@ interface PortalGuideCardProps {
   href: string;
   blog?: boolean | undefined;
 }
-export const TagToModuleTypeMap = {
-  "nft-collection": ModuleType.NFT,
-  edition: ModuleType.COLLECTION,
-  "nft-drop": ModuleType.DROP,
-  "edition-drop": ModuleType.BUNDLE_DROP,
-  token: ModuleType.CURRENCY,
-  marketplace: ModuleType.MARKET,
-  pack: ModuleType.PACK,
-  vote: ModuleType.VOTE,
-  split: ModuleType.SPLITS,
-};
 
 export const PortalGuideCard: React.FC<PortalGuideCardProps> = ({
   guide,
@@ -37,13 +25,13 @@ export const PortalGuideCard: React.FC<PortalGuideCardProps> = ({
   blog,
 }) => {
   const { image, title, tags } = guide;
-  const specialTag: keyof typeof TagToModuleTypeMap | undefined =
+  const specialTag: keyof typeof TagToContractTypeMap | undefined =
     useMemo(() => {
-      const specialTagArray = Object.keys(TagToModuleTypeMap);
+      const specialTagArray = Object.keys(TagToContractTypeMap);
       return (
         (specialTagArray.filter((x) =>
           tags.includes(x),
-        )[0] as keyof typeof TagToModuleTypeMap) || undefined
+        )[0] as keyof typeof TagToContractTypeMap) || undefined
       );
     }, [tags]);
   return (
@@ -71,7 +59,7 @@ export const PortalGuideCard: React.FC<PortalGuideCardProps> = ({
               <ChakraNextImage
                 boxSize={6}
                 alt={`${specialTag}icon`}
-                src={FeatureIconMap[TagToModuleTypeMap[specialTag]]}
+                src={FeatureIconMap[TagToContractTypeMap[specialTag]]}
               />
               <Heading opacity={0.7} size="label.md" textTransform="uppercase">
                 {specialTag.replace(/-/g, " ")}
