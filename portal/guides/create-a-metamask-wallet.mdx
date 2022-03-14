@@ -1,16 +1,16 @@
 ---
 title: Create a MetaMask wallet and get testnet ETH
-author: "Pratham Prasoon & Raza Zaidi"
-authorAvatar: "/assets/portal/authors/pratham-prasoon.jpg"
-authorAvatar2: "/assets/portal/authors/raza-zaidi.jpg"
-authorTwitter: "https://twitter.com/PrasoonPratham"
-authorTwitter2: "https://twitter.com/razacodes"
-draft: true
-tags: [metamask]
+author: "Raza Zaidi & Nacho Iacovino"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorAvatar2: "/assets/portal/authors/nacho-iacovino.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+authorTwitter2: "https://twitter.com/nachoiacovino"
+draft: false
+tags: [metamask, wallet]
 summary: "Easily setup and create a Metamask wallet and how to get Testnet ETH on Rinkeby"
 image: "/assets/portal/guides/create-a-metamask-wallet/thumbnail.png"
 date: "2021-11-18"
-updated: ""
+updated: "2022-03-14"
 ---
 
 ## Intro
@@ -73,54 +73,14 @@ After filling in your password, your `Private Key` will be exposed. Be aware. Do
 
 ![](/assets/portal/guides/create-a-metamask-wallet/Untitled%2012.png)
 
-## Hiding & Setting the Private Key with Python
-
-So your wallet has a private key. We will need that to make sure any transaction is done from this wallet. This is where the sdk uses your wallet.
-
-Create a `.env` file in the same folder as the project. Open the `.env` file in your code editor and paste your private key inside a variable called 'PRIVATE_KEY'.
-
-```python:.env
-PRIVATE_KEY = '1234OUI132UIO5YAZKSJFDGIO'
-```
-
-```python
-#use the '.env' file inside Python in the same folder
-load_dotenv("./.env")
-'PRIVATE_KEY = os.getenv('PRIVATE_KEY')'.
-
-#over here we connect our wallet via the private key stored in the '.env' file
-sdk.set_private_key("PRIVATE_KEY")
-```
-
-## Hiding & Setting the Private Key with JavaScript / TypeScript
-
-```python:.env
-PRIVATE_KEY = '1234OUI132UIO5YAZKSJFDGIO'
-```
-
-Install the dotenv module:
-
-```bash
-npm i dotenv
-```
-
-```jsx
-//Import the private key, by putting this at the start of your file
-require("dotenv").config();
-```
-
 ## Getting ETH on Rinkeby Testnet
 
 In order to execute transactions we need ETH to pay for gas, but paying for ETH on mainnet is quite expensive! Luckily we can make use of so called 'testnets'. Testnets are networks that operate and behave just like the mainnet. So we can deploy our smart contracts on the testnet and test it before we actually deploy our smart contract.
 
-We can switch between networks inside our wallet by clicking the current network located at the top.
-
-To get test ETH, you need to tweet [this](https://twitter.com/intent/tweet?text=Requesting%20faucet%20funds%20into%200x0000000000000000000000000000000000000000%20on%20the%20%23Rinkeby%20%23Ethereum%20test%20network.), replacing it with your public wallet address 👇🏻
+We can switch between networks inside our wallet by clicking the current network located at the top:
 
 ![](/assets/portal/guides/create-a-metamask-wallet/Untitled%2013.png)
 
-Then, head over to [](https://faucet.rinkeby.io/) and paste the link to your tweet in the input field.
+Head over to this [Rinkeby Faucet](https://faucets.chain.link/rinkeby) and paste your wallet in the input field.
 
-![](/assets/portal/guides/create-a-metamask-wallet/Untitled%2014.png)
-
-After a couple of minutes you'll receive some free ETH so you can start developing your applications.
+After a couple of minutes you'll receive some free ETH so you can start developing your applications!
