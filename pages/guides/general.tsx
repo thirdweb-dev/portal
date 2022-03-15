@@ -27,7 +27,7 @@ const GeneralPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
         <PortalHeaderCard
           title="General"
           subtitle="For everything else"
-          src="/assets/portal/module-header.png"
+          src="/assets/portal/contract-header.png"
         />
         <GuidesList title="All guides" guides={guides} />
       </Stack>

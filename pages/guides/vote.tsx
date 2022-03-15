@@ -28,7 +28,7 @@ const VotePage: ConsolePage<GuidesPageProps> = ({ guides }) => {
         <PortalHeaderCard
           title="Vote"
           subtitle="Decentralized voting and governance protocol"
-          src="/assets/portal/module-header.png"
+          src="/assets/portal/contract-header.png"
         />
         <GuidesList title="All guides" guides={guides} />
       </Stack>

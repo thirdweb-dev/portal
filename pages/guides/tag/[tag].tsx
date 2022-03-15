@@ -35,7 +35,7 @@ const TagPage: ConsolePage<TagPageProps> = ({ guides }) => {
       <Stack spacing={20}>
         <PortalHeaderCard
           title={`Guides | ${tag.replace(/-/g, " ")}`}
-          src="/assets/portal/module-header.png"
+          src="/assets/portal/contract-header.png"
         />
         <GuidesList title="All guides" guides={guides} />
       </Stack>
