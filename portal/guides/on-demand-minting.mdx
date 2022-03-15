@@ -54,42 +54,45 @@ export default function useProtectedPage() {
 
 ## 2. Create the layout for our page
 
-Next up we create a component folder. The first file in the components folder is for our connect wallet button. We will be using Metamask in this example.
+Next up we create a component folder. Create a `Layout.ts` file for our layout and connect wallet button.
+The `Flex` library is used to style our component and we're using the `useMetammask` hook here to get our **connect wallet** button. If you want to know more about the connect wallet button component, click [here](https://thirdweb.com/portal/guides/add-connectwallet-to-your-website).
 
-```tsx:Connect.tsx
-import { useMetamask } from "@thirdweb-dev/react";
+```tsx:Layout.tsx
+import { ThirdwebProvider, useMetamask, ChainId, useAddress } from "@thirdweb-dev/react";
+import { Flex } from "@chakra-ui/react";
 
-export const Connect = () => {
+function Connect () {
   // get a function to connect to a particular wallet
   // options: useMetamask() - useCoinbase() - useWalletConnect()
   const connectWithMetamask = useMetamask();
   // once connected, you can get the connected wallet information from anywhere (address, signer)
-  
+  const address = useAddress();
   return (
-    <div>(
+    <div>
+      {address ? (
+        <h4>Connected as {address}</h4>
+      ) : (
         <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
       )}
     </div>
   );
 };
-```
-Next create a `Layout.ts` file for our layout.
-The `Flex` library is used to style our component and we're using the `connect wallet` component here to get our **connect wallet** button. If you want to know more about the connect wallet button component, click [here](https://thirdweb.com/portal/guides/add-connectwallet-to-your-website).
-
-```tsx:Layout.tsx
-import { Connect} from "../hooks/Connect";
-import { Flex } from "@chakra-ui/react";
 
 const Layout: React.FC = ({ children }) => {
   return (
+    <ThirdwebProvider desiredChainId={ChainId.Rinkeby}>
     <Flex flexDir="column" padding={6}>
       <Connect />
       {children}
     </Flex>
+    </ThirdwebProvider>
+
   );
 };
 
+
 export default Layout;
+
 ```
 
 ## 3. Build our homepage
@@ -191,22 +194,17 @@ import {
 import { useCallback, useMemo, useState } from "react";
 import { useNFTCollection } from "@thirdweb-dev/react";
 
+
 export default function Creator() {
   const [loading, setLoading] = useState(false);
+
+ 
   const toast = useToast();
+  
+  const  contract = useNFTCollection("0x1AF863CCa75201A619bE1Ba69797309ebb82c8b0")
 
-  // remember in this example we're creating a signature for the user to mint a NFT
-  const contract = useNFTCollection("0xc335111d58913C6A382F40c8B020b4ff1ee13Ba1")
-
-  // define all the variables
-  // we're using 'useState' to update the variable dynamically
-
-  // payload is used to contain both the signature and the NFT the signature is meant for
   const [payload, setPayload] = useState<any>();
-  // signature is to contain the unique string
-  const [signature, setSignature] = useState<string>();
 
-  // metadata is used to pass the description, name and image to mint the nft
   const [metadata, setMetadata] = useState(`
   {
 	    "name": "Some Awesome NFT",
@@ -214,8 +212,6 @@ export default function Creator() {
 		"image": "ipfs://bafkreiemrdnm26x3mpzjkhpewirwrzubjvuje2rbj2lgqexesbqq72utey"
   }
   `);
-
-  // this function checks if the metadata has any syntax error
 
   const generateSignature = useCallback(async () => {
     let metadataJson: any;
@@ -230,23 +226,22 @@ export default function Creator() {
     }
     console.log("Generating sig with metadata:", metadataJson);
 
-    // here we will create the unique string to create a signature
-    // the payload contains both the metadata and the signature to validate the signature for an nft
-    const { payload, signature } = await contract.generateSignature({
-      metadata: metadataJson,
-      price: 0,
-      currencyAddress: NATIVE_TOKEN_ADDRESS,
-      mintStartTimeEpochSeconds: Math.floor(Date.now() / 1000),
-      mintEndTimeEpochSeconds:
-        Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365,
-      to: "0x0000000000000000000000000000000000000000",
-    });
+    const startTime = new Date();
+    const endTime = new Date(Date.now() + 60 * 60 * 24 * 1000);
+    const payload = await contract?.signature.generate({
+      metadata: metadataJson, // The NFT to mint
+     to: "0x55c9bBb71a5CC11c2f0c40362Bb691b33a78B764", // Who will receive the NFT (or AddressZero for anyone)
+     price: 0.5, // the price to pay for minting
+     currencyAddress: NATIVE_TOKEN_ADDRESS, // the currency to pay with
+     mintStartTime: startTime, // can mint anytime from now
+     mintEndTime: endTime, // to 24h from now,
+     royaltyRecipient: "0x55c9bBb71a5CC11c2f0c40362Bb691b33a78B764", // custom royalty recipient for this NFT
+     royaltyBps: 100, // custom royalty fees for this NFT (in bps)
+     primarySaleRecipient: "0x55c9bBb71a5CC11c2f0c40362Bb691b33a78B764", // custom sale recipient for this NFT
+ });
     setPayload(payload);
-    setSignature(signature);
-  }, [contract, metadata]);
+  }, [module, metadata]);
 
-  // here we render our page
-  // once our signature is created, this page returns the payload and the sig
   return (
     <Flex flexDirection={"column"}>
       <Heading textAlign={"center"}>Creator</Heading>
@@ -256,7 +251,7 @@ export default function Creator() {
         onChange={(ev) => setMetadata(ev.target.value)}
         value={metadata}
         minHeight="300px"
-      />
+      ></Textarea>
 
       <Button
         colorScheme="green"
@@ -282,9 +277,6 @@ export default function Creator() {
 
           <Heading size="sm">Payload:</Heading>
           <Text>{JSON.stringify(payload)}</Text>
-
-          <Heading size="sm">Signature:</Heading>
-          <Text>{signature}</Text>
         </Flex>
       )}
     </Flex>
@@ -312,23 +304,24 @@ import { useNFTCollection } from "@thirdweb-dev/react";
 
 export default function Claimer() {
   const [loading, setLoading] = useState(false);
-
   const toast = useToast();
 
-  const contract = useNFTCollection("0xc335111d58913C6A382F40c8B020b4ff1ee13Ba1")
+  const contract = useNFTCollection("0x1AF863CCa75201A619bE1Ba69797309ebb82c8b0")
 
   const [payloadValid, setPayloadValid] = useState(true);
   const [payload, setPayload] = useState<any>();
   const [signature, setSignature] = useState<string>();
 
   const mint = useCallback(async () => {
-    const id = await contract.mintWithSignature(payload, signature as string);
+    
+    const id = await contract?.signature.mint(payload);
+    console.log(contract)
 
     toast({
       status: "success",
-      title: `Successfully minted NFT with ID: ${id}`,
+      title: "Successfully minted NFT with ID: " + id,
     });
-  }, [payload, signature, contract]);
+  }, [payload, contract]);
 
   return (
     <Flex flexDirection="column">
@@ -352,10 +345,11 @@ export default function Claimer() {
             setPayload(payload);
             setPayloadValid(true);
           } catch (err) {
+            console.log(err)
             setPayloadValid(false);
           }
         }}
-      />
+      ></Textarea>
       {!payloadValid && (
         <Alert status="warning">
           There is a JSON syntax error in your payload.
@@ -375,6 +369,7 @@ export default function Claimer() {
           try {
             await mint();
           } catch (err: any) {
+            console.log(err)
             toast({
               status: "error",
               title: "Error minting NFT",
@@ -384,9 +379,6 @@ export default function Claimer() {
           setLoading(false);
         }}
         isLoading={loading}
-        disabled={
-          signature === undefined || payload === undefined || signature === ""
-        }
       >
         Mint NFT
       </Button>
@@ -397,8 +389,4 @@ export default function Claimer() {
 
 ## That's it!
 
-Anyone passing the **payload** and **signature** can mint an unique NFT!
-
-This is what it looks like 👇
-
-[A demo of minting an NFT using an unique signature](https://portal.thirdweb.com/assets/portal/guides/minting-with-signature/demo.mov)
+Anyone passing the **payload** can mint an unique NFT!
