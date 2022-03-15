@@ -96,7 +96,7 @@ const createNFT = async () => {
       {
         name: 'Early Access',
         description: 'This NFT will give you early access!',
-        // Get the NFT from a file in our project
+        // Get the NFT from a file uploaded to IPFS
         image: 'ipfs://<IPFS_FILE_CID>',
       },
     ]);
@@ -302,7 +302,7 @@ import ClaimButton from './ClaimButton';
 
 const Nft = () => {
   const editionDrop = useEditionDrop(
-    '0xA4158FBC767C3974fAe6d183EB5FcD9193d1ec40'
+    '<CONTRACT_ADDRESS>'
   );
   const [nft, setNft] = useState('');
 
