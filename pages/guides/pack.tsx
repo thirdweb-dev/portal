@@ -28,7 +28,7 @@ const PackPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
         <PortalHeaderCard
           title="Pack"
           subtitle="Collection of NFTs with random NFT on open (lootbox mechanic)"
-          src="/assets/portal/module-header.png"
+          src="/assets/portal/contract-header.png"
         />
         <GuidesList title="All guides" guides={guides} />
       </Stack>

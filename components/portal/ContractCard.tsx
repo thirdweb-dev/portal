@@ -3,13 +3,13 @@ import { ChakraNextImage } from "components/Image";
 import { NextLink } from "components/shared/NextLink";
 import React from "react";
 
-interface ModuleCardProps {
+interface ContractCardProps {
   title: string;
   description: string;
   slug?: string;
 }
 
-export const ModuleCard: React.FC<ModuleCardProps> = ({
+export const ContractCard: React.FC<ContractCardProps> = ({
   title,
   description,
   slug,
