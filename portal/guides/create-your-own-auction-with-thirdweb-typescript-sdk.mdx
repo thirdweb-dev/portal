@@ -4,7 +4,7 @@ author: "Raza Zaidi"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
 authorTwitter: "https://twitter.com/razacodes"
 draft: false
-tags: [marketplace, typescript]
+tags: [marketplace, typescript, v2]
 summary: "Create your own marketplace to sell your own NFTs with TypeScript"
 image: "/assets/portal/guides/create-your-own-auction-with-thirdweb-typescript-sdk/thumbnail.png"
 date: "2022-01-06"
@@ -56,9 +56,9 @@ npm install --save-dev typescript @types/node ts-node tslib
 ```
 
 In order to make use of our SDK, you need to establish a connection to a blockchain.
-Click [here](/learn/connect-to-blockchain) to learn how to connect to the blockchain and instantiate our SDK.
+Click [here](/learn-thirdweb/connect-to-blockchain) to learn how to connect to the blockchain and instantiate our SDK.
 
-For this guide, you will need to instantiate the SDK following [these](/learn/connect-to-blockchain#using-your-own-signer-with-thirdweb) steps, using your own signer with thirdweb.
+For this guide, you will need to instantiate the SDK following [these](/learn-thirdweb/connect-to-blockchain#using-your-own-signer-with-thirdweb) steps, using your own signer with thirdweb.
 
 ### 3. Define which contract to use
 
@@ -113,8 +113,6 @@ const auction = {
   reservePricePerToken: "1.5",
 }
 
-
-
 const createListing = async () => {
   try {
     const tx = await marketplace.auction.createListing(auction);
@@ -126,7 +124,6 @@ const createListing = async () => {
 }
 
 createListing();
-
 ```
 
 So the only thing left is to run our code! Open a terminal and paste the following:
