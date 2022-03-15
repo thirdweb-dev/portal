@@ -52,7 +52,6 @@ import { ThirdwebSDK } from '@thirdweb-dev/sdk';
 import { ethers } from 'ethers';
 import dotenv from 'dotenv';
 
-
 //Importing private key
 dotenv.config();
 ```
@@ -98,7 +97,7 @@ const createNFT = async () => {
         name: 'Early Access',
         description: 'This NFT will give you early access!',
         // Get the NFT from a file in our project
-        image: readFileSync('scripts/assets/earlyAccessNft.jpg'),
+        image: 'ipfs://<IPFS_FILE_CID>',
       },
     ]);
     console.log('✅ Successfully created a new NFT!');
@@ -125,7 +124,7 @@ PS: This is a TypeScript project. Don't forget that you will need a `tsconfig.js
 
 ### 5. Set NFT Price and Supply
 
-Now that we have our NFT, we need to set the start time, price, and supply. We can also set the number of NFTs that can be claimed in one transaction, create a white-list and adjust other settings. You can see a [full example here](/learn/code-examples/bundle-drop#setting-claim-conditions) (look at the 3rd example).
+Now that we have our NFT, we need to set the start time, price, and supply. We can also set the number of NFTs that can be claimed in one transaction, create a white-list and adjust other settings.
 
 For our project, we are only going to set the start time, price, and supply. We can do this in a new file called `nftConfig.ts`. Start by importing our module and the necessary library.
 
@@ -164,9 +163,9 @@ And you should see the success message in your console:
 
 Amazing! We now have 1000 claimable NFTs! We just need a frontend for our users to interact with. Let's do it☺️
 
-### 6. Display the NFT with a connect wallet button
+### 6. Display the NFT
 
-We are going to display our NFT with a claim button to allow users to claim an NFT. We also have to offer a connect button for first-time users who have never connected their wallets to our site. 
+We are going to display our NFT using the `get` method from the SDK with the token id as the param. 
 
 To do this, we will work in the `src` folder in our React app.
 
@@ -178,15 +177,14 @@ We start off by installing the relevant library:
 npm install @thirdweb-dev/react
 ```
 
-Then we can import the libraries we will need:
+Then we can import the libraries we will need to the component:
 
 ```tsx
 import { useEffect, useState } from 'react';
 import { useEditionDrop } from '@thirdweb-dev/react';
 ```
 
-
-Create the `Nft` function and with a `useEffect` hook to fetch the NFT using the SDK and the token id (which is found in the dashboard) as a param:
+Create the `Nft` function and with a `useEffect` hook:
 
 ```tsx
 const Nft = () => {
@@ -292,7 +290,73 @@ const ClaimButton = () => {
 
 export default ClaimButton;
 ```
-Don't forget to add your ClaimButton to your Nft component and your NFT component to your `App.tsx` so that everything is displayed as it should be.
+### 8. Wrap Up
+We have created and configured our NFT. We are displaying it and we have a connect/claim button. All that is left to do is to display the NFT and button by add the button to our NFT component and then adding the NFT component to our `App.tsx`. 
+
+After adding the button, `Nft.tsx` should look like this:
+
+```tsx
+import { useEffect, useState } from 'react';
+import { useEditionDrop } from '@thirdweb-dev/react';
+import ClaimButton from './ClaimButton';
+
+const Nft = () => {
+  const editionDrop = useEditionDrop(
+    '0xA4158FBC767C3974fAe6d183EB5FcD9193d1ec40'
+  );
+  const [nft, setNft] = useState('');
+
+  async function fetchNft() {
+    try {
+      const nft = await editionDrop?.get('0');
+      if (nft?.metadata.image) {
+        setNft(nft?.metadata.image);
+      }
+    } catch (error) {
+      console.log('Failed to get NFT. Error: ', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchNft();
+  }, []);
+
+  return (
+    <div style={{ margin: '10vh' }}>
+      <h1 style={{ fontSize: '28px', marginBottom: '10vh' }}>
+        Claim your early access NFT!
+      </h1>
+      <img
+        alt='early access nft'
+        src={nft}
+        width='250px'
+        height='250px'
+        style={{ marginBottom: '5vh' }}
+      />
+      <ClaimButton />
+    </div>
+  );
+};
+
+export default Nft;
+```
+
+In `App.tsx` we need to start by importing the thirdweb provider and setting out desired chain. It should look like this:
+
+```tsx
+import { ThirdwebProvider, ChainId } from '@thirdweb-dev/react';
+import Nft from './components/Nft';
+
+function App() {
+  return (
+    <ThirdwebProvider desiredChainId={ChainId.Rinkeby}>
+      <Nft />
+    </ThirdwebProvider>
+  );
+}
+
+export default App;
+```
 
 ## Next Steps
 
