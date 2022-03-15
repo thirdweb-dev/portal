@@ -20,8 +20,8 @@ import {
   getAllGuides,
   getHeadings,
   getMdxSource,
-  learnFilePaths,
-  LEARN_PATH,
+  learnThirdwebFilePaths,
+  LEARN_THIRDWEB_PATH,
 } from "utils/mdxUtils";
 import { Doc, GuidesPageProps, TocHeading } from "utils/portalTypes";
 import { pxToRem } from "utils/pxFunctions";
@@ -132,7 +132,7 @@ export default LearnPage;
 LearnPage.Layout = PortalLayout;
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const postFilePath = path.join(LEARN_PATH, `${params?.slug}.mdx`);
+  const postFilePath = path.join(LEARN_THIRDWEB_PATH, `${params?.slug}.mdx`);
   const source = fs.readFileSync(postFilePath);
 
   const { content, data } = matter(source);
@@ -157,7 +157,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths = async () => {
-  const paths = learnFilePaths
+  const paths = learnThirdwebFilePaths
     // Remove file extensions for page paths
     .map((pth) => pth.replace(/\.mdx?$/, ""))
     // Map the path into the static paths object required by Next.js

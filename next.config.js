@@ -47,6 +47,11 @@ const moduleExports = {
         permanent: true,
       },
       {
+        source: "/learn/recipes/:match*",
+        destination: "/guides",
+        permanent: true,
+      },
+      {
         source: "/guides/tag/bundle-collection",
         destination: "/guides/tag/edition",
         permanent: true,
@@ -71,13 +76,38 @@ const moduleExports = {
         destination: "/guides/split",
         permanent: true,
       },
+      {
+        source: "/guides/connect-wallet",
+        destination: "/guides/add-connectwallet-to-your-website",
+        permanent: true,
+      },
+      {
+        source: "/guides/create-a-drop-with-thirdweb-dashboard",
+        destination: "/guides/release-an-nft-drop-with-no-code",
+        permanent: true,
+      },
+      {
+        source: "/learn/connect-to-blockchain",
+        destination: "/learn-thirdweb/connect-to-blockchain",
+        permanent: true,
+      },
+      {
+        source: "/learn/projects",
+        destination: "/learn-thirdweb/projects",
+        permanent: true,
+      },
+      {
+        source: "/learn",
+        destination: "/learn-thirdweb",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
     return [
       {
-        source: "/learn",
-        destination: "/learn/index",
+        source: "/learn-thirdweb",
+        destination: "/learn-thirdweb/index",
       },
       {
         source: "/contracts",

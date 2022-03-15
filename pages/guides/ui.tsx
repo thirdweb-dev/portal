@@ -27,7 +27,7 @@ const UIPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
         <PortalHeaderCard
           title="UI"
           subtitle="thirdweb UI components"
-          src="/assets/portal/module-header.png"
+          src="/assets/portal/contract-header.png"
         />
         <GuidesList title="All guides" guides={guides} />
       </Stack>

@@ -14,9 +14,9 @@ import { PortalLayout } from "components/app-layouts/portal";
 import { ChakraNextImage } from "components/Image";
 import { Card } from "components/layout/Card";
 import { PORTAL_SIDEBAR_WIDTH } from "components/layout/portal-shell/Sidebar";
+import { ContractCard } from "components/portal/ContractCard";
 import { GuidesList } from "components/portal/guides-list";
 import { InstallTabs } from "components/portal/InstallTabs";
-import { ModuleCard } from "components/portal/module-card";
 import { PortalSection } from "components/portal/section";
 import { NextLink } from "components/shared/NextLink";
 import { useTrack } from "hooks/analytics/useTrack";
@@ -272,7 +272,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
             </Flex>
           </SimpleGrid>
           <GuidesList title="Featured guides" guides={featuredGuides} tags />
-          <PortalSection title="Explore our modules">
+          <PortalSection title="Explore our contracts">
             <Flex
               p={0}
               as={Card}
@@ -287,38 +287,38 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 w={{ base: "100%", md: "50%" }}
                 borderColor="gray.200"
               >
-                <ModuleCard
+                <ContractCard
                   title="NFT Collection"
                   description="ERC721 standard"
                 />
-                <ModuleCard title="Edition" description="ERC1155 standard" />
-                <ModuleCard
+                <ContractCard title="Edition" description="ERC1155 standard" />
+                <ContractCard
                   title="NFT Drop"
                   description="ERC721 with lazy minting"
                   slug="drop"
                 />
-                <ModuleCard
+                <ContractCard
                   title="Edition Drop"
                   description="ERC1155 standard with lazy minting"
                   slug="drop"
                 />
-                <ModuleCard title="Token" description="ERC20 standard" />
+                <ContractCard title="Token" description="ERC20 standard" />
               </Box>
               <Box w={{ base: "100%", md: "50%" }}>
-                <ModuleCard
+                <ContractCard
                   title="Marketplace"
                   description="Whitelabel Marketplace"
                 />
-                <ModuleCard
+                <ContractCard
                   title="Pack"
                   description="Collection of NFTs with random NFT on open"
                 />
-                <ModuleCard
+                <ContractCard
                   title="Vote"
                   description="Decentralized voting and governance protocol"
                 />
-                <ModuleCard
-                  title="Splits"
+                <ContractCard
+                  title="Split"
                   description="Custom royalty splits and fund distribution"
                 />
               </Box>
