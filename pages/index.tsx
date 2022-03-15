@@ -113,7 +113,10 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
               <InstallTabs />
               <SimpleGrid mt={5} columns={{ base: 1, md: 2 }} spacing={5}>
                 <LinkBox role="group">
-                  <NextLink href="/learn" _hover={{ textDecoration: "none" }}>
+                  <NextLink
+                    href="/learn-thirdweb"
+                    _hover={{ textDecoration: "none" }}
+                  >
                     <Card
                       _groupHover={{ borderColor: "blue.600" }}
                       transition="all 0.25s ease-in-out"
