@@ -119,7 +119,7 @@ export const PortalSidebar: React.FC = () => {
           <SidebarItem label="Marketplace" href="/guides/marketplace" />
           <SidebarItem label="Pack" href="/guides/pack" />
           <SidebarItem label="Vote" href="/guides/vote" />
-          <SidebarItem label="Splits" href="/guides/splits" />
+          <SidebarItem label="Split" href="/guides/split" />
           <SidebarItem label="UI" href="/guides/ui" />
         </SidebarItem>
 

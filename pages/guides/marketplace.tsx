@@ -28,7 +28,7 @@ const MarketPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
         <PortalHeaderCard
           title="Marketplace"
           subtitle="Whitelabel Marketplace"
-          src="/assets/portal/module-header.png"
+          src="/assets/portal/contract-header.png"
         />
         <GuidesList title="All guides" guides={guides} />
       </Stack>
