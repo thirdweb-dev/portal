@@ -1,100 +1,75 @@
 ---
 title: Sign-in with Ethereum using thirdweb connect wallet
-author: "Pratham Prasoon & Raza Zaidi"
-authorAvatar: "/assets/portal/authors/pratham-prasoon.jpg"
-authorAvatar2: "/assets/portal/authors/raza-zaidi.jpg"
-authorTwitter: "https://twitter.com/PrasoonPratham"
-authorTwitter2: "https://twitter.com/razacodes"
-draft: true
-tags: [ui, connect-wallet, react]
+author: "Raza Zaidi and Ayush Pathak"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorAvatar2: "/assets/portal/authors/ayush.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+authorTwitter2: "https://twitter.com/ayshptk"
+draft: false
+tags: [ui, connect-wallet, react, v2]
 summary: "Add a connect wallet button to your website including a signing functionality"
 image: "/assets/portal/guides/sign-in-with-ethereum-using-thirdweb-connectwallet/thumbnail.png"
 date: "2021-12-09"
-updated: ""
+updated: "2022-03-14"
 ---
 
 ## Introduction
 
-Welcome to the **thirdweb Component Library**. This package provides you with extensible components to handle the web3 side of your app.
+Welcome to the **thirdweb React SDK**. This package provides you with extensible hooks and functions to handle the web3 side of your app and also interact with thirdweb contracts.
 
 We simplify the process of integrating web3 into your apps while making sure that you still have all the control you would using other lower level web3 frontend libraries.
 
 Our main features are:
 
-- Support for most commonly used web3 providers including: [MetaMask](https://metamask.io/), [WalletConnect](https://walletconnect.com/), [Coinbase Wallet](https://wallet.coinbase.com/), and [Magic Link](https://magic.link/).
-- An app wide context containing an [ethers.js](https://github.com/ethers-io/ethers.js/) or [web3.js](https://web3js.readthedocs.io/en/v1.5.2/) instance with everything you need to integrate with the blockchain.
-- Easy-to-use plug-and-play components that let you implement complex and fully-featured web3 app setups with only a few lines of code.
+- Support for most commonly used web3 providers including: [MetaMask](https://metamask.io/), [WalletConnect](https://walletconnect.com/), [Coinbase Wallet](https://wallet.coinbase.com/).
 
 ## Get Started
 
-To get started with the **Thirdweb Component Library**, you just need to setup the `ThirdwebWeb3Context` that provides all the context consumed by your app, and the `ThirdwebThemeProvider`, which lets you use our custom components.
+To get started with the **Thirdweb React SDK**, you just need to setup the `ThirdwebProvider`, which lets you use our hooks and functions.
 
 Setting up this context is as easy as wrapping your app with the following setup:
 
 ```jsx:App.js
-import { ThirdwebWeb3Provider, ThirdwebThemeProvider } from "@3rdweb/react";
+import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 
-const App = ({ children }) => {
-  // Put the ethereum chain ids of the chains you want to support
-  const supportedChainIds = [1, 4, 137];
-
-  /**
-   * Include the connectors you want to support
-   * injected - MetaMask
-   * magic - Magic Link
-   * walletconnect - Wallet Connect
-   * walletlink - Coinbase Wallet
-   */
-  const connectors = {
-    injected: {},
-    magic: {
-      apiKey: "pk_...", // Your magic api key
-      chainId: 1, // The chain ID you want to allow on magic
-    },
-    walletconnect: {},
-    walletlink: {
-      appName: "thirdweb - demo",
-      url: "https://thirdweb.com",
-      darkMode: false,
-    },
-  };
-
-  /**
-   * Make sure that your app is wrapped with these contexts.
-   * If you're using Next JS, you'll have to replace children with the Component setup
-   */
+const App = () => {
   return (
-    <ThirdwebWeb3Provider>
-      <ThirdwebThemeProvider>{children}</ThirdwebThemeProvider>
-    </ThirdwebWeb3Provider>
+    <ThirdwebProvider desiredChainId={ChainId.Mainnet}>
+      <YourApp />
+    </ThirdwebProvider>
   );
 };
 ```
 
-## Connect Wallet & Web3 Setup
-
-Currently, we provide you with components and hooks to easily integrate web3 into your app and setup an app wide context without having to deal with the complexity of lower level web3 configuration.
-
-There are two main ways to implement wallet connection and web3 integration with the **Thirdweb Component Library**, both of which we will go over below:
-
-1. You can use our fully configured `ConnectWallet` component to handle all web3 connection and integration, including wallet connection and network switching. This is the easiest way to use the **Thirdweb Component Library**.
-2. If you want to make your own unique web3 connection setup, you can use our `useWeb3` and `useSwitchNetwork` hooks to make your own custom component.
 
 ### Use Connect Wallet
 
-Using our `ConnectWallet` component is the easiest way to integrate web3 into your app, complete with network switching, wallet connection, and everything else you need. Adding our connect wallet button is as easy as the following:
+Using our hooks is the easiest way to integrate web3 into your app, complete with network switching, wallet connection, and everything else you need - including using thirdweb contracts. Adding our connect wallet button is as easy as the following:
 
 ```jsx:components/Connect.js
-import { ConnectWallet } from "@3rdweb/react";
+import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
 
-const Connect = () => {
-  return <ConnectWallet />;
+export const ConnectMetamaskButtonComponent = () => {
+  // get a function to connect to a particular wallet
+  // options: useMetamask() - useCoinbase() - useWalletConnect()
+  const connectWithMetamask = useMetamask();
+  // once connected, you can get the connected wallet information from anywhere (address, signer)
+  const address = useAddress();
+  return (
+    <div>
+      {address ? (
+        <h4>Connected as {address}</h4>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
+      )}
+    </div>
+  );
 };
 ```
 
-You can place this button anywhere in your app and it will display a wallet connection that displays connected chain, wallet address, and balance information as well as a fully-featured connection manager modal.
+You can place this button anywhere in your app and it will display a wallet connection that displays the wallet address.
 
-For a fully functional setup using our `ConnectWallet` button, you can checkout our [NextJS example connect page](https://github.com/thirdweb-dev/ui/blob/main/examples/next/pages/connect.tsx).
+For a fully functional setup using the SDK, you can checkout our [thirdweb NextJS Starter](https://github.com/thirdweb-dev/sdk-next-starter).
 
 ### Use Custom Hooks to sign with your Wallet
 
@@ -108,21 +83,38 @@ Check out this diagram for a visual representation of what we will do
 
 ![A workflow showing the signature process](/assets/portal/guides/sign-in-with-ethereum-using-thirdweb-connectwallet/workflow.png)
 
-You can find the GitHub repo over [here](https://github.com/razacodespython/sign-in-with-ethereum).
+You can find the GitHub repo over [here](https://github.com/thirdweb-dev/examples/tree/main/typescript/sign-in-with-ethereum).
 
 First lets create our homepage with the `Connect Wallet` component
 
 ```jsx:pages/index.js
-import { useWeb3 } from "@3rdweb/hooks";
-import { ConnectWallet } from "@3rdweb/react";
+
+import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
+
+export const ConnectMetamaskButtonComponent = () => {
+  // get a function to connect to a particular wallet
+  // options: useMetamask() - useCoinbase() - useWalletConnect()
+  const connectWithMetamask = useMetamask();
+  // once connected, you can get the connected wallet information from anywhere (address, signer)
+  const address = useAddress();
+  return (
+    <div>
+      {address ? (
+        <h4>Connected as {address}</h4>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
+      )}
+    </div>
+  );
+};
 /*import Profile from "../components/Profile";
 */
 export default function Home() {
-  const { address } = useWeb3();
+  const address = useAddress();
 
   return (
     <div>
-      <ConnectWallet></ConnectWallet>
+      <ConnectMetamaskButtonComponent/>
       {address ? <Profile></Profile> : <h1>Please connect your wallet</h1>}
     </div>
   );
@@ -358,13 +350,13 @@ Let's take it step by step. First we create a function to get the message:
  
 
 ```tsx:components/Profile.jsx
-import { useWeb3 } from "@3rdweb/hooks";
+import { useAddress, useDisconnect, useMetamask, useProvider } from "@thirdweb-dev/react";
 import { Profiler, useCallback, useEffect, useState } from "react";
 import { Button, useToast, Spinner, Input } from "@chakra-ui/react";
 
 export default function Profile() {
-  const { address, provider } = useWeb3();
-
+  const provider = useProvider()
+  const address = useAddress();
   const [jwt, setJwt] = useState(null);
   const [username, setUsername] = useState(null);
 
@@ -547,13 +539,14 @@ return (
 And for the full code of the `Profile.jsx` component 👇
 
 ```tsx:components/Profile.jsx
-import { useWeb3 } from "@3rdweb/hooks";
+import { useAddress, useProvider } from "@thirdweb-dev/react";
+
 import { Profiler, useCallback, useEffect, useState } from "react";
 import { Button, useToast, Spinner, Input } from "@chakra-ui/react";
 
 export default function Profile() {
-  const { address, provider } = useWeb3();
-
+  const address = useAddress();
+  const provider = useProvider();
   const [jwt, setJwt] = useState(null);
   const [username, setUsername] = useState(null);
 
@@ -718,5 +711,9 @@ export default function Profile() {
 }
 ```
 
-That's it! Now your app can authorise a change to your backend by signing with your wallet.
+## Final thoughts
+
+That's it! Now your app can authorise a change to your backend by signing with your wallet. 
+
+Remember you can check all the code for this guide on [this GitHub repository](https://github.com/thirdweb-dev/examples/tree/main/typescript/sign-in-with-ethereum).
 
