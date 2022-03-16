@@ -346,7 +346,7 @@ export const getStaticProps: GetStaticProps = async () => {
       return 0;
     });
 
-  return { props: { featuredGuides }, revalidate: 21_600 };
+  return { props: { featuredGuides } };
 };
 
 export default PortalHome;
