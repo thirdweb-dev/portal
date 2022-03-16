@@ -82,6 +82,11 @@ const moduleExports = {
         permanent: true,
       },
       {
+        source: "/guides/create-a-drop-with-thirdweb-dashboard",
+        destination: "/guides/release-an-nft-drop-with-no-code",
+        permanent: true,
+      },
+      {
         source: "/learn/connect-to-blockchain",
         destination: "/learn-thirdweb/connect-to-blockchain",
         permanent: true,

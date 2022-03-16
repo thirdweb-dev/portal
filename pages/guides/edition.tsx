@@ -28,7 +28,7 @@ const EditionPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
         <PortalHeaderCard
           title="Edition"
           subtitle="ERC1155 standard"
-          src="/assets/portal/module-header.png"
+          src="/assets/portal/contract-header.png"
         />
         <GuidesList title="All guides" guides={guides} />
       </Stack>
