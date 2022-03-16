@@ -145,7 +145,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 </LinkBox>
                 <Card p={0}>
                   <SimpleGrid>
-                    <NextLink href="https://thirdweb-dev.github.io/typescript-sdk/sdk.html">
+                    <NextLink href="https://docs.thridweb.com/typescript">
                       <HStack
                         role="group"
                         _hover={{ bgColor: "blue.100", borderTopRadius: "xl" }}
@@ -346,7 +346,7 @@ export const getStaticProps: GetStaticProps = async () => {
       return 0;
     });
 
-  return { props: { featuredGuides }, revalidate: 21_600 };
+  return { props: { featuredGuides } };
 };
 
 export default PortalHome;
