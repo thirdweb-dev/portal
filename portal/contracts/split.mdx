@@ -1,0 +1,68 @@
+---
+title: Split contract
+author: "Raza Zaidi
+authorAvatar: "/assets/portal/authors/raza.jpeg"
+authorTwitter: "https://twitter.com/razacodes"
+draft: false
+summary: ""
+date: "2021-03-17"
+updated: ""
+---
+
+## In a nutshell
+
+Introducing the split Contract, which lets you easily create royalty split to securely hold and distribute funds.
+You can use it to store any funds by sending funds directly to the contract, plugging it in as the recipient address of other contracts, or any other way that you can send funds to a standard wallet.
+
+## How it works
+
+Think of the split contract as a fully customizable decentralized treasury. You can use the split contract to receive and send funds by interacting with other contracts. 
+The split contract lets you specify (multiple) wallets who are recipients of any revenue or royalty split. Based on the split per wallet, the funds are distributed accordingly.
+This contract also has the ability to hold native currencies (ETH and MATIC) and any ERC-20 tokens. 
+
+
+## Setting up your split Contract
+
+You can create and deploy a split contract from your dashboard. Go ahead and click on `Create new contract`.
+[Create new contract](/assets/portal/contracts/split/1split.png)
+
+The Split contract can be found under Governance.
+[Click on governance](/assets/portal/contracts/split/2split.png)
+[Click on split](/assets/portal/contracts/split/3split.png)
+
+Add all the relevant wallet addresses to the contract. Please note, the total allocation needs to add up to a 100%.
+[Deploy the split contract](/assets/portal/contracts/split/4split.png)
+
+After you created the contract, copy the address and use it in any other contract you want.
+[COPY the split contract](/assets/portal/contracts/split/5split.png)
+
+Here's an example on how to use the split contract inside an existing NFT Collection contract. 
+Side note, you can also use the split contract in new NFT Collection contracts or Drop contracts.
+Go to the settings inside your NFT Collection contract.
+
+[Go to settings in NFT Collection contract](/assets/portal/contracts/split/6split.png)
+
+Enter the address of the split contract under either the `Primary Sales`, `Royalty recipient` or both.
+Now in case of any sale, parties in the split contract will benefit from the primary sale. If you also entered the address of the split contract under `Royalty Recipient`, then the same goes for any subsequent sales.
+[Enter split contract address](/assets/portal/contracts/split/7split.png)
+
+
+
+Then click on the 
+
+2. setup split
+3. copy address
+4. enter contract address in either existing contract or new contract in either primary sales or royalty. up to you.
+
+
+<MdxNavigation>
+  <MdxNavigationItem
+    href="/contracts/pack"
+    title="Pack"
+  />
+  <MdxNavigationItem 
+    href="/guides" 
+    title="Developer Guides" 
+    next 
+  />
+</MdxNavigation>
