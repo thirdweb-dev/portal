@@ -101,19 +101,13 @@ npm i ethers
 Then, create a `treasury.js` file, make sure the SDK is initialized before you try to use it.
 
 ```js:treasury.js
-import { ethers } from "ethers";
-
-// SDK initialization here
+import sdk from "./1-initialize-sdk.js";
 
 // This is our governance contract.
-const vote = sdk.getvote(
-  "<VOTE_CONTRACT_ADDRESS>",
-);
+const vote = sdk.getVote("0xE079991f3c26b832C3E8171F512694899E831eDB");
 
 // This is our ERC-20 contract.
-const token = sdk.getToken(
-  "<TOKEN_ADDRESS>",
-);
+const token = sdk.getToken("0xF93B8AE0a84325D1d7Aa09593DCA3Ad5Fe868eA7");
 
 (async () => {
   try {
@@ -134,20 +128,20 @@ const token = sdk.getToken(
   try {
     // Grab our wallet's token balance, remember -- we hold basically the entire supply right now!
     const ownedTokenBalance = await token.balanceOf(
-      "<YOUR_WALLET_ADDRESS>"
+      process.env.WALLET_ADDRESS
     );
 
     // Grab 90% of the supply that we hold.
-    const ownedAmount = ethers.BigNumber.from(ownedTokenBalance.value);
-    const percent90 = ownedAmount.div(100).mul(90);
+    const ownedAmount = ownedTokenBalance.displayValue;
+    const percent90 = Number(ownedAmount) / 100 * 90;
 
     // Transfer 90% of the supply to our voting contract.
     await token.transfer(
-      vote.address,
+      vote.getAddress(),
       percent90
-    );
+    ); 
 
-    console.log("✅ Successfully transferred tokens to vote contract");
+    console.log("✅ Successfully transferred " + percent90 + " tokens to vote contract");
   } catch (err) {
     console.error("failed to transfer tokens to vote contract", err);
   }
