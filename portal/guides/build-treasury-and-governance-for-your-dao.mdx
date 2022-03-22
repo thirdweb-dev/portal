@@ -118,7 +118,7 @@ const token = sdk.getToken(
 (async () => {
   try {
     // Give our treasury the power to mint additional token if needed.
-    await token.grantRole("minter", vote.address);
+    await token.roles.grant("minter", vote.getAddress());
 
     console.log(
       "Successfully gave vote contract permissions to act on token contract"
