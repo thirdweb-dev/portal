@@ -3,8 +3,8 @@ title: Learn how to set up gasless transactions
 author: "Jake Loo"
 authorAvatar: "/assets/portal/authors/jake-loo.jpeg"
 authorTwitter: "https://twitter.com/jake_loo"
-draft: true
-tags: [gas, mint, access]
+draft: false
+tags: [gas, mint, access, v2]
 summary: "Setup gas-less transactions with thirdweb."
 image: "/assets/portal/guides/setup-gasless-transactions/thumbnail.png"
 date: "2021-09-16"
@@ -40,7 +40,11 @@ To setup gasless transaction using OpenZeppelin Defender we would need to setup 
 
 ```ts
 new ThirdwebSDK(signerOrProvider, {
-  transactionRelayerUrl: "https://api.defender.openzeppelin.com/autotasks/...",
+   gasless: {
+      openzeppelin: {
+         relayerUrl: "https://api.defender.openzeppelin.com/autotasks/...",
+      }
+   }
 });
 ```
 
