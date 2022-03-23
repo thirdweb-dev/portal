@@ -101,7 +101,7 @@ npm i ethers
 Then, create a `treasury.js` file, make sure the SDK is initialized before you try to use it.
 
 ```js:treasury.js
-import sdk from "./1-initialize-sdk.js";
+// SDK initialization here
 
 // This is our governance contract.
 const vote = sdk.getVote("INSERT_VOTE_ADDRESS");
@@ -176,15 +176,11 @@ import { ethers } from "ethers";
 
 // SDK initialization here
 
-// Our voting contract.
-const vote = sdk.getvote(
-  "INSERT_VOTE_CONTRACT_ADDRESS",
-);
+// This is our governance contract.
+const vote = sdk.getVote("INSERT_VOTE_ADDRESS");
 
-// Our ERC-20 contract.
-const token = sdk.getToken(
-  "INSERT_TOKEN_CONTRACT_ADDRESS",
-);
+// This is our ERC-20 contract.
+const token = sdk.getToken("INSERT_TOKEN_ADDRESS");
 
 (async () => {
   try {
