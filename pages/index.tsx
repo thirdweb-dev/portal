@@ -145,7 +145,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 </LinkBox>
                 <Card p={0}>
                   <SimpleGrid>
-                    <NextLink href="https://docs.thridweb.com/typescript">
+                    <NextLink href="https://docs.thirdweb.com/typescript">
                       <HStack
                         role="group"
                         _hover={{ bgColor: "blue.100", borderTopRadius: "xl" }}
