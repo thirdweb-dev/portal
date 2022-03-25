@@ -1,8 +1,10 @@
 ---
 title: "Minting NFTs on demand using signatures"
-author: "Raza Zaidi"
+author: "Raza Zaidi and Ayush Pathak"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorAvatar2: "/assets/portal/authors/ayush.jpg"
 authorTwitter: "https://twitter.com/razacodes"
+authorTwitter2: "https://twitter.com/ayshptk"
 draft: false
 tags: [nft-drop, signature, mint]
 summary: "This guide shows how to create a signature and allow anyone holding that signature to mint an NFT!"
@@ -25,7 +27,7 @@ Before we start make sure you have the dependencies installed and understand how
 
 After instantiating the `sdk`, we're going to:
 
-1. Build a component for the `connect wallet` button to... connect our wallet and use it to create a signature
+1. Build a component for the `connect wallet` button to connect our wallet and use it to create a signature
 2. Create a unique signature that the owner of the NFT can sell or gift to someone
 3. Allow anyone, holding that unique signature, to claim a NFT
 
@@ -52,16 +54,45 @@ export default function useProtectedPage() {
 }
 ```
 
-## 2. Create the layout for our page
+## 2. Use the thirdweb and chakra providers
 
-Next up we create a component folder. Create a `Layout.ts` file for our layout and connect wallet button.
+We need to use the thirdweb and chakra providers. You can use the [thirdweb nextjs starter](https://github.com/thirdweb-example/next-typescript-starter) to kickstart this. Here we are using the Mumbai chain.
+
+```tsx:_app.tsx
+import type { AppProps } from "next/app";
+import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
+import { ChakraProvider } from "@chakra-ui/provider";
+// This is the chainId your dApp will work on.
+const activeChainId = ChainId.Mumbai;
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <ThirdwebProvider desiredChainId={activeChainId}>
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </ThirdwebProvider>
+  );
+}
+
+export default MyApp;
+
+```
+
+## 3. Create the connect wallet component
+Next up we create a `components` folder. Create a `Connect.ts` file for our layout and connect wallet button.
 The `Flex` library is used to style our component and we're using the `useMetammask` hook here to get our **connect wallet** button. If you want to know more about the connect wallet button component, click [here](https://thirdweb.com/portal/guides/add-connectwallet-to-your-website).
 
-```tsx:Layout.tsx
-import { ThirdwebProvider, useMetamask, ChainId, useAddress } from "@thirdweb-dev/react";
+```tsx:Connect.tsx
+import {
+  ThirdwebProvider,
+  useMetamask,
+  ChainId,
+  useAddress,
+} from "@thirdweb-dev/react";
 import { Flex } from "@chakra-ui/react";
 
-function Connect () {
+export default function Connect() {
   // get a function to connect to a particular wallet
   // options: useMetamask() - useCoinbase() - useWalletConnect()
   const connectWithMetamask = useMetamask();
@@ -76,26 +107,10 @@ function Connect () {
       )}
     </div>
   );
-};
-
-const Layout: React.FC = ({ children }) => {
-  return (
-    <ThirdwebProvider desiredChainId={ChainId.Rinkeby}>
-    <Flex flexDir="column" padding={6}>
-      <Connect />
-      {children}
-    </Flex>
-    </ThirdwebProvider>
-
-  );
-};
-
-
-export default Layout;
-
+}
 ```
 
-## 3. Build our homepage
+## 4. Build our homepage
 
 We need two buttons. one to create a signature and one to use a signature 👇
 
@@ -104,14 +119,13 @@ Each button will lead the user to a page to create the signature and the other t
 ```tsx:home.tsx
 import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import useProtectedPage from "../hooks/useProtectedPage";
-
+import { useEffect } from "react";
+import { useAddress } from "@thirdweb-dev/react";
+import { useProtectedPage } from "../hooks/useProtectedPage";
 export default function Home() {
-  // using our hook to navigate the request of the user
-  // when we click our buttons in the page we can lead the user to the right page
-  useProtectedPage();
-
   const router = useRouter();
+
+  useProtectedPage();
 
   return (
     <Flex flexDir="column" alignContent="center" textAlign="center">
@@ -142,6 +156,7 @@ export default function Home() {
     </Flex>
   );
 }
+
 ```
 
 Don't forget to connect the homepage to the `index.ts`
@@ -151,9 +166,9 @@ import { useAddress } from "@thirdweb-dev/react";
 import { Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-
+import Connect from "../components/Connect";
 export default function LandingPage() {
-  const address = useAddress()
+  const address = useAddress();
 
   const router = useRouter();
 
@@ -166,9 +181,11 @@ export default function LandingPage() {
   return (
     <div>
       <Heading size="lg">Connect your wallet to get started!</Heading>
+      <Connect />
     </div>
   );
 }
+
 ```
 
 ## 5. The ‘Creator' page
@@ -193,15 +210,17 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useMemo, useState } from "react";
 import { useNFTCollection } from "@thirdweb-dev/react";
-
+import { useProtectedPage } from "../hooks/useProtectedPage";
 
 export default function Creator() {
+  useProtectedPage();
   const [loading, setLoading] = useState(false);
 
- 
   const toast = useToast();
-  
-  const  contract = useNFTCollection("0x1AF863CCa75201A619bE1Ba69797309ebb82c8b0")
+
+  const contract = useNFTCollection(
+    process.env.NEXT_PUBLIC_NFT_COLLECTION as string
+  );
 
   const [payload, setPayload] = useState<any>();
 
@@ -228,18 +247,19 @@ export default function Creator() {
 
     const startTime = new Date();
     const endTime = new Date(Date.now() + 60 * 60 * 24 * 1000);
-    const payload = await contract?.signature.generate({
+    // Change this to your need!
+    const signedPayload = await contract?.signature.generate({
       metadata: metadataJson, // The NFT to mint
-     to: "0x55c9bBb71a5CC11c2f0c40362Bb691b33a78B764", // Who will receive the NFT (or AddressZero for anyone)
-     price: 0.5, // the price to pay for minting
-     currencyAddress: NATIVE_TOKEN_ADDRESS, // the currency to pay with
-     mintStartTime: startTime, // can mint anytime from now
-     mintEndTime: endTime, // to 24h from now,
-     royaltyRecipient: "0x55c9bBb71a5CC11c2f0c40362Bb691b33a78B764", // custom royalty recipient for this NFT
-     royaltyBps: 100, // custom royalty fees for this NFT (in bps)
-     primarySaleRecipient: "0x55c9bBb71a5CC11c2f0c40362Bb691b33a78B764", // custom sale recipient for this NFT
- });
-    setPayload(payload);
+      to: "0x55c9bBb71a5CC11c2f0c40362Bb691b33a78B764", // Who will receive the NFT (or AddressZero for anyone)
+      price: 0.5, // the price to pay for minting
+      currencyAddress: NATIVE_TOKEN_ADDRESS, // the currency to pay with
+      mintStartTime: startTime, // can mint anytime from now
+      mintEndTime: endTime, // to 24h from now,
+      royaltyRecipient: "0x55c9bBb71a5CC11c2f0c40362Bb691b33a78B764", // custom royalty recipient for this NFT
+      royaltyBps: 100, // custom royalty fees for this NFT (in bps)
+      primarySaleRecipient: "0x55c9bBb71a5CC11c2f0c40362Bb691b33a78B764", // custom sale recipient for this NFT
+    });
+    setPayload(signedPayload);
   }, [module, metadata]);
 
   return (
@@ -282,6 +302,7 @@ export default function Creator() {
     </Flex>
   );
 }
+
 ```
 
 ## 6. Claimer page
@@ -301,21 +322,24 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useMemo, useState } from "react";
 import { useNFTCollection } from "@thirdweb-dev/react";
+import { useProtectedPage } from "../hooks/useProtectedPage";
 
 export default function Claimer() {
+  useProtectedPage();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
 
-  const contract = useNFTCollection("0x1AF863CCa75201A619bE1Ba69797309ebb82c8b0")
+  const contract = useNFTCollection(
+    process.env.NEXT_PUBLIC_NFT_COLLECTION as string
+  );
 
   const [payloadValid, setPayloadValid] = useState(true);
   const [payload, setPayload] = useState<any>();
   const [signature, setSignature] = useState<string>();
 
   const mint = useCallback(async () => {
-    
     const id = await contract?.signature.mint(payload);
-    console.log(contract)
+    console.log(contract);
 
     toast({
       status: "success",
@@ -328,10 +352,10 @@ export default function Claimer() {
       <Heading textAlign="center">Claimer</Heading>
 
       <Text textAlign={"center"}>
-        Bring your payload and signature to claim your NFT!
+        Bring your signed payload to claim your NFT!
       </Text>
 
-      <Heading size="sm">Payload</Heading>
+      <Heading size="sm">Signed Payload</Heading>
       <Textarea
         minHeight="300px"
         onChange={(ev) => {
@@ -345,7 +369,7 @@ export default function Claimer() {
             setPayload(payload);
             setPayloadValid(true);
           } catch (err) {
-            console.log(err)
+            console.log(err);
             setPayloadValid(false);
           }
         }}
@@ -356,11 +380,6 @@ export default function Claimer() {
         </Alert>
       )}
 
-      <Heading marginTop={2} size="sm">
-        Signature
-      </Heading>
-      <Input onChange={(ev) => setSignature(ev.target.value)}></Input>
-
       <Button
         marginTop={2}
         colorScheme="green"
@@ -369,7 +388,7 @@ export default function Claimer() {
           try {
             await mint();
           } catch (err: any) {
-            console.log(err)
+            console.log(err);
             toast({
               status: "error",
               title: "Error minting NFT",
@@ -385,8 +404,9 @@ export default function Claimer() {
     </Flex>
   );
 }
+
 ```
 
 ## That's it!
 
-Anyone passing the **payload** can mint an unique NFT!
+Anyone passing the **payload** can mint an unique NFT! Dont forget to copy `.env.example` to `.env` and add the contract address!
