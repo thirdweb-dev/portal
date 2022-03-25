@@ -104,8 +104,8 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   How much does it cost?
                 </Heading>
                 <Text size="body.lg">
-                  Our tools and SDKs are free to use. You only pay a small
-                  percentage of any royalty you receive.
+                  Our tools and SDKs are free to use. We don&apos;t take any
+                  fees on anything you do with our platform.
                 </Text>
               </Box>
             </SimpleGrid>
@@ -145,7 +145,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 </LinkBox>
                 <Card p={0}>
                   <SimpleGrid>
-                    <NextLink href="https://docs.thridweb.com/typescript">
+                    <NextLink href="https://docs.thirdweb.com/typescript">
                       <HStack
                         role="group"
                         _hover={{ bgColor: "blue.100", borderTopRadius: "xl" }}

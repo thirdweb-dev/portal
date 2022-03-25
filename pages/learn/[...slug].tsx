@@ -20,21 +20,21 @@ import {
   getAllGuides,
   getHeadings,
   getMdxSource,
-  learnThirdwebFilePaths,
-  LEARN_THIRDWEB_PATH,
+  learnFilePaths,
+  LEARN_PATH,
 } from "utils/mdxUtils";
 import { Doc, GuidesPageProps, TocHeading } from "utils/portalTypes";
 import { pxToRem } from "utils/pxFunctions";
 
 dayjs.extend(localizedFormat);
 
-interface LearnThirdwebPageProps extends GuidesPageProps {
+interface LearnPageProps extends GuidesPageProps {
   source: MDXRemoteSerializeResult;
   frontMatter: Doc;
   headings: TocHeading[];
 }
 
-const LearnThirdwebPage: ConsolePage<LearnThirdwebPageProps> = ({
+const LearnPage: ConsolePage<LearnPageProps> = ({
   source,
   frontMatter,
   headings,
@@ -43,7 +43,7 @@ const LearnThirdwebPage: ConsolePage<LearnThirdwebPageProps> = ({
   const router = useRouter();
   const slug = useSingleQueryParam("slug");
   const { Track } = useTrack({
-    page: "learn-thirdweb",
+    page: "learn",
     title: frontMatter.title,
     slug,
   });
@@ -127,12 +127,12 @@ const LearnThirdwebPage: ConsolePage<LearnThirdwebPageProps> = ({
   );
 };
 
-export default LearnThirdwebPage;
+export default LearnPage;
 
-LearnThirdwebPage.Layout = PortalLayout;
+LearnPage.Layout = PortalLayout;
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const postFilePath = path.join(LEARN_THIRDWEB_PATH, `${params?.slug}.mdx`);
+  const postFilePath = path.join(LEARN_PATH, `${params?.slug}.mdx`);
   const source = fs.readFileSync(postFilePath);
 
   const { content, data } = matter(source);
@@ -157,7 +157,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths = async () => {
-  const paths = learnThirdwebFilePaths
+  const paths = learnFilePaths
     // Remove file extensions for page paths
     .map((pth) => pth.replace(/\.mdx?$/, ""))
     // Map the path into the static paths object required by Next.js

@@ -16,6 +16,11 @@ export const guidesFilePaths = fs
   // Only include md(x) files
   .filter((pth) => /\.mdx?$/.test(pth));
 
+export const LEARN_PATH = path.join(process.cwd(), "portal/learn");
+export const learnFilePaths = fs
+  .readdirSync(LEARN_PATH)
+  .filter((pth) => /\.mdx?$/.test(pth));
+
 export const LEARN_THIRDWEB_PATH = path.join(
   process.cwd(),
   "portal/learn-thirdweb",
