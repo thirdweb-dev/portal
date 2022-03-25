@@ -350,13 +350,12 @@ Let's take it step by step. First we create a function to get the message:
  
 
 ```tsx:components/Profile.jsx
-import { useAddress, useDisconnect, useMetamask, useSigner } from "@thirdweb-dev/react";
+import { useAddress, useDisconnect, useMetamask, useProvider } from "@thirdweb-dev/react";
 import { Profiler, useCallback, useEffect, useState } from "react";
 import { Button, useToast, Spinner, Input } from "@chakra-ui/react";
 
 export default function Profile() {
-  const signer = useSigner();
-  const provider = signer.getProvider();
+  const provider = useProvider()
   const address = useAddress();
   const [jwt, setJwt] = useState(null);
   const [username, setUsername] = useState(null);
