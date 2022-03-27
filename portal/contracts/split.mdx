@@ -11,7 +11,7 @@ updated: ""
 
 ## In a nutshell
 
-Introducing the split Contract, which lets you easily create royalty split to securely hold and distribute funds.
+Introducing the **Split** contract, which lets you easily create a royalty split to securely hold and distribute funds.
 You can use it to store any funds by sending funds directly to the contract, plugging it in as the recipient address of other contracts, or any other way that you can send funds to a standard wallet.
 
 ## How it works
@@ -20,10 +20,18 @@ Think of the split contract as a fully customizable decentralized treasury. You 
 The split contract lets you specify (multiple) wallets who are recipients of any revenue or royalty split. Based on the split per wallet, the funds are distributed accordingly.
 This contract also has the ability to hold native currencies (ETH and MATIC) and any ERC-20 tokens. 
 
+## What can you do with our contract?
 
-## Setting up your split Contract
+The following use cases are suited for the Split contract:
 
-You can create and deploy a split contract from your dashboard. Go ahead and click on `Create new contract`.
+1. You are working with a team and need to split funds on chain
+2. Share revenue from our primary minting sales with others
+3. Share revenue from our royalty sales with others
+4. Any programmatic split of revenue
+
+## Setting up your Split contract
+
+You can create a **Split** contract from the thirdweb dashboard. Go ahead and click on `Create new contract`.
 ![Create new contract](/assets/portal/contracts/split/1split.png)
 
 The Split contract can be found under Governance.
@@ -37,23 +45,21 @@ After you created the contract, copy the address and use it in any other contrac
 ![COPY the split contract](/assets/portal/contracts/split/5split.png)
 
 Here's an example on how to use the split contract inside an existing NFT Collection contract. 
-Side note, you can also use the split contract in new NFT Collection contracts or Drop contracts.
 Go to the settings inside your NFT Collection contract.
 
 ![Go to settings in NFT Collection contract](/assets/portal/contracts/split/6split.png)
 
 Enter the address of the split contract under either the `Primary Sales`, `Royalty recipient` or both.
-Now in case of any sale, parties in the split contract will benefit from the primary sale. If you also entered the address of the split contract under `Royalty Recipient`, then the same goes for any subsequent sales.
+Now after any sale, parties in the split contract will benefit from the primary sale. If you also entered the address of the split contract under `Royalty Recipient`, then the same goes for any secondary sales.
 ![Enter split contract address](/assets/portal/contracts/split/7split.png)
 
 
+For a full guide on setting up your Split contract on your NFT Drop, check [this](/guides/nft-drop-with-revenue-share) out.
 
-Then click on the 
-
-2. setup split
-3. copy address
-4. enter contract address in either existing contract or new contract in either primary sales or royalty. up to you.
-
+## Code Guide
+1. You can find the official TypeScript documentation [here](https://docs.thirdweb.com/typescript/sdk.split).
+2. To check out guides for this contract click [here](/guides/split).
+3. To setup your local dev environment, click [here](/guides/sdk-guide).
 
 <MdxNavigation>
   <MdxNavigationItem
