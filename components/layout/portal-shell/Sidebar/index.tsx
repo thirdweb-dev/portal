@@ -52,6 +52,7 @@ export const PortalSidebar: React.FC = () => {
             href="/contracts/marketplace"
           />
           <SidebarItem label="Pack" matchExact href="/contracts/pack" />
+          <SidebarItem label="Split" matchExact href="/contracts/split" />
         </SidebarItem>
         {/* <SidebarItem
           label="Code Examples"
