@@ -1,0 +1,131 @@
+---
+title: Wrap your NFTs with TypeScript
+author: "Mordi Goldstein"
+authorAvatar: ""
+authorTwitter: "https://twitter.com/mordigoldstein"
+draft: false
+tags: [bundle-collection, typescript]
+summary: "Easily wrap any of your NFTs and use them in Thirdweb modules"
+image: ""
+date: "2022-02-14"
+updated: ""
+---
+
+# Wrap Your NFTs
+
+Wrapping lets you add your own NFTs to your thirdweb projects
+
+## Introduction
+
+In this guide, we are going to use TypeScript to take an NFT and wrap it so that it can be used in thirdweb modules. This opens up a world of possibilities and you can read more [here](https://discord.com/channels/834227967404146718/902296761840853012/926253742939062273).  The process is quite simple. We’re going to create a `Bundle Collection` module, find the NFT data on OpenSea, and then wrap the NFT. Let’s dive into it!
+
+## Overview
+
+Here are the steps we will follow in this guide:
+
+1. Create bundle module
+2. Install SDK
+3. Find the NFT data on OpenSea
+4. Wrap NFT
+5. View wrapped NFT in the dashboard
+
+### 1. Create Module
+
+Our first step is to create a `Bundle Collection` module. This can be done in the [dashboard](https://thirdweb.com/dashboard) and if you aren’t sure how to create the module please check [this guide.](/learn/introduction) 
+
+### 2. Import the SDK
+
+In order to make use of our SDK, you need to establish a connection to a blockchain.
+Click [here](/learn/connect-to-blockchain) to learn how to connect to the blockchain and instantiate our SDK.
+
+For this guide, you will need to instantiate the SDK following [these](/learn/connect-to-blockchain#using-your-own-signer-with-thirdweb) steps, using your own signer with thirdweb.
+
+Make sure you have the packages installed 👇
+```bash
+npm install @3rdweb/sdk ethers dotenv
+npm install --save-dev typescript @types/node ts-node tslib
+```
+
+### 3. Find NFT Data on OpenSea
+
+Before we can start writing any code, we need to know which NFT we are wrapping. We need two pieces of information:
+
+1. The contract address of the NFT
+2. The token ID of the NFT
+
+One of the easiest ways to get this is to go onto [OpenSea](https://opensea.io/), find the NFT we want to wrap, scroll down to the “Details” dropdown, and copy the contract address and token ID. We can find the full contract address by clicking on the shortened version in OpenSea and viewing it on Etherscan. 
+
+### 4. Wrap the NFT
+
+Now for the exciting part! To wrap our NFT using TypeScript, we need to start by importing the necessary libraries:
+
+```tsx
+// Importing libraries
+import { ThirdwebSDK } from '@3rdweb/sdk';
+import { ethers } from 'ethers';
+
+//Importing private key
+import dotenv from 'dotenv';
+dotenv.config();
+```
+
+Then, we can instantiate our SDK using the module address from our bundle collection module in our dashbaord:
+
+```tsx
+const sdk = new ThirdwebSDK(
+    new ethers.Wallet(
+      // Your wallet private key
+      process.env.PRIVATE_KEY as string,
+      // RPC URL
+      ethers.getDefaultProvider('https://rinkeby-light.eth.linkpool.io/')
+    )
+  );
+  
+  // Set variable for the bundle module contract address which can be found after creating a bundle collection module in the dashboard
+  const bundleAddress = '<MODULE_ADDRESS>';
+  
+  // Initialize the bundle module with the contract address
+  const bundle = sdk.getBundleModule(bundleAddress);
+```
+
+(PS: We’re using the Rinkeby testnet in this guide.)
+
+Now we can our `wrap` function. We are taking the `nftContractAddress` and `tokenId` from OpenSea. We use whatever values we want for the name, description, and image link of the NFT. These are the values that will be used for the NFT once it is in our bundle module. 
+
+```tsx
+const wrap = async () => {
+  // NFT contract address taken from OpenSea
+  const nftContractAddress = '<NFT_CONTRACT_ADDRESS>';
+
+  // Token ID taken from OpenSea
+  const tokenId = '<TOKEN_ID>';
+
+  // metadata for how we want the NFT added to our bundle module to be
+  const metadata = {
+    name: '<NAME>',
+    description: '<DESCRIPTION>',
+    image: '<IMAGE_LINK>'
+  };
+
+  try {
+    await bundle.createWithNFT(nftContractAddress, tokenId, metadata);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+wrap();
+```
+
+**NB:** 
+
+- Please ensure that you are working on the same blockchain that the NFT you are trying to wrap is on. For example, we are working on the Rinkeby testnet so our NFT also has to be on Rinkeby.
+- Only the owner of the NFT can wrap the NFT.
+
+### 5. View wrapped NFT in the dashboard
+
+Well done! We can now view your wrapped NFT in your [dashboard](https://thirdweb.com/dashboard) ☺️
+
+It should look something like this:
+
+![Dashboard with wrapped NFT](/assets/portal/guides/wrap-your-nfts/1-wrap-nfts.png)
