@@ -20,7 +20,7 @@ A DAO has several components, but the most prominent component is the treasury, 
 
 In order to allow members to vote, they need to hold a so-called `governance token`. A `governance token` is an ERC-20 token. 
 The **Vote** contract needs an ERC-20 contract to function. With thirdweb you can also deploy your very own ERC-20 contract, the **Token** contract.
-You can find more about the **Token** contract [here](/contracts/token)
+You can find more about the **Token** contract [here](/contracts/token).
 
 
 ## What can you do with our contract?
@@ -41,10 +41,10 @@ The **Vote** contract can be found under Governance.
 ![Create new contract](/assets/portal/contracts/vote/3_select_vote.png)
 
 A **Vote** contract allows you to configure the following settings:
-1. `Governance Token Address` is an ERC-20 contract (our **Token** contract) to work with the **Vote** contract.
+1. `Governance Token Address` is an ERC-20 contract to work with the **Vote** contract. This can be either our [Token](/contracts/token) or any other ERC-20 contract that implements IVotes interface.
 2. `Proposal Token Threshold` is the amount of tokens a wallet should hold to make a proposal
-3. `Voting Delay` is the time period after which members can vote on the proposal
-4. `Voting Period` is the period how long members can vote. This needs to be specified in numbers of blocks. Check your chain how many block are generated in an hour or day, so you know what number to fill in here.
+3. `Voting Delay` is the time period after which members can vote on the proposal. This needs to be specified in numbers of blocks. Check your chain how many block are generated in an hour or day, so you know what number to fill in here. For example as of now, Ethereum generates a block every approximately 14 seconds.
+4. `Voting Period` is the period how long members can vote. Here the time period must also be defined in blocks.
 5. `Voting Quorum` determines what the minimum percentage of votes are needed for the proposal to pass.
 ![Create new contract](/assets/portal/contracts/vote/4_vote_settings.png)
 
