@@ -104,8 +104,8 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   How much does it cost?
                 </Heading>
                 <Text size="body.lg">
-                  Our tools and SDKs are free to use. You only pay a small
-                  percentage of any royalty you receive.
+                  Our tools and SDKs are free to use. We don&apos;t take any
+                  fees on anything you do with our platform.
                 </Text>
               </Box>
             </SimpleGrid>
@@ -113,7 +113,10 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
               <InstallTabs />
               <SimpleGrid mt={5} columns={{ base: 1, md: 2 }} spacing={5}>
                 <LinkBox role="group">
-                  <NextLink href="/learn" _hover={{ textDecoration: "none" }}>
+                  <NextLink
+                    href="/learn-thirdweb"
+                    _hover={{ textDecoration: "none" }}
+                  >
                     <Card
                       _groupHover={{ borderColor: "blue.600" }}
                       transition="all 0.25s ease-in-out"
@@ -142,7 +145,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 </LinkBox>
                 <Card p={0}>
                   <SimpleGrid>
-                    <NextLink href="https://thirdweb-dev.github.io/typescript-sdk/sdk.html">
+                    <NextLink href="https://docs.thirdweb.com/typescript">
                       <HStack
                         role="group"
                         _hover={{ bgColor: "blue.100", borderTopRadius: "xl" }}
@@ -343,7 +346,7 @@ export const getStaticProps: GetStaticProps = async () => {
       return 0;
     });
 
-  return { props: { featuredGuides }, revalidate: 21_600 };
+  return { props: { featuredGuides } };
 };
 
 export default PortalHome;

@@ -67,8 +67,6 @@ Currently, we provide you with hooks to easily integrate web3 into your app and 
 
 ### Using custom hooks
 
-If you want to create your own custom component instead of using ours, you can build it with our `useWeb3` and `useSwitchNetwork` hooks.
-
 ```tsx:components/ConnectWallet.js
 import {
   useMetamask,
@@ -80,9 +78,9 @@ import {
 } from '@thirdweb-dev/react';
 
 export const ConnectWallet = () => {
+  const connectWithCoinbaseWallet = useCoinbaseWallet();
   const connectWithMetamask = useMetamask();
   const connectWithWalletConnect = useWalletConnect();
-  const connectWithCoinbaseWallet = useCoinbaseWallet();
   const disconnectWallet = useDisconnect();
   const address = useAddress();
   const network = useNetwork();
@@ -103,12 +101,12 @@ export const ConnectWallet = () => {
   // If no wallet is connected, show connect wallet options
   return (
     <div>
+      <button onClick={() => connectWithCoinbaseWallet()}>
+        Connect Coinbase Wallet
+      </button>
       <button onClick={() => connectWithMetamask()}>Connect MetaMask</button>
       <button onClick={() => connectWithWalletConnect()}>
         Connect WalletConnect
-      </button>
-      <button onClick={() => connectWithCoinbaseWallet()}>
-        Connect Coinbase Wallet
       </button>
     </div>
   );

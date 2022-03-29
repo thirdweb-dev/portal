@@ -32,7 +32,7 @@ export const PortalSidebar: React.FC = () => {
             href="/learn-thirdweb/connect-to-blockchain"
           />
         </SidebarItem>
-        <SidebarItem label="Contracts" matchExact href="/contracts">
+        <SidebarItem label="Contracts" matchExact href="/contracts" initialOpen>
           <SidebarItem
             label="NFT Collection"
             matchExact
@@ -52,6 +52,8 @@ export const PortalSidebar: React.FC = () => {
             href="/contracts/marketplace"
           />
           <SidebarItem label="Pack" matchExact href="/contracts/pack" />
+          <SidebarItem label="Split" matchExact href="/contracts/split" />
+          <SidebarItem label="Vote" matchExact href="/contracts/vote" />
         </SidebarItem>
         {/* <SidebarItem
           label="Code Examples"
@@ -104,12 +106,7 @@ export const PortalSidebar: React.FC = () => {
             href="/learn/code-examples/splits"
           />
         </SidebarItem> */}
-        <SidebarItem
-          label="Developer Guides"
-          href="/guides"
-          matchExact
-          initialOpen
-        >
+        <SidebarItem label="Developer Guides" href="/guides" matchExact>
           <SidebarItem label="General" href="/guides/general" />
           <SidebarItem label="NFT Collection" href="/guides/nft-collection" />
           <SidebarItem label="Edition" href="/guides/edition" />
@@ -119,7 +116,7 @@ export const PortalSidebar: React.FC = () => {
           <SidebarItem label="Marketplace" href="/guides/marketplace" />
           <SidebarItem label="Pack" href="/guides/pack" />
           <SidebarItem label="Vote" href="/guides/vote" />
-          <SidebarItem label="Splits" href="/guides/splits" />
+          <SidebarItem label="Split" href="/guides/split" />
           <SidebarItem label="UI" href="/guides/ui" />
         </SidebarItem>
 

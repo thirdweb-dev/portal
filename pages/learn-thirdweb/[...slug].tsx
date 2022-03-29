@@ -28,13 +28,13 @@ import { pxToRem } from "utils/pxFunctions";
 
 dayjs.extend(localizedFormat);
 
-interface LearnPageProps extends GuidesPageProps {
+interface LearnThirdwebPageProps extends GuidesPageProps {
   source: MDXRemoteSerializeResult;
   frontMatter: Doc;
   headings: TocHeading[];
 }
 
-const LearnPage: ConsolePage<LearnPageProps> = ({
+const LearnThirdwebPage: ConsolePage<LearnThirdwebPageProps> = ({
   source,
   frontMatter,
   headings,
@@ -43,7 +43,7 @@ const LearnPage: ConsolePage<LearnPageProps> = ({
   const router = useRouter();
   const slug = useSingleQueryParam("slug");
   const { Track } = useTrack({
-    page: "learn",
+    page: "learn-thirdweb",
     title: frontMatter.title,
     slug,
   });
@@ -127,9 +127,9 @@ const LearnPage: ConsolePage<LearnPageProps> = ({
   );
 };
 
-export default LearnPage;
+export default LearnThirdwebPage;
 
-LearnPage.Layout = PortalLayout;
+LearnThirdwebPage.Layout = PortalLayout;
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const postFilePath = path.join(LEARN_THIRDWEB_PATH, `${params?.slug}.mdx`);
