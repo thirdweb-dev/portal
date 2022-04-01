@@ -29,6 +29,11 @@ export const learnThirdwebFilePaths = fs
   .readdirSync(LEARN_THIRDWEB_PATH)
   .filter((pth) => /\.mdx?$/.test(pth));
 
+export const LEARN_WEB3_PATH = path.join(process.cwd(), "portal/learn-web3");
+export const learnWeb3FilePaths = fs
+  .readdirSync(LEARN_WEB3_PATH)
+  .filter((pth) => /\.mdx?$/.test(pth));
+
 export const CONTRACTS_PATH = path.join(process.cwd(), "portal/contracts");
 export const contractsFilePaths = fs
   .readdirSync(CONTRACTS_PATH)
