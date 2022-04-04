@@ -6,7 +6,7 @@ authorAvatar2: "/assets/portal/authors/ayush.jpg"
 authorTwitter: "https://twitter.com/razacodes"
 authorTwitter2: "https://twitter.com/ayshptk"
 draft: false
-tags: [nft-drop, signature, mint]
+tags: [nft-collection, signature, mint]
 summary: "This guide shows how to create a signature and allow anyone holding that signature to mint an NFT!"
 image: "/assets/portal/guides/on-demand-minting/thumbnail.png"
 date: "2022-03-14"
@@ -15,21 +15,32 @@ updated: ""
 
 ## Intro
 
-Our latest feature allows you to create unique ID's to hand out to anyone you want. Only users with that code will be able to mint or claim an unique NFT! thirdweb has created an easy component for you to integrate in your app! Let's take a look. Also you can find a GitHub repo [here](https://github.com/thirdweb-dev/examples/tree/main/typescript/signature-based-minting), where we show how to use this code.
+Our on-demand minting feature allows you to create unique ID's to hand out to anyone you want. Only users with that code will be able to mint or claim an unique NFT! thirdweb has created an easy component for you to integrate in your app! Let's take a look. Also you can find a GitHub repo [here](https://github.com/thirdweb-dev/examples/tree/main/typescript/signature-based-minting), where we show how to use this code.
 
 Sidenote: in this tutorial we will allow an user, who has a unique signature, to mint an NFT. So the actual minting happens once the user uses their unique signature.
+
+## Why use On Demand Minting
+
+With on demand minting you can create an NFT collection which is exclusive to the audience you want. It's similar to giving someone a gift card with a specific purpose. 
+The unique signature functions in a similar way, ensuring that only the users you want are able to mint your NFTs.
 
 ## Requirements
 
 Before we start make sure you have the dependencies installed and understand how we instantiate the sdk. If you want to understand how to do that, click here! Also we're going to show you how to set this up in a basic **next** app. Click [here](https://nextjs.org/docs/api-reference/create-next-app) if you want to know how to set that up.
 
 ## What we're going to do
+We're going to build an app that allows users, who have access to this app, to create an unique signature. The signature contains the information of a specific NFT collection that we will pre-define.
+Then with that signature they will be able to mint an NFT from an NFT collection that recognises that signature.
 
-After instantiating the `sdk`, we're going to:
+In  order to build our app we're going through the following steps:
 
-1. Build a component for the `connect wallet` button to connect our wallet and use it to create a signature
-2. Create a unique signature that the owner of the NFT can sell or gift to someone
-3. Allow anyone, holding that unique signature, to claim a NFT
+1. Setup the navigation to guide our user to the correct page. This page will check if the wallet is connected. If not it will prompt the user to connect their wallet.
+2. Wrap our app in the `ThirdwebProvider`. This is necessary to make sure we can use the thirdweb hooks anywhere in our app.
+3. Next up we will build a component for the `connect wallet` button to connect our wallet and use it to create a signature.
+4. Create the homepage. Once the wallet of the user is connectect, they can go ahead and get a 'signature' or go and use their 'signature' to mint an NFT.
+5. Create a unique signature that the owner of the NFT can sell or gift to someone
+6. Allow anyone, holding that unique signature, to claim a NFT
+
 
 ## 1. Setup the Navigation
 
@@ -56,7 +67,8 @@ export default function useProtectedPage() {
 
 ## 2. Use the thirdweb and chakra providers
 
-We need to use the thirdweb and chakra providers. You can use the [thirdweb nextjs starter](https://github.com/thirdweb-example/next-typescript-starter) to kickstart this. Here we are using the Mumbai chain.
+We need to use the thirdweb and chakra providers. Chakra is a React library that gives styled building blocks inside a component. 
+You can use the [thirdweb nextjs starter](https://github.com/thirdweb-example/next-typescript-starter) to kickstart this. Here we are using the Mumbai chain.
 
 ```tsx:_app.tsx
 import type { AppProps } from "next/app";
