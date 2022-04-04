@@ -5,7 +5,7 @@ authorAvatar: "/assets/portal/authors/avneesh.jpg"
 authorTwitter: "https://twitter.com/avneesh0612"
 draft: false
 tags: [edition-drop, react, claim, gas]
-summary: "Learn how to create an NFT Drop in which you pay the gas for your users, using OpenZeppeling, Next.js and thirdweb"
+summary: "Learn how to create an NFT Drop in which you pay the gas for your users, using OpenZeppelin, Next.js and thirdweb"
 image: "/assets/portal/guides/create-gasless-nft-drop/thumbnail.png"
 date: "2022-04-04"
 updated: ""
@@ -171,7 +171,7 @@ And the minting works! But we have to pay for the gas in the transaction, so let
 
 ## Making transactions gasless
 
-Thirdweb supports [Biconomy](https://www.biconomy.io/) and Openzeppelin for relaying the gas. For this demo we are going to use [Openzeppelin](https://defender.openzeppelin.com/) to relay the gas, so head over to Openzeppelin and sign up for an account if you haven’t already.
+thirdweb supports [Biconomy](https://www.biconomy.io/) and OpenZeppelin for relaying the gas. For this demo we are going to use [OpenZeppelin](https://defender.openzeppelin.com/) to relay the gas, so head over to OpenZeppelin and sign up for an account if you haven’t already.
 
 Create a new relayer in OpenZeppelin-
 
@@ -201,7 +201,7 @@ NEXT_PUBLIC_OPENZEPPELIN_URL=https://api.defender.openzeppelin.com/autotasks/sec
 
 Since we have changed env variables, you need to restart your development server.
 
-Finally, add the Openzeppelin Uri in the thirdwebProvider-
+Finally, add the OpenZeppelin Uri in the thirdwebProvider-
 
 ```jsx
 <ThirdwebProvider
