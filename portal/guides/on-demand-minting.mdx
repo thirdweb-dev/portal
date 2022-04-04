@@ -42,7 +42,7 @@ In  order to build our app we're going through the following steps:
 6. Allow anyone, holding that unique signature, to claim a NFT
 
 
-## 1. Setup the Navigation
+### 1. Setup the Navigation
 
 Create a folder in your project directory called `hook`.
 The first file in the hooks folder is the `useProtectedPage.ts` to navigate the request to the correct page.
@@ -65,7 +65,7 @@ export default function useProtectedPage() {
 }
 ```
 
-## 2. Use the thirdweb and chakra providers
+### 2. Use the thirdweb and chakra providers
 
 We need to use the thirdweb and chakra providers. Chakra is a React library that gives styled building blocks inside a component. 
 You can use the [thirdweb nextjs starter](https://github.com/thirdweb-example/next-typescript-starter) to kickstart this. Here we are using the Mumbai chain.
@@ -91,7 +91,8 @@ export default MyApp;
 
 ```
 
-## 3. Create the connect wallet component
+### 3. Create the connect wallet component
+
 Next up we create a `components` folder. Create a `Connect.ts` file for our layout and connect wallet button.
 The `Flex` library is used to style our component and we're using the `useMetammask` hook here to get our **connect wallet** button. If you want to know more about the connect wallet button component, click [here](https://thirdweb.com/portal/guides/add-connectwallet-to-your-website).
 
@@ -122,7 +123,7 @@ export default function Connect() {
 }
 ```
 
-## 4. Build our homepage
+### 4. Build our homepage
 
 We need two buttons. one to create a signature and one to use a signature 👇
 
@@ -200,7 +201,7 @@ export default function LandingPage() {
 
 ```
 
-## 5. The ‘Creator' page
+### 5. The ‘Creator' page
 
 On this page we create the signature and the payload. We need both the signature and payload to mint an exclusive NFT.
 
@@ -317,7 +318,7 @@ export default function Creator() {
 
 ```
 
-## 6. Claimer page
+### 6. Claimer page
 
 Once we've created our payload and signature, we can go to the `Claimer` page to pass our payload and signature. Anyone holding both will be authorised to mint a NFT with the specific metadata we passed to the payload in the `Creator` page.
 
