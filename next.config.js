@@ -87,6 +87,11 @@ const moduleExports = {
         permanent: true,
       },
       {
+        source: "/guides/minting-with-signature",
+        destination: "/guides/on-demand-minting",
+        permanent: true,
+      },
+      {
         source: "/learn/connect-to-blockchain",
         destination: "/learn-thirdweb/connect-to-blockchain",
         permanent: true,
