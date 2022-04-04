@@ -15,7 +15,7 @@ updated: ""
 
 ## Intro
 
-Our on-demand minting feature allows you to create unique ID's to hand out to anyone you want. Only users with that code will be able to mint or claim an unique NFT! thirdweb has created an easy component for you to integrate in your app! Let's take a look. Also you can find a GitHub repo [here](https://github.com/thirdweb-dev/examples/tree/main/typescript/signature-based-minting), where we show how to use this code.
+Our on-demand minting feature allows you to create an unique code to hand out to anyone you want. Only users with that code will be able to mint or claim an unique NFT! thirdweb has created an easy component for you to integrate in your app! Let's take a look. Also you can find a GitHub repo [here](https://github.com/thirdweb-dev/examples/tree/main/typescript/signature-based-minting), where we show how to use this code.
 
 Sidenote: in this tutorial we will allow an user, who has a unique signature, to mint an NFT. So the actual minting happens once the user uses their unique signature.
 
@@ -37,7 +37,7 @@ In  order to build our app we're going through the following steps:
 1. Setup the navigation to guide our user to the correct page. This page will check if the wallet is connected. If not it will prompt the user to connect their wallet.
 2. Wrap our app in the `ThirdwebProvider`. This is necessary to make sure we can use the thirdweb hooks anywhere in our app.
 3. Next up we will build a component for the `connect wallet` button to connect our wallet and use it to create a signature.
-4. Create the homepage. Once the wallet of the user is connectect, they can go ahead and get a 'signature' or go and use their 'signature' to mint an NFT.
+4. Create the homepage. Once the wallet of the user is connected, they can go ahead and get a 'signature' or go and use their 'signature' to mint an NFT.
 5. Create a unique signature that the owner of the NFT can sell or gift to someone
 6. Allow anyone, holding that unique signature, to claim a NFT
 
