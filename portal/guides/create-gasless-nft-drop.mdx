@@ -5,13 +5,13 @@ authorAvatar: "/assets/portal/authors/avneesh.jpg"
 authorTwitter: "https://twitter.com/avneesh0612"
 draft: false
 tags: [edition-drop, react, claim, gas]
-summary: "Create a gasless NFT drop with Next.js and thirdweb"
-image: "/assets/portal/guides/create-nft-drop-with-claim-phases/thumbnail.png"
-date: "2022-04-03"
+summary: "Learn how to create an NFT Drop in which you pay the gas for your users, using OpenZeppeling, Next.js and thirdweb"
+image: "/assets/portal/guides/create-gasless-nft-drop/thumbnail.png"
+date: "2022-04-04"
 updated: ""
 ---
 
-In some cases, you might wanna pay the gas for NFT drops like early access drops or when you are accepting payments in some other forms. So in this guide, we are going to see how to create a gasless NFT drop that everyone can claim. I am going to use an ERC-1155 so multiple people can hold the same NFT but you can do it any way you like!
+In some cases, you might wanna pay the gas for NFT drops like early access drops or when you are accepting payments in some other forms. So in this guide, we are going to see how to create a gasless NFT drop that everyone can claim. I am going to use an ERC-1155 so multiple people can hold the same NFT but you can do it any way you like! If you want to directly jump into the code, here is the finished [code](https://github.com/thirdweb-dev/examples/tree/main/javascript/gasless-nft-drop).
 
 ## Creating an NFT drop
 
@@ -171,9 +171,9 @@ And the minting works! But we have to pay for the gas in the transaction, so let
 
 ## Making transactions gasless
 
-We are going to use [Openzeppelin](https://defender.openzeppelin.com/) to relay the gas, so head over to Openzeppelin and sign up for an account if you haven’t already.
+Thirdweb supports [Biconomy](https://www.biconomy.io/) and Openzeppelin for relaying the gas. For this demo we are going to use [Openzeppelin](https://defender.openzeppelin.com/) to relay the gas, so head over to Openzeppelin and sign up for an account if you haven’t already.
 
-Create a new relayer in openzepplin-
+Create a new relayer in OpenZeppelin-
 
 ![Create new Relayer](/assets/portal/guides/create-gasless-nft-drop/create-new-relayer.png)
 
@@ -222,4 +222,4 @@ Now the gas fees is being relayed and the users don’t have to pay any gas!
 style={{position: "absolute", top: "0",left: "0", height: "100%", width: "100%"}}
 ></iframe></div>
 
-Want to have a look at the code? [We got you!](https://github.com/avneesh0612/gasless-drop)
+Want to have a look at the code? [We got you!](https://github.com/thirdweb-dev/examples/tree/main/javascript/gasless-nft-drop)
