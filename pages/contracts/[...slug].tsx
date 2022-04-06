@@ -12,7 +12,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { GetStaticProps } from "next";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import { NextSeo } from "next-seo";
+import { ArticleJsonLd, NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
 import path from "path";
@@ -48,25 +48,42 @@ const ContractsPage: ConsolePage<ContractsPageProps> = ({
     slug,
   });
 
+  const publishedTime = new Date(frontMatter.date).toISOString();
+  const modifiedTime = frontMatter.updated
+    ? new Date(frontMatter.updated).toISOString()
+    : new Date(frontMatter.date).toISOString();
+  const authors = frontMatter?.authorTwitter2
+    ? [frontMatter.authorTwitter, frontMatter.authorTwitter2]
+    : [frontMatter.authorTwitter];
+
   return (
     <Track>
       <NextSeo
         title={frontMatter.title}
+        description={frontMatter.summary}
         openGraph={{
           title: frontMatter.title,
           description: frontMatter.summary,
           url: `https://portal.thirdweb.com${router.asPath}`,
           type: "article",
           article: {
-            publishedTime: new Date(frontMatter.date).toISOString(),
-            modifiedTime: frontMatter.updated
-              ? new Date(frontMatter.updated).toISOString()
-              : new Date(frontMatter.date).toISOString(),
-            authors: frontMatter?.authorTwitter2
-              ? [frontMatter.authorTwitter, frontMatter.authorTwitter2]
-              : [frontMatter.authorTwitter],
+            publishedTime,
+            modifiedTime,
+            authors,
           },
         }}
+      />
+      <ArticleJsonLd
+        url={`https://portal.thirdweb.com${router.asPath}`}
+        title={frontMatter.title}
+        images={["https://portal.thirdweb.com/portal.png"]}
+        datePublished={publishedTime}
+        dateModified={modifiedTime}
+        authorName={authors}
+        publisherName="thirdweb"
+        publisherLogo="https://portal.thirdweb.com/favicon-32x32.png"
+        description={frontMatter.summary}
+        keywords={frontMatter.title}
       />
       <Stack direction="row" maxW="100%" position="absolute" left={0} w="100%">
         <Container
