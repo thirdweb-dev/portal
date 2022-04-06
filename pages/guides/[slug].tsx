@@ -66,6 +66,7 @@ const GuidePage: ConsolePage<GuidePageProps> = ({
   const authors = frontMatter?.authorTwitter2
     ? [frontMatter.authorTwitter, frontMatter.authorTwitter2]
     : [frontMatter.authorTwitter];
+  const keywords = frontMatter.tags.join(", ");
 
   return (
     <Track>
@@ -103,7 +104,7 @@ const GuidePage: ConsolePage<GuidePageProps> = ({
         publisherName="thirdweb"
         publisherLogo="https://portal.thirdweb.com/favicon-32x32.png"
         description={frontMatter.summary}
-        keywords="test, hello, world"
+        keywords={keywords}
       />
       <Stack direction="row" maxW="100%" position="absolute" left={0}>
         <Container
