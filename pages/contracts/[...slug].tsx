@@ -60,6 +60,7 @@ const ContractsPage: ConsolePage<ContractsPageProps> = ({
     <Track>
       <NextSeo
         title={frontMatter.title}
+        description={frontMatter.summary}
         openGraph={{
           title: frontMatter.title,
           description: frontMatter.summary,
@@ -82,6 +83,7 @@ const ContractsPage: ConsolePage<ContractsPageProps> = ({
         publisherName="thirdweb"
         publisherLogo="https://portal.thirdweb.com/favicon-32x32.png"
         description={frontMatter.summary}
+        keywords={[frontMatter.title]}
       />
       <Stack direction="row" maxW="100%" position="absolute" left={0} w="100%">
         <Container
