@@ -83,7 +83,7 @@ const LearnThirdwebPage: ConsolePage<LearnThirdwebPageProps> = ({
         publisherName="thirdweb"
         publisherLogo="https://portal.thirdweb.com/favicon-32x32.png"
         description={frontMatter.summary}
-        keywords={[frontMatter.title]}
+        keywords={frontMatter.title}
       />
       <Stack direction="row" maxW="100%" position="absolute" left={0} w="100%">
         <Container

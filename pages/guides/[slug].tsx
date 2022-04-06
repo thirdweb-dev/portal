@@ -103,7 +103,7 @@ const GuidePage: ConsolePage<GuidePageProps> = ({
         publisherName="thirdweb"
         publisherLogo="https://portal.thirdweb.com/favicon-32x32.png"
         description={frontMatter.summary}
-        keywords={frontMatter.tags}
+        keywords="test, hello, world"
       />
       <Stack direction="row" maxW="100%" position="absolute" left={0}>
         <Container
