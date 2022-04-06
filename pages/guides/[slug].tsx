@@ -71,6 +71,7 @@ const GuidePage: ConsolePage<GuidePageProps> = ({
     <Track>
       <NextSeo
         title={frontMatter.title}
+        description={frontMatter.summary}
         openGraph={{
           title: frontMatter.title,
           description: frontMatter.summary,
@@ -102,6 +103,7 @@ const GuidePage: ConsolePage<GuidePageProps> = ({
         publisherName="thirdweb"
         publisherLogo="https://portal.thirdweb.com/favicon-32x32.png"
         description={frontMatter.summary}
+        keywords={frontMatter.tags}
       />
       <Stack direction="row" maxW="100%" position="absolute" left={0}>
         <Container
