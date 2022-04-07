@@ -350,12 +350,12 @@ Let's take it step by step. First we create a function to get the message:
  
 
 ```tsx:components/Profile.jsx
-import { useAddress, useDisconnect, useMetamask, useProvider } from "@thirdweb-dev/react";
+import { useAddress, useDisconnect, useMetamask, useSigner } from "@thirdweb-dev/react";
 import { Profiler, useCallback, useEffect, useState } from "react";
 import { Button, useToast, Spinner, Input } from "@chakra-ui/react";
 
 export default function Profile() {
-  const provider = useProvider()
+  const signer = useSigner()
   const address = useAddress();
   const [jwt, setJwt] = useState(null);
   const [username, setUsername] = useState(null);
@@ -400,7 +400,7 @@ Once the challenge is received, we will get the JWT.
 ```tsx:components/Profile.jsx
 const getJwt = useCallback(async () => {
     const challenge = await getChallenge();
-    const signer = provider.getSigner();
+    const signer = useSigner();
     console.log("Signer = ", signer);
 
     const signedChallenge = await signer.signMessage(challenge);
@@ -546,7 +546,7 @@ import { Button, useToast, Spinner, Input } from "@chakra-ui/react";
 
 export default function Profile() {
   const address = useAddress();
-  const provider = useProvider();
+  const signer = useSigner();
   const [jwt, setJwt] = useState(null);
   const [username, setUsername] = useState(null);
 
@@ -584,7 +584,6 @@ export default function Profile() {
 
   const getJwt = useCallback(async () => {
     const challenge = await getChallenge();
-    const signer = provider.getSigner();
     console.log("Signer = ", signer);
 
     const signedChallenge = await signer.signMessage(challenge);
