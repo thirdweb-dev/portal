@@ -93,7 +93,7 @@ import {
 In this guide we will **not** be passing the private keys manually. This is not considered best practice and is actually a security issue when applied on the client side.
 Instead we will make use of the `Signer`, which we pull when a wallet is connected via the `Connect` component.
 
-The cool thing about this **component**, is that it's using the `connect` component to authorise the transaction 😄.
+The cool thing about this **component**, is that it's using the `connect` component to authorize the transaction 😄.
 thirdweb provides you hooks to connect to your contract and interact with it. In this example we make use of the `useMarketplace`.
 
 ```js:AuctionListing.jsx
@@ -107,8 +107,8 @@ thirdweb provides you hooks to connect to your contract and interact with it. In
     "0x0d5fb8942eEa62093944F3e91C6Ac4e584336741";
 ```
 
-This part is a bit big, but it doenst make sense to split it up.
-First we declare some variables that will be passed through a form such as, tokend Id's, listings Id's and the amounts.
+This part is a bit big, but it doesn't make sense to split it up.
+First we declare some variables that will be passed through a form such as, token Id's, listings Id's and the amounts.
 Then we use the variables in our function.
 
 A couple of notes.

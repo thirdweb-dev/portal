@@ -34,7 +34,7 @@ Once your **Token** module has been created, it's time to mint our own currency,
 
 ### 1. Create a Python file and fire up a virtual environment
 
-Go ahead and create a new Python file. Let's call it `currency.py` and open it in your favourite code editor. We'll use Visual Studio Code.
+Go ahead and create a new Python file. Let's call it `currency.py` and open it in your favorite code editor. We'll use Visual Studio Code.
 
 ![](/assets/portal/guides/create-your-currency-with-python-sdk/17_python_file.png)
 
@@ -107,7 +107,7 @@ token_module = sdk.get_currency_module(currency_smart_contract_address)
 The arguments passed over here are the same as minting the tokens inside the dashboard. If you want to familiarize yourself with the process, check out the dashboard! Ethereum deals with 18 decimals, so we need to adjust the input figure.
 
 ```python:currency.py
-#Mint tokens on your smartcontract
+#Mint tokens on your smart contract
 
 input_amount = 1000
 converted_amount = amount* (10**18)
