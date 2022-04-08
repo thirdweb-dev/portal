@@ -28,7 +28,8 @@ export const InstallTabs = () => {
         variant="line"
         borderRadius="xl"
         bg="white"
-        border="1px solid grey"
+        border="1px solid"
+        borderColor="gray.200"
         position="relative"
         width="100%"
       >
