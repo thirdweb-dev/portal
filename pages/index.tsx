@@ -47,23 +47,28 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
           )}, calc(100vw - ${PORTAL_SIDEBAR_WIDTH} - var(--chakra-space-20)))`,
         }}
       >
-        <Stack spacing={{ base: 8, md: 12 }}>
+        <Stack spacing={{ base: 8, md: 16 }}>
           <Flex flexDir={{ base: "column", md: "row" }}>
             <Flex flexDir="column" flexGrow={1}>
-              <Heading as="h1" size="display.sm" fontSize={44} mb={6}>
+              <Heading
+                as="h1"
+                size="display.sm"
+                fontSize={{ base: 32, md: 44 }}
+                mb={6}
+              >
                 Welcome to thirdweb portal
               </Heading>
               <Heading as="h2" size="subtitle.md" color="gray.700">
                 Learn about building, deploying, and managing web3 apps.
               </Heading>
-              <Box>
+              <Box mb={{ base: 8, md: 0 }}>
                 <LinkButton
                   bgColor="primary.500"
                   color="white"
                   _hover={{ bgColor: "primary.400" }}
-                  px={8}
+                  px={16}
                   mt={6}
-                  width="inherit"
+                  width={{ base: "100%", md: "auto" }}
                   onClick={() =>
                     trackEvent({
                       category: "landing",
@@ -84,7 +89,8 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
               justifyContent="center"
               alignItems="center"
               width="70%"
-              mx={{ base: 0, md: 16 }}
+              mx={16}
+              display={{ base: "none", md: "flex" }}
             >
               <InstallTabs />
             </Flex>
@@ -114,7 +120,10 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   </HStack>
                 </Card>
               </NextLink>
-              <NextLink href="https://pkg.go.dev/github.com/thirdweb-dev/go-sdk/pkg">
+              <NextLink
+                href="https://pkg.go.dev/github.com/thirdweb-dev/go-sdk/pkg"
+                isExternal
+              >
                 <Card
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
@@ -179,7 +188,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 src={require("/public/assets/contract-cards/nft.png")}
                 alt="token"
                 href="/contracts/nfts-and-tokens"
-                title="Create NFTs and Tokens"
+                title="NFTs and Tokens"
                 subtitle="Mint your own NFTs, packs and other tokens"
               />
               <LinkCard
@@ -187,9 +196,9 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 bg="gray.50"
                 src={require("/public/assets/contract-cards/drop.png")}
                 alt="drop"
-                href="/contracts/drop"
-                title="Release a drop"
-                subtitle=" Set up a drop that can be claimed by others"
+                href="/contracts/drops"
+                title="Drops"
+                subtitle="Set up a drop that can be claimed by others"
               />
               <LinkCard
                 largeIcon
@@ -197,7 +206,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 src={require("/public/assets/contract-cards/marketplace.png")}
                 alt="marketplace"
                 href="/contracts/marketplace"
-                title="Setup Marketplace"
+                title="Marketplaces"
                 subtitle="Create marketplaces to list or auction assets"
               />
               <LinkCard
