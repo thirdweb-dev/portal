@@ -123,10 +123,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   </HStack>
                 </Card>
               </NextLink>
-              <NextLink
-                href="https://pkg.go.dev/github.com/thirdweb-dev/go-sdk/pkg"
-                isExternal
-              >
+              <NextLink href="https://docs.thirdweb.com/react" isExternal>
                 <Card
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
