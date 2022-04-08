@@ -13,9 +13,9 @@ import {
 import { PortalLayout } from "components/app-layouts/portal";
 import { Card } from "components/layout/Card";
 import { PORTAL_SIDEBAR_WIDTH } from "components/layout/portal-shell/Sidebar";
-import { ContractCard } from "components/portal/ContractCard";
 import { GuidesList } from "components/portal/guides-list";
 import { InstallTabs } from "components/portal/InstallTabs";
+import { LinkCard } from "components/portal/LinkCard";
 import { PortalSection } from "components/portal/section";
 import { LinkButton } from "components/shared/LinkButton";
 import { NextLink } from "components/shared/NextLink";
@@ -91,59 +91,48 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
               <InstallTabs />
             </Flex>
           </Flex>
-          <GuidesList title="Featured guides" guides={featuredGuides} tags />
+
           <PortalSection title="Explore our contracts">
-            <Flex
-              p={0}
-              as={Card}
-              border="1px solid"
-              borderColor="gray.200"
-              borderRadius="2xl"
-              overflow="hidden"
-              flexDirection={{ base: "column", md: "row" }}
-            >
-              <Box
-                borderRight="1px solid"
-                w={{ base: "100%", md: "50%" }}
-                borderColor="gray.200"
-              >
-                <ContractCard
-                  title="NFT Collection"
-                  description="ERC721 standard"
-                />
-                <ContractCard title="Edition" description="ERC1155 standard" />
-                <ContractCard
-                  title="NFT Drop"
-                  description="ERC721 with lazy minting"
-                  slug="drop"
-                />
-                <ContractCard
-                  title="Edition Drop"
-                  description="ERC1155 standard with lazy minting"
-                  slug="drop"
-                />
-                <ContractCard title="Token" description="ERC20 standard" />
-              </Box>
-              <Box w={{ base: "100%", md: "50%" }}>
-                <ContractCard
-                  title="Marketplace"
-                  description="Whitelabel Marketplace"
-                />
-                <ContractCard
-                  title="Pack"
-                  description="Collection of NFTs with random NFT on open"
-                />
-                <ContractCard
-                  title="Vote"
-                  description="Decentralized voting and governance protocol"
-                />
-                <ContractCard
-                  title="Split"
-                  description="Custom royalty splits and fund distribution"
-                />
-              </Box>
-            </Flex>
+            <SimpleGrid columns={{ base: 1, md: 4 }} gap={5}>
+              <LinkCard
+                bg="gray.50"
+                largeIcon
+                src={require("/public/assets/contract-cards/nft.png")}
+                alt="token"
+                href="/contracts/nfts-and-tokens"
+                title="Create NFTs and Tokens"
+                subtitle="Mint your own NFTs, packs and other tokens"
+              />
+              <LinkCard
+                largeIcon
+                bg="gray.50"
+                src={require("/public/assets/contract-cards/drop.png")}
+                alt="drop"
+                href="/contracts/drop"
+                title="Release a drop"
+                subtitle=" Set up a drop that can be claimed by others"
+              />
+              <LinkCard
+                largeIcon
+                bg="gray.50"
+                src={require("/public/assets/contract-cards/marketplace.png")}
+                alt="marketplace"
+                href="/contracts/marketplace"
+                title="Setup Marketplace"
+                subtitle="Create marketplaces to list or auction assets"
+              />
+              <LinkCard
+                largeIcon
+                bg="gray.50"
+                src={require("/public/assets/contract-cards/governance.png")}
+                alt="governance"
+                href="/contracts/governance"
+                title="Governance & Splits"
+                subtitle="Establish decentralized governance and split revenue"
+              />
+            </SimpleGrid>
           </PortalSection>
+          <GuidesList title="Featured guides" guides={featuredGuides} tags />
           <SimpleGrid mt={5} columns={{ base: 1, md: 2 }} spacing={5}>
             <LinkBox role="group">
               <NextLink
