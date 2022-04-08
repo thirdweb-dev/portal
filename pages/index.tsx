@@ -132,7 +132,12 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
               />
             </SimpleGrid>
           </PortalSection>
-          <GuidesList title="Featured guides" guides={featuredGuides} tags />
+          <GuidesList
+            title="Featured guides"
+            guides={featuredGuides}
+            tags
+            showMore
+          />
           <SimpleGrid mt={5} columns={{ base: 1, md: 2 }} spacing={5}>
             <LinkBox role="group">
               <NextLink

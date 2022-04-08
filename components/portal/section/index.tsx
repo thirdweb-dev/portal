@@ -23,7 +23,7 @@ export const PortalSection: React.FC<PortalSectionProps> = ({
             color="primary.500"
             href={href}
           >
-            Show more
+            Show more &gt;
           </NextLink>
         )}
       </Flex>
