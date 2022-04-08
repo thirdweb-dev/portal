@@ -80,6 +80,12 @@ signer = Account.from_key(PRIVATE_KEY)
 sdk = ThirdwebSDK(provider, signer)
 ```
 
+To use the setup above, we need to create a `.env` file and connect our wallet by private key. It's very important to make sure that you NEVER commit this file to any github repository and you never share your private key with anyone.
+
+```.env
+PRIVATE_KEY=your-private-key-here
+```
+
 ### 3. Define the NFT Collection contract
 
 Now that we have an SDK instance setup, we can get the interface for our NFT Collection! Our NFT Collection that we deployed from the dashboard has its own unique **address** that can be used to identify it. We can now use this address to use our NFT Collection with the SDK with the following code:
@@ -111,7 +117,7 @@ nft_collection.mint(NFTMetadataInput.from_json({
 Get the balance to check it out or head over to the dashboard.
 
 ```python:python_nft.py
-#check your balance to check if you minted an nft!
+# check your balance to check if you minted an nft!
 print(nft_module.balance())
 ```
 
