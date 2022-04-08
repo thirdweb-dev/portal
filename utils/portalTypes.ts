@@ -42,6 +42,7 @@ export interface Doc {
   summary: string;
   date: string;
   updated: string;
+  canonical?: string;
 }
 
 export interface GuideData {
