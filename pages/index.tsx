@@ -21,6 +21,9 @@ import { NextLink } from "components/shared/NextLink";
 import { useTrack } from "hooks/analytics/useTrack";
 import { GetStaticProps } from "next";
 import React from "react";
+import { AiOutlineBlock } from "react-icons/ai";
+import { BiBook } from "react-icons/bi";
+import { BsWallet2 } from "react-icons/bs";
 import { SiJavascript, SiReact } from "react-icons/si";
 import { getAllGuides } from "utils/mdxUtils";
 import { GuideData } from "utils/portalTypes";
@@ -220,6 +223,74 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
               />
             </SimpleGrid>
           </PortalSection>
+
+          <PortalSection title="Learn web3">
+            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+              <NextLink href="/learn-web3">
+                <Card
+                  _hover={{ bgColor: "blue.100" }}
+                  transition="all 0.25s ease-in-out"
+                >
+                  <HStack
+                    role="group"
+                    transition="all 0.25s ease-in-out"
+                    justifyContent="center"
+                  >
+                    <Icon as={BiBook} boxSize={6} color="gray.600" />
+                    <Text
+                      size="subtitle.md"
+                      color="blue.600"
+                      _groupHover={{ textDecoration: "underline" }}
+                      fontWeight={500}
+                    >
+                      Intro to web3
+                    </Text>
+                  </HStack>
+                </Card>
+              </NextLink>
+              <NextLink href="/learn-web3#what-is-a-blockchain">
+                <Card
+                  _hover={{ bgColor: "blue.100" }}
+                  transition="all 0.25s ease-in-out"
+                >
+                  <HStack role="group" justifyContent="center">
+                    <Icon as={AiOutlineBlock} boxSize={6} color="gray.600" />
+                    <Text
+                      size="subtitle.md"
+                      color="blue.600"
+                      fontWeight={500}
+                      _groupHover={{ textDecoration: "underline" }}
+                    >
+                      Blockchains
+                    </Text>
+                  </HStack>
+                </Card>
+              </NextLink>
+              <NextLink href="/learn-web3#all-about-wallets">
+                <Card
+                  _hover={{ bgColor: "blue.100" }}
+                  transition="all 0.25s ease-in-out"
+                >
+                  <HStack
+                    role="group"
+                    transition="all 0.25s ease-in-out"
+                    justifyContent="center"
+                  >
+                    <Icon as={BsWallet2} boxSize={6} color="gray.600" />
+                    <Text
+                      size="subtitle.md"
+                      color="blue.600"
+                      fontWeight={500}
+                      _groupHover={{ textDecoration: "underline" }}
+                    >
+                      Wallets
+                    </Text>
+                  </HStack>
+                </Card>
+              </NextLink>
+            </SimpleGrid>
+          </PortalSection>
+
           <GuidesList
             title="Featured guides"
             guides={featuredGuides}
