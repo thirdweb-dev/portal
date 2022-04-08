@@ -12,7 +12,7 @@ import { ChakraNextImage, ChakraNextImageProps } from "components/Image";
 import { Card, CardProps } from "components/layout/Card";
 import NextLink from "next/link";
 
-interface LinkCardProps extends CardProps {
+export interface LinkCardProps extends CardProps {
   href: string;
   src: ChakraNextImageProps["src"];
   alt: string;

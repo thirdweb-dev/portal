@@ -43,6 +43,7 @@ export interface Doc {
   date: string;
   updated: string;
   canonical?: string;
+  noToc?: boolean;
 }
 
 export interface GuideData {

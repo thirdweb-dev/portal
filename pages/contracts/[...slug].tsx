@@ -122,12 +122,14 @@ const ContractsPage: ConsolePage<ContractsPageProps> = ({
             )}
           </Stack>
           <Heading size="subtitle.md">{frontMatter.summary}</Heading>
-          <GuideToc
-            frontMatter={frontMatter}
-            headings={headings}
-            isMobile
-            docs
-          />
+          {!frontMatter.noToc ? (
+            <GuideToc
+              frontMatter={frontMatter}
+              headings={headings}
+              isMobile
+              docs
+            />
+          ) : null}
           <MDXRemote {...source} />
           {guides.length > 0 && (
             <>
@@ -138,7 +140,9 @@ const ContractsPage: ConsolePage<ContractsPageProps> = ({
           <Divider my={12} w="100%" />
           <GuideCta />
         </Container>
-        <GuideToc frontMatter={frontMatter} headings={headings} docs />
+        {!frontMatter.noToc ? (
+          <GuideToc frontMatter={frontMatter} headings={headings} docs />
+        ) : null}
       </Stack>
     </Track>
   );
