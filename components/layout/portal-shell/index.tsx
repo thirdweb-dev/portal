@@ -8,7 +8,6 @@ import {
   useBoolean,
 } from "@chakra-ui/react";
 import { Logo } from "components/logo";
-import { BannerCta } from "components/portal/guide-cta";
 import { NextLink } from "components/shared/NextLink";
 import { useRouter } from "next/router";
 import React, { useEffect, useMemo } from "react";
@@ -98,10 +97,9 @@ export const PortalShell: React.FC = ({ children }) => {
         bg="white"
         minH="100vh"
       >
-        <BannerCta />
         <Container
           position="relative"
-          pt={{ base: pxToRem(220), md: pxToRem(110) }}
+          pt={{ base: pxToRem(90), md: pxToRem(80) }}
           flexGrow={1}
           flexDir="column"
           maxW="container.page"
