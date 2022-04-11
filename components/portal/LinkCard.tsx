@@ -35,7 +35,14 @@ export const LinkCard: React.FC<LinkCardProps> = ({
   ...restCardProps
 }) => {
   return (
-    <Card position="relative" as={LinkBox} {...restCardProps}>
+    <Card
+      position="relative"
+      as={LinkBox}
+      {...restCardProps}
+      borderWidth={2}
+      transition="all 0.2s ease-in-out"
+      _hover={{ borderColor: "blue.600" }}
+    >
       <Stack spacing={3}>
         <AspectRatio ratio={1} w={largeIcon ? "100px" : "30px"}>
           <Box>
