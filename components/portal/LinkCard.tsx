@@ -10,7 +10,9 @@ import {
 } from "@chakra-ui/react";
 import { ChakraNextImage, ChakraNextImageProps } from "components/Image";
 import { Card, CardProps } from "components/layout/Card";
+import { useTrack } from "hooks/analytics/useTrack";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { DiJavascript1 } from "react-icons/di";
 import { MdMenuBook } from "react-icons/md";
 
@@ -34,6 +36,11 @@ export const LinkCard: React.FC<LinkCardProps> = ({
   type,
   ...restCardProps
 }) => {
+  const router = useRouter();
+  const { trackEvent } = useTrack({
+    page: router.asPath === "/" ? "portal" : router.asPath,
+  });
+
   return (
     <Card
       position="relative"
@@ -42,6 +49,13 @@ export const LinkCard: React.FC<LinkCardProps> = ({
       borderWidth={2}
       transition="all 0.2s ease-in-out"
       _hover={{ borderColor: "blue.600" }}
+      onClick={() =>
+        trackEvent({
+          category: router.asPath === "/" ? "landing" : "link-card",
+          action: "click",
+          label: title,
+        })
+      }
     >
       <Stack spacing={3}>
         <AspectRatio ratio={1} w={largeIcon ? "100px" : "30px"}>

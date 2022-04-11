@@ -106,6 +106,13 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
                   role="group"
+                  onClick={() =>
+                    trackEvent({
+                      category: "landing",
+                      action: "click",
+                      label: "javascript-sdk",
+                    })
+                  }
                 >
                   <HStack
                     transition="all 0.25s ease-in-out"
@@ -128,6 +135,13 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
                   role="group"
+                  onClick={() =>
+                    trackEvent({
+                      category: "landing",
+                      action: "click",
+                      label: "react-sdk",
+                    })
+                  }
                 >
                   <HStack
                     transition="all 0.25s ease-in-out"
@@ -150,6 +164,13 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
                   role="group"
+                  onClick={() =>
+                    trackEvent({
+                      category: "landing",
+                      action: "click",
+                      label: "python-sdk",
+                    })
+                  }
                 >
                   <HStack justifyContent="center">
                     <svg
@@ -229,6 +250,13 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
                   role="group"
+                  onClick={() =>
+                    trackEvent({
+                      category: "landing",
+                      action: "click",
+                      label: "intro-web3",
+                    })
+                  }
                 >
                   <HStack
                     transition="all 0.25s ease-in-out"
@@ -251,6 +279,13 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
                   role="group"
+                  onClick={() =>
+                    trackEvent({
+                      category: "landing",
+                      action: "click",
+                      label: "intro-blockchain",
+                    })
+                  }
                 >
                   <HStack justifyContent="center">
                     <Icon as={AiOutlineBlock} boxSize={6} color="gray.600" />
@@ -270,6 +305,13 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
                   role="group"
+                  onClick={() =>
+                    trackEvent({
+                      category: "landing",
+                      action: "click",
+                      label: "intro-wallet",
+                    })
+                  }
                 >
                   <HStack
                     transition="all 0.25s ease-in-out"
