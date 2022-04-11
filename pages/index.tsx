@@ -105,9 +105,9 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 <Card
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
+                  role="group"
                 >
                   <HStack
-                    role="group"
                     transition="all 0.25s ease-in-out"
                     justifyContent="center"
                   >
@@ -127,9 +127,9 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 <Card
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
+                  role="group"
                 >
                   <HStack
-                    role="group"
                     transition="all 0.25s ease-in-out"
                     justifyContent="center"
                   >
@@ -149,8 +149,9 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 <Card
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
+                  role="group"
                 >
-                  <HStack role="group" justifyContent="center">
+                  <HStack justifyContent="center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 48 48"
@@ -227,9 +228,9 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 <Card
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
+                  role="group"
                 >
                   <HStack
-                    role="group"
                     transition="all 0.25s ease-in-out"
                     justifyContent="center"
                   >
@@ -249,8 +250,9 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 <Card
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
+                  role="group"
                 >
-                  <HStack role="group" justifyContent="center">
+                  <HStack justifyContent="center">
                     <Icon as={AiOutlineBlock} boxSize={6} color="gray.600" />
                     <Text
                       size="subtitle.md"
@@ -267,9 +269,9 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                 <Card
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"
+                  role="group"
                 >
                   <HStack
-                    role="group"
                     transition="all 0.25s ease-in-out"
                     justifyContent="center"
                   >
