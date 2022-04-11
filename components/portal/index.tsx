@@ -151,23 +151,35 @@ export const MdxAlert: React.FC<AlertProps> = ({
 
 interface MdxLinkCardProps extends Partial<LinkCardProps> {
   contractType?: string;
+  type?: string;
 }
 
 export const MdxLinkCard: React.FC<MdxLinkCardProps> = ({
   contractType,
   title,
   subtitle,
+  type,
   ...rest
 }) => {
   return (
     <LinkCard
       borderWidth="2px"
       bg="gray.50"
-      href={`/contracts/${contractType}`}
+      href={
+        !type
+          ? `/contracts/${contractType}`
+          : type === "guide"
+          ? `/guides/${contractType}`
+          : `https://docs.thirdweb.com/typescript/sdk.${contractType?.replace(
+              "-",
+              "",
+            )}`
+      }
       title={title as string}
       subtitle={subtitle as string}
       alt={title as string}
-      src={require(`/public/assets/tw-icons/${contractType}.png`)}
+      src={type ? null : require(`/public/assets/tw-icons/${contractType}.png`)}
+      type={type}
       {...rest}
     />
   );

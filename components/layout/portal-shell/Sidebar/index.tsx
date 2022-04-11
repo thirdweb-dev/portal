@@ -34,35 +34,28 @@ export const PortalSidebar: React.FC = () => {
         </SidebarItem>
         <SidebarItem label="Contracts" matchExact href="/contracts" initialOpen>
           <SidebarItem
-            label="NFTs and Tokens"
+            label="NFT Collection"
             matchExact
-            href="/contracts/nfts-and-tokens"
+            href="/contracts/nft-collection"
           />
-          <SidebarItem label="Drops" matchExact href="/contracts/drops" />
+          <SidebarItem label="Edition" matchExact href="/contracts/edition" />
+          <SidebarItem label="NFT Drop" matchExact href="/contracts/nft-drop" />
+          <SidebarItem
+            label="Edition Drop"
+            matchExact
+            href="/contracts/edition-drop"
+          />
+          <SidebarItem label="Token" matchExact href="/contracts/token" />
           <SidebarItem
             label="Marketplace"
             matchExact
             href="/contracts/marketplace"
           />
-          <SidebarItem
-            label="Governance & Splits"
-            matchExact
-            href="/contracts/governance"
-          />
+          <SidebarItem label="Pack" matchExact href="/contracts/pack" />
+          <SidebarItem label="Split" matchExact href="/contracts/split" />
+          <SidebarItem label="Vote" matchExact href="/contracts/vote" />
         </SidebarItem>
-        <SidebarItem label="Developer Guides" href="/guides" matchExact>
-          <SidebarItem label="General" href="/guides/general" />
-          <SidebarItem label="NFT Collection" href="/guides/nft-collection" />
-          <SidebarItem label="Edition" href="/guides/edition" />
-          <SidebarItem label="NFT Drop" href="/guides/nft-drop" />
-          <SidebarItem label="Edition Drop" href="/guides/edition-drop" />
-          <SidebarItem label="Token" href="/guides/token" />
-          <SidebarItem label="Marketplace" href="/guides/marketplace" />
-          <SidebarItem label="Pack" href="/guides/pack" />
-          <SidebarItem label="Vote" href="/guides/vote" />
-          <SidebarItem label="Split" href="/guides/split" />
-          <SidebarItem label="UI" href="/guides/ui" />
-        </SidebarItem>
+        <SidebarItem label="Developer Guides" href="/guides" matchExact />
         <SidebarItem label="Learn web3" matchExact href="/learn-web3" />
 
         <SidebarItem label="SDKs" initialOpen>
