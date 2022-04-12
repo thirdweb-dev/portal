@@ -99,7 +99,7 @@ Let’s preview what our app looks like and ensure it’s working by running `np
 In the same `App.js` file, we will add conditionals that render specific pages based on the connection status of the user. We want the user to be able to mint an NFT from the drop if they don’t already hold an NFT. If the connected user does have one, we will display some congratulatory text.
 As an extra, I added a helper function to display our shortened wallet address called `truncateAddress`. Feel free to add or omit this as well in your app.
 
-```jsx
+```jsx:App.js
 import { useAddress, useMetamask } from '@thirdweb-dev/react';
 import { useState, useEffect } from 'react';
 import "./styles.css";
