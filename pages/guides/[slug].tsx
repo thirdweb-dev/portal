@@ -20,7 +20,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { GetStaticProps } from "next";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import { NextSeo } from "next-seo";
+import { ArticleJsonLd, NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
 import path from "path";
@@ -59,23 +59,29 @@ const GuidePage: ConsolePage<GuidePageProps> = ({
     "%2F",
   )}&w=1200&q=90`;
 
+  const publishedTime = new Date(frontMatter.date).toISOString();
+  const modifiedTime = frontMatter.updated
+    ? new Date(frontMatter.updated).toISOString()
+    : new Date(frontMatter.date).toISOString();
+  const authors = frontMatter?.authorTwitter2
+    ? [frontMatter.authorTwitter, frontMatter.authorTwitter2]
+    : [frontMatter.authorTwitter];
+  const keywords = frontMatter.tags.join(", ");
+
   return (
     <Track>
       <NextSeo
         title={frontMatter.title}
+        description={frontMatter.summary}
         openGraph={{
           title: frontMatter.title,
           description: frontMatter.summary,
           url: `https://portal.thirdweb.com${router.asPath}`,
           type: "article",
           article: {
-            publishedTime: new Date(frontMatter.date).toISOString(),
-            modifiedTime: frontMatter.updated
-              ? new Date(frontMatter.updated).toISOString()
-              : new Date(frontMatter.date).toISOString(),
-            authors: frontMatter?.authorTwitter2
-              ? [frontMatter.authorTwitter, frontMatter.authorTwitter2]
-              : [frontMatter.authorTwitter],
+            publishedTime,
+            modifiedTime,
+            authors,
             tags: frontMatter.tags,
           },
           images: [
@@ -87,6 +93,18 @@ const GuidePage: ConsolePage<GuidePageProps> = ({
             },
           ],
         }}
+      />
+      <ArticleJsonLd
+        url={`https://portal.thirdweb.com${router.asPath}`}
+        title={frontMatter.title}
+        images={[ogImage]}
+        datePublished={publishedTime}
+        dateModified={modifiedTime}
+        authorName={authors}
+        publisherName="thirdweb"
+        publisherLogo="https://portal.thirdweb.com/favicon-32x32.png"
+        description={frontMatter.summary}
+        keywords={keywords}
       />
       <Stack direction="row" maxW="100%" position="absolute" left={0}>
         <Container
