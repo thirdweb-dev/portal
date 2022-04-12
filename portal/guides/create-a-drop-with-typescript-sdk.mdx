@@ -115,7 +115,7 @@ We are also adding `maxQuantity` so only 20 NFTs can be minted in this phase.
 The second phase does not add a snapshot so everyone is able to claim. 
 
 ```tsx:index.ts
-const presaleStartTime = new Date();
+const presaleStartTime = new Date().getTime();
 const publicSaleStartTime = new Date(new Date() + 60 * 60 * 24 * 1000); // today's date + 24 hours
 const allowList = ['0x...', '0x...'] // modify this with your allow list
 const claimConditions = [
