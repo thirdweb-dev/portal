@@ -29,7 +29,7 @@ If your NFTs are an NFT Drop or Edition Drop contract, set up claim phases befor
 
 For our example, I am using an NFT Drop contract called Cookie Club for members of the Cookie Club. 🤫
 
-Link to NFT Drop dashboard for Cookie Club: [https://thirdweb.com/dashboard/rinkeby/nft-drop/0x66463b3C1EBf08b9dE889BCc0A5cbf29dc0e2B7a?tabIndex=0](https://thirdweb.com/dashboard/rinkeby/nft-drop/0x66463b3C1EBf08b9dE889BCc0A5cbf29dc0e2B7a?tabIndex=0)
+You can view the Cookie Club NFT Drop on the [thirdweb dashboard.](https://thirdweb.com/dashboard/rinkeby/nft-drop/0x66463b3C1EBf08b9dE889BCc0A5cbf29dc0e2B7a?tabIndex=0)
 
 ## Clone the template repository
 
@@ -51,7 +51,28 @@ Add the project’s name, description, and other settings, and then clone it loc
 Inside our `src` folder, we will open the `index.js` file. We will first change the chain id to the chain of our NFT Drop. For this project, we’ll be using `Rinkeby` since our NFT Drop contract is on the Rinkeby testnet.
 
 ```jsx:index.js
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { ChainId, ThirdwebProvider } from "@thirdweb-dev/react";
+
+// This is the chainId your dApp will work on.
 const activeChainId = ChainId.Rinkeby;
+
+ReactDOM.render(
+  <React.StrictMode>
+    <ThirdwebProvider desiredChainId={activeChainId}>
+      <App />
+    </ThirdwebProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
+);
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
 ```
 
 ## Setup the connect wallet button
@@ -260,7 +281,7 @@ export default function app;
 
 ## Link to Project
 
-You can grab a copy of this project from the our examples repository: [https://github.com/thirdweb-example/NFT-Gated-Website](https://github.com/thirdweb-example/NFT-Gated-Website)
+You can create a copy of this project from the our [example repository.](https://github.com/thirdweb-example/NFT-Gated-Website)
 
 ## Congratulations!
 
