@@ -17,24 +17,24 @@ import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
 import path from "path";
 import {
-  contractsFilePaths,
-  CONTRACTS_PATH,
   getAllGuides,
   getHeadings,
   getMdxSource,
+  learnWeb3FilePaths,
+  LEARN_WEB3_PATH,
 } from "utils/mdxUtils";
 import { Doc, GuidesPageProps, TocHeading } from "utils/portalTypes";
 import { pxToRem } from "utils/pxFunctions";
 
 dayjs.extend(localizedFormat);
 
-interface ContractsPageProps extends GuidesPageProps {
+interface LearnWeb3PageProps extends GuidesPageProps {
   source: MDXRemoteSerializeResult;
   frontMatter: Doc;
   headings: TocHeading[];
 }
 
-const ContractsPage: ConsolePage<ContractsPageProps> = ({
+const LearnWeb3Page: ConsolePage<LearnWeb3PageProps> = ({
   source,
   frontMatter,
   headings,
@@ -43,7 +43,7 @@ const ContractsPage: ConsolePage<ContractsPageProps> = ({
   const router = useRouter();
   const slug = useSingleQueryParam("slug");
   const { Track } = useTrack({
-    page: "contracts",
+    page: "learn-web3",
     title: frontMatter.title,
     slug,
   });
@@ -72,6 +72,9 @@ const ContractsPage: ConsolePage<ContractsPageProps> = ({
             authors,
           },
         }}
+        canonical={
+          frontMatter.canonical || `https://portal.thirdweb.com${router.asPath}`
+        }
       />
       <ArticleJsonLd
         url={`https://portal.thirdweb.com${router.asPath}`}
@@ -84,6 +87,9 @@ const ContractsPage: ConsolePage<ContractsPageProps> = ({
         publisherLogo="https://portal.thirdweb.com/favicon-32x32.png"
         description={frontMatter.summary}
         keywords={frontMatter.title}
+        canonical={
+          frontMatter.canonical || `https://portal.thirdweb.com${router.asPath}`
+        }
       />
       <Stack direction="row" maxW="100%" position="absolute" left={0} w="100%">
         <Container
@@ -122,14 +128,12 @@ const ContractsPage: ConsolePage<ContractsPageProps> = ({
             )}
           </Stack>
           <Heading size="subtitle.md">{frontMatter.summary}</Heading>
-          {!frontMatter.noToc ? (
-            <GuideToc
-              frontMatter={frontMatter}
-              headings={headings}
-              isMobile
-              docs
-            />
-          ) : null}
+          <GuideToc
+            frontMatter={frontMatter}
+            headings={headings}
+            isMobile
+            docs
+          />
           <MDXRemote {...source} />
           {guides.length > 0 && (
             <>
@@ -140,20 +144,18 @@ const ContractsPage: ConsolePage<ContractsPageProps> = ({
           <Divider my={12} w="100%" />
           <GuideCta />
         </Container>
-        {!frontMatter.noToc ? (
-          <GuideToc frontMatter={frontMatter} headings={headings} docs />
-        ) : null}
+        <GuideToc frontMatter={frontMatter} headings={headings} docs />
       </Stack>
     </Track>
   );
 };
 
-export default ContractsPage;
+export default LearnWeb3Page;
 
-ContractsPage.Layout = PortalLayout;
+LearnWeb3Page.Layout = PortalLayout;
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const postFilePath = path.join(CONTRACTS_PATH, `${params?.slug}.mdx`);
+  const postFilePath = path.join(LEARN_WEB3_PATH, `${params?.slug}.mdx`);
   const source = fs.readFileSync(postFilePath);
 
   const { content, data } = matter(source);
@@ -178,7 +180,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths = async () => {
-  const paths = contractsFilePaths
+  const paths = learnWeb3FilePaths
     // Remove file extensions for page paths
     .map((pth) => pth.replace(/\.mdx?$/, ""))
     // Map the path into the static paths object required by Next.js

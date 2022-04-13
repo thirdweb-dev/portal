@@ -12,6 +12,7 @@ import {
   Icon,
   Image,
   ImageProps,
+  SimpleGrid,
   Stack,
   Text,
   useClipboard,
@@ -23,6 +24,7 @@ import { onlyText } from "react-children-utilities";
 import { FiLink } from "react-icons/fi";
 import { IoCopy } from "react-icons/io5";
 import slugify from "slugify";
+import { LinkCard, LinkCardProps } from "./LinkCard";
 import { MdxNavigation, MdxNavigationItem } from "./mdx-nav";
 
 interface HeadingLinkProps extends HeadingProps {}
@@ -147,6 +149,42 @@ export const MdxAlert: React.FC<AlertProps> = ({
   );
 };
 
+interface MdxLinkCardProps extends Partial<LinkCardProps> {
+  contractType?: string;
+  type?: string;
+}
+
+export const MdxLinkCard: React.FC<MdxLinkCardProps> = ({
+  contractType,
+  title,
+  subtitle,
+  type,
+  ...rest
+}) => {
+  return (
+    <LinkCard
+      borderWidth="2px"
+      bg="gray.50"
+      href={
+        !type
+          ? `/contracts/${contractType}`
+          : type === "guide"
+          ? `/guides/${contractType}`
+          : `https://docs.thirdweb.com/typescript/sdk.${contractType?.replace(
+              "-",
+              "",
+            )}`
+      }
+      title={title as string}
+      subtitle={subtitle as string}
+      alt={title as string}
+      src={type ? null : require(`/public/assets/tw-icons/${contractType}.png`)}
+      type={type}
+      {...rest}
+    />
+  );
+};
+
 export const MdxComponents = {
   a: MdxA,
   h1: MdxH1,
@@ -188,5 +226,7 @@ export const MdxComponents = {
   MdxNavigation,
   MdxNavigationItem,
   MdxAlert,
+  MdxLinkCard,
+  SimpleGrid,
   // Youtube,
 };

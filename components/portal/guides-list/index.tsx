@@ -30,8 +30,9 @@ export const GuidesList: React.FC<GuidesListProps> = ({
         >
           <BlueTag name="All" href="/guides" />
           <BlueTag name="TypeScript" href="/guides/tag/typescript" />
+          <BlueTag name="React" href="/guides/react" />
           <BlueTag name="Python" href="/guides/tag/python" />
-          <BlueTag name="Token" href="/guides/token" />
+          <BlueTag name="No code" href="/guides/tag/no-code" />
           <BlueTag name="NFT Collection" href="/guides/nft-collection" />
           <BlueTag name="Marketplace" href="/guides/marketplace" />
         </Stack>

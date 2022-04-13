@@ -115,6 +115,10 @@ const moduleExports = {
         destination: "/learn-thirdweb/index",
       },
       {
+        source: "/learn-web3",
+        destination: "/learn-web3/index",
+      },
+      {
         source: "/contracts",
         destination: "/contracts/index",
       },
