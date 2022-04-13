@@ -20,6 +20,8 @@ In this guide, we are going to use Next.js to create an NFT collection, build th
 
 We will use signature-based minting, which can essentially be used to create unique signatures or IDs that can be given out or sold. Only users with a unique signature will be able to mint or claim the NFT. This means that we can display un-minted NFTs to the user and, when they want to mint an NFT, we can generate a signature and mint the specific NFT for them. Minting specific NFTs from a 1-of-1 collection is awesome! Let’s go 🚀
 
+All the code for this project can be found here. 
+
 ## Overview
 
 Here is our plan:
@@ -27,9 +29,7 @@ Here is our plan:
 1. Set up
 2. Display Un-Minted NFTs
     - Add wallet button connect button
-    - Create `nftCard` component
-    - Create NFT metadata
-    - Display NFTs
+    - Create and display `nftCard` component
 3. Add minting functionality 
     1. Create and connect to the NFT Collection contract
     2. Generate signature 
@@ -134,46 +134,9 @@ export default Home;
 
 ### Create `nftCard` component
 
-We will display each of our NFTs using an `nftCard` component.  Chakra’s `Flex` , `Box` and `Image` components will help us build each NFT card. You can create a new file called `nftCard.tsx` in a new folder called `components` and add the following code:
+We will display each of our NFTs using an `nftCard` component.  Chakra’s `SimpleGrid`, `Flex` , `Box` and `Image` components will help us build each NFT card. You can create a new file called `nftCard.tsx` in a new folder called `components` .
 
-```tsx
-import { Box, Button, Flex, Image } from '@chakra-ui/react';
-
-const NftCard = (props: any) => {
-  return (
-    <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
-      <Image src={props.nftDetails.url} alt='NFT image' />
-
-      <Flex p='1rem' alignItems='center' flexDir='column'>
-        <Box
-          mt='1'
-          fontWeight='bold'
-          lineHeight='tight'
-          fontSize='20'
-          isTruncated
-          m='0.5rem'
-        >
-          {props.nftDetails.name}
-        </Box>
-
-        <Box fontSize='16' m='0.5rem'>
-          {props.nftDetails.description}
-        </Box>
-        <Box fontSize='16' m='0.5rem'>
-          {props.nftDetails.price}
-        </Box>
-        <Button colorScheme='purple' m='0.5rem'>Mint</Button>
-      </Flex>
-    </Box>
-  );
-};
-
-export default NftCard;
-```
-
-### Create NFT Metadata and Display NFTs
-
-In `nftCard.tsx`, we can add the NFT metadata with a `useState` so that we can work with it later. We include the `name`, `description`, `url`, and `price` for each NFT and these attributes will be used to generate the signatures and mint the NFTs. We can then use a `map` method to create cards for each of our NFTs. 
+We can add the NFT metadata with a `useState` so that we can work with it later. We include the `name`, `description`, `url`, and `price` for each NFT and these attributes will be used to generate the signatures and mint the NFTs. We can then use a `map` method to create cards for each of our NFTs. 
 
 Once the code to display the NFTs has been added, `nftCard.tsx` should look like this:
 
