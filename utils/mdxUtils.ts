@@ -45,7 +45,11 @@ export const getHeadings = (src: string) => {
   return headingLines.map((raw) => {
     const text = raw.replace(/^###*\s/, "");
     const level = raw.slice(0, 3) === "###" ? 3 : 2;
-    const link = `#${slugify(text, { lower: true, strict: true })}`;
+    const link = `#${slugify(text, {
+      lower: true,
+      strict: true,
+      remove: /[*+~.`()'"!:@]/g,
+    })}`;
 
     return { text, level, link };
   });
