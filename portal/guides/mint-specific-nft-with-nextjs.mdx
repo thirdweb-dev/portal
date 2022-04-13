@@ -10,7 +10,6 @@ image: "/assets/portal/guides/mint-specific-nft-with-nextjs/thumbnail.png"
 date: "2022-04-13"
 updated: "2022-04-13"
 ---
-
 # Mint a Specific NFT
 
 Allow users to choose which 1-of-1 NFT to mint
@@ -20,8 +19,6 @@ Allow users to choose which 1-of-1 NFT to mint
 In this guide, we are going to use Next.js to create an NFT collection, build the frontend for users to view the collection, and allow users to select an NFT for minting. We will use the thirdweb [NFT Collection contract](https://portal.thirdweb.com/contracts/nft-collection) which allows you to mint 1 of 1 NFTs. 
 
 We will use signature-based minting, which can essentially be used to create unique signatures or IDs that can be given out or sold. Only users with a unique signature will be able to mint or claim the NFT. This means that we can display un-minted NFTs to the user and, when they want to mint an NFT, we can generate a signature and mint the specific NFT for them. Minting specific NFTs from a 1-of-1 collection is awesome! Let’s go 🚀
-
-All the code for this project can be found here.
 
 ## Overview
 
@@ -176,55 +173,105 @@ export default NftCard;
 
 ### Create NFT Metadata and Display NFTs
 
-In `index.tsx`, we can add the NFT metadata with a `useState` so that we can work with it later. We include the `name`, `description`, `url`, and `price` for each NFT and these attributes will be used to generate the signatures and mint the NFTs. 
+In `nftCard.tsx`, we can add the NFT metadata with a `useState` so that we can work with it later. We include the `name`, `description`, `url`, and `price` for each NFT and these attributes will be used to generate the signatures and mint the NFTs. We can then use a `map` method to create cards for each of our NFTs. 
 
-Once the code to display the NFTs has been added, `index.tsx` should look like this:
+Once the code to display the NFTs has been added, `nftCard.tsx` should look like this:
 
 ```tsx
-import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
-import { useAddres, useMetamask } from '@thirdweb-dev/react';
-import type { NextPage } from 'next';
-import NftCard from '../components/nftCard';
+import { Box, SimpleGrid, Button, Flex, Image } from '@chakra-ui/react';
 import { useState } from 'react';
 
-const Home: NextPage = () => {
-	const [nftMetadata, setNftMetadata] = useState([
+const NftCard = (props: any) => {
+  // State for nft metadata
+  const [nftMetadata, setNftMetadata] = useState([
     {
       name: 'NFT 1',
       description: 'This is our first amazing NFT',
-      url: '<LINK_TO_NFT_IMAGE>',
+      url: 'https://bafybeihgfxd5f5sqili34vyjyfai6kezlagrya43e6bkgw6hnxucxug5ya.ipfs.nftstorage.link/',
       price: 0.01,
       minted: false,
     },
     {
       name: 'NFT 2',
       description: 'This is our second amazing NFT',
-      url: '<LINK_TO_NFT_IMAGE>',
+      url: 'https://bafybeihgfxd5f5sqili34vyjyfai6kezlagrya43e6bkgw6hnxucxug5ya.ipfs.nftstorage.link/',
       price: 0.02,
       minted: false,
     },
     {
       name: 'NFT 3',
       description: 'This is our third amazing NFT',
-      url: '<LINK_TO_NFT_IMAGE>',
+      url: 'https://bafybeihgfxd5f5sqili34vyjyfai6kezlagrya43e6bkgw6hnxucxug5ya.ipfs.nftstorage.link/',
       price: 0.03,
       minted: false,
     },
   ]);
 
+  return (
+    <SimpleGrid justifyItems='center' columns={3} spacing={10}>
+      {nftMetadata.map((nft) => (
+        <Box
+          key={nftMetadata.indexOf(nft)}
+          maxW='sm'
+          borderWidth='1px'
+          borderRadius='lg'
+          overflow='hidden'
+        >
+          <Image src={nft.url} alt='NFT image' />
+
+          <Flex p='1rem' alignItems='center' flexDir='column'>
+            <Box
+              mt='1'
+              fontWeight='bold'
+              lineHeight='tight'
+              fontSize='20'
+              isTruncated
+              m='0.5rem'
+            >
+              {nft.name}
+            </Box>
+
+            <Box fontSize='16' m='0.5rem'>
+              {nft.description}
+            </Box>
+            <Box fontSize='16' m='0.5rem'>
+              {nft.price}
+            </Box>
+            {
+              <Button colorScheme='purple' m='0.5rem'>
+                Mint
+              </Button>
+            }
+          </Flex>
+        </Box>
+      ))}
+    </SimpleGrid>
+  );
+};
+
+export default NftCard;
+```
+
+Don’t forget to add the `NftCard` component to your `index.tsx` which should now look like this:
+
+```tsx
+import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { useAddress, useMetamask } from '@thirdweb-dev/react';
+import type { NextPage } from 'next';
+import NftCard from '../components/nftCard';
+
+const Home: NextPage = () => {
+  // Use address and connect with metamask
   const address = useAddress();
   const connectWithMetamask = useMetamask();
 
+  // Add 3 props to NftCard component - loading, mint function, and index to track which NFT is being minted
   return (
     <div>
       {address ? (
         <Flex mt='5rem' alignItems='center' flexDir='column'>
           <Heading mb='2.5rem'>Select an NFT to Mint</Heading>
-          <SimpleGrid justifyItems='center' columns={3} spacing={10}>
-            {nftMetadata.map((nft) => (
-              <NftCard key={nftMetadata.indexOf(nft)} nftDetails={nft} />
-            ))}
-          </SimpleGrid>
+          <NftCard />
         </Flex>
       ) : (
         <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
@@ -244,7 +291,7 @@ Well done! The frontend is set up to display our un-minted NFTs. We can now add 
 
 You need to create an NFT collection for the NFTs. This can be done in the [dashboard](https://thirdweb.com/dashboard) and you can find more details and instructions [here](https://portal.thirdweb.com/contracts/nft-collection). 
 
-We will connect using the `useNFTCollection` hook in `index.tsx`. Add the hook to your import statement from `@thirdweb-dev/react` and then use it with the contract address which can be found in your dashboard. 
+We will connect using the `useNFTCollection` hook in `nftCard.tsx`. Add the hook to your import statement from `@thirdweb-dev/react` and then use it with the contract address which can be found in your dashboard. 
 
 Import: 
 
@@ -341,26 +388,21 @@ Use dotenv and create a `.env` file to keep your private key safe. Never share y
 
 ### Mint NFT
 
-Now, we can mint the NFT using the `payload` and `signature` from the signature generation. We will implement this in `index.tsx` and the code is below. 
+Now, we can mint the NFT using the `payload` and `signature` from the signature generation. We will implement this in `nftCard.tsx` and the code is below. 
 
-You’ll notice 3 other things in the code...
+You’ll notice 2 other things in the code...
 
-1. We pass a `loading` param to the NFT card so that we dynamically show when we are loading and when the user can mint an NFT. 
-2. Once an NFT has been minted, we change the state to mark that NFT and minted which will then replace the mint button in the `NftCard` with a message saying that the NFT can’t be minted. 
-3. We pass the minting function into each `NftCard` component
+1. We use a `loading` state variable to dynamically show when we are loading and when the user can mint an NFT. 
+2. Once an NFT has been minted, we change the state to mark that NFT and minted which will then replace the mint button with a message saying that the NFT can’t be minted.
 
-The minting function is implemented in `index.tsx` but there are also changes in `nftCard.tsx`. Please follow along in the comments. 
-
-`index.tsx`:
+`nftCard.tsx`:
 
 ```tsx
-import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
-import { useAddress, useNFTCollection, useMetamask } from '@thirdweb-dev/react';
-import type { NextPage } from 'next';
-import NftCard from '../components/nftCard';
+import { Box, SimpleGrid, Button, Flex, Image } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useAddress, useNFTCollection, useMetamask } from '@thirdweb-dev/react';
 
-const Home: NextPage = () => {
+const NftCard = (props: any) => {
   // State to set when we are loading
   const [loading, setLoading] = useState(false);
   // State for nft metadata
@@ -427,8 +469,7 @@ const Home: NextPage = () => {
         address,
       }),
     });
-		
-		// If there is a response from the API, mint the NFT
+
     if (response) {
       const data = await response.json();
       const mintInput = {
@@ -454,85 +495,61 @@ const Home: NextPage = () => {
     }
   }
 
-  // Add 3 props to NftCard component - loading, mint function, and index to track which NFT is being minted
   return (
-    <div>
-      {address ? (
-        <Flex mt='5rem' alignItems='center' flexDir='column'>
-          <Heading mb='2.5rem'>Select an NFT to Mint</Heading>
-          <SimpleGrid justifyItems='center' columns={3} spacing={10}>
-            {nftMetadata.map((nft) => (
-              <NftCard
-                loading={loading}
-                key={nftMetadata.indexOf(nft)}
-                index={nftMetadata.indexOf(nft)}
-                mint={onClick}
-                nftDetails={nft}
-              />
-            ))}
-          </SimpleGrid>
-        </Flex>
-      ) : (
-        <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
-      )}
-    </div>
-  );
-};
-
-export default Home;
-```
-
-`nftCard.tsx`:
-
-```tsx
-import { Box, Button, Flex, Image } from '@chakra-ui/react';
-
-const NftCard = (props: any) => {
-  return (
-    <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
-      <Image src={props.nftDetails.url} alt='NFT image' />
-
-      <Flex p='1rem' alignItems='center' flexDir='column'>
+    <SimpleGrid justifyItems='center' columns={3} spacing={10}>
+      {nftMetadata.map((nft) => (
         <Box
-          mt='1'
-          fontWeight='bold'
-          lineHeight='tight'
-          fontSize='20'
-          isTruncated
-          m='0.5rem'
+          key={nftMetadata.indexOf(nft)}
+          maxW='sm'
+          borderWidth='1px'
+          borderRadius='lg'
+          overflow='hidden'
         >
-          {props.nftDetails.name}
-        </Box>
+          <Image src={nft.url} alt='NFT image' />
 
-        <Box fontSize='16' m='0.5rem'>
-          {props.nftDetails.description}
+          <Flex p='1rem' alignItems='center' flexDir='column'>
+            <Box
+              mt='1'
+              fontWeight='bold'
+              lineHeight='tight'
+              fontSize='20'
+              isTruncated
+              m='0.5rem'
+            >
+              {nft.name}
+            </Box>
+
+            <Box fontSize='16' m='0.5rem'>
+              {nft.description}
+            </Box>
+            <Box fontSize='16' m='0.5rem'>
+              {nft.price}
+            </Box>
+            {loading ? (
+              <p>Loading... You will need to approve 2 transactions</p>
+            ) : nft.minted ? (
+              <b>This NFT has already been minted</b>
+            ) : (
+              <Button
+                colorScheme='purple'
+                m='0.5rem'
+                onClick={() =>
+                  onClick(
+                    nft.name,
+                    nft.description,
+                    nft.url,
+                    nft.price,
+                    nftMetadata.indexOf(nft)
+                  )
+                }
+              >
+                Mint
+              </Button>
+            )}
+          </Flex>
         </Box>
-        <Box fontSize='16' m='0.5rem'>
-          {props.nftDetails.price}
-        </Box>
-        {props.loading ? (
-          <p>Loading... You will need to approve 2 transactions</p>
-        ) : props.nftDetails.minted ? (
-          <b>This NFT has already been minted</b>
-        ) : (
-          <Button
-            colorScheme='purple'
-            m='0.5rem'
-            onClick={() =>
-              props.mint(
-                props.nftDetails.name,
-                props.nftDetails.description,
-                props.nftDetails.url,
-                props.nftDetails.price,
-                props.index
-              )
-            }
-          >
-            Mint
-          </Button>
-        )}
-      </Flex>
-    </Box>
+      ))}
+    </SimpleGrid>
   );
 };
 
