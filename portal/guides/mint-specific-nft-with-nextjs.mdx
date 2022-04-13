@@ -1,0 +1,542 @@
+---
+title: Mint a Specific NFT with Next.js
+author: "Mordi Goldstein"
+authorAvatar: "/assets/portal/authors/mordi.jpg"
+authorTwitter: "https://twitter.com/mordigoldstein"
+draft: false
+tags: [nft-collection, typescript, sdk, v2]
+summary: "Allow users to select which 1-of-1 NFT to mint"
+image: "/assets/portal/guides/mint-specific-nft-with-nextjs/thumbnail.png"
+date: "2022-04-13"
+updated: "2022-04-13"
+---
+
+# Mint a Specific NFT
+
+Allow users to choose which 1-of-1 NFT to mint
+
+## Introduction
+
+In this guide, we are going to use Next.js to create an NFT collection, build the frontend for users to view the collection, and allow users to select an NFT for minting. We will use the thirdweb [NFT Collection contract](https://portal.thirdweb.com/contracts/nft-collection) which allows you to mint 1 of 1 NFTs. 
+
+We will use signature-based minting, which can essentially be used to create unique signatures or IDs that can be given out or sold. Only users with a unique signature will be able to mint or claim the NFT. This means that we can display un-minted NFTs to the user and, when they want to mint an NFT, we can generate a signature and mint the specific NFT for them. Minting specific NFTs from a 1-of-1 collection is awesome! Let’s go 🚀
+
+All the code for this project can be found here.
+
+## Overview
+
+Here is our plan:
+
+1. Set up
+2. Display Un-Minted NFTs
+    - Add wallet button connect button
+    - Create `nftCard` component
+    - Create NFT metadata
+    - Display NFTs
+3. Add minting functionality 
+    1. Create and connect to the NFT Collection contract
+    2. Generate signature 
+    3. Mint NFT
+
+## 1. Set up
+
+The easiest way to set up a Next.js app is to use the template which can be [found here.](https://github.com/thirdweb-example/next-typescript-starter) You can “Use this template” and create your own repo, which can be cloned and opened in your code editor. 
+
+Install the required dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+Then, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+Open [http://localhost:3000](http://localhost:3000/) with your browser to see the result. At the moment, all that your app allows is for you to connect your wallet.
+
+For this project, we will use Chakra to style our components. You can install these dependencies: 
+
+```bash
+npm i @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^6
+# or
+yarn add @chakra-ui/react @emotion/react@^11 @emotion/styled@^11 framer-motion@^6
+```
+
+Don’t forget to add the `ChakraProvider`, afterwhich your `_app.tsx` should look like this:
+
+```tsx
+import type { AppProps } from 'next/app';
+import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react';
+import { ChakraProvider } from '@chakra-ui/react';
+
+// This is the chainId your dApp will work on.
+const activeChainId = ChainId.Rinkeby;
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <ThirdwebProvider desiredChainId={activeChainId}>
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </ThirdwebProvider>
+  );
+}
+
+export default MyApp;
+```
+
+**NB:** If you open `_app.tsx` (in your `pages` folder), you’ll see that you can set the chain on which you want your app to work. In this tutorial, we are working on the Rinkeby testnet so we have changed it from this: 
+
+```tsx
+// This is the chainId your dApp will work on.
+const activeChainId = ChainId.Mainnet;
+```
+
+to this:
+
+```tsx
+// This is the chainId your dApp will work on.
+const activeChainId = ChainId.Rinkeby;
+```
+
+**Awesome🔥  Let’s create some NFTs**
+
+## 2. Display Un-Minted NFTs
+
+### Add Wallet Connect Button
+
+We can use the thirdweb `useAddress` and `useMetamask` to easily create a connect button. Here is what your `pages/index.tsx` should look like:
+
+```tsx
+import { useAddress, useMetamask } from '@thirdweb-dev/react';
+import type { NextPage } from 'next';
+
+const Home: NextPage = () => {
+  const address = useAddress();
+  const connectWithMetamask = useMetamask();
+
+  return (
+    <div>
+      {address ? (
+        <h1>Connected!</h1>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
+      )}
+    </div>
+  );
+};
+
+export default Home;
+```
+
+### Create `nftCard` component
+
+We will display each of our NFTs using an `nftCard` component.  Chakra’s `Flex` , `Box` and `Image` components will help us build each NFT card. You can create a new file called `nftCard.tsx` in a new folder called `components` and add the following code:
+
+```tsx
+import { Box, Button, Flex, Image } from '@chakra-ui/react';
+
+const NftCard = (props: any) => {
+  return (
+    <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
+      <Image src={props.nftDetails.url} alt='NFT image' />
+
+      <Flex p='1rem' alignItems='center' flexDir='column'>
+        <Box
+          mt='1'
+          fontWeight='bold'
+          lineHeight='tight'
+          fontSize='20'
+          isTruncated
+          m='0.5rem'
+        >
+          {props.nftDetails.name}
+        </Box>
+
+        <Box fontSize='16' m='0.5rem'>
+          {props.nftDetails.description}
+        </Box>
+        <Box fontSize='16' m='0.5rem'>
+          {props.nftDetails.price}
+        </Box>
+        <Button colorScheme='purple' m='0.5rem'>Mint</Button>
+      </Flex>
+    </Box>
+  );
+};
+
+export default NftCard;
+```
+
+### Create NFT Metadata and Display NFTs
+
+In `index.tsx`, we can add the NFT metadata with a `useState` so that we can work with it later. We include the `name`, `description`, `url`, and `price` for each NFT and these attributes will be used to generate the signatures and mint the NFTs. 
+
+Once the code to display the NFTs has been added, `index.tsx` should look like this:
+
+```tsx
+import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { useAddres, useMetamask } from '@thirdweb-dev/react';
+import type { NextPage } from 'next';
+import NftCard from '../components/nftCard';
+import { useState } from 'react';
+
+const Home: NextPage = () => {
+	const [nftMetadata, setNftMetadata] = useState([
+    {
+      name: 'NFT 1',
+      description: 'This is our first amazing NFT',
+      url: '<LINK_TO_NFT_IMAGE>',
+      price: 0.01,
+      minted: false,
+    },
+    {
+      name: 'NFT 2',
+      description: 'This is our second amazing NFT',
+      url: '<LINK_TO_NFT_IMAGE>',
+      price: 0.02,
+      minted: false,
+    },
+    {
+      name: 'NFT 3',
+      description: 'This is our third amazing NFT',
+      url: '<LINK_TO_NFT_IMAGE>',
+      price: 0.03,
+      minted: false,
+    },
+  ]);
+
+  const address = useAddress();
+  const connectWithMetamask = useMetamask();
+
+  return (
+    <div>
+      {address ? (
+        <Flex mt='5rem' alignItems='center' flexDir='column'>
+          <Heading mb='2.5rem'>Select an NFT to Mint</Heading>
+          <SimpleGrid justifyItems='center' columns={3} spacing={10}>
+            {nftMetadata.map((nft) => (
+              <NftCard key={nftMetadata.indexOf(nft)} nftDetails={nft} />
+            ))}
+          </SimpleGrid>
+        </Flex>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
+      )}
+    </div>
+  );
+};
+
+export default Home;
+```
+
+Well done! The frontend is set up to display our un-minted NFTs. We can now add the minting functionality. 
+
+## 3. Add Minting Functionality
+
+### Create and connect to the NFT Collection contract
+
+You need to create an NFT collection for the NFTs. This can be done in the [dashboard](https://thirdweb.com/dashboard) and you can find more details and instructions [here](https://portal.thirdweb.com/contracts/nft-collection). 
+
+We will connect using the `useNFTCollection` hook in `index.tsx`. Add the hook to your import statement from `@thirdweb-dev/react` and then use it with the contract address which can be found in your dashboard. 
+
+Import: 
+
+```tsx
+import { useAddress, useNFTCollection, useMetamask } from '@thirdweb-dev/react';
+```
+
+Implement:
+
+```tsx
+// You can find your contract address in your dashboard after you have created an NFT Collection contract
+  const nftCollectionContractAddress = '<CONTRACT_ADDRESS>';
+
+  // Connect to contract using the address
+  const nftCollection = useNFTCollection(nftCollectionContractAddress);
+```
+
+### Generate Signature
+
+The signature generation has to be done by the wallet that owns the NFT Collection contract. To do this, we use server-side code to connect to the SDK and the contract and then generate the NFT. We will use Nextjs’ built-in API capabilities by creating an `api` folder inside the `pages` folder. Inside `api`, create a new file called `signatureGeneration.ts`. 
+
+We can start by installing the necessary dependencies:
+
+```bash
+npm install @thirdweb-dev/sdk ethers dotenv
+or
+yarn add @thirdweb-dev/sdk ethers dotenv
+```
+
+Then, we can add our code to the `signatureGeneration.ts` file:
+
+```tsx
+// Importing libraries
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { ThirdwebSDK } from '@thirdweb-dev/sdk';
+import { ethers } from 'ethers';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const sdk = new ThirdwebSDK(
+    new ethers.Wallet(
+      // Your wallet private key
+      process.env.PRIVATE_KEY as string,
+      // RPC URL - we are using the Rinkey testnet for this project
+      ethers.getDefaultProvider(
+        'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'
+      )
+    )
+  );
+
+  const { name, description, price, url, address } = req.body;
+
+  // Set variable for the edition drop module contract address which can be found after creating a edition drop module in the dashboard
+  const nftCollectionAddress = '0xB20B7AA964365A753Fb7412d98D76D139fd7Cbbd';
+
+  // Initialize the edition drop module with the contract address
+  const nftCollection = sdk.getNFTCollection(nftCollectionAddress);
+
+  // Give 3 minutes to mint the NFT
+  const startTime = new Date();
+  const endTime = new Date(Date.now() + 180 * 1000);
+
+  // Set up the NFT metadata
+  const metadata = {
+    metadata: {
+      name,
+      description,
+      image: url,
+    },
+		price,
+    mintStartTime: startTime,
+    mintEndTime: endTime,
+    to: address,
+  };
+
+  // Call the generate method and then call then mint method
+  const response = await nftCollection?.signature
+    .generate(metadata)
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => console.error(error));
+
+  res.json({ payload: response?.payload, signature: response?.signature });
+}
+```
+
+Use dotenv and create a `.env` file to keep your private key safe. Never share your private key or upload this file to GitHub. 
+
+### Mint NFT
+
+Now, we can mint the NFT using the `payload` and `signature` from the signature generation. We will implement this in `index.tsx` and the code is below. 
+
+You’ll notice 3 other things in the code...
+
+1. We pass a `loading` param to the NFT card so that we dynamically show when we are loading and when the user can mint an NFT. 
+2. Once an NFT has been minted, we change the state to mark that NFT and minted which will then replace the mint button in the `NftCard` with a message saying that the NFT can’t be minted. 
+3. We pass the minting function into each `NftCard` component
+
+The minting function is implemented in `index.tsx` but there are also changes in `nftCard.tsx`. Please follow along in the comments. 
+
+`index.tsx`:
+
+```tsx
+import { Flex, Heading, SimpleGrid } from '@chakra-ui/react';
+import { useAddress, useNFTCollection, useMetamask } from '@thirdweb-dev/react';
+import type { NextPage } from 'next';
+import NftCard from '../components/nftCard';
+import { useState } from 'react';
+
+const Home: NextPage = () => {
+  // State to set when we are loading
+  const [loading, setLoading] = useState(false);
+  // State for nft metadata
+  const [nftMetadata, setNftMetadata] = useState([
+    {
+      name: 'NFT 1',
+      description: 'This is our first amazing NFT',
+      url: 'https://bafybeihgfxd5f5sqili34vyjyfai6kezlagrya43e6bkgw6hnxucxug5ya.ipfs.nftstorage.link/',
+      price: 0.01,
+      minted: false,
+    },
+    {
+      name: 'NFT 2',
+      description: 'This is our second amazing NFT',
+      url: 'https://bafybeihgfxd5f5sqili34vyjyfai6kezlagrya43e6bkgw6hnxucxug5ya.ipfs.nftstorage.link/',
+      price: 0.02,
+      minted: false,
+    },
+    {
+      name: 'NFT 3',
+      description: 'This is our third amazing NFT',
+      url: 'https://bafybeihgfxd5f5sqili34vyjyfai6kezlagrya43e6bkgw6hnxucxug5ya.ipfs.nftstorage.link/',
+      price: 0.03,
+      minted: false,
+    },
+  ]);
+
+  // Use address and connect with metamask
+  const address = useAddress();
+  const connectWithMetamask = useMetamask();
+
+  // You can find your contract address in your dashboard after you have created an NFT Collection contract
+  const nftCollectionContractAddress =
+    '0xB20B7AA964365A753Fb7412d98D76D139fd7Cbbd';
+
+  // Connect to contract using the address
+  const nftCollection = useNFTCollection(nftCollectionContractAddress);
+
+  // Function which generates signature and mints NFT
+  async function onClick(
+    name: string,
+    description: string,
+    url: string,
+    price: number,
+    key: any
+  ) {
+    if (!address) {
+      return;
+    }
+    connectWithMetamask();
+    setLoading(true);
+
+    // Call the signature generation API
+    const response: any = await fetch('/api/generateSignature', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        description,
+        url,
+        price,
+        address,
+      }),
+    });
+		
+		// If there is a response from the API, mint the NFT
+    if (response) {
+      const data = await response.json();
+      const mintInput = {
+        signature: data.signature,
+        payload: data.payload,
+      };
+
+      await nftCollection?.signature
+        .mint(mintInput)
+        .then((data) => {
+          // Change the state of minted NFT to mark it as unavailable
+          const tempState = nftMetadata;
+          tempState[key].minted = true;
+          setNftMetadata(tempState);
+          alert('NFT successfully minted!');
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+          alert('Error! Failed to mint NFT');
+          console.error(error);
+        });
+    }
+  }
+
+  // Add 3 props to NftCard component - loading, mint function, and index to track which NFT is being minted
+  return (
+    <div>
+      {address ? (
+        <Flex mt='5rem' alignItems='center' flexDir='column'>
+          <Heading mb='2.5rem'>Select an NFT to Mint</Heading>
+          <SimpleGrid justifyItems='center' columns={3} spacing={10}>
+            {nftMetadata.map((nft) => (
+              <NftCard
+                loading={loading}
+                key={nftMetadata.indexOf(nft)}
+                index={nftMetadata.indexOf(nft)}
+                mint={onClick}
+                nftDetails={nft}
+              />
+            ))}
+          </SimpleGrid>
+        </Flex>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
+      )}
+    </div>
+  );
+};
+
+export default Home;
+```
+
+`nftCard.tsx`:
+
+```tsx
+import { Box, Button, Flex, Image } from '@chakra-ui/react';
+
+const NftCard = (props: any) => {
+  return (
+    <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
+      <Image src={props.nftDetails.url} alt='NFT image' />
+
+      <Flex p='1rem' alignItems='center' flexDir='column'>
+        <Box
+          mt='1'
+          fontWeight='bold'
+          lineHeight='tight'
+          fontSize='20'
+          isTruncated
+          m='0.5rem'
+        >
+          {props.nftDetails.name}
+        </Box>
+
+        <Box fontSize='16' m='0.5rem'>
+          {props.nftDetails.description}
+        </Box>
+        <Box fontSize='16' m='0.5rem'>
+          {props.nftDetails.price}
+        </Box>
+        {props.loading ? (
+          <p>Loading... You will need to approve 2 transactions</p>
+        ) : props.nftDetails.minted ? (
+          <b>This NFT has already been minted</b>
+        ) : (
+          <Button
+            colorScheme='purple'
+            m='0.5rem'
+            onClick={() =>
+              props.mint(
+                props.nftDetails.name,
+                props.nftDetails.description,
+                props.nftDetails.url,
+                props.nftDetails.price,
+                props.index
+              )
+            }
+          >
+            Mint
+          </Button>
+        )}
+      </Flex>
+    </Box>
+  );
+};
+
+export default NftCard;
+```
+
+Congrats 🎉 You’ve built an NFT collection that allows users to select which 1-of-1 NFT they want to mint☺️ If you want to explore what else you can do with thirdweb, please check out the [docs](https://docs.thirdweb.com/) and [guides](https://portal.thirdweb.com/guides) here.
