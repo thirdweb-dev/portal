@@ -17,8 +17,12 @@ First make sure you install the dependencies based on your choice of one of the 
 
 ## Read data from a blockchain
 To read data from the blockchain, all you need is our `@thirdweb-dev/sdk`.
+Create an `index.js` file and open a terminal where the file is located. 
+Execute the code by running **node index.js**. 
+Check out a live version [here](https://stackblitz.com/edit/node-id6l9n?file=marketplace.js)
 
-```js
+
+```js:index.js
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 // This url indicates which chain you want to connect to
 const rpcUrl = "https://polygon-rpc.com/";
@@ -45,6 +49,7 @@ You can create a smart contract with our dashboard or in a terminal.
 When you deploy a smart contract, you need to approve that transaction with your wallet.
 Create a file called `deployTokenContract.js` and a file called `.env` with the following code 👇.
 **Warning:** This method is **not** suitable for frontend, but backend.
+Check out a live version of this example [here](https://stackblitz.com/edit/node-id6l9n?file=index.js)
 
 ```js:deployTokenContract.js
 //import all the packages
@@ -85,7 +90,6 @@ To run the code:
 ```bash
 node deployTokenContract.js
 ```
-Check out a live version of this example [here](https://stackblitz.com/edit/node-id6l9n?file=index.js)
 
 ## Use our React SDK
 
@@ -146,6 +150,7 @@ Once you're connected with your wallet, you can use our hooks to interact with y
 We have a custom hook for every of our contracts. 
 Check out this example where we allow users to claim an NFT in an NextJS app.
 Make sure to wrap your `_app.jsx` file with ThirdwebProvider tags, like in the previous example.
+Check out a live replit over [here](https://mint-nft-with-thirdwebs-react-hooks.razazaidi2.repl.co/), where you can play with the code.
 
 ```jsx:index.jsx
 //import the hooks
@@ -184,7 +189,6 @@ export default function Home() {
   )
 }
 ```
-Check out a live replit over [here](https://mint-nft-with-thirdwebs-react-hooks.razazaidi2.repl.co/), where you can play with the code.
 If you want to know more about how the connection to a blockchain works, click here.
 
 ## Your Web3 Stack
