@@ -3,7 +3,7 @@ import { PortalLayout } from "components/app-layouts/portal";
 import { GuidesList } from "components/portal/guides-list";
 import { PortalHeaderCard } from "components/portal/header-card";
 import { useTrack } from "hooks/analytics/useTrack";
-import { NextSeo } from "next-seo";
+import { BreadcrumbJsonLd, NextSeo } from "next-seo";
 import { ConsolePage } from "pages/_app";
 import React from "react";
 import { getAllGuides } from "utils/mdxUtils";
@@ -22,6 +22,25 @@ const UIPage: ConsolePage<GuidesPageProps> = ({ guides }) => {
           description: "Guides and tutorials about thirdweb UI components.",
           url: `https://portal.thirdweb.com/guides/ui`,
         }}
+      />
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: "Portal",
+            item: "https://portal.thirdweb.com",
+          },
+          {
+            position: 2,
+            name: "Guides",
+            item: "https://portal.thirdweb.com/guides",
+          },
+          {
+            position: 3,
+            name: "UI Guides",
+            item: `https://portal.thirdweb.com/guides/ui`,
+          },
+        ]}
       />
       <Stack spacing={20}>
         <PortalHeaderCard

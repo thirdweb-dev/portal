@@ -12,7 +12,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { GetStaticProps } from "next";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import { ArticleJsonLd, NextSeo } from "next-seo";
+import { ArticleJsonLd, BreadcrumbJsonLd, NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
 import path from "path";
@@ -90,6 +90,25 @@ const LearnWeb3Page: ConsolePage<LearnWeb3PageProps> = ({
         canonical={
           frontMatter.canonical || `https://portal.thirdweb.com${router.asPath}`
         }
+      />
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: "Portal",
+            item: "https://portal.thirdweb.com",
+          },
+          {
+            position: 2,
+            name: "Learn web3",
+            item: "https://portal.thirdweb.com/learn-web3",
+          },
+          {
+            position: 3,
+            name: frontMatter.title,
+            item: `https://portal.thirdweb.com${router.asPath}`,
+          },
+        ]}
       />
       <Stack direction="row" maxW="100%" position="absolute" left={0} w="100%">
         <Container

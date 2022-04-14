@@ -20,7 +20,7 @@ import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { GetStaticProps } from "next";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
-import { ArticleJsonLd, NextSeo } from "next-seo";
+import { ArticleJsonLd, BreadcrumbJsonLd, NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { ConsolePage } from "pages/_app";
 import path from "path";
@@ -105,6 +105,25 @@ const GuidePage: ConsolePage<GuidePageProps> = ({
         publisherLogo="https://portal.thirdweb.com/favicon-32x32.png"
         description={frontMatter.summary}
         keywords={keywords}
+      />
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: "Portal",
+            item: "https://portal.thirdweb.com",
+          },
+          {
+            position: 2,
+            name: "Guides",
+            item: "https://portal.thirdweb.com/guides",
+          },
+          {
+            position: 3,
+            name: frontMatter.title,
+            item: `https://portal.thirdweb.com${router.asPath}`,
+          },
+        ]}
       />
       <Stack direction="row" maxW="100%" position="absolute" left={0}>
         <Container
