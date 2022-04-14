@@ -52,6 +52,7 @@ export const PortalSidebar: React.FC = () => {
               label="JavaScript docs"
               matchExact
               href="https://docs.thirdweb.com/typescript/sdk.nftcollection"
+              isExternal
             />
           </SidebarItem>
           <SidebarItem label="Edition" matchExact href="/contracts/edition">
@@ -60,6 +61,7 @@ export const PortalSidebar: React.FC = () => {
               label="JavaScript docs"
               matchExact
               href="https://docs.thirdweb.com/typescript/sdk.edition"
+              isExternal
             />
           </SidebarItem>
           <SidebarItem label="Token" matchExact href="/contracts/token">
@@ -68,6 +70,7 @@ export const PortalSidebar: React.FC = () => {
               label="JavaScript docs"
               matchExact
               href="https://docs.thirdweb.com/typescript/sdk.token"
+              isExternal
             />
           </SidebarItem>
           <SidebarItem label="Pack" matchExact href="/contracts/pack">
@@ -76,6 +79,7 @@ export const PortalSidebar: React.FC = () => {
               label="JavaScript docs"
               matchExact
               href="https://docs.thirdweb.com/typescript/sdk.pack"
+              isExternal
             />
           </SidebarItem>
         </SidebarItem>
@@ -86,6 +90,7 @@ export const PortalSidebar: React.FC = () => {
               label="JavaScript docs"
               matchExact
               href="https://docs.thirdweb.com/typescript/sdk.nftdrop"
+              isExternal
             />
           </SidebarItem>
           <SidebarItem
@@ -102,6 +107,7 @@ export const PortalSidebar: React.FC = () => {
               label="JavaScript docs"
               matchExact
               href="https://docs.thirdweb.com/typescript/sdk.editiondrop"
+              isExternal
             />
           </SidebarItem>
         </SidebarItem>
@@ -115,6 +121,7 @@ export const PortalSidebar: React.FC = () => {
             label="JavaScript docs"
             matchExact
             href="https://docs.thirdweb.com/typescript/sdk.marketplace"
+            isExternal
           />
         </SidebarItem>
         <SidebarItem
@@ -128,6 +135,7 @@ export const PortalSidebar: React.FC = () => {
               label="JavaScript docs"
               matchExact
               href="https://docs.thirdweb.com/typescript/sdk.vote"
+              isExternal
             />
           </SidebarItem>
           <SidebarItem label="Split" matchExact href="/contracts/split">
@@ -136,6 +144,7 @@ export const PortalSidebar: React.FC = () => {
               label="JavaScript docs"
               matchExact
               href="https://docs.thirdweb.com/typescript/sdk.split"
+              isExternal
             />
           </SidebarItem>
         </SidebarItem>
