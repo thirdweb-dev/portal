@@ -32,28 +32,112 @@ export const PortalSidebar: React.FC = () => {
             href="/learn-thirdweb/connect-to-blockchain"
           />
         </SidebarItem>
-        <SidebarItem label="Contracts" matchExact href="/contracts" initialOpen>
+        <SidebarItem label="Contracts" matchExact href="/contracts" />
+        <SidebarItem
+          label="NFTs and tokens"
+          matchExact
+          href="/contracts/nfts-and-tokens"
+        >
           <SidebarItem
             label="NFT Collection"
             matchExact
             href="/contracts/nft-collection"
-          />
-          <SidebarItem label="Edition" matchExact href="/contracts/edition" />
-          <SidebarItem label="NFT Drop" matchExact href="/contracts/nft-drop" />
+          >
+            <SidebarItem
+              label="Guides"
+              matchExact
+              href="/guides/nft-collection"
+            />
+            <SidebarItem
+              label="JavaScript docs"
+              matchExact
+              href="https://docs.thirdweb.com/typescript/sdk.nftcollection"
+            />
+          </SidebarItem>
+          <SidebarItem label="Edition" matchExact href="/contracts/edition">
+            <SidebarItem label="Guides" matchExact href="/guides/edition" />
+            <SidebarItem
+              label="JavaScript docs"
+              matchExact
+              href="https://docs.thirdweb.com/typescript/sdk.edition"
+            />
+          </SidebarItem>
+          <SidebarItem label="Token" matchExact href="/contracts/token">
+            <SidebarItem label="Guides" matchExact href="/guides/token" />
+            <SidebarItem
+              label="JavaScript docs"
+              matchExact
+              href="https://docs.thirdweb.com/typescript/sdk.token"
+            />
+          </SidebarItem>
+          <SidebarItem label="Pack" matchExact href="/contracts/pack">
+            <SidebarItem label="Guides" matchExact href="/guides/pack" />
+            <SidebarItem
+              label="JavaScript docs"
+              matchExact
+              href="https://docs.thirdweb.com/typescript/sdk.pack"
+            />
+          </SidebarItem>
+        </SidebarItem>
+        <SidebarItem label="Drops" matchExact href="/contracts/drops">
+          <SidebarItem label="NFT Drop" matchExact href="/contracts/nft-drop">
+            <SidebarItem label="Guides" matchExact href="/guides/nft-drop" />
+            <SidebarItem
+              label="JavaScript docs"
+              matchExact
+              href="https://docs.thirdweb.com/typescript/sdk.nftdrop"
+            />
+          </SidebarItem>
           <SidebarItem
             label="Edition Drop"
             matchExact
             href="/contracts/edition-drop"
-          />
-          <SidebarItem label="Token" matchExact href="/contracts/token" />
+          >
+            <SidebarItem
+              label="Guides"
+              matchExact
+              href="/guides/edition-drop"
+            />
+            <SidebarItem
+              label="JavaScript docs"
+              matchExact
+              href="https://docs.thirdweb.com/typescript/sdk.editiondrop"
+            />
+          </SidebarItem>
+        </SidebarItem>
+        <SidebarItem
+          label="Marketplace"
+          matchExact
+          href="/contracts/marketplace"
+        >
+          <SidebarItem label="Guides" matchExact href="/guides/marketplace" />
           <SidebarItem
-            label="Marketplace"
+            label="JavaScript docs"
             matchExact
-            href="/contracts/marketplace"
+            href="https://docs.thirdweb.com/typescript/sdk.marketplace"
           />
-          <SidebarItem label="Pack" matchExact href="/contracts/pack" />
-          <SidebarItem label="Split" matchExact href="/contracts/split" />
-          <SidebarItem label="Vote" matchExact href="/contracts/vote" />
+        </SidebarItem>
+        <SidebarItem
+          label="Governance and Splits"
+          matchExact
+          href="/contracts/governance"
+        >
+          <SidebarItem label="Vote" matchExact href="/contracts/vote">
+            <SidebarItem label="Guides" matchExact href="/guides/vote" />
+            <SidebarItem
+              label="JavaScript docs"
+              matchExact
+              href="https://docs.thirdweb.com/typescript/sdk.vote"
+            />
+          </SidebarItem>
+          <SidebarItem label="Split" matchExact href="/contracts/split">
+            <SidebarItem label="Guides" matchExact href="/guides/split" />
+            <SidebarItem
+              label="JavaScript docs"
+              matchExact
+              href="https://docs.thirdweb.com/typescript/sdk.split"
+            />
+          </SidebarItem>
         </SidebarItem>
         <SidebarItem label="Developer Guides" href="/guides" matchExact />
         <SidebarItem label="Learn web3" matchExact href="/learn-web3" />

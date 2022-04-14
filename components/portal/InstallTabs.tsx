@@ -42,6 +42,7 @@ export const InstallTabs = () => {
           height={20}
           zIndex={-1}
           bottom={24}
+          placeholder="empty"
           display={{ base: "none", md: "block" }}
         />
         <TabList borderBottom="1px solid" borderBottomColor="gray.100">
