@@ -11,7 +11,8 @@
     "gen:theme-typings": "chakra-cli tokens theme/index.ts",
     "postinstall": "yarn gen:theme-typings",
     "find:unused": "next-unused",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "format": "prettier --write '**/*.{ts,tsx,js,jsx,json,md,mdx}'"
   },
   "dependencies": {
     "@3rdweb/sdk": "^1.39.0",

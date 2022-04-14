@@ -13,7 +13,8 @@ updated: ""
 
 <br />
 <MdxAlert status="warning">
-Python SDK is not available on thirdweb v2. This guide is for thirdweb v1. We will be adding Python SDK support for v2 soon.
+  Python SDK is not available on thirdweb v2. This guide is for thirdweb v1. We
+  will be adding Python SDK support for v2 soon.
 </MdxAlert>
 
 ## Intro
@@ -102,11 +103,11 @@ pack_module = sdk.get_pack_module(pack_contract)
 
 The arguments passed over here are the same as inside the dashboard. If you want to familiarize yourself with the process, check out the dashboard!
 
-Note, the Pack module only works with NFTs from the 'Drop' and 'Bundle' module, because these modules are based on ERC-1155. If this is new to you, in short a Pack holds multiple NFTs. 
+Note, the Pack module only works with NFTs from the 'Drop' and 'Bundle' module, because these modules are based on ERC-1155. If this is new to you, in short a Pack holds multiple NFTs.
 
 ```python
 #Create the Pack
-    
+
 pack_module.create(CreatePackArg(
 		#asset_contract_address: The address of the asset being put in the pack
 		#Note, the Pack module only works with NFTs from the 'Drop' and 'Bundle' module
@@ -174,9 +175,9 @@ pack_module.open_pack(1)
 
 ## Open a random Pack with Deposit Link
 
-To open a random pack we need to perform some additional steps. In order to create a random generated number, we need the help of ChainLink. 
+To open a random pack we need to perform some additional steps. In order to create a random generated number, we need the help of ChainLink.
 
-The following method, gets a random number from Chainlink and passes it on to our sdk. 
+The following method, gets a random number from Chainlink and passes it on to our sdk.
 
 The argument that we're passing to our method is the amount of Chainlink tokens we need to pay. To make use of Chainlink we need special tokens. For the `Rinkeby` network you can get them [here](https://faucets.chain.link/rinkeby).
 

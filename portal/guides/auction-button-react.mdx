@@ -38,7 +38,7 @@ import { ThirdwebProvider } from '@thirdweb-dev/react';
 import './App.css';
 
 //import component for claim button
-import AuctionComponent from '../components/AuctionListing'; 
+import AuctionComponent from '../components/AuctionListing';
 import Connect from '../components/Connect';
 
 const supportedChainIds = [1, 4, 137, 250, 43114, 80001];
@@ -62,7 +62,7 @@ Create a new folder called components that will host all custom components of yo
 
 ```js:connect.js
 import { useMetamask } from "@thirdweb-dev/react";
- 
+
 export const Connect = () => {
   const connectWithMetamask = useMetamask();
   return <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>;
@@ -70,6 +70,7 @@ export const Connect = () => {
 ```
 
 ## The AuctionListing.js - The Buy button
+
 Create a file called `AuctionListing.js` inside your components folder.
 In your `AuctionListing.js` file we will write the code for the button.
 

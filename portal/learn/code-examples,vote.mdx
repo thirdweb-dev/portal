@@ -9,6 +9,7 @@ updated: "2022-01-13"
 ---
 
 ### Initialize the vote module
+
 ```ts
 // The vote collection module address received after initializing the vote module on the dashboard.
 const voteAddress = "<MODULE_ADDRESS>";
@@ -42,7 +43,7 @@ const getBalanceOfToken = async (tokenAddress) => {
   }
 };
 
-getBalanceOfToken('<TOKEN_ADDRESS>')
+getBalanceOfToken("<TOKEN_ADDRESS>");
 ```
 
 ### Can execute a proposal
@@ -56,7 +57,7 @@ const canExecuteProposal = async (proposalId) => {
   }
 };
 
-canExecuteProposal('<PROPOSAL_ID>')
+canExecuteProposal("<PROPOSAL_ID>");
 ```
 
 ### Execute a proposal
@@ -70,7 +71,7 @@ const executeProposal = async (proposalId) => {
   }
 };
 
-executeProposal('<PROPOSAL_ID>');
+executeProposal("<PROPOSAL_ID>");
 ```
 
 ### Get a proposal by proposal ID
@@ -84,7 +85,7 @@ const getProposal = async (proposalId) => {
   }
 };
 
-getProposal('<PROPOSAL_ID>');
+getProposal("<PROPOSAL_ID>");
 ```
 
 ### Get all the proposals
@@ -112,7 +113,7 @@ const hasVotedForProposal = async (proposalId, walletAddress) => {
   }
 };
 
-hasVotedForProposal('<PROPOSAL_ID>', '<WALLET_ADDRESS>');
+hasVotedForProposal("<PROPOSAL_ID>", "<WALLET_ADDRESS>");
 ```
 
 ### Create a proposal
@@ -153,9 +154,9 @@ const setModuleMetadata = async (metadata) => {
 };
 
 setModuleMetadata({
-  name: '<NAME>',
-  description: '<DESCRIPTION>',
-  image: '<IMAGE_LINK'
+  name: "<NAME>",
+  description: "<DESCRIPTION>",
+  image: "<IMAGE_LINK",
 });
 ```
 
@@ -184,21 +185,14 @@ const voteForProposal = async (proposalId, voteType, reason) => {
   }
 };
 
-// Vote Types: 
-    // Against: 0
-    // For: 1
-    // Abstain: 2
-voteForProposal('<PROPOSAL_ID>', '<VOTE_TYPE>', '<REASON>');
+// Vote Types:
+// Against: 0
+// For: 1
+// Abstain: 2
+voteForProposal("<PROPOSAL_ID>", "<VOTE_TYPE>", "<REASON>");
 ```
 
 <MdxNavigation>
-  <MdxNavigationItem
-    href="/learn/code-examples/pack"
-    title="Pack"
-  />
-  <MdxNavigationItem
-    href="/learn/code-examples/splits"
-    title="Splits"
-    next
-  />
+  <MdxNavigationItem href="/learn/code-examples/pack" title="Pack" />
+  <MdxNavigationItem href="/learn/code-examples/splits" title="Splits" next />
 </MdxNavigation>

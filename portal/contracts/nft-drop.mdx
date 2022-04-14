@@ -83,15 +83,17 @@ thirdweb developed an UI component for minting your NFTs. All you need to do is 
 ![Embed](/assets/portal/contracts/nft-drop/embed.png)
 
 ### NFT delayed reveal feature
+
 This feature lets you batch upload in an **`NFT Drop`** and hide your NFTs until your release day.
 If you want to make use of this feature, these are the steps to follow:
+
 - Do a batch upload
 - Select Delayed Reveal
 - Choose a password (save it, you'll need it to reveal your NFTs later!)
 - Choose an image, name and description for the placeholder NFT
 - Upload!
-Then, when you want to reveal your NFTs, just go back to your dashboard, click the "Reveal NFTs" button and write the password that you submitted previously. 
-![delayed reveal dashboard](/assets/portal/contracts/nft-drop/delayed.png)
+  Then, when you want to reveal your NFTs, just go back to your dashboard, click the "Reveal NFTs" button and write the password that you submitted previously.
+  ![delayed reveal dashboard](/assets/portal/contracts/nft-drop/delayed.png)
 
 ## How to use the contract
 
@@ -131,7 +133,7 @@ const claimNft = async () => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
 claimNft();
 ```
@@ -172,9 +174,6 @@ setClaimConditions();
 3. To setup your local dev environment, click [here](/guides/sdk-guide).
 
 <MdxNavigation>
-  <MdxNavigationItem
-    href="/contracts/edition"
-    title="Edition"
-  />
+  <MdxNavigationItem href="/contracts/edition" title="Edition" />
   <MdxNavigationItem href="/contracts/edition-drop" title="Edition Drop" next />
 </MdxNavigation>

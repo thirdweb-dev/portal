@@ -264,7 +264,9 @@ const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
 
 const buyoutAuction = async () => {
   // Buyout the auction listing with listingId 1
-  await marketplace.buyoutAuctionListing(1).catch((error) => console.error(error));
+  await marketplace
+    .buyoutAuctionListing(1)
+    .catch((error) => console.error(error));
 };
 ```
 
@@ -346,7 +348,9 @@ const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
 
 const cancelAuction = async () => {
   // Cancel auction with listingId 0
-  await marketplace.cancelAuctionListing(0).catch((error) => console.error(error));
+  await marketplace
+    .cancelAuctionListing(0)
+    .catch((error) => console.error(error));
 };
 ```
 
@@ -361,7 +365,9 @@ const marketplace = sdk.getMarketplaceModule(marketplaceAddress);
 
 const cancelDirectListing = async () => {
   // Cancel direct listing with listingId 1
-  await marketplace.cancelDirectListing(1).catch((error) => console.error(error));
+  await marketplace
+    .cancelDirectListing(1)
+    .catch((error) => console.error(error));
 };
 ```
 
@@ -504,13 +510,6 @@ const closeAuction = async () => {
 ```
 
 <MdxNavigation>
-  <MdxNavigationItem
-    href="/learn/code-examples/token"
-    title="Token"
-  />
-  <MdxNavigationItem
-    href="/learn/code-examples/pack"
-    title="Pack"
-    next
-  />
+  <MdxNavigationItem href="/learn/code-examples/token" title="Token" />
+  <MdxNavigationItem href="/learn/code-examples/pack" title="Pack" next />
 </MdxNavigation>

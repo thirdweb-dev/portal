@@ -13,7 +13,8 @@ updated: ""
 
 <br />
 <MdxAlert status="warning">
-Pack is not available on thirdweb v2. This guide is for thirdweb v1. We will be adding Pack support for v2 soon.
+  Pack is not available on thirdweb v2. This guide is for thirdweb v1. We will
+  be adding Pack support for v2 soon.
 </MdxAlert>
 
 ## Introduction
@@ -53,7 +54,7 @@ Now we are done and can get into the code.
 
 First of all, you need a Next.js project to get started. This is because not all logic should live in the frontend of an app.
 
-In this particular case, the Pack module is owned by you. You are the only one that can create new packs, and to do this, you need access to the contract on the blockchain. When you created the module,  we transferred the access to this module over to your address. And as you might already know, you need a private key to sign transactions that do state changes. It would thus not be a good idea to put your private key into the source code of your frontend app that can be viewed by anyone.
+In this particular case, the Pack module is owned by you. You are the only one that can create new packs, and to do this, you need access to the contract on the blockchain. When you created the module, we transferred the access to this module over to your address. And as you might already know, you need a private key to sign transactions that do state changes. It would thus not be a good idea to put your private key into the source code of your frontend app that can be viewed by anyone.
 
 This is the reason that we use Next.js in this tutorial. It comes with its own server that can also contain backend logic. That's a perfect place to put logic that deals with secrets no one except you should know.
 
@@ -316,11 +317,11 @@ const pack = {
 try {
   const createResult = await MODULE.create(pack);
   const { id } = createResult;
-  
+
   // transfer the pack over to the user so they can open it themselves
   await MODULE.transfer(requestData.address, id, BigNumber.from(1));
 
-  res.status(200).json({ 
+  res.status(200).json({
     packId: id,
     packAddress: PACK_MODULE_ADDRESS
   });
@@ -412,7 +413,7 @@ export const handler = async (
     // transfer the pack over to the user so they can open it themselves
     await MODULE.transfer(requestData.address, id, BigNumber.from(1));
 
-    res.status(200).json({ 
+    res.status(200).json({
       packId: id,
       packAddress: PACK_MODULE_ADDRESS
     });
