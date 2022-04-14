@@ -20,6 +20,7 @@ import { LinkButton } from "components/shared/LinkButton";
 import { NextLink } from "components/shared/NextLink";
 import { useTrack } from "hooks/analytics/useTrack";
 import { GetStaticProps } from "next";
+import { BreadcrumbJsonLd } from "next-seo";
 import React from "react";
 import { AiOutlineBlock } from "react-icons/ai";
 import { BiBook } from "react-icons/bi";
@@ -41,6 +42,15 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
 
   return (
     <Track>
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: "Portal",
+            item: "https://portal.thirdweb.com",
+          },
+        ]}
+      />
       <Container
         flexShrink={1}
         maxW={{
