@@ -76,7 +76,7 @@ const getAllListings = async () => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 getAllListings();
 ```
 
@@ -102,7 +102,7 @@ thirdweb has a component to get the necessary information from the wallet to pro
 
 ### Connect your wallet
 
-thirdweb has created custom hooks for most wallets, that provides you the functionality for a `connect wallet` button. 
+thirdweb has created custom hooks for most wallets, that provides you the functionality for a `connect wallet` button.
 You can use this functionality inside a button. Here's an example of what the code looks like:
 
 ```jsx:ConnectWithMetamask.jdx
@@ -117,25 +117,28 @@ export const ConnectWithMetamask = () => {
   );
 };
 ```
+
 For each wallet we have a dedicated hook. Head over to our [documentation](https://docs.thirdweb.com/react) to check which wallets we support, and check our full connect wallet guide [here](/guides/add-connectwallet-to-your-website).
 
 ### Interacting with your contract
 
-Once you've connected your wallet, your application can access the `Signer` to authorise transactions. thirdweb developed custom hooks for each of our contracts. 
-This means you don't have to pass the `Signer` manually. We even instantiate the sdk for you! 
+Once you've connected your wallet, your application can access the `Signer` to authorise transactions. thirdweb developed custom hooks for each of our contracts.
+This means you don't have to pass the `Signer` manually. We even instantiate the sdk for you!
 To make use of this:
+
 1. Import the hook from `@thirdweb-dev/react`
 2. Pass your contract address
-3. 
-After that you can make use of the methods in our sdk, this is how it looks:
+3. After that you can make use of the methods in our sdk, this is how it looks:
 
 ```jsx
-import { useState} from "react";
+import { useState } from "react";
 import { useNFTCollection } from "@thirdweb-dev/react";
 
 const NFTListComponent = () => {
   // get an instance of your own contract
-  const nftCollection = useNFTCollection("{{your NFT Collection contract address}}");
+  const nftCollection = useNFTCollection(
+    "{{your NFT Collection contract address}}",
+  );
   const [nfts, setNfts] = useState([]);
   useEffect(() => {
     if (nftCollection) {
@@ -159,9 +162,9 @@ const NFTListComponent = () => {
   );
 };
 ```
+
 After you've imported the hook and passed your contract address, you have access to all our methods, read and write, to interact with your contract.
 Head over to our [documentation](https://docs.thirdweb.com/react) to check out all our hooks.
-
 
 ### Interact with your contract
 
@@ -192,13 +195,6 @@ const sdk = new ThirdwebSDK(
 ```
 
 <MdxNavigation>
-  <MdxNavigationItem
-    href="/learn-thirdweb"
-    title="Getting started"
-  />
-  <MdxNavigationItem
-    href="/contracts"
-    title="Contracts"
-    next
-  />
+  <MdxNavigationItem href="/learn-thirdweb" title="Getting started" />
+  <MdxNavigationItem href="/contracts" title="Contracts" next />
 </MdxNavigation>

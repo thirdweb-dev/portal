@@ -18,7 +18,7 @@ featured: false
 
 In this guide, we'll create our own **NFT Drop** with the TypeScript SDK! First we will create an **NFT Drop** on the dashboard, then create NFTs, and finally set claim conditions from the SDK. In these drop conditions, you can set the mint price, upload allowlists for claiming, and more!
 
-We also need to connect a wallet. So if you don't have a wallet, make sure to sign up with **MetaMask** or **CoinWallet**. If don't have a wallet, [you can follow this guide to create one](/guides/create-a-metamask-wallet). 
+We also need to connect a wallet. So if you don't have a wallet, make sure to sign up with **MetaMask** or **CoinWallet**. If don't have a wallet, [you can follow this guide to create one](/guides/create-a-metamask-wallet).
 
 ## Dashboard setup
 
@@ -49,7 +49,7 @@ Next up use we'll install the ThirdWeb SDK using npm!
 
 ```bash
 npm init -y
-npm install @thirdweb-dev/sdk ethers dotenv 
+npm install @thirdweb-dev/sdk ethers dotenv
 npm install --save-dev typescript @types/node ts-node tslib
 ```
 
@@ -102,17 +102,16 @@ const lazyMintNft = async () => {
 lazyMintNft();
 ```
 
-
 ### 6. Set up claim phases
 
-Once your **NFT Drop** contract is created and has some NFTs, it's time to set the **Claim Phases**. These phases are some of the rules we'll apply when someone wants to claim an NFT, such as price, max amount of tokens claimed, wallets allowed to claim, etc. 
+Once your **NFT Drop** contract is created and has some NFTs, it's time to set the **Claim Phases**. These phases are some of the rules we'll apply when someone wants to claim an NFT, such as price, max amount of tokens claimed, wallets allowed to claim, etc.
 
-Below we will set two claim phases - you can set more or less depending on your needs. 
+Below we will set two claim phases - you can set more or less depending on your needs.
 
-The first claim phase will be a presale with an added snapshot. Only the addresses listed will be able to claim NFTs from the drop. 
+The first claim phase will be a presale with an added snapshot. Only the addresses listed will be able to claim NFTs from the drop.
 We are also adding `maxQuantity` so only 20 NFTs can be minted in this phase.
 
-The second phase does not add a snapshot so everyone is able to claim. 
+The second phase does not add a snapshot so everyone is able to claim.
 
 ```tsx:index.ts
 const presaleStartTime = new Date();

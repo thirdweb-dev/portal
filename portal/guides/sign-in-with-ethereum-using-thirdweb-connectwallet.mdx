@@ -41,7 +41,6 @@ const App = () => {
 };
 ```
 
-
 ### Use Connect Wallet
 
 Using our hooks is the easiest way to integrate web3 into your app, complete with network switching, wallet connection, and everything else you need - including using thirdweb contracts. Adding our connect wallet button is as easy as the following:
@@ -77,7 +76,7 @@ We will build our own custom component that will allow you to authorise any acti
 
 We will generate a message to be signed by the user. After the message is signed, this will create an encrypted message that the server can validate. Once validated the server will create a JWT, allowing the user to make any change to his/her profile in the database.
 
-In this example we will authorise the adjustment of a username in our database by **signing** using our wallet. In this example we will use a MetaMask wallet. 
+In this example we will authorise the adjustment of a username in our database by **signing** using our wallet. In this example we will use a MetaMask wallet.
 
 Check out this diagram for a visual representation of what we will do
 
@@ -123,8 +122,6 @@ export default function Home() {
 
 Next up lets create our backend that will simulate our database on a server. For this im going to use a docker image which builds a Redis database. Here is the yaml file if you want to do the same:
 
-
-
 ```yaml:docker-compose.yml
 version: "3.9"
 services:
@@ -136,11 +133,9 @@ services:
 
 Let's write the code for our database.
 
-Create a folder called `db` and inside create a file `db.ts`. 
+Create a folder called `db` and inside create a file `db.ts`.
 
 Below is the code that builds the database, a basic schema, a function to get the username and set the username:
-
-
 
 ```jsx:db/db.ts
 //Import the library
@@ -171,8 +166,6 @@ export default class Database implements IDatabase {
 ```
 
 Let's execute the code and 'deploy' our database. Inside our `db` folder create a file `instance.ts` and add the following code.
-
-
 
 ```jsx:db/instance.ts
 import Database from "./db";
@@ -213,16 +206,16 @@ export default class Database implements IDatabase {
     await this.db.set(address, user);
   }
 
-//define the message, we will call it 'generateChallenge here'.
-// this will create a random string of characters to be verified by the users.
-//this can be anything. It can also be a standard message.
+  //define the message, we will call it 'generateChallenge here'.
+  // this will create a random string of characters to be verified by the users.
+  //this can be anything. It can also be a standard message.
   public async generateChallenge(address: string): Promise<string> {
     const challenge = Math.random().toString(36).substring(2, 15);
     await this.db.set(`${address}:challenge`, challenge);
     return challenge;
   }
-//this function will returned the stored challenge
-	public async getChallenge(address: string): Promise<string | null> {
+  //this function will returned the stored challenge
+  public async getChallenge(address: string): Promise<string | null> {
     return this.db.get(`${address}:challenge`);
   }
 }
@@ -250,7 +243,7 @@ export default async function challenge(
   return res.status(200).json({ challenge });
 ```
 
-Inside our folder `api` create a file `jws.ts`. Now we need to make sure our backend generates  a JWT after we the message has been signed and validated by our back-end. 
+Inside our folder `api` create a file `jws.ts`. Now we need to make sure our backend generates a JWT after we the message has been signed and validated by our back-end.
 
 ```tsx:api/jws.ts
 import { ethers } from "ethers";
@@ -347,8 +340,6 @@ Finally it's time to build our component `Profile.jsx`. Create the `Profile.jsx`
 
 Let's take it step by step. First we create a function to get the message:
 
- 
-
 ```tsx:components/Profile.jsx
 import { useAddress, useDisconnect, useMetamask, useProvider } from "@thirdweb-dev/react";
 import { Profiler, useCallback, useEffect, useState } from "react";
@@ -394,8 +385,6 @@ export default function Profile() {
 ```
 
 Once the challenge is received, we will get the JWT.
-
- 
 
 ```tsx:components/Profile.jsx
 const getJwt = useCallback(async () => {
@@ -468,37 +457,37 @@ const updateUsername = useCallback(async () => {
 
 ```tsx
 useEffect(() => {
-    if (jwt !== null) {
-      return;
+  if (jwt !== null) {
+    return;
+  }
+
+  (async () => {
+    await getJwt();
+  })();
+}, [jwt]);
+
+useEffect(() => {
+  if (username !== null || jwt === null) {
+    return;
+  }
+
+  (async () => {
+    const request = await fetch("/api/user", {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+
+    if (request.status === 200) {
+      const { username: newUsername } = await request.json();
+      setUsername(newUsername ? newUsername : "");
     }
-
-    (async () => {
-      await getJwt();
-    })();
-  }, [jwt]);
-
-  useEffect(() => {
-    if (username !== null || jwt === null) {
-      return;
-    }
-
-    (async () => {
-      const request = await fetch("/api/user", {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      });
-
-      if (request.status === 200) {
-        const { username: newUsername } = await request.json();
-        setUsername(newUsername ? newUsername : "");
-      }
-    })();
-  }, [username, jwt]);
+  })();
+}, [username, jwt]);
 
 if (!jwt) {
-    return <Spinner size="lg" color="black"></Spinner>;
-  }
+  return <Spinner size="lg" color="black"></Spinner>;
+}
 ```
 
 Finally lets add the html tags and include the calls to the functions to get and update the username.
@@ -713,7 +702,6 @@ export default function Profile() {
 
 ## Final thoughts
 
-That's it! Now your app can authorise a change to your backend by signing with your wallet. 
+That's it! Now your app can authorise a change to your backend by signing with your wallet.
 
 Remember you can check all the code for this guide on [this GitHub repository](https://github.com/thirdweb-dev/examples/tree/main/typescript/sign-in-with-ethereum).
-

@@ -93,14 +93,14 @@ const listing = {
   // how long the listing will be open for
   listingDurationInSeconds: 86400,
   // how many of the asset you want to list
-  // For ERC721s, this value should always be 1 
+  // For ERC721s, this value should always be 1
   // (and will be forced internally regardless of what is passed here).
   quantity: 1,
   // address of the currency contract that will be used to pay for the listing
   currencyContractAddress: tokenAddress,
   // how much the asset will be sold for
   buyoutPricePerToken: "1.5",
-}
+};
 
 const createListing = async () => {
   try {
@@ -108,7 +108,7 @@ const createListing = async () => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 createListing();
 ```
 
@@ -121,7 +121,7 @@ const buyoutListing = async (listingId, quantityDesired) => {
   } catch (err) {
     console.log(err);
   }
-}
+};
 buyoutListing(listingId, quantityDesired);
 ```
 
@@ -150,9 +150,6 @@ If you want to know more about the nitty gritty details, well you're in luck. He
 3. To setup your local dev environment, click [here](/guides/sdk-guide).
 
 <MdxNavigation>
-  <MdxNavigationItem
-    href="/contracts/token"
-    title="Token"
-  />
+  <MdxNavigationItem href="/contracts/token" title="Token" />
   <MdxNavigationItem href="/contracts/pack" title="Pack" next />
 </MdxNavigation>

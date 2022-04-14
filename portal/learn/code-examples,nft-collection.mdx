@@ -17,7 +17,8 @@ const mintNft = async () => {
   try {
     await nftCollection.mint({
       name: "thirdweb",
-      description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+      description:
+        "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
       image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
       properties: {},
     });
@@ -40,7 +41,8 @@ const mintNftTo = async (address: string) => {
   try {
     await nftCollection.mintTo(address, {
       name: "thirdweb",
-      description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+      description:
+        "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
       image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
       properties: {},
     });
@@ -79,7 +81,7 @@ const nftCollectionAddress = "<MODULE_ADDRESS>";
 const nftCollection = sdk.getNFTModule(nftCollectionAddress);
 
 const balance = async () => {
-	let address = "<TARGET_ADDRESS>";
+  let address = "<TARGET_ADDRESS>";
 
   await nftCollection
     .balanceOf(address)
@@ -128,7 +130,7 @@ const generateNftSignature = async () => {
       mintStartTimeEpochSeconds: Math.floor(Date.now() / 1000),
       price: 0,
       // The receiver of the NFTs being minted when the signature is claimed.
-			 // 0x0000000000000000000000000000000000000000 for no owner.
+      // 0x0000000000000000000000000000000000000000 for no owner.
       to: "<TARGET_ADDRESS>",
     })
     .then((data) => console.log(data))
@@ -493,7 +495,7 @@ const mintNftWithSignature = async () => {
       },
 
       // Signature obtained from the NFT signature generation.
-      "0x"
+      "0x",
     )
     .then((data) => console.log(data.toNumber()))
     .catch((err) => console.log(err));
@@ -551,7 +553,7 @@ const setModuleMetadata = async () => {
     .setModuleMetadata({
       name: "NFT module",
       description: "My cool NFT module!",
-      image: "[IMAGE_BUFFER_OR_LINK]" // Replace this with image buffer, or IPFS link.
+      image: "[IMAGE_BUFFER_OR_LINK]", // Replace this with image buffer, or IPFS link.
     })
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -643,7 +645,7 @@ const transferTokenFromAddress = async (fromAddress, toAddress, tokenId) => {
 };
 ```
 
-### Verify mint request with a signature           
+### Verify mint request with a signature
 
 ```ts
 // The NFT module address received after initializing the NFT module on the dashboard.
@@ -682,7 +684,7 @@ const verifyNftMintRequestWithSignature = async () => {
       },
 
       // Signature obtained from the NFT signature generation.
-      "0x"
+      "0x",
     )
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
@@ -703,13 +705,15 @@ const mintBatchNft = async () => {
     await nftCollection.mintBatch([
       {
         name: "thirdweb #1",
-        description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+        description:
+          "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
         image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
         properties: {},
       },
       {
         name: "thirdweb #2",
-        description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+        description:
+          "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
         image: "ipfs/<YOUR_IPFS_FOLDER_CID>/2.png",
         properties: {},
       },
@@ -734,13 +738,15 @@ const mintBatchNftTo = async (address: string) => {
     await nftCollection.mintBatchTo(address, [
       {
         name: "thirdweb #3",
-        description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+        description:
+          "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
         image: "ipfs/<YOUR_IPFS_FOLDER_CID>/1.png",
         properties: {},
       },
       {
         name: "thirdweb #4",
-        description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+        description:
+          "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
         image: "ipfs/<YOUR_IPFS_FOLDER_CID>/2.png",
         properties: {},
       },
@@ -754,10 +760,7 @@ mintBatchNftTo("<TARGET_ADDRESS>");
 ```
 
 <MdxNavigation>
-  <MdxNavigationItem
-    href="/learn/code-examples"
-    title="Code Examples"
-  />
+  <MdxNavigationItem href="/learn/code-examples" title="Code Examples" />
   <MdxNavigationItem
     href="/learn/code-examples/bundle-collection"
     title="Bundle Collection"

@@ -46,6 +46,7 @@ export const ConnectWithMetamask = () => {
   );
 };
 ```
+
 Inside your `Marketplace.js` we can import the hook `useMarketplace` to connect and interact with our marketplace contract.
 
 ```js:Marketplace.js
@@ -148,8 +149,8 @@ Your `index.ts` looks like this, when you instantiate the `sdk` with **private k
 ```tsx
 // Importing libraries
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
-import { ethers } from "ethers";
 import dotenv from "dotenv";
+import { ethers } from "ethers";
 
 // getting the private key
 dotenv.config();

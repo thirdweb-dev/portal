@@ -9,6 +9,7 @@ updated: "2022-02-10"
 ---
 
 ### Initialize the bundle module
+
 ```ts
 // The Bundle collection module address received after initializing the Bundle module on the dashboard.
 const bundleAddress = "<MODULE_ADDRESS>";
@@ -21,12 +22,11 @@ const bundle = sdk.getBundleModule(bundleAddress);
 
 ```ts
 const balanceOfToken = async (nftTokenId) => {
-
   try {
     await bundle.balance(nftTokenId);
   } catch (error) {
-    console.log('Failed to get balance. Error: ', error);
-  }  
+    console.log("Failed to get balance. Error: ", error);
+  }
 };
 
 balanceOfToken("<NFT_TOKEN_ID>");
@@ -36,7 +36,6 @@ balanceOfToken("<NFT_TOKEN_ID>");
 
 ```ts
 const balanceOfTokenForAddress = async (accountAddress, nftTokenId) => {
-
   try {
     await bundle.balance(accountAddress, nftTokenId);
   } catch (error) {
@@ -53,12 +52,12 @@ balanceOfTokenForAddress("<WALLET_ADDRESS>", "<NFT_TOKEN_ID>");
 const burnNftById = async (nftTokenId, amount) => {
   try {
     await bundle.burn({ tokenId: nftTokenId, amount });
-  } catch(error) {
+  } catch (error) {
     console.log(error);
   }
 };
 
-burnNftById("<NFT_TOKEN_ID>", "<AMOUNT>")
+burnNftById("<NFT_TOKEN_ID>", "<AMOUNT>");
 ```
 
 ### Burn a batch of NFTs
@@ -73,9 +72,9 @@ const burnNftBatchById = async (tokenArray) => {
 };
 
 burnNftBatchById([
-      { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" },
-      { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" }
-    ])
+  { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" },
+  { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" },
+]);
 ```
 
 ### Burn a batch of NFTs from an address
@@ -89,11 +88,11 @@ const burnNftBatchFrom = async (walletAddress, tokenArray) => {
   }
 };
 
-burnNftBatchFrom('<WALLET_ADDRESS>', [
-      { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" },
-      { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" },
-      { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" }
-    ])
+burnNftBatchFrom("<WALLET_ADDRESS>", [
+  { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" },
+  { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" },
+  { tokenId: "<NFT_TOKEN_ID>", amount: "<AMOUNT>" },
+]);
 ```
 
 ### Burn a NFT from an address
@@ -107,7 +106,7 @@ const burnFrom = async () => {
   }
 };
 
-burnFrom("<WALLET_ADDRESS>", "<NFT_TOKEN_ID>", "<AMOUNT>")
+burnFrom("<WALLET_ADDRESS>", "<NFT_TOKEN_ID>", "<AMOUNT>");
 ```
 
 ### Create NFT
@@ -115,18 +114,18 @@ burnFrom("<WALLET_ADDRESS>", "<NFT_TOKEN_ID>", "<AMOUNT>")
 ```ts
 const createNft = async (nft) => {
   try {
-    await bundle.create(nft)
-  } catch(error) {
+    await bundle.create(nft);
+  } catch (error) {
     console.log(error);
   }
 };
 
 create({
-  name: '<NFT_NAME>',
-  description: '<DESCRIPTION>',
-  image: '<LINK>',
-  properties: 'PROPERTIES_OBJECT'
-})
+  name: "<NFT_NAME>",
+  description: "<DESCRIPTION>",
+  image: "<LINK>",
+  properties: "PROPERTIES_OBJECT",
+});
 ```
 
 ### Create and Mint NFT
@@ -134,18 +133,18 @@ create({
 ```ts
 const createAndMintNft = async (nft) => {
   try {
-     await bundle.createAndMint(nft)
+    await bundle.createAndMint(nft);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
 createAndMintNft({
-  name: '<NFT_NAME>',
-  description: '<DESCRIPTION>',
-  image: '<LINK>',
-  properties: 'PROPERTIES_OBJECT',
-  initialSupply: '<INITIAL_SUPPLY_INT'
+  name: "<NFT_NAME>",
+  description: "<DESCRIPTION>",
+  image: "<LINK>",
+  properties: "PROPERTIES_OBJECT",
+  initialSupply: "<INITIAL_SUPPLY_INT",
 });
 ```
 
@@ -162,19 +161,19 @@ const createAndMintNftBatch = async (nftArray) => {
 
 createAndMintNftBatch([
   {
-    name: '<NFT_NAME>',
-    description: '<DESCRIPTION>',
-    image: '<LINK>',
-    properties: 'PROPERTIES_OBJECT',
-    initialSupply: '<INITIAL_SUPPLY_INT'
-  }, 
+    name: "<NFT_NAME>",
+    description: "<DESCRIPTION>",
+    image: "<LINK>",
+    properties: "PROPERTIES_OBJECT",
+    initialSupply: "<INITIAL_SUPPLY_INT",
+  },
   {
-    name: '<NFT_NAME>',
-    description: '<DESCRIPTION>',
-    image: '<LINK>',
-    properties: 'PROPERTIES_OBJECT',
-    initialSupply: '<INITIAL_SUPPLY_INT'
-  }
+    name: "<NFT_NAME>",
+    description: "<DESCRIPTION>",
+    image: "<LINK>",
+    properties: "PROPERTIES_OBJECT",
+    initialSupply: "<INITIAL_SUPPLY_INT",
+  },
 ]);
 ```
 
@@ -191,17 +190,17 @@ const createBatch = async (nftArray) => {
 
 createBatch([
   {
-    name: '<NFT_NAME>',
-    description: '<DESCRIPTION>',
-    image: '<LINK>',
-    properties: 'PROPERTIES_OBJECT'
-  }, 
+    name: "<NFT_NAME>",
+    description: "<DESCRIPTION>",
+    image: "<LINK>",
+    properties: "PROPERTIES_OBJECT",
+  },
   {
-    name: '<NFT_NAME>',
-    description: '<DESCRIPTION>',
-    image: '<LINK>',
-    properties: 'PROPERTIES_OBJECT'
-  }
+    name: "<NFT_NAME>",
+    description: "<DESCRIPTION>",
+    image: "<LINK>",
+    properties: "PROPERTIES_OBJECT",
+  },
 ]);
 ```
 
@@ -216,11 +215,11 @@ const createNftWithErc20 = async (tokenContractAddress, amount, token) => {
   }
 };
 
-createNftWithErc20( "<TOKEN_CONTRACT_ADDRESS>", '<AMOUNT>', {
-  name: '<TOKEN_NAME>',
-  description: '<DESCRIPTION>',
-  image: '<IMAGE_LINK>',
-  properties: '<PROPERTIES_OBJECT>',
+createNftWithErc20("<TOKEN_CONTRACT_ADDRESS>", "<AMOUNT>", {
+  name: "<TOKEN_NAME>",
+  description: "<DESCRIPTION>",
+  image: "<IMAGE_LINK>",
+  properties: "<PROPERTIES_OBJECT>",
   supply: "<SUPPLY>",
 });
 ```
@@ -236,11 +235,11 @@ const createNftWithErc721 = async (tokenContractAddress, tokenId, nft) => {
   }
 };
 
-createNftWithErc20( "<TOKEN_CONTRACT_ADDRESS>", '<TOKEN_ID>', {
-  name: '<NFT_NAME>',
-  description: '<DESCRIPTION>',
-  image: '<IMAGE_LINK>',
-  properties: '<PROPERTIES_OBJECT>'
+createNftWithErc20("<TOKEN_CONTRACT_ADDRESS>", "<TOKEN_ID>", {
+  name: "<NFT_NAME>",
+  description: "<DESCRIPTION>",
+  image: "<IMAGE_LINK>",
+  properties: "<PROPERTIES_OBJECT>",
 });
 ```
 
@@ -255,11 +254,11 @@ const createWithNft = async (tokenContractAddress, tokenId, nft) => {
   }
 };
 
-createNftWithNft( "<TOKEN_CONTRACT_ADDRESS>", '<TOKEN_ID>', {
-  name: '<NFT_NAME>',
-  description: '<DESCRIPTION>',
-  image: '<IMAGE_LINK>',
-  properties: '<PROPERTIES_OBJECT>'
+createNftWithNft("<TOKEN_CONTRACT_ADDRESS>", "<TOKEN_ID>", {
+  name: "<NFT_NAME>",
+  description: "<DESCRIPTION>",
+  image: "<IMAGE_LINK>",
+  properties: "<PROPERTIES_OBJECT>",
 });
 ```
 
@@ -267,18 +266,18 @@ createNftWithNft( "<TOKEN_CONTRACT_ADDRESS>", '<TOKEN_ID>', {
 
 ```ts
 const createWithToken = async (tokenContractAddress, amount, token) => {
-   try {
+  try {
     await bundle.createWithToken(tokenContractAddress, amount, token);
   } catch (error) {
     console.log(error);
   }
 };
 
-createNftWithToken( "<TOKEN_CONTRACT_ADDRESS>", '<AMOUNT>', {
-  name: '<TOKEN_NAME>',
-  description: '<DESCRIPTION>',
-  image: '<IMAGE_LINK>',
-  properties: '<PROPERTIES_OBJECT>',
+createNftWithToken("<TOKEN_CONTRACT_ADDRESS>", "<AMOUNT>", {
+  name: "<TOKEN_NAME>",
+  description: "<DESCRIPTION>",
+  image: "<IMAGE_LINK>",
+  properties: "<PROPERTIES_OBJECT>",
   supply: "<SUPPLY>",
 });
 ```
@@ -294,7 +293,7 @@ const getNftByIdAndAddress = async (tokenId, walletAddress) => {
   }
 };
 
-getNftByIdAndAddress('<TOKEN_ID>', '<WALLET_ADDRESS>');
+getNftByIdAndAddress("<TOKEN_ID>", "<WALLET_ADDRESS>");
 ```
 
 ### Get all NFTs
@@ -308,7 +307,7 @@ const getAllNfts = async (walletAddress) => {
   }
 };
 
-getAllNfts('<WALLET_ADDRESS>');
+getAllNfts("<WALLET_ADDRESS>");
 ```
 
 ### Get all NFTs owned
@@ -322,7 +321,7 @@ const getAllNftsOwned = async (walletAddress) => {
   }
 };
 
-getAllNftsOwned('<WALLET_ADDRESS');
+getAllNftsOwned("<WALLET_ADDRESS");
 ```
 
 ### Get royalty basis points
@@ -364,7 +363,7 @@ const isApproved = async (address, operator) => {
   }
 };
 
-isApproved('<CONTRACT_ADDRESS>', '<CONTRACT_ADDRESS>');
+isApproved("<CONTRACT_ADDRESS>", "<CONTRACT_ADDRESS>");
 ```
 
 ### Check if transfer is restricted.
@@ -393,8 +392,8 @@ const mintNft = async (nft) => {
 };
 
 mintNft({
-  amount: '<AMOUNT>',
-  tokenId: '<TOKEN_ID>'
+  amount: "<AMOUNT>",
+  tokenId: "<TOKEN_ID>",
 });
 ```
 
@@ -410,14 +409,14 @@ const mintNftBatch = async (nftArray) => {
 };
 
 mintNftBatch([
-  { 
-    amount: '<AMOUNT>', 
-    tokenId: '<TOKEN_ID>' 
+  {
+    amount: "<AMOUNT>",
+    tokenId: "<TOKEN_ID>",
   },
-  { 
-    amount: '<AMOUNT>', 
-    tokenId: '<TOKEN_ID>' 
-  }
+  {
+    amount: "<AMOUNT>",
+    tokenId: "<TOKEN_ID>",
+  },
 ]);
 ```
 
@@ -432,15 +431,15 @@ const mintNftBatchToAddress = async (walletAddress, nftArray) => {
   }
 };
 
-mintNftBatchToAddress('WALLET_ADDRESS', [
-  { 
-    amount: '<AMOUNT>', 
-    tokenId: '<TOKEN_ID>' 
+mintNftBatchToAddress("WALLET_ADDRESS", [
+  {
+    amount: "<AMOUNT>",
+    tokenId: "<TOKEN_ID>",
   },
-  { 
-    amount: '<AMOUNT>', 
-    tokenId: '<TOKEN_ID>' 
-  }
+  {
+    amount: "<AMOUNT>",
+    tokenId: "<TOKEN_ID>",
+  },
 ]);
 ```
 
@@ -455,7 +454,10 @@ const mintNftToAddress = async (walletAddress, args) => {
   }
 };
 
-mintNftToAddress('<WALLET_ADDRESS>', { amount: '<AMOUNT>', tokenId: '<TOKEN_ID>' });
+mintNftToAddress("<WALLET_ADDRESS>", {
+  amount: "<AMOUNT>",
+  tokenId: "<TOKEN_ID>",
+});
 ```
 
 ### Set approval for an operator (Contract)
@@ -469,7 +471,7 @@ const setTokenApproval = async (contractAddress, status) => {
   }
 };
 
-setTokenApproval('<CONTRACT_ADDRESS>', '<STATUS>');
+setTokenApproval("<CONTRACT_ADDRESS>", "<STATUS>");
 ```
 
 ### Set metadata for the module
@@ -484,9 +486,9 @@ const setModuleMetadata = async (metadata) => {
 };
 
 setModuleMetadata({
-  name: '<MODULE_NAME>',
-  description: '<DESCRIPTION>',
-  image: '<IMAGE_LINK>'
+  name: "<MODULE_NAME>",
+  description: "<DESCRIPTION>",
+  image: "<IMAGE_LINK>",
 });
 ```
 
@@ -501,7 +503,7 @@ const setTransferRestriction = async (status) => {
   }
 };
 
-setTransferRestriction('<STATUS>'); // Status can be true or false
+setTransferRestriction("<STATUS>"); // Status can be true or false
 ```
 
 ### Set royalty basis points
@@ -515,7 +517,7 @@ const setRoyaltyBasisPoints = async (amount) => {
   }
 };
 
-setRoyaltyBasisPoints('<AMOUNT>');
+setRoyaltyBasisPoints("<AMOUNT>");
 ```
 
 ### Transfer a specific amount of NFTs to an address
@@ -525,25 +527,28 @@ const transferTokenToAddress = async (to, tokenId, amount) => {
   try {
     await bundle.transfer(to, tokenId, amount);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
-transferTokenToAddress('<WALLET_ADDRESS>', '<TOKEN_ID>', '<AMOUNT>');
+transferTokenToAddress("<WALLET_ADDRESS>", "<TOKEN_ID>", "<AMOUNT>");
 ```
 
 ### Transfer a specific amount of NFT from an address
 
 ```ts
 const transferTokenFromAddress = async (from, to, nft) => {
-  try{
+  try {
     await bundle.transferFrom(from, to, nft);
-  } catch(error) {
+  } catch (error) {
     console.log(error);
   }
 };
 
-transferTokenFromAddress('<FROM_WALLET_ADDRESS', '<TO_WALLET_ADDRESS', { tokenId: '<TOKEN_ID>', amount: '<AMOUNT>'});
+transferTokenFromAddress("<FROM_WALLET_ADDRESS", "<TO_WALLET_ADDRESS", {
+  tokenId: "<TOKEN_ID>",
+  amount: "<AMOUNT>",
+});
 ```
 
 ### Transfer a specific amount of NFT in batches from an address
@@ -557,16 +562,20 @@ const transferTokenFromAddressInBatch = async (from, to, nftArray) => {
   }
 };
 
-transferTokenFromAddressInBatch('<FROM_WALLET_ADDRESS>', '<TO_WALLET_ADDRESS>', [
-  {
-    tokenId: '<TOKEN_ID>',
-    amount: '<AMOUNT>'
-  },
-  {
-    tokenId: '<TOKEN_ID>',
-    amount: '<AMOUNT>'
-  }
-]);
+transferTokenFromAddressInBatch(
+  "<FROM_WALLET_ADDRESS>",
+  "<TO_WALLET_ADDRESS>",
+  [
+    {
+      tokenId: "<TOKEN_ID>",
+      amount: "<AMOUNT>",
+    },
+    {
+      tokenId: "<TOKEN_ID>",
+      amount: "<AMOUNT>",
+    },
+  ],
+);
 ```
 
 ### Unwrap a NFT
@@ -580,7 +589,7 @@ const unwrapNft = async (tokenId) => {
   }
 };
 
-unwrapNft('<TOKEN_ID>');
+unwrapNft("<TOKEN_ID>");
 ```
 
 ### Unwrap a token
@@ -594,7 +603,7 @@ const unwrapToken = async (tokenId, amount) => {
   }
 };
 
-unwrapToken('<TOKEN_ID>', '<AMOUNT>');
+unwrapToken("<TOKEN_ID>", "<AMOUNT>");
 ```
 
 <MdxNavigation>

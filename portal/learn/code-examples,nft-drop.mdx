@@ -15,12 +15,15 @@ const drop = sdk.getDropModule("<MODULE_ADDRESS>");
 
 const lazyMintNft = async () => {
   try {
-    await drop.createBatch([{
-      name: "thirdweb",
-      description: "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
-      image: "ipfs//:<YOUR_IPFS_FOLDER_CID>/1.png",
-      properties: {},
-    }]);
+    await drop.createBatch([
+      {
+        name: "thirdweb",
+        description:
+          "Smart contracts you control. Tools that accelerate your workflow. Intuitive SDKs and widgets for developers.",
+        image: "ipfs//:<YOUR_IPFS_FOLDER_CID>/1.png",
+        properties: {},
+      },
+    ]);
   } catch (err) {
     console.log(err);
   }
@@ -31,7 +34,7 @@ lazyMintNft();
 
 ### Batch lazy mint an NFT
 
-When creating a lazy minted batch, we recommend that you upload all token image assets to IPFS ahead of time *in an IPFS folder*.
+When creating a lazy minted batch, we recommend that you upload all token image assets to IPFS ahead of time _in an IPFS folder_.
 
 That means you're required to bring along the CID of the IPFS folder, such that each image for a token can be mapped deterministically by its token ID.
 
@@ -65,6 +68,7 @@ const lazyMintBatchNft = async () => {
 
 lazyMintBatchNft();
 ```
+
 ### Get the balance for the current account
 
 ```ts
@@ -77,7 +81,7 @@ const drop = sdk.getDropModule(dropAddress);
 const getBalance = async () => {
   const bal = await drop.balance();
 
-  console.log(bal.toString());  // Since bal is a BigNumber object.
+  console.log(bal.toString()); // Since bal is a BigNumber object.
 };
 ```
 
@@ -93,7 +97,7 @@ const drop = sdk.getDropModule(dropAddress);
 const getBalance = async () => {
   const bal = await drop.balanceOf("<TARGET_ADDRESS>");
 
-  console.log(bal.toString());  // Since bal is a BigNumber object.
+  console.log(bal.toString()); // Since bal is a BigNumber object.
 };
 ```
 
@@ -106,14 +110,15 @@ const dropAddress = "<MODULE_ADDRESS>";
 // Initialize the NFT drop module with the contract address.
 const drop = sdk.getDropModule(dropAddress);
 
-const burnToken = async() => {
-    // Token ID to be burned, which is created in the NFT drop module on the dashboard.
-    const tokenId = 0;
+const burnToken = async () => {
+  // Token ID to be burned, which is created in the NFT drop module on the dashboard.
+  const tokenId = 0;
 
-    await drop.burn(tokenId)
+  await drop
+    .burn(tokenId)
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
-}
+};
 ```
 
 ### Check if a drop is claimable
@@ -126,14 +131,14 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const canClaim = async () => {
-    const quantity = 1;
-    const addressToCheck = "<MODULE_ADDRESS>";
+  const quantity = 1;
+  const addressToCheck = "<MODULE_ADDRESS>";
 
-    // Check if claimable.
-    const isClaimable = await drop.canClaim(quantity, addressToCheck)
+  // Check if claimable.
+  const isClaimable = await drop.canClaim(quantity, addressToCheck);
 
-    console.log(isClaimable);
-}
+  console.log(isClaimable);
+};
 ```
 
 ### Claim a token
@@ -324,7 +329,10 @@ const getClaimIneligibilityReasons = async () => {
   const addressToCheck = "<TARGET_ADDRESS>";
 
   // Check if claimable.
-  const claimIneligibilityReasons = await drop.getClaimIneligibilityReasons(quantity, addressToCheck);
+  const claimIneligibilityReasons = await drop.getClaimIneligibilityReasons(
+    quantity,
+    addressToCheck,
+  );
 
   console.log(claimIneligibilityReasons);
 };
@@ -357,9 +365,10 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const getOwnedByAddress = async (address) => {
-  await drop.getOwned(address)
-  .then(data => console.log(data))
-  .catch(err => console.log(err));
+  await drop
+    .getOwned(address)
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
 };
 ```
 
@@ -373,9 +382,10 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const getRoyaltyBps = async () => {
-  await drop.getRoyaltyBps()
-  .then(data => console.log(data.toNumber()))
-  .catch(err => console.log(err));
+  await drop
+    .getRoyaltyBps()
+    .then((data) => console.log(data.toNumber()))
+    .catch((err) => console.log(err));
 };
 ```
 
@@ -389,9 +399,10 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const getRoyaltyRecipientAddress = async () => {
-  await drop.getRoyaltyRecipientAddress()
-  .then(data => console.log(data))
-  .catch(err => console.log(err));
+  await drop
+    .getRoyaltyRecipientAddress()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
 };
 ```
 
@@ -426,9 +437,10 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const isTransferRestricted = async () => {
-  await drop.isTransferRestricted()
-  .then(data => console.log(data))
-  .catch(err => console.log(err));
+  await drop
+    .isTransferRestricted()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
 };
 ```
 
@@ -442,9 +454,10 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const isContractV1 = async () => {
-  await drop.isV1()
-  .then(data => console.log(data))
-  .catch(err => console.log(err));
+  await drop
+    .isV1()
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
 };
 ```
 
@@ -458,9 +471,10 @@ const dropAddress = "<MODULE_ADDRESS>";
 const drop = sdk.getDropModule(dropAddress);
 
 const getTokenOwner = async (tokenId) => {
-  await drop.ownerOf(tokenId)
-  .then(data => console.log(data))
-  .catch(err => console.log(err));
+  await drop
+    .ownerOf(tokenId)
+    .then((data) => console.log(data))
+    .catch((err) => console.log(err));
 };
 ```
 
@@ -557,7 +571,7 @@ const setModuleMetadata = async () => {
     .setModuleMetadata({
       name: "NFT Drop mod",
       description: "My cool drop module!",
-      image: "[IMAGE_BUFFER_OR_LINK]" // Replace this with image buffer, or IPFS link.
+      image: "[IMAGE_BUFFER_OR_LINK]", // Replace this with image buffer, or IPFS link.
     })
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
