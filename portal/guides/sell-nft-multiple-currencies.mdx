@@ -1,0 +1,166 @@
+---
+title: Sell your NFT in multiple currencies at the same time
+author: Avneesh Agarwal
+authorAvatar: "/assets/portal/authors/avneesh.jpg"
+authorTwitter: "https://twitter.com/avneesh0612"
+draft: false
+tags: [edition, react, signature, mint]
+summary: "Learn how to make an ERC-1555 drop where users can pay with multiple currencies using signature minting, Next.js, and thirdweb"
+image: "/assets/portal/guides/create-gasless-nft-drop/thumbnail.png"
+date: "2022-04-15"
+updated: ""
+---
+
+## Introduction
+
+In this guide we are going to create a edition collection which will allow users to buy an NFT in multiple currencies. All this is going to happen with Next.js, and thirdweb. We are going to use the signature based mint feature of thirdweb.
+
+Sounds cool, right!? Let's get started.
+
+## Setup
+
+I am going to use the [Next typescript starter template of thirdweb](https://github.com/thirdweb-example/next-typescript-starter) for this guide. If you already have a Next.js app you can simply follow these steps to get started-
+
+- Install `@thirdweb-dev/react` and `@thirdweb-dev/sdk`
+- Add metamask authentication to the site. You can follow this [guide](/guides/add-connectwallet-to-your-website)
+- You all are set to go now!
+
+If you are also going to use the [template](https://github.com/thirdweb-example/next-typescript-starter) then follow these steps-
+
+- Click on the use template button in the repo
+- Clone the repo
+- Install the dependencies-
+
+```bash
+npm install # npm
+
+yarn install # yarn
+```
+
+## Creating an edition and NFT
+
+We also need to create an edition and an NFT inside of the edition to be able to mint them to the users. So, go to the [thirdweb dashboard](https://thirdweb.com/dashboard) and create an edition.
+
+Fill out the details and deploy the contract!
+
+![Deploy edition contract](/assets/portal/guides/sell-nft-multiple-currencies/deploy-edition-contract.png)
+
+Now, let's create mint a new NFT inside of it. Fill out the details and make sure to set initial supply to 0.
+
+![Mint New NFT](/assets/portal/guides/sell-nft-multiple-currencies/mint-new-nft.png)
+
+## Building the NFT card
+
+I am going to create a simple card to display the NFT, which will have the name, and description of the NFT. A dropdown to be able to change the currency and a button to mint the NFT! At this point your `pages/index.tsx` file should look something like this-
+
+```tsx
+import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
+import type { NextPage } from "next";
+
+const Home: NextPage = () => {
+  const address = useAddress();
+  const connectWithMetamask = useMetamask();
+  const disconnectWallet = useDisconnect();
+
+  return (
+    <div>
+      {address ? (
+        <>
+          <button onClick={disconnectWallet}>Disconnect Wallet</button>
+          <p>Your address: {address}</p>
+        </>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect with Metamask</button>
+      )}
+    </div>
+  );
+};
+
+export default Home;
+```
+
+Instead of showing the disconnect Wallet button and wallet address we will now show the card instead. So, replace everything inside the fragment with the following-
+
+```tsx
+<div>
+  <img src={nft.image} alt={nft.name} width="200px" height="100%" />
+  <div>
+    <p>Name: {nft.name}</p>
+    <p>Description: {nft.description}</p>
+    <select>
+      {nft.tokens.map((token) => (
+        <option key={token.name} value={token.name}>
+          {token.name}
+        </option>
+      ))}
+    </select>
+    <button onClick={() => {}}>Mint</button>
+  </div>
+</div>
+```
+
+You might be wondering that where are we getting the nft object, we are going to create a new file and store the nft object there to keep our code clean. So, create a new file `nft.ts` and add this-
+
+```ts
+import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
+
+export const nft = {
+  name: "My cool NFT",
+  description: "This is the description for my cool NFT",
+  image:
+    "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
+  id: "0",
+  tokens: [
+    {
+      name: "MATIC",
+      address: NATIVE_TOKEN_ADDRESS,
+      price: 5,
+    },
+    {
+      name: "USDC",
+      address: "0xe11A86849d99F524cAC3E7A0Ec1241828e332C62",
+      price: 5,
+    },
+  ],
+};
+```
+
+Here, we are creating an exporting a new `nft` object with some properties like name, description, image, etc. The tokens array will contain the different currencies using which we can mint the NFTs. You need to specify a name, address, and price for the token here. We are getting the `NATIVE_TOKEN_ADDRESS` from the thirdweb package.
+
+Finally, import nft from this file in `index.tsx`-
+
+```
+import { nft } from "../nfts";
+```
+
+If you now go to [http://localhost:3000/](http://localhost:3000/) you will be able to see a card like this-
+
+![NFT Card](/assets/portal/guides/sell-nft-multiple-currencies/nft-card.png)
+
+I haven't styled this so it doesn't look that beautiful but feel free to customize it for use and make it beautiful ;)!
+
+### Storing the currency
+
+We need to store the currency which the user has selected. So, we will create a new `state` and change it everytime the value of the dropdown changes. To do this use the `useState` hook and pass in the initial value as `"MATIC"`.
+
+```tsx
+const [tokenName, setTokenName] = useState("MATIC");
+```
+
+For updating it inside the `onChange` event we will use the `setTokenName` function.
+
+```tsx
+<select>
+  {nft.tokens.map((token) => (
+    <option key={token.name} value={token.name}>
+      {token.name}
+    </option>
+  ))}
+</select>
+```
+
+This will now update the currency so we can use it in the minting process.
+
+### Creating an api for generating signature
+
+Inside the `pages` folder, create a new folder `api` and `generate-mint-sig.ts` inside of it. We will create our whole api for generating the mint signature here!
