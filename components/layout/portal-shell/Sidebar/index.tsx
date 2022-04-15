@@ -76,7 +76,7 @@ export const PortalSidebar: React.FC = () => {
           />
           <SidebarItem
             label="Python"
-            href="https://python-docs.thirdweb.com/"
+            href="https://docs.thirdweb.com/python"
             isExternal
           />
           <SidebarItem
