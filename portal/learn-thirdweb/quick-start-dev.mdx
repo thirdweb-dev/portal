@@ -1,0 +1,221 @@
+---
+title: Quick start for Developers with our SDK
+author: "Raza Zaidi"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+summary: "thirdweb let's you mint NFTs, build marketplaces, create DAOs and much more with our sdk."
+date: "2022-04-13"
+updated: "2022-04-13"
+---
+With thirdweb's sdk you can interact directly with a blockchain using JavaScript or Python.
+This document explains how to connect to a blockchain and use our sdk.
+## Dependencies
+
+First make sure you install the dependencies based on your choice of one of the following languages:
+
+<InstallTabs learn />
+
+## Read data from a blockchain
+To read data from the blockchain, all you need is our `@thirdweb-dev/sdk`.
+Create an `index.js` file and open a terminal where the file is located. 
+Execute the code by running **node index.js**. 
+Check out a live version [here](https://stackblitz.com/edit/node-id6l9n?file=marketplace.js)
+
+
+```js:index.js
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+// This url indicates which chain you want to connect to
+const rpcUrl = "https://polygon-rpc.com/";
+const sdk = new ThirdwebSDK(rpcUrl);
+// Initialize marketplace contract by passing in the contract address
+const marketplaceContractAddress = "<MARKETPLACE_CONTRACT_ADDRESS>";
+const marketplace = sdk.getMarketplace(marketplaceAddress);
+// Get all the listings
+const getAllListings = async () => {
+  try {
+    await marketplace.getAllListings();
+    console.log(listing);
+  } catch (err) {
+    console.log(err);
+  }
+}
+getAllListings();
+```
+Side note, this is a public **RPC**. If you have your own dedicated **RPC** Alchemy or Infura**,** you can use that one instead.
+Check out a live version [here](https://stackblitz.com/edit/node-id6l9n?file=marketplace.js)
+
+## Connect to a blockchain and deploy your smart contract
+You can create a smart contract with our dashboard or in a terminal.
+When you deploy a smart contract, you need to approve that transaction with your wallet.
+Create a file called `deployTokenContract.js` and a file called `.env` with the following code 👇.
+**Warning:** This method is **not** suitable for frontend, but backend.
+Check out a live version of this example [here](https://stackblitz.com/edit/node-id6l9n?file=index.js)
+
+```js:deployTokenContract.js
+//import all the packages
+import { ethers } from "ethers";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+import dotenv from 'dotenv'
+dotenv.config()
+// const rpcUrl = "https://polygon-rpc.com/";
+// const provider = ethers.getDefaultProvider(rpcUrl);
+const sdk = new ThirdwebSDK(
+  new ethers.Wallet(
+    // Your wallet private key
+    process.env.PRIVATE_KEY,
+    // RPC URL
+    ethers.getDefaultProvider(
+      "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+    )
+  )
+);
+async function deployTokenContract () {
+    try {
+        const tokenContractAddress = await sdk.deployer.deployToken({
+            name: "My ERC-20 Token Contract",
+            primary_sale_recipient: "0x55c9bBb71a5CC11c2f0c40362Bb691b33a78B764",
+        })
+        console.log("token contract deployed!", tokenContractAddress)
+    } catch (error) {
+        console.error("failed to deploy contract", error)
+    }
+}
+deployTokenContract()
+
+```
+```bash:.env
+PRIVATE_KEY="YOUR WALLET PRIVATE KEY HERE NEVER SHARE IT WITH ANYONE OR UPLOAD IT ANYWHERE"
+```
+To run the code:
+```bash
+node deployTokenContract.js
+```
+
+## Use our React SDK
+
+Our React SDK provides hooks, which provide you functionalities out of the box to use.
+
+### Connect Wallet button with React
+Here's an example. Below you can see how we get a connect and disconnect functionality and bind it to a button.
+If you want to play with these hooks live, check out the playground over [here](https://connect-wallet-with-thirdweb.razazaidi2.repl.co/).
+```jsx:index.js
+//import the hooks
+//we're just showing an example with metamask, we also have a hook for other popular wallets
+import { useAddress, useDisconnect, useMetamask } from '@thirdweb-dev/react';
+
+export default function Home() {
+  const connectWithMetamask = useMetamask();
+  const disconnectWallet = useDisconnect();
+  const address = useAddress();
+
+  return(
+    <div>
+      {address ? (
+        <div>
+        <h4> Connected as {address}</h4>
+        <button onClick={disconnectWallet}> Disconnect wallet </button>
+        </div>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect Metamask wallet</button>
+      )
+      }
+    </div>
+  )
+}
+```
+
+After adjusting our app we need to give our react or nextjs a way to connect to a blockchain using a rpc url.
+And we need to `wrap` our app in the thirdweb provider tag so we can use the hook functionality everywhere inside our nextjs or react project.
+
+```jsx:_app.jsx
+import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react';
+
+// This is the chainId your dApp will work on.
+const activeChainId = ChainId.Rinkeby;
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <ThirdwebProvider desiredChainId={activeChainId}>
+      <Component {...pageProps} />
+    </ThirdwebProvider>
+  );
+}
+
+export default MyApp
+
+```
+
+### Mint NFT with React
+Once you're connected with your wallet, you can use our hooks to interact with your thirdweb contracts.
+We have a custom hook for every of our contracts. 
+Check out this example where we allow users to claim an NFT in an NextJS app.
+Make sure to wrap your `_app.jsx` file with ThirdwebProvider tags, like in the previous example.
+Check out a live replit over [here](https://mint-nft-with-thirdwebs-react-hooks.razazaidi2.repl.co/), where you can play with the code.
+
+```jsx:index.jsx
+//import the hooks
+//we're just showing an example with metamask, we also have a hook for other popular wallets
+import { useAddress, useDisconnect, useMetamask, useNFTDrop } from '@thirdweb-dev/react';
+
+export default function Home() {
+  const connectWithMetamask = useMetamask();
+  const disconnectWallet = useDisconnect();
+  const address = useAddress();
+  //connect with our smart contract
+  const nftDrop = useNFTDrop('0x7Af4e725A654Eff43ad1F57d3B3eA33a681cEa66');
+  //create a mint function
+  const mintNft = async () => {
+    try {
+      await nftDrop?.claim(1);
+    } catch (error) {
+      console.log(error);
+    } 
+  };
+  return(
+    <div>
+      {address ? (
+        <div>
+        <h4> Connected as {address}</h4>
+        <button onClick={disconnectWallet}> Disconnect wallet </button>
+        </div>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect Metamask wallet</button>
+      )
+      }
+    </div>
+    <div>
+      <button onClick={mintNft}>Click here to mint NFT</button>
+    </div>
+  )
+}
+```
+If you want to know more about how the connection to a blockchain works, click here.
+
+## Your Web3 Stack
+Building in Web3 is slightly different than web2. 
+You have to consider the blockchain technology in your design and architecture.
+
+This is a highlevel visualisation of how our sdk integrates in an app.
+
+![skd integration](/assets/portal/guides/quick-start-dev/layer.png)
+## Our SDK documentation
+
+To find out more about our SDKs, check out our documentations 👇
+
+- [TypeScript SDK](https://docs.thirdweb.com/typescript)
+- [React SDK](https://docs.thirdweb.com/react)
+- [Contracts](https://docs.thirdweb.com/contracts)
+- [Python SDK](https://python-docs.thirdweb.com/)
+- [Go SDK](https://pkg.go.dev/github.com/thirdweb-dev/go-sdk/pkg)
+
+<MdxNavigation>
+  <MdxNavigationItem
+    href="/learn-thirdweb/connect-to-blockchain"
+    title="Connect to blockchain"
+  />
+  <MdxNavigationItem
+    href="/contracts"
+    title="Contracts"
+    next
+  />
+</MdxNavigation>
