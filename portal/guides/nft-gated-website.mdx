@@ -142,7 +142,7 @@ const App = () => {
 			await nftDrop.claim(1);
 			setHasClaimedNFT(true);
 		catch (error) {
-			setHasClaimedNFT(true);
+			setHasClaimedNFT(false);
 			console.error("Failed to mint NFT", error);
 		} finally {
 			setIsClaiming(false);
