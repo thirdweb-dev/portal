@@ -136,18 +136,18 @@ const App = () => {
 	const [isClaiming, setIsClaiming] = useState(false);
 
 	// function to claim NFT
-	const mintNFT = async () => {
+	const mintNft = async () => {
 		try {
 			setIsClaiming(true);
 			await nftDrop.claim(1);
 			setHasClaimedNFT(true);
-		catch (error) {
+		}catch (error) {
 			setHasClaimedNFT(false);
 			console.error("Failed to mint NFT", error);
 		} finally {
 			setIsClaiming(false);
 		}
-	}
+	};
 
 	//if there isn't a wallet connected, display our connect MetaMask button
 	if (!address) {
