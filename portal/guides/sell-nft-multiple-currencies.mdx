@@ -39,8 +39,22 @@ yarn install # yarn
 
 By default the network in `_app.tsx` is Mainnet, we need to change it to Mumbai
 
-```tsx:index.tsx
+```tsx:_app.tsx
+import type { AppProps } from 'next/app';
+import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react';
+
+// This is the chainId your dApp will work on.
 const activeChainId = ChainId.Mumbai;
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <ThirdwebProvider desiredChainId={activeChainId}>
+      <Component {...pageProps} />
+    </ThirdwebProvider>
+  );
+}
+
+export default MyApp;
 ```
 
 ## Creating an edition and NFT
