@@ -1,5 +1,6 @@
 import { Button, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import { NextLink } from "components/shared/NextLink";
+import { useTrack } from "hooks/analytics/useTrack";
 import { useRouter } from "next/router";
 import React, { useCallback, useMemo, useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
@@ -241,6 +242,8 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   isExternal,
   initialOpen,
 }) => {
+  const { Track, trackEvent } = useTrack();
+
   const hasChildren = !!children;
   const childrenWithProps = React.Children.map(children, (child) => {
     // Checking isValidElement is the safe way and avoids a typescript
@@ -268,60 +271,62 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   }, [hasChildren, isOpen]);
 
   return (
-    <>
-      <Button
-        boxShadow="none!important"
-        as={href ? NextLink : (undefined as any)}
-        _active={{ bg: "primary.50" }}
-        {...(href ? { href, isExternal: !!isExternal } : {})}
-        m={0}
-        textDecor="none!important"
-        justifyContent="flex-start"
-        w="100%"
-        h="auto"
-        textAlign="left"
-        variant="ghost"
-        iconSpacing={1}
-        _hover={{
-          color: isActive ? "primary.500" : "black",
-          bgColor: isActive ? "primary.50" : "gray.50",
-        }}
-        bg={isActive ? "primary.50" : "transparent"}
-        color={isActive ? "primary.500" : ""}
-        padding="auto"
-        px={4}
-        pl={4 + level * 4}
-        py={2}
-        borderRadius="md"
-        position="relative"
-        fontWeight={level === 0 ? 600 : isActive ? 600 : isOpen ? 500 : 400}
-        onClick={
-          href ? () => (hasChildren ? setIsOpen(true) : null) : toggleOpen
-        }
-        leftIcon={
-          hasChildren ? (
-            <Icon
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleOpen();
-              }}
-              flexShrink={0}
-              boxSize={3}
-              mx={0}
-              as={TiChevronRight}
-              transform={isOpen ? "rotate(90deg)" : "rotate(0deg)"}
-              transition="transform 200ms ease"
-            />
-          ) : undefined
-        }
-        rightIcon={isExternal ? <Icon as={FiExternalLink} /> : undefined}
-      >
-        <Text fontWeight="inherit" color="inherit">
-          {label}
-        </Text>
-      </Button>
-      {isOpen ? childrenWithProps : null}
-    </>
+    <Track>
+      <>
+        <Button
+          boxShadow="none!important"
+          as={href ? NextLink : (undefined as any)}
+          _active={{ bg: "primary.50" }}
+          {...(href ? { href, isExternal: !!isExternal } : {})}
+          m={0}
+          textDecor="none!important"
+          justifyContent="flex-start"
+          w="100%"
+          h="auto"
+          textAlign="left"
+          variant="ghost"
+          iconSpacing={1}
+          _hover={{
+            color: isActive ? "primary.500" : "black",
+            bgColor: isActive ? "primary.50" : "gray.50",
+          }}
+          bg={isActive ? "primary.50" : "transparent"}
+          color={isActive ? "primary.500" : ""}
+          padding="auto"
+          px={4}
+          pl={4 + level * 4}
+          py={2}
+          borderRadius="md"
+          position="relative"
+          fontWeight={level === 0 ? 600 : isActive ? 600 : isOpen ? 500 : 400}
+          onClick={
+            href ? () => (hasChildren ? setIsOpen(true) : null) : toggleOpen
+          }
+          leftIcon={
+            hasChildren ? (
+              <Icon
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleOpen();
+                }}
+                flexShrink={0}
+                boxSize={3}
+                mx={0}
+                as={TiChevronRight}
+                transform={isOpen ? "rotate(90deg)" : "rotate(0deg)"}
+                transition="transform 200ms ease"
+              />
+            ) : undefined
+          }
+          rightIcon={isExternal ? <Icon as={FiExternalLink} /> : undefined}
+        >
+          <Text fontWeight="inherit" color="inherit">
+            {label}
+          </Text>
+        </Button>
+        {isOpen ? childrenWithProps : null}
+      </>
+    </Track>
   );
 };
