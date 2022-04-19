@@ -1,10 +1,8 @@
 ---
 title: Sign-in with Ethereum using thirdweb connect wallet
-author: "Raza Zaidi and Ayush Pathak"
+author: "Raza Zaidi"
 authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
-authorAvatar2: "/assets/portal/authors/ayush.jpg"
 authorTwitter: "https://twitter.com/razacodes"
-authorTwitter2: "https://twitter.com/ayshptk"
 draft: false
 tags: [ui, connect-wallet, react, v2]
 summary: "Add a connect wallet button to your website including a signing functionality"
@@ -89,49 +87,23 @@ First lets create our homepage with the `Connect Wallet` component
 
 ```jsx:pages/index.js
 
-import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
-
-export const ConnectMetamaskButtonComponent = () => {
-  // get a function to connect to a particular wallet
-  // options: useMetamask() - useCoinbase() - useWalletConnect()
-  const connectWithMetamask = useMetamask();
-  // once connected, you can get the connected wallet information from anywhere (address, signer)
-  const address = useAddress();
-  return (
-    <div>
-      {address ? (
-        <h4>Connected as {address}</h4>
-      ) : (
-        <button onClick={connectWithMetamask}>Connect Metamask Wallet</button>
-      )}
-    </div>
-  );
-};
-/*import Profile from "../components/Profile";
-*/
 export default function Home() {
   const address = useAddress();
 
   return (
     <div>
-      <ConnectMetamaskButtonComponent/>
-      {address ? <Profile></Profile> : <h1>Please connect your wallet</h1>}
+      <ConnectMetamaskButtonComponent />
+      {address ? <Profile /> : <h1>Please connect your wallet</h1>}
     </div>
   );
 }
 ```
 
-Next up lets create our backend that will simulate our database on a server. For this im going to use a docker image which builds a Redis database. Here is the yaml file if you want to do the same:
+Next up lets create our backend that will simulate our database on a server. For this im going to use a docker image which builds a Redis database. Here is the docker command to run a Redis database locally:
 
 
-
-```yaml:docker-compose.yml
-version: "3.9"
-services:
-  redis:
-    image: "redis:alpine"
-    ports:
-      - "6379:6379"
+```bash
+docker run --name redis -d -p 6379:6379 redis:6.0
 ```
 
 Let's write the code for our database.
@@ -139,7 +111,6 @@ Let's write the code for our database.
 Create a folder called `db` and inside create a file `db.ts`. 
 
 Below is the code that builds the database, a basic schema, a function to get the username and set the username:
-
 
 
 ```jsx:db/db.ts
@@ -171,7 +142,6 @@ export default class Database implements IDatabase {
 ```
 
 Let's execute the code and 'deploy' our database. Inside our `db` folder create a file `instance.ts` and add the following code.
-
 
 
 ```jsx:db/instance.ts
@@ -213,9 +183,9 @@ export default class Database implements IDatabase {
     await this.db.set(address, user);
   }
 
-//define the message, we will call it 'generateChallenge here'.
+// define the message, we will call it 'generateChallenge here'.
 // this will create a random string of characters to be verified by the users.
-//this can be anything. It can also be a standard message.
+// this can be anything. It can also be a standard message.
   public async generateChallenge(address: string): Promise<string> {
     const challenge = Math.random().toString(36).substring(2, 15);
     await this.db.set(`${address}:challenge`, challenge);
@@ -394,7 +364,6 @@ export default function Profile() {
 ```
 
 Once the challenge is received, we will get the JWT.
-
  
 
 ```tsx:components/Profile.jsx
@@ -508,7 +477,6 @@ return (
     <div
       style={{
         padding: "20px",
-        backgroundColor: "#f5f5f5",
       }}
     >
       <h1>Your address = {address}</h1>
@@ -536,180 +504,7 @@ return (
   );
 ```
 
-And for the full code of the `Profile.jsx` component 👇
-
-```tsx:components/Profile.jsx
-import { useAddress, useProvider } from "@thirdweb-dev/react";
-
-import { Profiler, useCallback, useEffect, useState } from "react";
-import { Button, useToast, Spinner, Input } from "@chakra-ui/react";
-
-export default function Profile() {
-  const address = useAddress();
-  const provider = useProvider();
-  const [jwt, setJwt] = useState(null);
-  const [username, setUsername] = useState(null);
-
-  const toast = useToast();
-
-  const getChallenge = useCallback(async () => {
-    try {
-      const request = await fetch("/api/challenge", {
-        method: "POST",
-        body: JSON.stringify({
-          address,
-        }),
-      });
-
-      if (request.status !== 200) {
-        throw new Error(
-          `Failed to fetch challenge, status code = ${request.status}`
-        );
-      }
-
-      const { challenge } = await request.json();
-      toast({
-        status: "success",
-        title: "Got challenge = " + challenge,
-      });
-      return challenge;
-    } catch (err) {
-      toast({
-        status: "error",
-        title: "Failed to fetch the challenge",
-        description: err.message,
-      });
-    }
-  }, [address]);
-
-  const getJwt = useCallback(async () => {
-    const challenge = await getChallenge();
-    const signer = provider.getSigner();
-    console.log("Signer = ", signer);
-
-    const signedChallenge = await signer.signMessage(challenge);
-
-    try {
-      const request = await fetch("/api/jwt", {
-        method: "POST",
-        body: JSON.stringify({
-          address,
-          signedChallenge: signedChallenge,
-        }),
-      });
-
-      if (request.status !== 200) {
-        throw new Error(`Failed to fetch jwt, status code = ${request.status}`);
-      }
-
-      const { token } = await request.json();
-      console.log("Got token = ", token);
-
-      setJwt(token);
-    } catch (err) {
-      toast({
-        status: "error",
-        title: "Failed to fetch the JWT",
-      });
-    }
-  }, [getChallenge, provider, address]);
-
-  const updateUsername = useCallback(async () => {
-    try {
-      const request = await fetch("/api/updateProfile", {
-        method: "POST",
-        body: JSON.stringify({
-          username,
-        }),
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      });
-
-      if (request.status !== 200) {
-        throw new Error(
-          `Failed to update profile, status code = ${request.status}`
-        );
-      }
-
-	  toast({
-		  status: 'success',
-		  title: 'Updated profile'
-	  })
-    } catch (err) {
-      toast({
-        status: "error",
-        title: "Failed to update profile",
-        description: err.message,
-      });
-    }
-  }, [username, jwt]);
-
-  useEffect(() => {
-    if (jwt !== null) {
-      return;
-    }
-
-    (async () => {
-      await getJwt();
-    })();
-  }, [jwt]);
-
-  useEffect(() => {
-    if (username !== null || jwt === null) {
-      return;
-    }
-
-    (async () => {
-      const request = await fetch("/api/user", {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      });
-
-      if (request.status === 200) {
-        const { username: newUsername } = await request.json();
-        setUsername(newUsername ? newUsername : "");
-      }
-    })();
-  }, [username, jwt]);
-
-  if (!jwt) {
-    return <Spinner size="lg" color="black"></Spinner>;
-  }
-
-  return (
-    <div
-      style={{
-        padding: "20px",
-        backgroundColor: "#f5f5f5",
-      }}
-    >
-      <h1>Your address = {address}</h1>
-
-      <div
-        style={{
-          marginTop: "20px",
-        }}
-      >
-        <span>Username = </span>
-        <Input
-          value={username}
-          onChange={(ev) => setUsername(ev.target.value)}
-        ></Input>
-      </div>
-
-      <Button
-        onClick={async () => {
-          await updateUsername();
-        }}
-      >
-        Click ME!
-      </Button>
-    </div>
-  );
-}
-```
+Check out the for the full code of the `Profile.jsx` in the complete repository.
 
 ## Final thoughts
 
