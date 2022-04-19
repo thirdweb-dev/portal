@@ -13,7 +13,7 @@ import { Card, CardProps } from "components/layout/Card";
 import { useTrack } from "hooks/analytics/useTrack";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { DiJavascript1 } from "react-icons/di";
+import { DiJavascript1, DiPython } from "react-icons/di";
 import { MdMenuBook } from "react-icons/md";
 
 export interface LinkCardProps extends CardProps {
@@ -64,7 +64,13 @@ export const LinkCard: React.FC<LinkCardProps> = ({
               <ChakraNextImage src={src} alt={alt} w="100%" />
             ) : (
               <Icon
-                as={type === "docs" ? DiJavascript1 : MdMenuBook}
+                as={
+                  type === "guides"
+                    ? MdMenuBook
+                    : type === "typescript-docs"
+                    ? DiJavascript1
+                    : DiPython
+                }
                 boxSize={8}
               />
             )}

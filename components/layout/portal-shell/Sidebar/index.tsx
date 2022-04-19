@@ -38,66 +38,72 @@ export const PortalSidebar: React.FC = () => {
           href="/learn-thirdweb/quick-start-dev"
         />
         <SidebarItem
-          label="NFT Collection"
+          label="NFTs and Tokens"
           matchExact
-          href="/contracts/nft-collection"
+          href="/contracts/nfts-and-tokens"
         >
           <SidebarItem
-            label="Guides"
+            label="NFT Collection"
             matchExact
-            href="/guides/nft-collection"
-          />
-          <SidebarItem
-            label="JavaScript docs"
-            matchExact
-            href="https://docs.thirdweb.com/typescript/sdk.nftcollection"
-            isExternal
-          />
-          <SidebarItem
-            label="Python docs"
-            matchExact
-            href="https://docs.thirdweb.com/python/nft-collection"
-            isExternal
-          />
-        </SidebarItem>
-        <SidebarItem label="Edition" matchExact href="/contracts/edition">
-          <SidebarItem label="Guides" matchExact href="/guides/edition" />
-          <SidebarItem
-            label="JavaScript docs"
-            matchExact
-            href="https://docs.thirdweb.com/typescript/sdk.edition"
-            isExternal
-          />
-          <SidebarItem
-            label="Python docs"
-            matchExact
-            href="https://docs.thirdweb.com/python/edition"
-            isExternal
-          />
-        </SidebarItem>
-        <SidebarItem label="Token" matchExact href="/contracts/token">
-          <SidebarItem label="Guides" matchExact href="/guides/token" />
-          <SidebarItem
-            label="JavaScript docs"
-            matchExact
-            href="https://docs.thirdweb.com/typescript/sdk.token"
-            isExternal
-          />
-          <SidebarItem
-            label="Python docs"
-            matchExact
-            href="https://docs.thirdweb.com/python/token"
-            isExternal
-          />
-        </SidebarItem>
-        <SidebarItem label="Pack" matchExact href="/contracts/pack">
-          <SidebarItem label="Guides" matchExact href="/guides/pack" />
-          <SidebarItem
-            label="JavaScript docs"
-            matchExact
-            href="https://docs.thirdweb.com/typescript/sdk.pack"
-            isExternal
-          />
+            href="/contracts/nft-collection"
+          >
+            <SidebarItem
+              label="Guides"
+              matchExact
+              href="/guides/nft-collection"
+            />
+            <SidebarItem
+              label="JavaScript docs"
+              matchExact
+              href="https://docs.thirdweb.com/typescript/sdk.nftcollection"
+              isExternal
+            />
+            <SidebarItem
+              label="Python docs"
+              matchExact
+              href="https://docs.thirdweb.com/python/nft-collection"
+              isExternal
+            />
+          </SidebarItem>
+          <SidebarItem label="Edition" matchExact href="/contracts/edition">
+            <SidebarItem label="Guides" matchExact href="/guides/edition" />
+            <SidebarItem
+              label="JavaScript docs"
+              matchExact
+              href="https://docs.thirdweb.com/typescript/sdk.edition"
+              isExternal
+            />
+            <SidebarItem
+              label="Python docs"
+              matchExact
+              href="https://docs.thirdweb.com/python/edition"
+              isExternal
+            />
+          </SidebarItem>
+          <SidebarItem label="Token" matchExact href="/contracts/token">
+            <SidebarItem label="Guides" matchExact href="/guides/token" />
+            <SidebarItem
+              label="JavaScript docs"
+              matchExact
+              href="https://docs.thirdweb.com/typescript/sdk.token"
+              isExternal
+            />
+            <SidebarItem
+              label="Python docs"
+              matchExact
+              href="https://docs.thirdweb.com/python/token"
+              isExternal
+            />
+          </SidebarItem>
+          <SidebarItem label="Pack" matchExact href="/contracts/pack">
+            <SidebarItem label="Guides" matchExact href="/guides/pack" />
+            <SidebarItem
+              label="JavaScript docs"
+              matchExact
+              href="https://docs.thirdweb.com/typescript/sdk.pack"
+              isExternal
+            />
+          </SidebarItem>
         </SidebarItem>
         <SidebarItem label="Drops" matchExact href="/contracts/drops">
           <SidebarItem label="NFT Drop" matchExact href="/contracts/nft-drop">
