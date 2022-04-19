@@ -37,51 +37,67 @@ export const PortalSidebar: React.FC = () => {
           matchExact
           href="/learn-thirdweb/quick-start-dev"
         />
-        <SidebarItem label="Contracts" matchExact href="/contracts" initialOpen>
+        <SidebarItem
+          label="NFT Collection"
+          matchExact
+          href="/contracts/nft-collection"
+        >
           <SidebarItem
-            label="NFT Collection"
+            label="Guides"
             matchExact
-            href="/contracts/nft-collection"
-          >
-            <SidebarItem
-              label="Guides"
-              matchExact
-              href="/guides/nft-collection"
-            />
-            <SidebarItem
-              label="JavaScript docs"
-              matchExact
-              href="https://docs.thirdweb.com/typescript/sdk.nftcollection"
-              isExternal
-            />
-          </SidebarItem>
-          <SidebarItem label="Edition" matchExact href="/contracts/edition">
-            <SidebarItem label="Guides" matchExact href="/guides/edition" />
-            <SidebarItem
-              label="JavaScript docs"
-              matchExact
-              href="https://docs.thirdweb.com/typescript/sdk.edition"
-              isExternal
-            />
-          </SidebarItem>
-          <SidebarItem label="Token" matchExact href="/contracts/token">
-            <SidebarItem label="Guides" matchExact href="/guides/token" />
-            <SidebarItem
-              label="JavaScript docs"
-              matchExact
-              href="https://docs.thirdweb.com/typescript/sdk.token"
-              isExternal
-            />
-          </SidebarItem>
-          <SidebarItem label="Pack" matchExact href="/contracts/pack">
-            <SidebarItem label="Guides" matchExact href="/guides/pack" />
-            <SidebarItem
-              label="JavaScript docs"
-              matchExact
-              href="https://docs.thirdweb.com/typescript/sdk.pack"
-              isExternal
-            />
-          </SidebarItem>
+            href="/guides/nft-collection"
+          />
+          <SidebarItem
+            label="JavaScript docs"
+            matchExact
+            href="https://docs.thirdweb.com/typescript/sdk.nftcollection"
+            isExternal
+          />
+          <SidebarItem
+            label="Python docs"
+            matchExact
+            href="https://docs.thirdweb.com/python/nft-collection"
+            isExternal
+          />
+        </SidebarItem>
+        <SidebarItem label="Edition" matchExact href="/contracts/edition">
+          <SidebarItem label="Guides" matchExact href="/guides/edition" />
+          <SidebarItem
+            label="JavaScript docs"
+            matchExact
+            href="https://docs.thirdweb.com/typescript/sdk.edition"
+            isExternal
+          />
+          <SidebarItem
+            label="Python docs"
+            matchExact
+            href="https://docs.thirdweb.com/python/edition"
+            isExternal
+          />
+        </SidebarItem>
+        <SidebarItem label="Token" matchExact href="/contracts/token">
+          <SidebarItem label="Guides" matchExact href="/guides/token" />
+          <SidebarItem
+            label="JavaScript docs"
+            matchExact
+            href="https://docs.thirdweb.com/typescript/sdk.token"
+            isExternal
+          />
+          <SidebarItem
+            label="Python docs"
+            matchExact
+            href="https://docs.thirdweb.com/python/token"
+            isExternal
+          />
+        </SidebarItem>
+        <SidebarItem label="Pack" matchExact href="/contracts/pack">
+          <SidebarItem label="Guides" matchExact href="/guides/pack" />
+          <SidebarItem
+            label="JavaScript docs"
+            matchExact
+            href="https://docs.thirdweb.com/typescript/sdk.pack"
+            isExternal
+          />
         </SidebarItem>
         <SidebarItem label="Drops" matchExact href="/contracts/drops">
           <SidebarItem label="NFT Drop" matchExact href="/contracts/nft-drop">
@@ -90,6 +106,12 @@ export const PortalSidebar: React.FC = () => {
               label="JavaScript docs"
               matchExact
               href="https://docs.thirdweb.com/typescript/sdk.nftdrop"
+              isExternal
+            />
+            <SidebarItem
+              label="Python docs"
+              matchExact
+              href="https://docs.thirdweb.com/python/nft-drop"
               isExternal
             />
           </SidebarItem>
@@ -109,6 +131,12 @@ export const PortalSidebar: React.FC = () => {
               href="https://docs.thirdweb.com/typescript/sdk.editiondrop"
               isExternal
             />
+            <SidebarItem
+              label="Python docs"
+              matchExact
+              href="https://docs.thirdweb.com/python/edition-drop"
+              isExternal
+            />
           </SidebarItem>
         </SidebarItem>
         <SidebarItem
@@ -121,6 +149,12 @@ export const PortalSidebar: React.FC = () => {
             label="JavaScript docs"
             matchExact
             href="https://docs.thirdweb.com/typescript/sdk.marketplace"
+            isExternal
+          />
+          <SidebarItem
+            label="Python docs"
+            matchExact
+            href="https://docs.thirdweb.com/python/marketplace"
             isExternal
           />
         </SidebarItem>
@@ -151,7 +185,7 @@ export const PortalSidebar: React.FC = () => {
         <SidebarItem label="Developer Guides" href="/guides" matchExact />
         <SidebarItem label="Learn web3" matchExact href="/learn-web3" />
 
-        <SidebarItem label="SDKs" initialOpen>
+        <SidebarItem label="Developer References">
           <SidebarItem
             label="TypeScript"
             href="https://docs.thirdweb.com/typescript"
