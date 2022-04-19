@@ -169,7 +169,7 @@ const PortalHome: ConsolePage<PortalHomeProps> = ({ featuredGuides }) => {
                   </HStack>
                 </Card>
               </NextLink>
-              <NextLink href="https://python-docs.thirdweb.com/" isExternal>
+              <NextLink href="https://docs.thirdweb.com/python" isExternal>
                 <Card
                   _hover={{ bgColor: "blue.100" }}
                   transition="all 0.25s ease-in-out"

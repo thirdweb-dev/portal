@@ -121,7 +121,7 @@ In the same `App.js` file, we will add conditionals that render specific pages b
 As an extra, I added a helper function to display our shortened wallet address called `truncateAddress`. Feel free to add or omit this as well in your app.
 
 ```jsx:App.js
-import { useAddress, useMetamask } from '@thirdweb-dev/react';
+import { useAddress, useMetamask, useNFTDrop } from '@thirdweb-dev/react';
 import { useState, useEffect } from 'react';
 import "./styles.css";
 
@@ -136,18 +136,18 @@ const App = () => {
 	const [isClaiming, setIsClaiming] = useState(false);
 
 	// function to claim NFT
-	const mintNFT = async () => {
+	const mintNft = async () => {
 		try {
 			setIsClaiming(true);
 			await nftDrop.claim(1);
 			setHasClaimedNFT(true);
-		catch (error) {
-			setHasClaimedNFT(true);
+		}catch (error) {
+			setHasClaimedNFT(false);
 			console.error("Failed to mint NFT", error);
 		} finally {
 			setIsClaiming(false);
 		}
-	}
+	};
 
 	//if there isn't a wallet connected, display our connect MetaMask button
 	if (!address) {

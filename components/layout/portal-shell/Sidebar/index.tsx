@@ -32,12 +32,12 @@ export const PortalSidebar: React.FC = () => {
             href="/learn-thirdweb/connect-to-blockchain"
           />
         </SidebarItem>
-        <SidebarItem label="Contracts" matchExact href="/contracts" />
         <SidebarItem
-          label="NFTs and tokens"
+          label="Quick start for Developers"
           matchExact
-          href="/contracts/nfts-and-tokens"
-        >
+          href="/learn-thirdweb/quick-start-dev"
+        />
+        <SidebarItem label="Contracts" matchExact href="/contracts" initialOpen>
           <SidebarItem
             label="NFT Collection"
             matchExact
@@ -169,7 +169,7 @@ export const PortalSidebar: React.FC = () => {
           />
           <SidebarItem
             label="Python"
-            href="https://python-docs.thirdweb.com/"
+            href="https://docs.thirdweb.com/python"
             isExternal
           />
           <SidebarItem

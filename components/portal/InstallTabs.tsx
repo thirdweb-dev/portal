@@ -12,7 +12,11 @@ import { ChakraNextImage } from "components/Image";
 import installTabsGradient from "public/assets/portal/install-tabs-gradient.png";
 import { FiCheckSquare, FiCopy } from "react-icons/fi";
 
-export const InstallTabs = () => {
+interface InstallTabsProps {
+  learn?: boolean;
+}
+
+export const InstallTabs: React.FC<InstallTabsProps> = ({ learn }) => {
   const { onCopy: onCopyJavaScript, hasCopied: hasCopiedJavaScript } =
     useClipboard("npm install @thirdweb-dev/sdk ethers");
   const { onCopy: onCopyReact, hasCopied: hasCopiedReact } = useClipboard(
@@ -33,18 +37,19 @@ export const InstallTabs = () => {
         position="relative"
         width="100%"
       >
-        <ChakraNextImage
-          alt=""
-          src={installTabsGradient}
-          position="absolute"
-          boxSize="100%"
-          width={40}
-          height={20}
-          zIndex={-1}
-          bottom={24}
-          placeholder="empty"
-          display={{ base: "none", md: "block" }}
-        />
+        {!learn && (
+          <ChakraNextImage
+            alt=""
+            src={installTabsGradient}
+            position="absolute"
+            boxSize="100%"
+            width={40}
+            height={20}
+            zIndex={-1}
+            bottom={24}
+            display={{ base: "none", md: "block" }}
+          />
+        )}
         <TabList borderBottom="1px solid" borderBottomColor="gray.100">
           <Tab fontWeight="600" color="gray.500">
             JavaScript
