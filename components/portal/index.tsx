@@ -171,10 +171,12 @@ export const MdxLinkCard: React.FC<MdxLinkCardProps> = ({
           ? `/contracts/${contractType}`
           : type === "guide"
           ? `/guides/${contractType}`
-          : `https://docs.thirdweb.com/typescript/sdk.${contractType?.replace(
+          : type === "typescript-docs"
+          ? `https://docs.thirdweb.com/typescript/sdk.${contractType?.replace(
               "-",
               "",
             )}`
+          : `https://docs.thirdweb.com/python/${contractType}`
       }
       title={title as string}
       subtitle={subtitle as string}
