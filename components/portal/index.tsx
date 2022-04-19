@@ -24,6 +24,7 @@ import { onlyText } from "react-children-utilities";
 import { FiLink } from "react-icons/fi";
 import { IoCopy } from "react-icons/io5";
 import slugify from "slugify";
+import { InstallTabs } from "./InstallTabs";
 import { LinkCard, LinkCardProps } from "./LinkCard";
 import { MdxNavigation, MdxNavigationItem } from "./mdx-nav";
 
@@ -228,5 +229,6 @@ export const MdxComponents = {
   MdxAlert,
   MdxLinkCard,
   SimpleGrid,
+  InstallTabs,
   // Youtube,
 };

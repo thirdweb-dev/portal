@@ -5,7 +5,7 @@ import { PortalHeaderCard } from "components/portal/header-card";
 import { useTrack } from "hooks/analytics/useTrack";
 import { useSingleQueryParam } from "hooks/useQueryParam";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { NextSeo } from "next-seo";
+import { BreadcrumbJsonLd, NextSeo } from "next-seo";
 import { ConsolePage } from "pages/_app";
 import { getAllGuides } from "utils/mdxUtils";
 import { GuideData } from "utils/portalTypes";
@@ -22,15 +22,41 @@ const TagPage: ConsolePage<TagPageProps> = ({ guides }) => {
     tag,
   });
 
+  const tagReplace = tag.replace(/-/g, " ");
+
   return (
     <Track>
       <NextSeo
-        title={`${tag.replace(/-/g, " ")} Guides | Portal`}
+        title={`${tagReplace} Guides | Portal`}
         openGraph={{
-          title: `${tag.replace(/-/g, " ")} | Portal | thirdweb`,
-          description: `${tag.replace(/-/g, " ")} guides and tutorials`,
-          url: `https://portal.thirdweb.com/tag/${tag}`,
+          title: `${tagReplace} | Portal | thirdweb`,
+          description: `${tagReplace} guides and tutorials`,
+          url: `https://portal.thirdweb.com/guides/tag/${tag}`,
         }}
+      />
+      <BreadcrumbJsonLd
+        itemListElements={[
+          {
+            position: 1,
+            name: "Portal",
+            item: "https://portal.thirdweb.com",
+          },
+          {
+            position: 2,
+            name: "Guides",
+            item: "https://portal.thirdweb.com/guides",
+          },
+          {
+            position: 3,
+            name: "Tags",
+            item: `https://portal.thirdweb.com/guides/tag`,
+          },
+          {
+            position: 4,
+            name: tagReplace,
+            item: `https://portal.thirdweb.com/guides/tag/${tag}`,
+          },
+        ]}
       />
       <Stack spacing={20}>
         <PortalHeaderCard
