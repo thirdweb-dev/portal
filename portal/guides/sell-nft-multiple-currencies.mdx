@@ -85,7 +85,7 @@ const Home: NextPage = () => {
 export default Home;
 ```
 
-Instead of showing the disconnect Wallet button and wallet address we will now show the card instead. So, replace everything inside the fragment with the following-
+Instead of showing the disconnect Wallet button and wallet address we will now show the card instead. So, replace everything inside the fragment (<>) with the following-
 
 ```tsx
 <div>
@@ -239,7 +239,7 @@ import { ethers } from "ethers";
 
 ### Generating the signature for mint
 
-From the frontend we will get the `tokenName`, `tokenId`, and the `address` of the person we are going to mint the NFT to. I am only getting these parameters to make sure that people can't manipulate the data. So, get these parameteres from the response body-
+From the frontend we will get the `tokenName`, `tokenId`, and the `address` of the person we are going to mint the NFT to. I am only getting these parameters to make sure that people can't manipulate the data. So, get these parameters from the response body-
 
 ```ts
 const { tokenId, address, tokenName } = JSON.parse(req.body);
