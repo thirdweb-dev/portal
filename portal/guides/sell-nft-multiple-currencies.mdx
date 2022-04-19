@@ -19,7 +19,7 @@ Sounds cool, right!? Let's get started.
 
 ## Setup
 
-I am going to use the [Next typescript starter template of thirdweb](https://github.com/thirdweb-example/next-typescript-starter) for this guide. If you already have a Next.js app you can simply follow these steps to get started-
+I am going to use the [Next typescript starter template of thirdweb](https://github.com/thirdweb-example/next-typescript-starter) for this guide. If you already have a Next.js app you can simply follow these steps to get started:
 
 - Install `@thirdweb-dev/react` and `@thirdweb-dev/sdk`
 - Add metamask authentication to the site. You can follow this [guide](/guides/add-connectwallet-to-your-website)
@@ -71,7 +71,7 @@ Now, let's create and mint a new NFT inside of it. Fill out the details and make
 
 ## Building the NFT card
 
-I am going to create a simple card to display the NFT, which will have the name, and description of the NFT. A dropdown to be able to change the currency and a button to mint the NFT! At this point, your `pages/index.tsx` file should look something like this-
+I am going to create a simple card to display the NFT, which will have the name, and description of the NFT. A dropdown to be able to change the currency and a button to mint the NFT! At this point, your `pages/index.tsx` file should look something like this:
 
 ```tsx
 import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
@@ -99,7 +99,7 @@ const Home: NextPage = () => {
 export default Home;
 ```
 
-Instead of showing the disconnect Wallet button and wallet address, we will now show the card instead. So, replace everything inside the fragment `(<>)` with the following-
+Instead of showing the disconnect Wallet button and wallet address, we will now show the card instead. So, replace everything inside the fragment `(<>)` with the following:
 
 ```tsx
 <div>
@@ -124,7 +124,7 @@ Instead of showing the disconnect Wallet button and wallet address, we will now 
 </div>
 ```
 
-You might be wondering where are we getting the NFT object, we are going to create a new file and store the NFT object there to keep our code clean. So, create a new file `nft.ts` and add this-
+You might be wondering where are we getting the NFT object, we are going to create a new file and store the NFT object there to keep our code clean. So, create a new file `nft.ts` and add this:
 
 ```ts
 import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
@@ -151,13 +151,13 @@ export const nft = {
 
 Here, we are creating and exporting a new `nft` object with some properties like name, description, image, etc. The tokens array will contain the different currencies using which we can mint the NFTs. You need to specify a name, address, and price for the token here. We are getting the `NATIVE_TOKEN_ADDRESS` from the thirdweb package.
 
-Finally, import nft from this file in `index.tsx`-
+Finally, import nft from this file in `index.tsx`:
 
 ```jsx
 import { nft } from "../nft";
 ```
 
-If you now go to [http://localhost:3000/](http://localhost:3000/) you will be able to see a card like this-
+If you now go to [http://localhost:3000/](http://localhost:3000/) you will be able to see a card like this:
 
 ![NFT Card](/assets/portal/guides/sell-nft-multiple-currencies/nft-card.png)
 
@@ -244,7 +244,7 @@ Go to [Alchemy](https://dashboard.alchemyapi.io/) and sign up for an account. Yo
 
 Finally, paste this in the `.env.local` file too. Since we have changed the env variables we need to restart the server. So, cut the terminal and run `yarn dev` again.
 
-We also need to import `ethers` and `ThirdwebSDK`-
+We also need to import `ethers` and `ThirdwebSDK`:
 
 ```ts
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
@@ -253,13 +253,13 @@ import { ethers } from "ethers";
 
 ### Generating the signature for mint
 
-From the frontend we will get the `tokenName`, `tokenId`, and the `address` of the person we are going to mint the NFT to. I am only getting these parameters to make sure that people can't manipulate the data. So, get these parameters from the response body-
+From the frontend we will get the `tokenName`, `tokenId`, and the `address` of the person we are going to mint the NFT to. I am only getting these parameters to make sure that people can't manipulate the data. So, get these parameters from the response body:
 
 ```ts
 const { tokenId, address, tokenName } = JSON.parse(req.body);
 ```
 
-We also need access to the edition functions, so get the edition like this-
+We also need access to the edition functions, so get the edition like this:
 
 ```ts
   const edition = sdk.getEdition(
@@ -267,7 +267,7 @@ We also need access to the edition functions, so get the edition like this-
   );
 ```
 
-We can now use this to generate a mint signature. So, add in this try/catch block-
+We can now use this to generate a mint signature. So, add in this try/catch block:
 
 ```ts
  try {
@@ -295,7 +295,7 @@ In this block we are using the `edition.signature.generate` function provided by
 
 You also need to remove the res.send("Gm wagmi") code block 🥺.
 
-Right now you would be getting an error because we haven't yet added the token so we will create a new variable for getting the token the user is going to use to pay with-
+Right now you would be getting an error because we haven't yet added the token so we will create a new variable for getting the token the user is going to use to pay with:
 
 ```ts
     const getToken = (tokenName: string) => {
@@ -307,13 +307,13 @@ Right now you would be getting an error because we haven't yet added the token s
 
 In this variable, we are getting the token from the `nft.tokens` array. If someone passes a token that is not on the list we will use the `MATIC` token.
 
-We also need to import nft-
+We also need to import nft:
 
 ```ts
 import { nft } from "../../nft";
 ```
 
-The final `api/generate-mint-sig.ts` should look like this-
+The final `api/generate-mint-sig.ts` should look like this:
 
 ```ts
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
@@ -367,7 +367,7 @@ export default generateMintSignature;
 
 ### Calling the api from the frontend
 
-Let's now use the api in our frontend! Create a new function in `index.tsx` like this-
+Let's now use the api in our frontend! Create a new function in `index.tsx` like this:
 
 ```tsx
   const mintWithSignature = async (tokenId: string) => {
@@ -388,7 +388,7 @@ Let's now use the api in our frontend! Create a new function in `index.tsx` like
   };
 ```
 
-We need to use the `useEdition` hook to access the edition contract here like this-
+We need to use the `useEdition` hook to access the edition contract here like this:
 
 ```ts
 const edition = useEdition("0x4ebCf39BCeEA3C9790605BF292B4a2b8811C93eD");
