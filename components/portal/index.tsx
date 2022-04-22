@@ -169,7 +169,7 @@ export const MdxLinkCard: React.FC<MdxLinkCardProps> = ({
       href={
         !type
           ? `/contracts/${contractType}`
-          : type === "guide"
+          : type === "guides"
           ? `/guides/${contractType}`
           : type === "typescript-docs"
           ? `https://docs.thirdweb.com/typescript/sdk.${contractType?.replace(
