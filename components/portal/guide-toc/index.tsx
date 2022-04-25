@@ -31,15 +31,15 @@ export const GuideToc: React.FC<GuideTocProps> = ({
       top="0"
       alignSelf="flex-start"
       display={
-        isMobile ? { base: "block", lg: "none" } : { base: "none", lg: "block" }
+        isMobile ? { base: "block", md: "none" } : { base: "none", md: "block" }
       }
       {...rest}
     >
       {!docs && (
         <Stack
           mt={5}
-          direction={{ base: "row", lg: "column" }}
-          align={{ base: "center", lg: "flex-start" }}
+          direction={{ base: "row", md: "column" }}
+          align={{ base: "center", md: "flex-start" }}
         >
           <AvatarGroup size="md" max={2}>
             <Avatar
@@ -53,7 +53,7 @@ export const GuideToc: React.FC<GuideTocProps> = ({
               />
             )}
           </AvatarGroup>
-          <Heading size="title.sm">{frontMatter.author}</Heading>1
+          <Heading size="title.sm">{frontMatter.author}</Heading>
           <Stack direction="row">
             <IconButton
               as={LinkButton}
