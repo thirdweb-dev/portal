@@ -491,3 +491,86 @@ if (nft) {
 
 If you try minting again and check the airtable it would now set the minted column to true! If you get an error like the column name not found then make sure that the names are same.
 
+## Adding user's to allowlist
+
+I am going to add a simple button for adding user's to allowlist. You can even create an early access form or something similar. So, create a button in `index.tsx`-
+
+```tsx
+<button>Add wallet to allowlist</button>
+```
+
+Now, let's create an api to add the wallet to the allowlist. So, create a new file `add-to-allowlist.ts` and add the following:
+
+```ts:add-to-allowlist.ts
+import type { NextApiRequest, NextApiResponse } from "next";
+import { table } from "../../utils/Airtable";
+
+const addToAllowlist = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { address } = JSON.parse(req.body);
+
+  const record = await table
+    .select({
+      fields: ["Addresses", "minted"],
+      filterByFormula: `NOT({Addresses} != '${address}')`,
+    })
+    .all();
+
+  if (record.length > 0) {
+    res.status(400).json({
+      success: false,
+      error: "User is already in allowlist",
+    });
+  }
+
+  if (record.length === 0) {
+    try {
+      await table.create([
+        {
+          fields: {
+            Addresses: address,
+          },
+        },
+      ]);
+      res.status(200).json({
+        success: true,
+        message: "User added to allowlist",
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        error: err,
+      });
+    }
+  }
+};
+
+export default addToAllowlist;
+```
+
+Here, we are first checking if the user already exists and if it exists we will return an error saying that the user is already in the allowlist. If the user doesn't exist we will create the user in the allowlist. Now, let's head back to the frontend code and create a function to call this api-
+
+```tsx
+  const addWallet = async () => {
+    const payload = await fetch(`/api/add-to-allowlist`, {
+      method: "POST",
+      body: JSON.stringify({ address }),
+    });
+
+    const payloadJson = await payload.json();
+    console.log(payloadJson);
+
+    if (payloadJson.success) {
+      alert(payloadJson.message);
+    } else {
+      alert(payloadJson.error);
+    }
+  };
+```
+
+Finally, add an onClick event to the button-
+
+```tsx
+<button onClick={addWallet}>Add wallet to allowlist</button>
+```
+
+If you try switching the connected wallet or remove the wallet from the database you will see that the user's wallet address is being added to the base!
