@@ -226,7 +226,6 @@ import { ethers } from "ethers";
 
 **Generating the siganture mint**
 
-
 In the api we are going to use the sdk to get access to the edition contract and generate a mint signature:
 
 ```ts
@@ -248,7 +247,7 @@ In the api we are going to use the sdk to get access to the edition contract and
   }
 ```
 
-We will get the address from the frontend so, add this: 
+We will get the address from the frontend so, add this:
 
 ```ts
 const { address } = JSON.parse(req.body);
@@ -299,11 +298,11 @@ We now need to get some api key's and id's to interact with the base. So, go to 
 
 Store this api key somewhere safe as we are going to need it.
 
-Now to get the base id go to the [Airtable API](https://airtable.com/api) and click on the base that you just created. When you open the page, at the top itself you would see "Your base id is app......". 
+Now to get the base id go to the [Airtable API](https://airtable.com/api) and click on the base that you just created. When you open the page, at the top itself you would see "Your base id is app......".
 
 Inside `.env.local` add three new variables:
 
-```.env
+```
 AIRTABLE_API_KEY=
 AIRTABLE_BASE_ID=
 AIRTABLE_TABLE_NAME=
@@ -352,7 +351,7 @@ Now, we need to update the api to first check if the wallet is present in the ta
     res.status(404).json({
       error: "User isn't in allowlist",
     });
-  } 
+  }
 ```
 
 So, this queries the airtable to get the records of the address present in the addresses column and we are checking if the length record is 0. If it is 0, then we are not allowing the user to mint and send an error. We will also wrap the part where we send the response in an else block. The api should now look similar to this:
@@ -438,7 +437,7 @@ In the mintWithSignature function we will now add a simple alert to show the err
   };
 ```
 
-Now if you try minting you should now see an error that you are not in the allowlist. But if you add the address you are using to mint to the address column, it would allow you to mint! 
+Now if you try minting you should now see an error that you are not in the allowlist. But if you add the address you are using to mint to the address column, it would allow you to mint!
 
 ### Setting the minted to true when the address mints
 
@@ -478,7 +477,7 @@ const generateMintSignature = async (
 export default generateMintSignature;
 ```
 
-Basically what this code block is doing is getting the record of the address and then updating the minted column to true. And for basic error handling if there is an error we will return the error. Now, in the mintSignature function I will add the fetch request to the `set-minted` api if the nft was minted successful like this-
+Basically what this code block is doing is getting the record of the address and then updating the minted column to true. And for basic error handling if there is an error we will return the error. Now, in the mintSignature function I will add the fetch request to the `set-minted` api if the nft was minted successful like this:
 
 ```ts
 if (nft) {
@@ -493,7 +492,7 @@ If you try minting again and check the airtable it would now set the minted colu
 
 ## Adding user's to allowlist
 
-I am going to add a simple button for adding user's to allowlist. You can even create an early access form or something similar. So, create a button in `index.tsx`-
+I am going to add a simple button for adding user's to allowlist. You can even create an early access form or something similar. So, create a button in `index.tsx`:
 
 ```tsx
 <button>Add wallet to allowlist</button>
@@ -547,7 +546,7 @@ const addToAllowlist = async (req: NextApiRequest, res: NextApiResponse) => {
 export default addToAllowlist;
 ```
 
-Here, we are first checking if the user already exists and if it exists we will return an error saying that the user is already in the allowlist. If the user doesn't exist we will create the user in the allowlist. Now, let's head back to the frontend code and create a function to call this api-
+Here, we are first checking if the user already exists and if it exists we will return an error saying that the user is already in the allowlist. If the user doesn't exist we will create the user in the allowlist. Now, let's head back to the frontend code and create a function to call this api:
 
 ```tsx
   const addWallet = async () => {
@@ -567,10 +566,254 @@ Here, we are first checking if the user already exists and if it exists we will 
   };
 ```
 
-Finally, add an onClick event to the button-
+Finally, add an onClick event to the button:
 
 ```tsx
 <button onClick={addWallet}>Add wallet to allowlist</button>
 ```
 
 If you try switching the connected wallet or remove the wallet from the database you will see that the user's wallet address is being added to the base!
+
+## Minor improvements (Optional)
+
+Let's just add some minor improvements to our app!
+
+### Styling
+
+Currently the site looks pretty boring, so let's add some simple styling. Create a new file `globals.css` in the `styles` folder and add the following to reset the styles:
+
+```css:globals.css
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+```
+
+Import it in the \_app.tsx file:
+
+```tsx
+import "../styles/globals.css";
+```
+
+Now, create a new file `Home.module.css` in the `styles` folder and add these simple stylings:
+
+```css:Home.module.css
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #c0ffee;
+}
+
+.container > button,
+.btn {
+  background: #1ce;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.btn {
+  margin-top: 10px;
+}
+
+.NFT {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nftDesc {
+  margin: 10px 0px;
+  font-size: 0.8rem;
+  color: #000;
+}
+
+.nftDesc > span {
+  font-weight: bold;
+}
+```
+
+Now let's implement these stylings in `index.tsx` by adding the classNames:
+
+```tsx:index.tsx
+ <div className={styles.container}>
+      {address ? (
+        <div className={styles.NFT}>
+          {nftData?.image && (
+            <Image
+              src={nftData?.image}
+              alt={nftData?.name}
+              width="280"
+              height="210"
+              objectFit="contain"
+            />
+          )}
+          <p className={styles.nftDesc}>
+            <span>Name:</span> {nftData?.name}
+          </p>
+          <p className={styles.nftDesc}>
+            <span> Description:</span> {nftData?.description}
+          </p>
+
+          <button className={styles.btn} onClick={addWallet}>
+            Add wallet to allowlist
+          </button>
+
+          <button className={styles.btn} onClick={() => mintWithSignature()}>
+            Mint
+          </button>
+        </div>
+      ) : (
+        <button onClick={connectWithMetamask}>Connect with Metamask</button>
+      )}
+    </div>
+```
+
+Our website now looks much better!
+
+![Deploy edition contract](/assets/portal/guides/dynamic-allowlist-edition/website-preview.png)
+
+### Loading
+
+Currently if you click the mint button or add to allowlist button nothing happens for a while, so let's add a loading text to tell the user that something is happening. So, create 2 states in the `Home.tsx` file:
+
+```tsx:Home.tsx
+const [addWalletLoading, setAddWalletLoading] = useState(false);
+const [mintLoading, setMintLoading] = useState(false);
+```
+
+Add this ternary operator for changing the text of the buttons and disable the button if it is loading:
+
+```tsx
+ <button
+   className={styles.btn}
+   disabled={addWalletLoading}
+   onClick={addWallet}
+>
+  {addWalletLoading ? "loading..." : "Add wallet to allowlist"}
+</button>
+
+ <button
+   className={styles.btn}
+   disabled={mintLoading}
+   onClick={() => mintWithSignature()}
+>
+  {mintLoading ? "loading..." : "Mint"}
+</button>
+```
+
+Nothing happens yet because we aren't changing the states so, in the functions we need to change the loading states:
+
+```tsx
+  const mintWithSignature = async () => {
+    setMintLoading(true);
+    const signedPayloadReq = await fetch(`/api/generate-mint-sig`, {
+      method: "POST",
+      body: JSON.stringify({ address }),
+    });
+
+    const signedPayload = await signedPayloadReq.json();
+
+    if (signedPayload.error) {
+      alert(signedPayload.error);
+      return;
+    }
+
+    try {
+      const nft = await edition?.signature.mint(signedPayload.signedPayload);
+      if (nft) {
+        await fetch(`/api/set-minted`, {
+          method: "POST",
+          body: JSON.stringify({ address }),
+        });
+      }
+      return nft;
+    } catch (err) {
+      console.error(err);
+      return null;
+    } finally {
+      setMintLoading(false);
+    }
+  };
+
+  const addWallet = async () => {
+    setAddWalletLoading(true);
+    const payload = await fetch(`/api/add-to-allowlist`, {
+      method: "POST",
+      body: JSON.stringify({ address }),
+    });
+
+    const payloadJson = await payload.json();
+    setAddWalletLoading(false);
+
+    if (payloadJson.success) {
+      alert(payloadJson.message);
+    } else {
+      alert(payloadJson.error);
+    }
+  };
+```
+
+If you now try to click any of the buttons you would see the loading text for a second.
+
+### Error handling
+
+Currently, the user can be on the wrong network and get weird errors, so we will disable the button if the user is not on the correct network.
+
+Get access to the network by using the `useNetwork` hook:
+
+```tsx
+const network = useNetwork();
+```
+
+It will be imported from the thirdweb sdk:
+
+```tsx
+import {
+  useAddress,
+  useEdition,
+  useMetamask,
+  useNetwork,
+} from "@thirdweb-dev/react";
+```
+
+Now, in the mint button add the checks-
+
+```tsx
+<button
+  className={styles.btn}
+  disabled={mintLoading || network[0]?.data?.chain?.id !== ChainId.Mumbai}
+  onClick={() => mintWithSignature()}
+>
+  {network[0]?.data?.chain?.id === ChainId.Mumbai
+    ? mintLoading
+      ? "loading..."
+      : "Mint"
+    : "Switch to Mumbai"}
+</button>
+```
+
+I built this Dapp on the Mumbai network so I am checking for the Mumbai network but you need to do this for the network you built upon.
+
+
+## Conclusion
+
+This was a lot, now give yourself a pat on the back and share your amazing apps with us! If you want to have a look at the code, check out the [GitHub Repository](https://github.com/thirdweb-dev/examples/tree/main/typescript/claim-button-react).
