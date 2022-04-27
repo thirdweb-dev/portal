@@ -69,3 +69,224 @@ Now, let's create and mint a new NFT inside of it. Fill out the details and make
 
 ![Mint New NFT](/assets/portal/guides/dynamic-allowlist-edition/mint-new-nft.png)
 
+## Making the website
+
+### Creating an nft card
+
+To showcase our nft, we are going to create a simple card and we will get the data from the edition contract itself! So, inside `index.tsx` add the useEdition hook like this:
+
+```tsx
+const edition = useEdition("EDITION_CONTRACT_ADDRESS");
+```
+
+We need to import it from the thirdweb sdk:
+
+```tsx
+import { useEdition } from "@thirdweb-dev/react";
+```
+
+Now, we are going to create a new state to hold the nft data:
+
+```
+  const [nftData, setNftData] = useState<EditionMetadata["metadata"] | null>(
+    null
+  );
+```
+
+We also need to import EditionMetadata and useState:
+
+```tsx
+import { EditionMetadata } from "@thirdweb-dev/sdk";
+import { useState } from "react";
+```
+
+Finally, create a useEffect to get the data from the contract and update the variable:
+
+```tsx
+ useEffect(() => {
+    edition?.get("0").then((nft) => {
+      setNftData(nft.metadata);
+    });
+  }, [edition]);
+```
+
+If you console log the nft metadata you will get something like this:
+
+![NFT Metadata](/assets/portal/guides/dynamic-allowlist-edition/nft-metadata.png)
+
+If the user is logged in we will show them this nft instead of there address, so replace the fragment `(<>)` with this:
+
+```tsx
+<div>
+  {nftData?.image && (
+    <Image
+      src={nftData?.image}
+      alt={nftData?.name}
+      width="280"
+      height="210"
+      objectFit="contain"
+    />
+  )}
+  <p>
+    <span>Name:</span> {nftData?.name}
+  </p>
+  <p>
+    <span> Description:</span> {nftData?.description}
+  </p>
+
+  <button>Mint</button>
+</div>
+```
+
+You will now get an error because we are using the next `<Image />` component but haven't whitelisted the domain, so go to `next.config.js` and add the following:
+
+```ts:next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    domains: ["gateway.ipfscdn.io"],
+  },
+};
+
+module.exports = nextConfig;
+```
+
+Since we are changing the next.js config we need to restart the server. Once you restart the server you will see something like this
+
+![NFT Card display](/assets/portal/guides/dynamic-allowlist-edition/nft-card-display.png)
+
+### Creating the mint api
+
+We are going to use the signature minting on our backend to ensure that the address is present in the airtable, but first let's get the signature minting working.
+
+Create a new folder `api` in the pages folder and `generate-mint-sig.ts` inside it.
+
+We will now build a basic api that will output "gm wagmi"
+
+```ts:api/generate-mint-sig.ts
+import type { NextApiRequest, NextApiResponse } from "next";
+
+const generateMintSignature = async (
+  req: NextApiRequest,
+  res: NextApiResponse
+) => {
+  res.send("gm wagmi");
+};
+
+export default generateMintSignature;
+```
+
+This creates a basic api for us, if you now go to the [`api/generate-mint-sig`](http://localhost:3000/api/generate-mint-sig) endpoint you will get a response of `Gm wagmi`.
+
+![Api response](/assets/portal/guides/dynamic-allowlist-edition/api-response.png)
+
+Let's now initialize the thirdweb sdk!
+
+```ts
+const sdk = new ThirdwebSDK(
+    new ethers.Wallet(
+      process.env.PRIVATE_KEY as string,
+      ethers.getDefaultProvider(process.env.ALCHEMY_API_URL)
+    )
+  );
+```
+
+as you can see we are using 2 environment variables to initialize the sdk. The first is the `PRIVATE_KEY` which is the private key of the wallet. The second is the `ALCHEMY_API_URL` which is the url of the Alchemy api. Create a new file `.env.local` and add the two variables.
+
+```
+PRIVATE_KEY=<private_key>
+ALCHEMY_API_URL=<alchemy_api_url>
+```
+
+Let's see how to get these two variables.
+
+**Getting the wallet private key**
+
+In your metamask wallet, click on the three dots, then click account details. You will see an option to export private key there. Export your private key and paste it into the `PRIVATE_KEY` variable.
+
+![Export private key](/assets/portal/guides/dynamic-allowlist-edition/export-pvt-key.png)
+
+This will give full access to your wallet to make sure to keep it secret!
+
+**Getting the alchemy api key**
+
+Go to [Alchemy](https://dashboard.alchemyapi.io/) and sign up for an account. You need to create a new app, so click on create app. Fill out the details, and hit submit. I am using Mumbai network for this demo but you need to use the network that you are using!
+
+![Create Alchemy app](/assets/portal/guides/dynamic-allowlist-edition/create-alchemy-app.png)
+
+Finally, paste this in the `.env.local` file too. Since we have changed the env variables we need to restart the server. So, cut the terminal and run `yarn dev` again.
+
+We also need to import `ethers` and `ThirdwebSDK`:
+
+```tsx
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
+import { ethers } from "ethers";
+```
+
+**Generating the siganture mint**
+
+
+In the api we are going to use the sdk to get access to the edition contract and generate a mint signature:
+
+```ts
+ const edition = sdk.getEdition("EDITION_CONTRACT_ADDRESS");
+  try {
+    const signedPayload = await edition.signature.generate({
+      tokenId: 0,
+      quantity: "1",
+      to: address,
+    });
+
+    res.status(200).json({
+      signedPayload: signedPayload,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+    });
+  }
+```
+
+We will get the address from the frontend so, add this: 
+
+```ts
+const { address } = JSON.parse(req.body);
+```
+
+Let's now mint the api on the frontend by calling this api:
+
+```tsx
+  const mintWithSignature = async () => {
+    const signedPayloadReq = await fetch(`/api/generate-mint-sig`, {
+      method: "POST",
+      body: JSON.stringify({ address }),
+    });
+
+    const signedPayload = await signedPayloadReq.json();
+
+    try {
+      const nft = await edition?.signature.mint(signedPayload.signedPayload);
+      if (nft) {
+        await fetch(`/api/set-minted`, {
+          method: "POST",
+          body: JSON.stringify({ address }),
+        });
+      }
+      return nft;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  };
+```
+
+This function will request the api that we just built with the address. It will give us a signed payload that we can use to mint the nft via our edition contract. So, let's attach it to the button-
+
+```tsx
+<button onClick={() => mintWithSignature()}>Mint</button>
+```
+
+Now our mint works! But wait, everyone can mint now so let's create an airtable database to store the addresses that can mint.
+
+## Creating an allowlist with airtable
