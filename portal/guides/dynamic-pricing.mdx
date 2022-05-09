@@ -1,0 +1,262 @@
+---
+title: NFT Drop with dynamic pricing with NextJS
+author: "Raza Zaidi"
+authorAvatar: "/assets/portal/authors/raza-zaidi.jpg"
+authorTwitter: "https://twitter.com/razacodes"
+draft: false
+tags: [nft-drop, typescript, react, v2]
+summary: "In this guide, we will create a token gated app, which allows the first 10 members to claim the NFT at a discounted price!  Not familiar with a token gated app or website? Keep reading to learn more."
+image: "/assets/portal/guides/dynamic-pricing/thumbnail.png"
+date: "2022-04-25"
+updated: ""
+---
+
+## Intro
+
+Let’s assume you want to launch your NFT collection for a select audience. Users can claim a separate NFT to get access. Once they have access, the first ten users can claim one of your NFTs at a discounted price. This guide shows how to set claim conditions dynamically. You can pick the conditions!
+
+Check out our example repository with the project built out on [Github](https://github.com/thirdweb-dev/examples/tree/main/typescript/dynamic%20pricing/claim_condition): 
+
+## Flow
+
+The user flow of this app is as follows, a user enters the app and claims an NFT. Then the first ten users can claim it a price of lets say 1 ETH. Each time one of these 10 users claims an NFT, they trigger a backend call. The backend checks how many NFTs have been claimed so far. Once the current claim phase hits ‘full mint’, the backend updates and automatically progresses to the next claim phase. In the next claim phase, new conditions apply. 
+
+Note: These conditions have been predefined by the owner of the smart contract. We’ll get to that in step one of the `Setup`.
+
+## Setup
+
+To build this app, we need to walk through the following steps.
+
+1. Deploy an NFT Drop contract for your NFT collection and define the claim phases for your NFTs
+2. Build the NextJS project (we will be using the starter template thirdweb has made available!)
+3. Build the front end, including a mint an NFT button
+4. Build our backend to update the claim conditions
+
+Note how we did not program the logic to update the claim conditions at the front end on purpose. If you do this, it is easy to be manipulated by users with bad intentions. 
+
+Also, the claim conditions can only get updated by someone with `admin` rights in the smart contract. So the actual code which updates the claim conditions resides at the backend because we will use `Private Keys` to sign off on the transaction that updates the claim condition.
+
+If you created and deployed the smart contract, you need to use your `Private Keys` in the backend.
+
+IMPORTANT, never use your `Private Keys` on the front end and never expose your `Private Keys` to anyone. Make sure you are familiar with using `Environment Variables` and not committing sensitive information to GitHub (i.e., be familiar with `.gitignore`).
+
+Let’s go!
+
+## Deploy the NFT Drop contracts & define the claim phases
+
+Check out this guide on how to deploy NFT Drop contracts. Once you’ve deployed your smart contract, go to the NFT Drop contract and define the claim phases.
+In the image below, you can see how I defined my claim phases. In this case, I have opted for two different claim phases. The first phase is set to a price of 0.1 ETH for the first 10 NFTs. The second phase is for 0.2 ETH with the remainder of the collection.
+Important to note that the date for the second claim phase is set way ahead in the future. Since we don’t know how fast the first ten NFTs will be claimed we want to leave enough time here.
+If we don’t do this, the second claim phase will start before the first ten are claimed at a discount. This setup would be incorrect. You may want to set a specific time for the first ten to be claimed, such as the first ten days. If that’s the case, go ahead and fill in a date you prefer.
+
+![Claim conditions in dashboard](/assets/portal/guides/dynamic-pricing/dashboard.png)
+
+## Build the NextJS project
+
+Go ahead and clone [this](https://github.com/thirdweb-example/next-typescript-starter) template from our repo. We’ve set up a basic project configured to use thirdweb’s React SDK, including a connect wallet button!
+
+Don’t forget to install the dependencies if you haven’t already 👇
+
+```bash
+npm install @thirdweb-dev/react @thirdweb-dev/sdk ethers
+```
+
+If you use the template provided by thirdweb, your `_app.tsx` file is already configured for thirdweb. The code should look something like this👇. Our contract is deployed on the testnet `Rinkeby`. Change the `ChainId` variable if you want to connect to another chain.
+
+```tsx:_app.tsx
+// This is the chainId your dApp will work on.
+const activeChainId = ChainId.Rinkeby;
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <ThirdwebProvider desiredChainId={activeChainId}>
+      <Component {...pageProps} />
+    </ThirdwebProvider>
+  );
+}
+```
+
+## Build the front end
+
+For the front end, we’re going to code a connect wallet button, a mint an NFT button and code a call to our backend to update the claim conditions.
+
+The following components are all in the file  `index.ts` .
+
+### Connect wallet
+
+We provide an out of the box solution to connect your wallet with our hooks. In this case we’ll grab the `useMetamask` hook and bind it to a button.
+
+```tsx:index.tsx
+//connect wallet functionality to bind to a button
+  const connectWithMetamask = useMetamask();
+
+//if we are not connected, show connect with metamask button
+  if (!address) {
+    return (
+      <div className={styles.mintnft}>
+        <button className={styles.mintNftButton} onClick={connectWithMetamask}>
+          Connect with Metamask
+        </button>
+      </div>
+    );
+  }
+```
+
+### Get the current price
+
+Next we’ll get the current price of our active claim condition. For this we’ll connect to our NFT Drop contract and then check the active claim condition.
+
+```tsx:index.tsx
+//connect to our NFT Drop contract. Contract address can be found in your dashboard.
+  const nftDrop = useNFTDrop('0x82747Bd4e435C9D5cF2342c8361B19910259C264');
+
+  const [price, setPrice] = useState('0');
+//get the price for the current claim condition phase to show in our app
+  useEffect(() => {
+    if (!nftDrop) return;
+    const getPrice = async () => {
+      try {
+        const claimCondition = await nftDrop.claimConditions.getActive();
+        const price = claimCondition.currencyMetadata.displayValue;
+        setPrice(price);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getPrice();
+  }, [nftDrop, hasClaimedNFT]);
+
+	return(
+	 <div>
+	   {price !== "0" && <p>Price is {price} ETH</p>}
+	 </div>
+	)
+```
+
+### Minting an NFT & updating the claim condition
+
+Finally we need to build a function to mint an NFT **and** update the claim condition. The backend will check if the claim condition needs to be updated. The front end just makes a call after each successful claim.
+
+```tsx:index.tsx
+//variable used to check if the user has claimed an NFT or not  
+	const [hasClaimedNFT, setHasClaimedNFT] = useState(false);
+//variable to check whether the user is currently claiming  
+	const [isClaiming, setIsClaiming] = useState(false);
+
+//check if the user is currently claiming an NFT
+  const mintNft = async () => {
+    try {
+      setIsClaiming(true);
+      await nftDrop?.claim(1);
+      setHasClaimedNFT(true);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsClaiming(false);
+    }
+//make a call to our backend to update the claimphase to update our price
+    try {
+      await fetch('/api/update-pricing');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+	return(
+		<button className={styles.mintNftButton} onClick={mintNft} disabled={isClaiming}>
+	   Click here to mint NFT
+	  </button>
+	)
+
+```
+
+Remember to check the [Github](https://github.com/thirdweb-dev/examples/tree/main/typescript/dynamic%20pricing/claim_condition) repo if you want to see the full code.
+
+## Build our backend
+
+Now we will code the logic and conditions to update the claim condition.
+Inside your pages folder, create a folder called api if it isn’t already there. Inside the api folder, create a file called `update-pricing.tsx`. To clarify, even though the folder is called api, there are no api calls made. Every action(minting, updating, etc.) is on-chain. The following is the entire piece of code inside your update-pricing.tsx .
+
+### Setup your connection
+
+First lets setup our connection to the blockchain (RPC URL), the connection with our wallet and our NFT Drop contract.
+
+```tsx:update-pricing.tsx
+ // the RPC URL to the blockchain that the nftDrop contract is deployed on.
+  // "rinkeby" = rinkeby testnet,
+  // "https://rpc-mumbai.maticvigil.com" = mumbai testnet.
+  const rpcUrl =
+    'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161';
+  const privateKey = process.env.PRIVATE_KEY as string;
+  // setup a wallet using private key for the SDK.
+  // the wallet must have MINTER role to mint the nftDrop.
+  // you can assign MINTER role to the wallet through the nftDrop collection dashboard.
+  const wallet = new ethers.Wallet(
+    privateKey,
+    ethers.getDefaultProvider(rpcUrl),
+  );
+
+  // initialize the SDK and get the nftDrop contract
+  // get the contract address (0x...) from your dashboard!
+  const nftDrop = new ThirdwebSDK(wallet).getNFTDrop(
+    '0x82747Bd4e435C9D5cF2342c8361B19910259C264',
+  );
+```
+
+### Updating the claim condition
+
+Next we’ll define the logic for updating the claim condition. When a certain amount of NFTs have been claimed, the claim condition gets updated to the next phase.
+
+First we check if the claim phase has already been updated to the second claimhphase
+
+```tsx:update-pricing.tsx
+    // Check if the current claim phase is the second claim phase
+    const claimConditions = await nftDrop.claimConditions.getAll();
+    const activeClaimPhase = await nftDrop.claimConditions.getActive();
+    const isSecondClaimPhase =
+      claimConditions[1].currencyMetadata.displayValue ===
+      activeClaimPhase.currencyMetadata.displayValue;
+
+    if (isSecondClaimPhase) {
+      res.status(200).json({ message: 'Nothing to update! Claim condition is already the right one.' });
+    }
+```
+
+If we aren’t in the second claim phase, our backend checks if the threshold for the current claim phase has been reached.
+
+```tsx:update-pricing.tsx
+// Check if the current number of NFTs minted has reached the limit
+    const totalClaimedSupply = await nftDrop?.totalClaimedSupply();
+    const maxQuantity = claimConditions[0].maxQuantity;
+    const canChangeCondition = totalClaimedSupply.eq(maxQuantity);
+
+    if (!canChangeCondition) {
+      res.status(200).json({ message: "Nothing to update! We haven't reached the limit to update yet." });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Error getting data' });
+  }
+```
+
+Finally if we aren't in the second claim phase and we have reached the threshold we update the claim phase.
+
+```tsx:update-pricing.tsx
+// make the second claim condition active now
+	// to do that, we update the startTime of the second claim condition
+  try {
+    await nftDrop.claimConditions.update(
+      1, // index of our claim condition
+      { startTime: new Date() },
+    );
+    res.status(200).json({ message: 'Claim conditions updated successfully!' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Error updating claim conditions!' });
+  }
+}
+```
+
+## That’s it!
+
+That’s how you dynamically update the claim conditions. This guide is just an example of how to do it. You can decide what settings you want to apply in your application. Bear in mind how you deal with your logic and Private Keys. Using logic and Private Keys at the front end exposes you to risk. Never share your Private Keys, and be aware of how you code your logic.
